@@ -1,9 +1,9 @@
 package rw.library.model.vo;
 
 public class PersonalLibrary {
-	private int psnShelfId;
-	private String bookShelfId;
-	private String bookId;
+	private int psnShelfId;		// 책장-도서 고유ID
+	private String bookShelfId;	// 책장고유ID
+	private String bookId;		// 책고유ID
 
 	public PersonalLibrary() {
 		super();
