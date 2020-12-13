@@ -8,11 +8,11 @@ public class Member {
 	private String nickname;
 	private String memberPwd;
 	private String email;
-	private String emailYN;
+	private char emailYN;
 	private int birthYear;
 	private char gender;
 	private Date enrollDate;
-	private char entYN;
+	private char endYN;
 	private Date endDate;
 	private String profileImg;
 
