@@ -21,6 +21,7 @@ public class Member {
 		// TODO Auto-generated constructor stub
 	}
 
+
 	public Member(String memberNo, String memberId, String nickname, String memberPwd, String email, char emailYN,
 			int birthYear, char gender, Date enrollDate, char endYN, Date endDate, String profileImg) {
 		super();
