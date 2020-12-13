@@ -4,20 +4,20 @@ public class Library {
 	private String bookShelfId;
 	private String bookShelfName;
 	private String memberNo;
-	private char private_YN;
-	private char del_YN;
+	private char privateYN;
+	private char delYN;
 	
 	public Library() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Library(String bookShelfId, String bookShelfName, String memberNo, char private_YN, char del_YN) {
+	public Library(String bookShelfId, String bookShelfName, String memberNo, char privateYN, char delYN) {
 		super();
 		this.bookShelfId = bookShelfId;
 		this.bookShelfName = bookShelfName;
 		this.memberNo = memberNo;
-		this.private_YN = private_YN;
-		this.del_YN = del_YN;
+		this.privateYN = privateYN;
+		this.delYN = delYN;
 	}
 	public String getBookShelfId() {
 		return bookShelfId;
@@ -37,17 +37,17 @@ public class Library {
 	public void setMemberNo(String memberNo) {
 		this.memberNo = memberNo;
 	}
-	public char getPrivate_YN() {
-		return private_YN;
+	public char getPrivateYN() {
+		return privateYN;
 	}
-	public void setPrivate_YN(char private_YN) {
-		this.private_YN = private_YN;
+	public void setPrivateYN(char privateYN) {
+		this.privateYN = privateYN;
 	}
-	public char getDel_YN() {
-		return del_YN;
+	public char getDelYN() {
+		return delYN;
 	}
-	public void setDel_YN(char del_YN) {
-		this.del_YN = del_YN;
+	public void setDelYN(char delYN) {
+		this.delYN = delYN;
 	}
 	
 }
