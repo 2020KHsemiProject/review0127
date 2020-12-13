@@ -5,6 +5,7 @@ public class ReviewCollection {
 	private int colReviewId;
 	private String memberId;
 	private String reviewId;
+	
 	public int getColReviewId() {
 		return colReviewId;
 	}
