@@ -1,4 +1,4 @@
-package rw.review0127.review.model.vo;
+package rw.review.model.vo;
 
 public class LibraryCollection {
 	private int colLibraryId;	// 컬렉션 - 서재 고유 ID

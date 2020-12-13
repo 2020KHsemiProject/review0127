@@ -1,4 +1,4 @@
-package rw.review0127.review.model.vo;
+package rw.review.model.vo;
 
 public class ReviewCollection {
 	private int colReviewId;	// 컬렉션 - 리뷰 고유 ID

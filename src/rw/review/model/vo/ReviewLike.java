@@ -1,4 +1,4 @@
-package rw.review0127.review.model.vo;
+package rw.review.model.vo;
 
 public class ReviewLike {
 	private String likeId;		// 좋아요 ID
