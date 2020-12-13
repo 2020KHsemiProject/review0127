@@ -1,9 +1,10 @@
 package rw.col.bookshelf.model.vo;
 
 public class BookshelfCollection {
-	private int colBookshelfId;
-	private String memberNo;
-	private String bookshelfId;
+	private int colBookshelfId; // 컬랙션 - 책장 고유 ID
+	private String memberNo;	// 회원 고유 번호
+	private String bookshelfId;	// 책장 고유 ID
+	
 	public int getColBookshelfId() {
 		return colBookshelfId;
 	}
