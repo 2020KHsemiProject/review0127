@@ -94,5 +94,4 @@ public class Review {
 		this.memberNo = memberNo;
 		this.delYN = delYN;
 	}
-
 }
