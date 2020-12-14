@@ -1,3 +1,4 @@
+
 package rw.member.model.dao;
 
 import java.sql.Connection;
@@ -60,3 +61,4 @@ public class MemberDAO {
 	}
 
 }
+
