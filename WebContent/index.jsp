@@ -21,7 +21,7 @@
 	<br>
 	<a href="#">마이페이지</a>
 	<br>
-	<a href="">리뷰</a>
+	<a href="/views/review/reviewList.jsp">리뷰</a>
 	<br>
 	<a href="#">내 서재</a>
 	<br>
