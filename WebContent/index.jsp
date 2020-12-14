@@ -28,7 +28,7 @@
 	<br>
 	<a href="/myLibraryReviewNote.rw">내 서재 (Servlet)</a>
 <% }else { %> 
-	<H1>rewiew 0127</H1>
+	<H1>review 0127</H1>
 	<form action="/memberLogin.rw" method="post">
 		ID : <input type="text" name="memberId"/><br>
 		PW : <input type="password" name="memberPwd"/><br>
