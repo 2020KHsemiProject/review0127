@@ -34,6 +34,19 @@ public class MemberDAO {
 				m.setEndYN(rset.getString("END_YN").charAt(0));
 				m.setEndDate(rset.getDate("END_DATE"));
 				m.setProfileImg(rset.getString("PROFILE_IMG"));
+				
+				System.out.println(rset.getString("MEMBER_NO"));
+				System.out.println(rset.getString("MEMBER_ID"));
+				System.out.println(rset.getString("NICKNAME"));
+				System.out.println(rset.getString("MEMBER_PWD"));
+				System.out.println(rset.getString("EMAIL"));
+				System.out.println(rset.getString("EMAIL_YN").charAt(0));
+				System.out.println(rset.getInt("BIRTH_YEAR"));
+				System.out.println(rset.getString("GENDER").charAt(0));
+				System.out.println(rset.getDate("ENROLL_DATE"));
+				System.out.println(rset.getString("END_YN").charAt(0));
+				System.out.println(rset.getDate("END_DATE"));
+				System.out.println(rset.getString("PROFILE_IMG"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -42,7 +55,7 @@ public class MemberDAO {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
-		System.out.println("디비데이터 : "+m.getMemberNo()+"/"+m.getEnrollDate());
+//		System.out.println("디비데이터 : "+m.getMemberNo()+"/"+m.getEnrollDate());
 		return m;
 	}
 
