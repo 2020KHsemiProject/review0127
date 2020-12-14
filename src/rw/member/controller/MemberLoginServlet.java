@@ -61,7 +61,3 @@ public class MemberLoginServlet extends HttpServlet {
 	}
 
 }
-<<<<<<< HEAD
->>>>>>> refs/remotes/origin/master
-=======
->>>>>>> branch 'allb' of https://github.com/2020KHsemiProject/review0127.git
