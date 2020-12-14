@@ -12,7 +12,7 @@ public class Member {
 	private int birthYear;
 	private char gender;
 	private Date enrollDate;
-	private char entYN;
+	private char endYN;
 	private Date endDate;
 	private String profileImg;
 
@@ -22,7 +22,7 @@ public class Member {
 	}
 
 	public Member(String memberNo, String memberId, String nickname, String memberPwd, String email, String emailYN,
-			int birthYear, char gender, Date enrollDate, char entYN, Date endDate, String profileImg) {
+			int birthYear, char gender, Date enrollDate, char endYN, Date endDate, String profileImg) {
 		super();
 		this.memberNo = memberNo;
 		this.memberId = memberId;
@@ -33,7 +33,7 @@ public class Member {
 		this.birthYear = birthYear;
 		this.gender = gender;
 		this.enrollDate = enrollDate;
-		this.entYN = entYN;
+		this.endYN = endYN;
 		this.endDate = endDate;
 		this.profileImg = profileImg;
 	}
@@ -110,12 +110,12 @@ public class Member {
 		this.enrollDate = enrollDate;
 	}
 
-	public char getEntYN() {
-		return entYN;
+	public char getendYN() {
+		return endYN;
 	}
 
-	public void setEntYN(char entYN) {
-		this.entYN = entYN;
+	public void setendYN(char endYN) {
+		this.endYN = endYN;
 	}
 
 	public Date getEndDate() {
