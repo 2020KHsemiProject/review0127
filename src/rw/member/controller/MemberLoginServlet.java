@@ -17,13 +17,13 @@ import rw.member.model.vo.Member;
  * Servlet implementation class MemberLogrinServlet
  */
 @WebServlet("/memberLogin.rw")
-public class MemberLogrinServlet extends HttpServlet {
+public class MemberLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberLogrinServlet() {
+    public MemberLoginServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

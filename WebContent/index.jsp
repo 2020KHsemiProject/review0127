@@ -14,21 +14,20 @@
 	if(m!=null){
 %>
 	<b><a href="#">[<%=m.getNickname() %>]</a></b> 님 환영합니다. <a href="#">로그아웃</a><br>
-<% 
-		int mNo = Integer.parseInt(m.getMemberNo().split("M")[0]);
-		System.out.println(mNo); 
-		if(m.getMemberNo().equals("M0") || (100<=mNo&&mNo<=999)) { 
-%>
+ 
+	<% if(m.getMemberNo().equals("M0001")) { %>
 		<a href="#">회원관리(관리자전용)</a>
 	<% }%>
-	
+	<br>
 	<a href="#">마이페이지</a>
+	<br>
+	<a href="">리뷰</a>
 	<br>
 	<a href="#">내 서재</a>
 	<br>
 	<a href="/myLibraryReviewNote.rw">내 서재 (Servlet)</a>
 <% }else { %> 
-	<H1>rewiew 0127</H1>
+	<H1>review 0127</H1>
 	<form action="/memberLogin.rw" method="post">
 		ID : <input type="text" name="memberId"/><br>
 		PW : <input type="password" name="memberPwd"/><br>

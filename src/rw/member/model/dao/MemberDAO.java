@@ -42,7 +42,7 @@ public class MemberDAO {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
-		System.out.println("디비데이터 : "+m.getMemberNo()+"/"+m.getEnrollDate());
+		//System.out.println("디비데이터 : "+m.getMemberNo()+"/"+m.getEnrollDate());
 		return m;
 	}
 
