@@ -1,4 +1,4 @@
-package rw.col.library.model.vo;
+package rw.col.model.vo;
 
 public class LibraryCollection {
 	

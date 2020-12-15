@@ -1,4 +1,4 @@
-package rw.col.bookshelf.model.vo;
+package rw.col.model.vo;
 
 public class BookshelfCollection {
 	private int colBookshelfId; // 컬랙션 - 책장 고유 ID
