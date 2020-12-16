@@ -75,6 +75,7 @@ public class MemberDAO {
 			pstmt.setString(6, Character.toString(m.getGender()));
 			
 			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

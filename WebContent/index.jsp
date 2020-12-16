@@ -12,8 +12,6 @@
 		<%@ include file="/views/common/header.jsp" %>
 	</div>
 <%
-	Member m = (Member)session.getAttribute("member");
-
 	if(m!=null){
 %>
 	<b><a href="#">[<%=m.getNickname() %>]</a></b> 님 환영합니다. <a href="/memberLogout.rw">로그아웃</a><br>
@@ -30,7 +28,7 @@
 	<a href="/myLibraryReviewNote.rw">내 서재 (Servlet)</a>
 <% }else { %> 
 	<H1>review 0127</H1>
-	<a href="/views/member/login.jsp">로그인</a>
+	<h2>메인 페이지</h2>
 <% } %>
 	
 </body>

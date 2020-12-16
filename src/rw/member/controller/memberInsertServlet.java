@@ -43,6 +43,8 @@ public class memberInsertServlet extends HttpServlet {
 			int birthYear = Integer.parseInt(request.getParameter("birthYear"));
 			char gender = request.getParameter("gender").charAt(0);
 			
+			System.out.println(memberId+"/"+nickName+"/"+memberPwd+"/"+email+"/"+birthYear+"/"+gender);
+			
 			m.setMemberId(memberId);
 			m.setNickname(nickName);
 			m.setMemberPwd(memberPwd);
@@ -52,17 +54,17 @@ public class memberInsertServlet extends HttpServlet {
 			
 			int result = new MemberService().insertMember(m);
 			
-			RequestDispatcher view = request.getRequestDispatcher("/views/member/memberJoinResult.jsp");
-			if(result > 0) {
-				request.setAttribute("result", true);
-			} else {
-				request.setAttribute("result", false);
-			}
-			view.forward(request, response);
 			
+			if(result > 0) {
+				RequestDispatcher view = request.getRequestDispatcher("/index.jsp");
+				request.setAttribute("member", m);
+				view.forward(request, response);
+			} else {
+				response.sendRedirect("/views/member/memberJoinResult.jsp");
+			}
+
 		} catch(Exception e) {
 			RequestDispatcher view = request.getRequestDispatcher("/views/member/memberJoinResult.jsp");
-			request.setAttribute("result", false);
 			view.forward(request, response);
 		}
 		

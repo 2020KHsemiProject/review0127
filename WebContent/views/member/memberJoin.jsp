@@ -49,7 +49,10 @@
     			} else if(!(/^[a-zA-Z0-9]{8,16}$/.test($memberPwd.val()))) {
     				$memberPwd.prev().prev().text("비밀번호를 다시 확인해주세요.").css('color','red');
     				return false;
-    			} else if(!($memberPwd.val()==$memberPwd_re.val())) {
+    			} else if($memberId.val()==$memberPwd.val()) {
+    				$memberPwd.prev().prev().text("아이디와 동일한 비밀번호는 사용이 불가능합니다.").css('color','red');
+    				return false;
+    			} else if(($memberPwd.val()!=$memberPwd_re.val())) {
     				$memberPwd_re.prev().prev().text("비밀번호가 동일하지 않습니다.").css('color','red');
     				return false;
     			} else if(!(/^[a-zA-Z0-9@]+$/.test($email.val()))) {
