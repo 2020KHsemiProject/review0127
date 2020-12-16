@@ -8,6 +8,9 @@
 <title>Review 0127</title>
 </head>
 <body>
+	<div id="main_header">
+		<%@ include file="/views/common/header.jsp" %>
+	</div>
 <%
 	Member m = (Member)session.getAttribute("member");
 
@@ -29,5 +32,6 @@
 	<H1>review 0127</H1>
 	<a href="/views/member/login.jsp">로그인</a>
 <% } %>
+	
 </body>
 </html>

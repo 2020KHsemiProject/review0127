@@ -41,35 +41,8 @@
 
     <div id="wrapper">
         <div id="header">
-            <div id="gnb-wrap">
-                <div id="logo"><a href="/index.jsp"><img src="/image/logo.png" alt=""></a></div>
-                <ul id="gnb">
-                    <li><a href="/views/review/review_list.jsp">리뷰</a></li>
-                    <li><a href="/views/library/review_note.jsp">서재</a></li>
-                    <li><img id="user-menu-btn" src="/image/profile/default_user.png" alt=""></li>
-                </ul>
-            </div>
-            <ul id="menu-bar">
-                <li><a href="/views/member/login.jsp">로그인</a></li>
-                <li><a href="/views/member/memberJoin.jsp">회원가입</a></li>
-                <li><a href="/views/member/modify_info.jsp">회원정보수정</a></li>
-                <li><a href="/views/service_center/customer_center.jsp">고객센터</a></li>
-            </ul>
+            <%@ include file="/views/common/header.jsp" %>
         </div>
-        <script>
-            $(function() {
-                $('#user-menu-btn').click(function() {
-                    if ($('#menu-bar').css('display') == 'none') {
-                        $('#menu-bar').css('display', 'block');
-                    } else {
-                        $('#menu-bar').css('display', 'none');
-                    }
-                });
-                $('#input_file').click(function(){
-                	$('#profile_img').css('display','none');
-                });
-            });
-        </script>
 
         <div id="content">
             <div id="content_title">

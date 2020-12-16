@@ -35,7 +35,7 @@
 				<img src="/image/login/logo_dark.png" id="logo" />
 			</center>
 			<center>
-				<img src="/image/login/login_logo.png" id="client" />
+				<a href="/index.jsp"><img src="/image/login/login_logo.png" id="client" /></a>
 			</center>
 			<p class="form-signin-heading">로그인</p>
 			<label for="inputId" class="sr-only">아이디</label> <input type="text"
