@@ -22,19 +22,26 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
 		crossorigin="anonymous"></script>
+	<script>
+		$(function(){
+			$('#logo').click(function(){
+				location.href='/index.jsp';
+			});
+		});
+	</script>
 	<div class="container-fluid">
-		<form class="form-signin" action="/loginMember.ad" method="post">
+		<form class="form-signin" action="/memberLogin.rw" method="post">
 			<center>
-				<img src="/image/login/REVIEW0127.png" id="logo" />
+				<img src="/image/login/logo_dark.png" id="logo" />
 			</center>
 			<center>
 				<img src="/image/login/login_logo.png" id="client" />
 			</center>
 			<p class="form-signin-heading">로그인</p>
 			<label for="inputId" class="sr-only">아이디</label> <input type="text"
-				id="inputId" name="adminId" class="form-control" placeholder="아이디" required
+				id="inputId" name="memberId" class="form-control" placeholder="아이디" required
 				autofocus> <label for="inputPassword" class="sr-only">비밀번호</label>
-			<input type="password" id="inputPassword" name="adminPwd" class="form-control"
+			<input type="password" id="inputPassword" name="memberPwd" class="form-control"
 				placeholder="비밀번호" required>
 			<div class="checkbox">
 				<label id="autocheck"> 

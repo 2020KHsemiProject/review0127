@@ -36,10 +36,14 @@ public class MemberLoginServlet extends HttpServlet {
 		
 		String memberId = request.getParameter("memberId");
 		String memberPwd = request.getParameter("memberPwd");
+		
 		System.out.println("request : "+memberId+"/"+memberPwd);
+		
 		Member m = new MemberService().loginMember(memberId,memberPwd);
+		
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8"); 
+		
 		PrintWriter out = response.getWriter();
 		if(m!=null) {
 			HttpSession session = request.getSession();

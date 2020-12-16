@@ -13,8 +13,7 @@
 
 	if(m!=null){
 %>
-	<b><a href="#">[<%=m.getNickname() %>]</a></b> 님 환영합니다. <a href="#">로그아웃</a><br>
- 
+	<b><a href="#">[<%=m.getNickname() %>]</a></b> 님 환영합니다. <a href="/memberLogout.rw">로그아웃</a><br>
 	<% if(m.getMemberNo().equals("M0001")) { %>
 		<a href="#">회원관리(관리자전용)</a>
 	<% }%>
@@ -28,13 +27,7 @@
 	<a href="/myLibraryReviewNote.rw">내 서재 (Servlet)</a>
 <% }else { %> 
 	<H1>review 0127</H1>
-	<form action="/memberLogin.rw" method="post">
-		ID : <input type="text" name="memberId"/><br>
-		PW : <input type="password" name="memberPwd"/><br>
-		<input type="submit" value="로그인"/> <input type="reset" value="취소"/>
-		<a href="#">회원가입</a>
-	</form>
-
+	<a href="/views/member/login.jsp">로그인</a>
 <% } %>
 </body>
 </html>
