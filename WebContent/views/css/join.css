@@ -1,0 +1,77 @@
+@charset "UTF-8";
+
+#header {
+    background-color: #FFF6D6;
+}
+
+#main_logo_img {
+    margin-top: 22.5px;
+    width: 200px;
+    cursor: pointer;
+}
+
+#main_logo {
+    height: 80px;
+    border-bottom: 1.5px solid #989898;
+}
+
+.btn {
+    width: 80px;    
+}
+
+input {
+    border-radius: 5px;
+    width: 450px; height: 30px;
+    padding: 20px;
+    font-size: 1.2rem;
+    font-weight: 400;
+    border: 1.2px solid #ccc; 
+}
+
+input[name=birthYear] {
+    text-align: left;
+    width: 175px;
+    margin-right: 20px;
+}
+
+
+#option_text {
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: #707070;
+}
+
+.input_group {
+    margin-bottom: 12px;
+}
+
+#input_pw {
+    margin: 0;
+}
+
+input[type=checkbox] {
+    display: inline;
+    width: 15px; height: 15px;
+    margin-left: 15px;
+}
+
+#data_agree {
+    font-weight: 400;
+    font-size: 1.05rem;
+    color: #707070;
+}
+
+input[type=submit] {
+    line-height: 0.25;
+    background-color: #FFE687;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+input[type=reset] {
+    line-height: 0.25;
+    background-color: #FFE687;
+    font-size: 1.15rem;
+    font-weight: 500;
+}
