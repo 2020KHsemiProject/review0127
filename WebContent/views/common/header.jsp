@@ -24,21 +24,18 @@
             <li><img id="user-menu-btn" src="../../image/profile/default_user.png" alt=""></li>
         </ul>
     </div>
-    <% Member m = (Member)request.getAttribute("member"); 
-    	
-       if(m!=null) { %>
-    	<ul id="menu-bar">
-    	 <li><a href="/memberLogout.rw">로그아웃</a></li>
-       	 <li><a href="/views/member/modify_info.jsp">회원정보수정</a></li>
-       	 <li><a href="/views/service_center/customer_center.jsp">고객센터</a></li>
-    	</ul>
-    <% } else { %>
-    <% } %>
+    <% Member m = (Member)request.getAttribute("member"); %>
+    	  
     <ul id="menu-bar">
-        <li><a href="/views/member/login.jsp">로그인</a></li>
+    <% if(m!=null) { %>
+    	<li><a href="/memberLogout.rw">로그아웃</a></li>
+       	<li><a href="/views/member/modify_info.jsp">회원정보수정</a></li>
+    <% } else { %>
+    	<li><a href="/views/member/login.jsp">로그인</a></li>
         <li><a href="/views/member/memberJoin.jsp">회원가입</a></li>
-        <li><a href="/views/service_center/customer_center.jsp">고객센터</a></li>
-    </ul>
+    <% } %>
+    	<li><a href="/views/service_center/customer_center.jsp">고객센터</a></li>          	
+    </ul> 
     </div>
     <script>
         $(function(){

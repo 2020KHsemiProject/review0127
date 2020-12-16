@@ -126,7 +126,7 @@ tbody{
     margin-left: 320%;
 }
 #profile_img{
-    width: 100px; height : 100px;
+    width: 110px; height : 100px;
 }
 #profile_change_btn{
     width: 30px; height: 30px;
@@ -325,18 +325,18 @@ select{
     display: flex;
 }
 
-.email_success>img{
+#email_success_img{
     width: 16px; height: 16px;
     margin-bottom: 6px;
-    margin-left: 5px;
+    margin-left: 7px;
 }
-.email_lack>img{
+#email_lack_img{
     width: 16px; height: 16px;
     margin-bottom: 6px;
     margin-left: 5px;
 }
 
-.email_state {
+#email_state_success {
     width:220px; height: 35px; 
     background-color: #E8FFE1;
     padding-top: 5px;
@@ -345,7 +345,7 @@ select{
     margin-top: 10px;
     border-radius: 5px;
 }
-.email_state_1{
+#email_state_lack{
     width:260px; height: 35px; 
     background-color: #FFDCDD;
     padding: 6.5px;
@@ -861,7 +861,7 @@ ul li a:hover{
     border-radius: 5px;
     font-size: 0.9rem;
     font-weight: 500;
-    margin-left: 155px;
+    margin-left: 140px;
     margin-top: 5px;
     padding: 0;
 }
