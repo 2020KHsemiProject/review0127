@@ -25,14 +25,6 @@
     	color: #517800;
     	font-size: 0.8rem;
     	font-weight: 400;
-    	margin-right: 165px
-
-    }
-    #pwd_re_span{
-    	margin-right: 210px;
-    }
-    #email_span{
-    	margin-right: 105px;
     }
     </style>
 </head>
@@ -46,19 +38,22 @@
     			var $memberPwd = $('input[name=memberPwd]');
     			var $memberPwd_re = $('input[name=memberPwd_re]');
     			var $email = $('input[name=birthYear]');
-    			var $agreement = $('input[name=agreement]');
+    			var $birthYear = $('input[name=birthYear]');
     			
     			if(!(/^[a-zA-Z0-9]{5,20}$/.test($memberId.val()))) {
-    				$memberId.prev().prev().text("아이디를 다시 확인해주세요.");
-    				return faulse;
-    			} else if(!(/^[a-zA-z0-9가-힣]{10,10}$/.test($nickName.val()))) {
-    				$nickName.prev().prev().text("닉네임을 다시 확인해주세요.");
+    				$memberId.prev().prev().text("아이디를 다시 확인해주세요.").css('color','red');
+    				return false;
+    			} else if(!(/^[a-zA-z0-9가-힣]{1,10}$/.test($nickName.val()))) {
+    				$nickName.prev().prev().text("닉네임을 다시 확인해주세요.").css('color','red');
     				return false;
     			} else if(!(/^[a-zA-Z0-9]{8,16}$/.test($memberPwd.val()))) {
-    				$memberPwd.prev().prev().text("비밀번호를 다시 확인해주세요.");
+    				$memberPwd.prev().prev().text("비밀번호를 다시 확인해주세요.").css('color','red');
     				return false;
-    			} else if(!($memberPwd.val==$memberPwd_re.val())) {
-    				$memberPwd_re.prev().prev().text("비밀번호가 동일하지 않습니다.");
+    			} else if(!($memberPwd.val()==$memberPwd_re.val())) {
+    				$memberPwd_re.prev().prev().text("비밀번호가 동일하지 않습니다.").css('color','red');
+    				return false;
+    			} else if(!(/^[a-zA-Z0-9@]+$/.test($email.val()))) {
+    				$email.prev().prev().text("올바른 이메일 형식으로 입력해주세요.").css('color','red');
     				return false;
     			} else if(!(/^[0-9\s]{4,4}$/.test($birthYear.val()))) {
     				alert("출생년도는 숫자 네 자리만 입력해주세요.");
@@ -70,15 +65,15 @@
     		$('input[name]').focusin(function(){
     			$(this).css('border','5px solid yellowgreen');
     			switch($(this).attr('name')) {
-    			case "memberId":$(this).prev().prev().text("영문자와 숫자 조합 5~20 글자여야 합니다.");
+    			case "memberId":$(this).prev().prev().text("영문자와 숫자 조합 5~20 글자여야 합니다.").css('color','#517800');
     			break;
-    			case "nickName":$(this).prev().prev().text("영문자와 숫자,한글 조합 10글자여야 합니다.");
+    			case "nickName":$(this).prev().prev().text("영문자와 숫자,한글 조합 최대10글자까지 입니다.").css('color','#517800');
     			break;
-    			case "memberPwd":$(this).prev().prev().text("영문자와 숫자 조합 8~16 글자여야 합니다.");
+    			case "memberPwd":$(this).prev().prev().text("영문자와 숫자 조합 8~16 글자여야 합니다.").css('color','#517800');
     			break;
-    			case "memberPwd_re":$(this).prev().prev().text("비밀번호를 한 번 더 입력해주세요.");
+    			case "memberPwd_re":$(this).prev().prev().text("비밀번호를 한 번 더 입력해주세요.").css('color','#517800');
     			break;
-    			case "email":$(this).prev().prev().text("이메일 형식으로 입력해주세요. ex)abc123@abc.com");
+    			case "email":$(this).prev().prev().text("이메일 형식으로 입력해주세요. ex)abc123@abc.com").css('color','#517800');
     			break;
     			}
     		});
@@ -86,6 +81,10 @@
 				$(this).css('border','1.2px solid #ccc');
 				$(this).prev().prev().text("");
 			});
+    		/*$('#data-agree').not('#data-agree','checked') {
+    			preventDefault();
+    			alert("개인 정보 제공 및 활용 동의에 체크해주세요.");
+    		};*/
     	});
     </script>
     <div id="join_wrapper">
@@ -99,7 +98,7 @@
         <div id="join_content">
             <center>
                 <div id="inner_content">
-                    <form>
+                    <form action="/memberJoin.rw" method="post">
                     	<span class="guide_span"></span><br>    
                         <input type="text" name="memberId" placeholder="아이디" class="input_group "/>
                         <button type="button" id="id_check">중복확인</button>
@@ -110,10 +109,10 @@
                         <span class="guide_span"></span><br>                       
                         <input type="password" name="memberPwd" placeholder="비밀번호" id="input_pw" class="input_group"/>
                         <br>
-                        <span class="guide_span" id="pwd_re_span"></span><br>
+                        <span class="guide_span"></span><br>
                         <input type="password" name="memberPwd_re" placeholder="비밀번호 확인" class="input_group"/>
-                        <br>
-                        <span class="guide_span" id="email_span"></span><br>                 
+                        <br> 
+                        <span class="guide_span"></span><br>                 
                         <input type="email" name="email" placeholder="이메일 주소" class="input_group"/>
                         <br>
                         <p id="option_text">선택 입력 (예시. 1996 / 남)</p>        
