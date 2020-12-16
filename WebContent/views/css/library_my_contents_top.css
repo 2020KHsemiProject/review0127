@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+/********** contents header ***********/
+        #myLibrary-contents-header {
+            /* 노란색 / contents의 header */
+            width: 100%;
+            background-color: #ffe58d;
+            height: 250px;
+            box-shadow: 0 2px 5px -1px gray;
+            margin: 0 auto;
+        }
+        #myLibrary-contents-header-size {
+        	width: 1200px;
+        	margin: 0 auto;
+        }
+        #myLibrary-contents-header-size>div:first-child {
+            /* 내 프로필 사진 있는 div */
+            padding-top: 65px;
+        }
+        #userprofile {
+            /* 내 프로필 사진 div */
+            width: 100px; height: 100px;
+            border-radius: 100%;
+            overflow: hidden;
+            position: relative;
+            top: 20px;
+            left: 50px;
+        }
+        #userprofile>img {
+        	/* 내 프로필 이미지 */
+            width: 100%; height: 100%;
+        }
+        #myLibrary-title {
+        	/* 내 서재 타이틀 */
+        	padding: 60px 0 20px 0;
+            font-size: 1.9rem;
+            font-weight: bold;
+        }
+        #myLibrary-contents-header>div:last-child>div>div:last-child {
+            /* lnb div */
+            padding-top: 55px;
+        }
+        #myLibrary-lnb>li {
+        	padding-left: 0;
+        }
+        #myLibrary-lnb>li:nth-child(1) {/* lnb:리뷰노트 */}
+        #myLibrary-lnb>li:nth-child(2) {/* lnb:책장 *//* 고정 */padding-left: 15px;}
+        #myLibrary-lnb>li:nth-child(3) {/* lnb:컬렉션 */}
+        #myLibrary-lnb a {
+            text-decoration: none;
+            font-size: 1.5rem;
+            color: black;
+        }

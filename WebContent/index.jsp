@@ -25,7 +25,7 @@
 	<br>
 	<a href="#">내 서재</a>
 	<br>
-	<a href="/myLibraryReviewNote.rw">내 서재 (Servlet)</a>
+	<a href="/myRivewNote.rw?libraryOwner=<%=m.getMemberId()%>">내 서재 (Servlet)</a>
 <% }else { %> 
 	<H1>review 0127</H1>
 	<form action="/memberLogin.rw" method="post">
