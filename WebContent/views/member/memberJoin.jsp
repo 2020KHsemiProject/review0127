@@ -18,39 +18,62 @@
     <!--bootStrap-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <style>	body { background-color: #FFF6D6; } </style>
 </head>
 
 <body>
-    <style>
-		body {
- 	   		background-color: #FFF6D6;
-		}
-    </style>
-    <div id="wrapper">
-        <div id="header">
-            <div id="main_logo">
+    <script>
+    	$(function()){
+    		$('form').submit(function(){
+    			var $memberId = $('input[name=memberId]');
+    			var $nickName = $('input[name=nickName]');
+    			var $memberPwd = $('input[name=memberPwd]');
+    			var $memberPwd_re = $('input[name=memberPwd_re]');
+    			var $email = $('input[name=email]');
+    			var $agreement = $('input[name=agreement]');
+    			
+    			if(!(/^[a-zA-Z0-9]{5,20}$/.test($memberId.val()))) {
+    				$memberId.next().text("아이디를 다시 확인해주세요.");
+    				return faulse;
+    			} else if(!(/^[a-zA-z0-9가-힣]{15,15}$/.test($nickName.val()))) {
+    				$nickName.next().text("닉네임을 다시 확인해주세요.");
+    				return false;
+    			} else if(!(/^[a-zA-Z0-9]{8,16}$/.test($memberPwd.val()))) {
+    				$memberPwd.next().text("비밀번호를 다시 확인해주세요.");
+    				return false;
+    			} else if(!($memberPwd.val==$memberPwd_re.val())) {
+    				$memberPwd_re.next().text("비밀번호가 동일하지 않습니다.");
+    				return false;
+    			} else if
+    		});
+    	});
+    </script>
+    <div id="join_wrapper">
+        <div id="join_header">
+            <div id="join_logo">
                 <center>
-                    <img src="/image/login/logo_dark.png" id="main_logo_img" />
+                	<a href="/index.jsp"><img src="/image/login/logo_dark.png" id="join_logo_img" /></a>
                 </center>
             </div>
         </div>
-        <div id="content">
+        <div id="join_content">
             <center>
                 <div id="inner_content">
                     <form>
-                        <input type="text" name="memberId" placeholder="아이디" class="input_group"/>
+                        <input type="text" name="memberId" placeholder="아이디" class="input_group "/>
+                        <button type="button" id="id_check">중복확인</button>
                         <span></span>
                         <br>
-                        <input type="text" name="memberNickName" placeholder="닉네임" class="input_group"/>
+                        <input type="text" name="nickName" placeholder="닉네임" class="input_group"/>
                         <span></span>
                         <br>
-                        <input type="password" name="memberPw" placeholder="비밀번호" id="input_pw" class="input_group"/>
+                        <input type="password" name="memberPwd" placeholder="비밀번호" id="input_pw" class="input_group"/>
                         <span></span>
                         <br>
-                        <input type="password" name="memberPw_re" placeholder="비밀번호 확인" class="input_group"/>
+                        <input type="password" name="memberPwd_re" placeholder="비밀번호 확인" class="input_group"/>
                         <span></span>
                         <br>
-                        <input type="email" name="memberEmail" placeholder="이메일 주소" class="input_group"/>
+                        <input type="email" name="email" placeholder="이메일 주소" class="input_group"/>
                         <span></span>
                         <br>
                         <span id="option_text">선택 입력 (예시. 1996 / 남)</span>
