@@ -25,7 +25,7 @@ public class MemberService {
 			JDBCTemplate.rollback(conn);
 		} JDBCTemplate.close(conn); 
 		return result;		
-
+	}	
 	public Member selectOneMemberId(String memberId) { // 회원 ID로 회원 찾기
 		Connection conn = JDBCTemplate.getConnection();
 		Member m = mDAO.selectOneMemberId(conn,memberId);

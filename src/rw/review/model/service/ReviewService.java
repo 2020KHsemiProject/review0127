@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import rw.common.JDBCTemplate;
 import rw.review.model.dao.ReviewDAO;
+import rw.review.model.vo.Review;
 import rw.review.model.vo.ReviewCard;
 
 public class ReviewService {
