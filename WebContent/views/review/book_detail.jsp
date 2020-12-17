@@ -9,12 +9,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>REVIEW:0127</title>
     <link href="/views/css/book_detail.css" rel="stylesheet" type="text/css" />
-    <!--웹폰트-->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-    <!--jquery-->
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
     <!--부트스트랩-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
@@ -37,7 +31,7 @@
                     <p>리뷰어 평점 : <i class="fas fa-star"></i>&nbsp;<%=avg %></p>
                 </div>
                 <div id="shelf-btn-wrap">
-                    <span id="shelf-add-btn">내 서재에 담기</span>
+                    <a id="shelf-add-btn" href="/bookLike.rw?bookId=<%=bookId%>">내 서재에 담기</a>
                 </div>
                 <div id="review-new-wrap">
                     <a href="/views/review/review_write.jsp?bookId=<%=bookId%>"><img src="/image/icon/pencil.png" alt="" width="50">리뷰 작성하기</a>
@@ -64,7 +58,7 @@
             %>
                 <div class="review-card">
                     <div class="review-card-head">
-                        <div class="review-profile"><a href="#"><img src="/image/profile/<%=memberProfile%>" alt="" width="45"></a></div>
+                        <div class="review-profile"><a href="/myReviewNote.rw?libraryOwner=<%=br.getMemberId()%>"><img src="/image/profile/<%=memberProfile%>" alt="" width="45"></a></div>
                         <div class="reviewer-nick"><%=br.getNickname() %></div>
                         <div class="star-score"><i class="fas fa-star"></i><%=br.getReviewRate() %></div>
                     </div>
@@ -80,7 +74,7 @@
             </div>
             <div></div>
         </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" ria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+        <!-- <div class="modal fade" id="exampleModal" tabindex="-1" ria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
             <div class="modal-dialog modal-dialog-centered mw-100">
                 <div class="modal-content">
                     <span id="prev-review-btn"><i class="fas fa-chevron-left"></i></span>
@@ -100,10 +94,10 @@
                             이런 시선으로 살고 싶었다. 이런 시선으로 살고 싶다. 건강하게. 상처 많아도 튼튼하게 강하게.</p>
                     </div>
                     
-                </div>
+                </div> 
 
             </div>
-        </div>
+        </div>-->
     </div>
     <script>
         $(function() {

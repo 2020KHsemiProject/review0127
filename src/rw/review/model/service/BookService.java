@@ -44,4 +44,23 @@ public class BookService {
 		return average;
 	}
 
+	public int insertBookLike(String bookId, String memberNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = bDAO.insertBookLike(conn,bookId,memberNo);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public boolean existsBookLike(String bookId, String memberNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		boolean result = bDAO.existsBookLike(conn,bookId,memberNo);
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
 }

@@ -17,13 +17,12 @@ li{
 #contents {
     width: 1200px;
     height: auto;
-    margin: 0 auto;
+    margin: 70px auto 0;
 }
 
 .v-wrap {
     width: 100%;
     padding: 0 50px;
-    background-color:yellow;
 }
 
 #image-wrap {
@@ -38,7 +37,6 @@ li{
     float: left;
     width: 70%;
     height: 400px;
-    background-color:pink;
 }
 /*책 소개*/
 #intro-wrap {

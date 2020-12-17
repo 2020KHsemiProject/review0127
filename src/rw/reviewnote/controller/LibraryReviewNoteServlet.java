@@ -20,7 +20,7 @@ import rw.reviewnote.model.vo.ReviewNotePageData;
 /**
  * Servlet implementation class MyLibraryReviewNoteServlet
  */
-@WebServlet("/myRivewNote.rw")
+@WebServlet("/myReviewNote.rw")
 public class LibraryReviewNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

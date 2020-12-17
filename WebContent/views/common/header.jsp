@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
     <%@ page import="rw.member.model.vo.Member" %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -32,16 +30,16 @@
 	%>
 	<div id="header">
     <div id="gnb-wrap">
-        <div id="logo"><a href="/index.jsp"><img src="../../image/logo.png" alt=""></a></div>
+        <div id="logo"><a href="/index.jsp"><img src="/image/logo.png" alt=""></a></div>
         <ul id="gnb">
-            <li><a href="/views/review/review_list.jsp">리뷰</a></li>
-            <li><a href="/views/library/review_note.jsp">서재</a></li>
-            <li><img id="user-menu-btn" src="../../image/profile/<%=profileImg %>" alt=""></li>
+            <li><a href="/reviewPage.rw">리뷰</a></li>
+            <%-- <li><a href="/myReviewNote.rw?libraryOwner=<%=m.getMemberId()%>">서재</a></li>--%>
+            <li><img id="user-menu-btn" src="/image/profile/<%=profileImg %>" alt=""></li>
         </ul>
 
         <ul id="menu-bar">
     	<%if(m!=null) { %>
-    	<li><a href="">로그아웃</a></li>
+    	<li><a href="/memberLogout.rw">로그아웃</a></li>
         <li><a href="/views/member/modify_info.jsp">회원정보수정</a></li>
     	<%}else {%>
         <li><a href="/views/member/login.jsp">로그인</a></li>

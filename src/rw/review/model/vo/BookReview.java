@@ -11,6 +11,7 @@ public class BookReview {
 	private String reviewCont;
 	private String bookId;
 	private char delYn;
+	private String memberId;
 	private String nickname;
 	private String profileImg;
 	
@@ -20,7 +21,7 @@ public class BookReview {
 	}
 	
 	public BookReview(String memberNo, String reviewId, Date reviewDate, int reviewCount, int reviewRate,
-			String reviewCont, String bookId, char delYn, String nickname, String profileImg) {
+			String reviewCont, String bookId, char delYn, String memberId, String nickname, String profileImg) {
 		super();
 		this.memberNo = memberNo;
 		this.reviewId = reviewId;
@@ -30,6 +31,7 @@ public class BookReview {
 		this.reviewCont = reviewCont;
 		this.bookId = bookId;
 		this.delYn = delYn;
+		this.memberId = memberId;
 		this.nickname = nickname;
 		this.profileImg = profileImg;
 	}
@@ -80,6 +82,12 @@ public class BookReview {
 	}
 	public void setDelYn(char delYn) {
 		this.delYn = delYn;
+	}
+	public String getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 	public String getNickname() {
 		return nickname;
