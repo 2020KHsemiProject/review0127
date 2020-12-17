@@ -34,8 +34,8 @@
     <div id="gnb-wrap">
         <div id="logo"><a href="/index.jsp"><img src="../../image/logo.png" alt=""></a></div>
         <ul id="gnb">
-            <li><a href="/views/review/review_list.jsp">리뷰</a></li>
-            <li><a href="/views/library/review_note.jsp">서재</a></li>
+            <li><a href="/reviewPage.rw">리뷰</a></li>
+            <li><a href="/myRivewNote.rw?libraryOwner=<%=m.getMemberId()%>">서재</a></li>
             <li><img id="user-menu-btn" src="../../image/profile/<%=profileImg %>" alt=""></li>
         </ul>
 
