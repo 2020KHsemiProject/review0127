@@ -85,11 +85,11 @@ li{
     float:right;
     position: relative;
     top: 70px;
-    right: -270px;
+    right: -250px;
     text-align: center;
     box-shadow: 3px 3px 3px lightgray;
     border-radius: 10px;
-    display: block;
+    display: none;
 }
 
 #menu-bar li{

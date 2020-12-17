@@ -1,4 +1,4 @@
-package rw.col.review.model.vo;
+package rw.col.model.vo;
 
 public class ReviewCollection {
 	
