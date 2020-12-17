@@ -52,26 +52,13 @@
 		<div id="header">
 			<%@ include file="/views/common/header.jsp"%>
 		</div>
-
+	<% session.getAttribute("member"); %>
 	<script>
 		$(function(){
 			var currentPwd = $('#current_pwd');
 			var newPwd = $('#new_pw');
 			var newPwd_re = $('#new_pw_re');
-			$(currentPwd).focusin(function(){
-				if(currentPwd.val()!=<%= m.getMemberPwd()%>) {
-    				$(this).next().text("현재 비밀번호와 일치하지 않습니다.").css('color','red');
-    				return false;
-    			}
-				return true;
-			});
-			$(currentPwd).focusout(function(){
-				$(this).next().text("");
-			});
 			
-			$(newPwd).focusin(function(){
-				
-			});			
 		});
 	</script>
 
