@@ -33,32 +33,40 @@
     <script>
     	$(function(){
     		$('form').submit(function(){
-    			var $memberId = $('input[name=memberId]');
-    			var $nickName = $('input[name=nickName]');
-    			var $memberPwd = $('input[name=memberPwd]');
-    			var $memberPwd_re = $('input[name=memberPwd_re]');
-    			var $email = $('input[name=birthYear]');
-    			var $birthYear = $('input[name=birthYear]');
+    			var memberId = $('input[name=memberId]');
+    			var nickName = $('input[name=nickName]');
+    			var memberPwd = $('input[name=memberPwd]');
+    			var memberPwd_re = $('input[name=memberPwd_re]');
+    			var email = $('input[name=birthYear]');
+    			var birthYear = $('input[name=birthYear]');
+    			var checkNumber = memberPwd.val().search(/[0-9]/g);
+    		    var checkEnglish = memberPwd.val().search(/[a-z]/ig);
     			
-    			if(!(/^[a-zA-Z0-9]{5,20}$/.test($memberId.val()))) {
-    				$memberId.prev().prev().text("아이디를 다시 확인해주세요.").css('color','red');
+    			if(!(/^[a-zA-Z0-9]{5,20}$/.test(memberId.val()))) {
+    				memberId.prev().prev().text("아이디를 다시 확인해주세요.").css('color','red');
     				return false;
-    			} else if(!(/^[a-zA-z0-9가-힣]{1,10}$/.test($nickName.val()))) {
-    				$nickName.prev().prev().text("닉네임을 다시 확인해주세요.").css('color','red');
+    			} else if(!(/^[a-zA-z0-9가-힣]{1,10}$/.test(nickName.val()))) {
+    				nickName.prev().prev().text("닉네임을 다시 확인해주세요.").css('color','red');
     				return false;
-    			} else if(!(/^[a-zA-Z0-9]{8,16}$/.test($memberPwd.val()))) {
-    				$memberPwd.prev().prev().text("비밀번호를 다시 확인해주세요.").css('color','red');
+    			} else if(!(/^[a-zA-Z0-9]{8,16}$/.test(memberPwd.val()))) {
+    				memberPwd.prev().prev().text("비밀번호의 길이를 다시 확인해주세요.").css('color','red');
     				return false;
-    			} else if($memberId.val()==$memberPwd.val()) {
-    				$memberPwd.prev().prev().text("아이디와 동일한 비밀번호는 사용이 불가능합니다.").css('color','red');
+    			}else if(checkNumber <0 || checkEnglish <0){
+    				memberPwd.prev().prev().text("숫자와 영문자를 혼용하여 입력해주세요.").css('color','red');
+    		        return false;
+    		    } else if(memberPwd.val().search(memberId.val())>-1) {
+    				memberPwd.prev().prev().text("비밀번호에 아이디가 포함되었습니다.").css('color','red');
     				return false;
-    			} else if(($memberPwd.val()!=$memberPwd_re.val())) {
-    				$memberPwd_re.prev().prev().text("비밀번호가 동일하지 않습니다.").css('color','red');
+    			} else if(/(\w)\1\1\1/.test(memberPwd.val())) {
+    				memberPwd.prev().prev().text("같은 문자를 4번 이상 사용하실 수 없습니다.").css('color','red');
+    				return false; 				
+    			} else if((memberPwd.val()!=memberPwd_re.val())) {
+    				memberPwd_re.prev().prev().text("비밀번호가 동일하지 않습니다.").css('color','red');
     				return false;
-    			} else if(!(/^[a-zA-Z0-9@]+$/.test($email.val()))) {
-    				$email.prev().prev().text("올바른 이메일 형식으로 입력해주세요.").css('color','red');
+    			} else if(!(/^[a-zA-Z0-9@]+$/.test(email.val()))) {
+    				email.prev().prev().text("올바른 이메일 형식으로 입력해주세요.").css('color','red');
     				return false;
-    			} else if(!(/^[0-9\s]{4,4}$/.test($birthYear.val()))) {
+    			} else if(!(/^[0-9\s]{4,4}$/.test(birthYear.val()))) {
     				alert("출생년도는 숫자 네 자리만 입력해주세요.");
     				return false;
     			}

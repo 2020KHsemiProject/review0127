@@ -37,12 +37,43 @@
 	}
 </style>
 </head>
-
 <body>
+	<script>
+		$(function(){
+			$('#email_change_btn').click(function(){
+				$('#email_state_success').css('display','none');
+				$('#email_state_lack').css('display','block');
+				$('.input-text_email').val("");
+				$('#email_change_btn').text('변경 완료');
+			});
+		});
+	</script>
 	<div id="wrapper">
 		<div id="header">
 			<%@ include file="/views/common/header.jsp"%>
 		</div>
+
+	<script>
+		$(function(){
+			var currentPwd = $('#current_pwd');
+			var newPwd = $('#new_pw');
+			var newPwd_re = $('#new_pw_re');
+			$(currentPwd).focusin(function(){
+				if(currentPwd.val()!=<%= m.getMemberPwd()%>) {
+    				$(this).next().text("현재 비밀번호와 일치하지 않습니다.").css('color','red');
+    				return false;
+    			}
+				return true;
+			});
+			$(currentPwd).focusout(function(){
+				$(this).next().text("");
+			});
+			
+			$(newPwd).focusin(function(){
+				
+			});			
+		});
+	</script>
 
 		<div id="content">
 			<div id="content_title">
@@ -94,10 +125,10 @@
 									<td>
 										<div class="input_group_email">
 											<div class="input_box_email">
-												<input type="text" class="input-text_email"
+												<input type="email" class="input-text_email"
 													value="abc1234@abc.com" />
 											</div>
-											<button type="button">이메일 변경</button>
+											<button type="button" id="email_change_btn">이메일 변경</button>
 										</div>
 										<div id="email_state_success">
 											<p id="email_success">
@@ -107,10 +138,10 @@
 
 										</div> 
 										<div id="email_state_lack">
-                                       		<p id="email_lack"><img src="/image/icon/email_lack.png" id="email_lack_img"/>인증되지 않은 이메일 주소입니다.</p>                                       		
+                                       		<p id="email_lack"><img src="/image/icon/email_lack.png" id="email_lack_img"/>인증되지 않은 이메일 주소입니다.</p>
                                     	</div>
                                     	<p class="email_confirm">이메일 주소를 인증하시면, 변경이 완료됩니다.</p>
-                                    		
+                                    	
 									</td>
 								</tr>
 								<tr class="tr_fourth">
@@ -122,25 +153,21 @@
 												<ul class="guide_list_wrapper">
 													<li class="guide_list">영문/숫자 조합으로 8자 이상, 16자 이하로
 														입력해주세요.</li>
-													<li class="guide_list">3자리 이상 연속된 문자는 사용할 수 없습니다.</li>
-													<li class="guide_list">ID와 동일한 비밀번호는 사용할 수 없습니다.</li>
+													<li class="guide_list">4자리 이상 연속된 문자는 사용할 수 없습니다.</li>
+													<li class="guide_list">ID가 포함된 비밀번호는 사용할 수 없습니다.</li>
 												</ul>
 											</div>
 											<div class="password_row">
-												<input type="password" class="modify_pwd"
-													id="modify_current_pw" name="userPw" placeholder="현재 비밀번호" />
-												<span class="pw_warning_text"> 현재 비밀번호와 일치하지 않습니다. </span>
+												<input type="password" class="modify_pwd" id="current_pwd" name="memberPwd" placeholder="현재 비밀번호" />
+												<span class="pw_warning_text"></span>
 											</div>
 											<div class="password_row">
-												<input type="password" class="modify_pwd" id="modify_new_pw"
-													name="userPw_new" placeholder="새 비밀번호" /> <span
-													class="pw_warning_text"> 비밀번호 유의사항을 확인해주세요. </span>
+												<input type="password" class="modify_pwd" id="new_pwd" name="memberPwd_new" placeholder="새 비밀번호" /> 
+													<span class="pw_warning_text"> 비밀번호 유의사항을 확인해주세요. </span>
 											</div>
 											<div class="password_row">
-												<input type="password" class="modify_pwd"
-													id="modify_new_pw_confirm" name="userPw"
-													placeholder="새 비밀번호 확인" /> <span class="pw_warning_text">
-													비밀번호가 일치하지 않습니다. </span>
+												<input type="password" class="modify_pwd" id="new_pwd_re" name="memberPwd_new_re" placeholder="새 비밀번호 확인" /> 
+													<span class="pw_warning_text">비밀번호가 일치하지 않습니다.</span>	
 											</div>
 											<div class="password_row">
 												<button type="submit" id="modify_pw_btn">비밀번호 변경</button>

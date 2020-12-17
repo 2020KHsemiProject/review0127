@@ -4,6 +4,7 @@ package rw.member.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,15 +46,18 @@ public class MemberLoginServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8"); 
 		
 		PrintWriter out = response.getWriter();
+		
 		if(m!=null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("member", m);
-			out.println("<script>alert('로그인 성공');</script>");
-			System.out.println("로그인 : ["+m.getMemberNo()+"/"+m.getMemberId()+"]");
+			
+			RequestDispatcher view = request.getRequestDispatcher("/index.jsp");
+			request.setAttribute("member", m);
+			view.forward(request, response);
 		}else {
-			out.println("<script>alert('로그인 실패'<br>'ID 또는 PW를 확인해주세요');</script>");
+			out.println("<script>alert('로그인에 실패하였습니다.');</script>");
+			response.sendRedirect("/views/member/login.jsp");			
 		}
-			out.println("<script>location.replace('/index.jsp');</script>");
 	}
 
 	/**

@@ -11,9 +11,7 @@
 	<div id="main_header">
 		<%@ include file="/views/common/header.jsp" %>
 	</div>
-<%
-	if(m!=null){
-%>
+<% if(m!=null){ %>
 	<b><a href="#">[<%=m.getNickname() %>]</a></b> 님 환영합니다. <a href="/memberLogout.rw">로그아웃</a><br>
 	<% if(m.getMemberNo().equals("M0001")) { %>
 		<a href="#">회원관리(관리자전용)</a>
@@ -26,7 +24,7 @@
 	<a href="#">내 서재</a>
 	<br>
 	<a href="/myLibraryReviewNote.rw">내 서재 (Servlet)</a>
-<% }else { %> 
+<% } else { %> 
 	<H1>review 0127</H1>
 	<h2>메인 페이지</h2>
 <% } %>

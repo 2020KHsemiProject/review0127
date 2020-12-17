@@ -324,20 +324,26 @@ select{
 .input_group_email {
     display: flex;
 }
-
+#email_success {
+	font-size: 0.8rem;
+}
 #email_success_img{
     width: 16px; height: 16px;
     margin-bottom: 6px;
-    margin-left: 7px;
+    margin-left: 10px;
+}
+#email_lack{
+	font-size: 0.8rem;
 }
 #email_lack_img{
     width: 16px; height: 16px;
     margin-bottom: 6px;
     margin-left: 5px;
+    margin-right: 5px;
 }
 
 #email_state_success {
-    width:220px; height: 35px; 
+    width:220px; height: 30px; 
     background-color: #E8FFE1;
     padding-top: 5px;
     font-size: 0.85rem;
@@ -346,16 +352,18 @@ select{
     border-radius: 5px;
 }
 #email_state_lack{
-    width:260px; height: 35px; 
+    width:275px; height: 30px; 
     background-color: #FFDCDD;
-    padding: 6.5px;
-    font-size: 0.85rem;
+    padding: 5px;
+    font-size: 0.8rem;
     color: #636363;
-    margin-top: 25px;
+    margin-top: 10px;
     border-radius: 5px;
+    display:none;
 }
 .email_confirm {
-    color: #A5A5A5;   
+    color: #006BC9;   
+    display: none;
 }
 
 #th_pw_re {

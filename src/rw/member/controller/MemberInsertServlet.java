@@ -16,13 +16,13 @@ import rw.member.model.vo.Member;
  * Servlet implementation class memberInsertServlet
  */
 @WebServlet("/memberJoin.rw")
-public class memberInsertServlet extends HttpServlet {
+public class MemberInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public memberInsertServlet() {
+    public MemberInsertServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
