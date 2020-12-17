@@ -83,7 +83,7 @@ public class MemberDAO {
 		} finally {
 			JDBCTemplate.close(pstmt);
 		} return result;		
-
+	}
 	
 	public Member selectOneMemberId(Connection conn, String memberId) {
 		PreparedStatement pstmt = null;
