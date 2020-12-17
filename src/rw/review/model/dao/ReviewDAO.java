@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import rw.common.JDBCTemplate;
+import rw.review.model.vo.Review;
 import rw.review.model.vo.ReviewCard;
 
 public class ReviewDAO {
@@ -65,8 +66,6 @@ public class ReviewDAO {
 		}
 		return list;
 	}
-
-}
 
 
 	public int insertReview(Connection conn, Review rw) {
