@@ -20,6 +20,7 @@
 </head>
 
 <body>
+
     <div id="intro-wrap" class="wrapper">
         <div id="intro" class="content">
             <h1>안녕하세요 REVIEW:0127입니다.</h1>
@@ -58,21 +59,19 @@
 	<br>
 	<a href="#">내 서재</a>
 	<br>
+
 	<a href="/myRivewNote.rw?libraryOwner=<%=m.getMemberId()%>">내 서재 (Servlet)</a>
 
 	<a href="/views/review/review_write.jsp">리뷰 작성</a><br>
 	<a href="/bookInfo.rw?bookId=9788936433635">도서정보</a><br>
 
 <% }else { %> 
-	<H1>review 0127</H1>
-	<form action="/memberLogin.rw" method="post">
-		ID : <input type="text" name="memberId"/><br>
-		PW : <input type="password" name="memberPwd"/><br>
-		<input type="submit" value="로그인"/> <input type="reset" value="취소"/>
-		<a href="#">회원가입</a>
-	</form>
 
+	<H1>review 0127</H1>
+	<h2>메인 페이지</h2>
 <% } %>
+
 <%@ include file="/views/common/footer.jsp" %>
+
 </body>
 </html>
