@@ -67,9 +67,6 @@ public class ReviewDAO {
 		return list;
 	}
 
-
-
-
 	public int insertReview(Connection conn, Review rw) {
 		PreparedStatement pstmt = null;
 		int result = 0;
