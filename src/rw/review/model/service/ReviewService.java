@@ -1,3 +1,4 @@
+
 package rw.review.model.service;
 
 import java.sql.Connection;
@@ -16,4 +17,18 @@ public class ReviewService {
 		return list;
 	}
 
+	public int insertReview(Review rw) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = rDAO.insertReview(conn,rw);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	
 }
+
