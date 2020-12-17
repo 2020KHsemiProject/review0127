@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
     <%@ page import="rw.member.model.vo.Member" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -36,6 +38,7 @@
             <li><a href="/views/library/review_note.jsp">서재</a></li>
             <li><img id="user-menu-btn" src="../../image/profile/<%=profileImg %>" alt=""></li>
         </ul>
+
         <ul id="menu-bar">
     	<%if(m!=null) { %>
     	<li><a href="">로그아웃</a></li>
@@ -46,6 +49,7 @@
     	<%} %>
         <li><a href="/views/service_center/customer_center.jsp">고객센터</a></li>
     </ul>
+
     </div>
     </div>
     <script>

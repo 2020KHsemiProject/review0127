@@ -59,6 +59,31 @@ public class MemberDAO {
 //		System.out.println("디비데이터 : "+m.getMemberNo()+"/"+m.getEnrollDate());
 		return m;
 	}
+
+
+	public int insertMember(Connection conn, Member m) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "insert into member values('M'||member_seq.nextval,?,?,?,?,'N',?,?,sysdate,'N',null,null)";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, m.getMemberId());
+			pstmt.setString(2, m.getNickname());
+			pstmt.setString(3, m.getMemberPwd());
+			pstmt.setString(4, m.getEmail());
+			pstmt.setInt(5, m.getBirthYear());
+			pstmt.setString(6, Character.toString(m.getGender()));
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		} return result;		
+	}
 	
 	public Member selectOneMemberId(Connection conn, String memberId) {
 		PreparedStatement pstmt = null;
@@ -93,5 +118,6 @@ public class MemberDAO {
 		}
 		//System.out.println("디비데이터 : "+m.getMemberNo()+"/"+m.getEnrollDate());
 		return m;
+
 	}
 }
