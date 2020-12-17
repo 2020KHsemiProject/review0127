@@ -7,7 +7,7 @@
         	/* 리뷰카드 크기&스타일 */
             margin: 0 12px 36px 12px;
             width: 360px; height: 560px;
-            border: 1px solid gray;
+            border: 1px solid #c0c0c0;
             float: left;
             box-shadow: 2px 2px 5px #D5D5D5;
         }

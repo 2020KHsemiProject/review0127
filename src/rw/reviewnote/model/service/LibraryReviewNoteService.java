@@ -11,12 +11,7 @@ import rw.reviewnote.model.vo.ReviewNotePageData;
 
 public class LibraryReviewNoteService {
 	LibraryReviewNoteDAO rnDAO = new LibraryReviewNoteDAO();
-	public Member selecAlltMyLibraryHeader(String memberNo) {
-		Connection conn = JDBCTemplate.getConnection();
-		Member m = rnDAO.selecAlltMyLibraryHeader(conn,memberNo);
-		JDBCTemplate.close(conn);
-		return m;
-	}
+	
 	public int countAllReview(String memberNo) {
 		Connection conn = JDBCTemplate.getConnection();
 		int count = rnDAO.countAllReview(conn,memberNo);

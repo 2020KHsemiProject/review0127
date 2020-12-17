@@ -20,23 +20,25 @@
 <body>
 	<% Member m = (Member)session.getAttribute("member"); 
 		String profileImg; // 프로필 이미지 처리. 없으면 기본 이미지
+		String libraryOwner=null;
 	if (m!=null){
         if(m.getProfileImg()!=null) {
         	profileImg = m.getProfileImg();
         }else{
         	profileImg = "default_user.png";
         }
+        libraryOwner = m.getMemberId();
 	}else{
 		profileImg = "default_user.png";
 	}
 	%>
 	<div id="header">
     <div id="gnb-wrap">
-        <div id="logo"><a href="/index.jsp"><img src="../../image/logo.png" alt=""></a></div>
+        <div id="logo"><a href="/index.jsp"><img src="/image/logo.png" alt=""></a></div>
         <ul id="gnb">
             <li><a href="/reviewPage.rw">리뷰</a></li>
-            <li><a href="/myRivewNote.rw?libraryOwner=<%=m.getMemberId()%>">서재</a></li>
-            <li><img id="user-menu-btn" src="../../image/profile/<%=profileImg %>" alt=""></li>
+            <li><a href="/myReviewNote.rw?libraryOwner=<%=libraryOwner%>">서재</a></li>
+            <li><img id="user-menu-btn" src="/image/profile/<%=profileImg %>" alt=""></li>
         </ul>
 
         <ul id="menu-bar">

@@ -20,7 +20,7 @@ import rw.reviewnote.model.vo.ReviewNotePageData;
 /**
  * Servlet implementation class MyLibraryReviewNoteServlet
  */
-@WebServlet("/myRivewNote.rw")
+@WebServlet("/myReviewNote.rw")
 public class LibraryReviewNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -38,29 +38,27 @@ public class LibraryReviewNoteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LibraryReviewNoteService rnService = new LibraryReviewNoteService();
 		HttpSession session = request.getSession();
-		String memberId = ((Member)session.getAttribute("member")).getMemberId();
-		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+		Member member = (Member)session.getAttribute("member");
+		
+		if(member!=null) { // 로그인 했다면 
+		String memberId = member.getMemberId(); // session 
 		// System.out.println("[내 서재] 내 멤버고유번호 : "+memberNo);
 		
 		// 서재 주인
 		String libraryOwner = request.getParameter("libraryOwner");
 		
 		Member m = new Member();
+		
 		if(memberId.equals(libraryOwner)) {
-			m = rnService.selecAlltMyLibraryHeader(memberNo);  // 내 서재
-			if(m.getProfileImg()==null) { // 이미지 이름
-				m.setProfileImg("default_user_dark.png");
-			}
+			m = new MemberService().selectOneMemberId(memberId);  // 내 서재
 			if(m!=null) { // 세션에 넣어줌
-				session.setAttribute("member", m);
+				session.setAttribute("member", m); 
 			}
 		}else {
 			m = new MemberService().selectOneMemberId(libraryOwner); // 남의 서재
-			if(m.getProfileImg()!=null) { // 이미지 이름
-				m.setProfileImg("default_user_dark.png");
-			}
 		}
 		
+		if(m!=null) { // m 객체가 null이 아닐 때
 		// 내 서재 리뷰 개수
 		int count = rnService.countAllReview(m.getMemberNo());
 		
@@ -88,6 +86,16 @@ public class LibraryReviewNoteServlet extends HttpServlet {
 		request.setAttribute("pageNavi", pageNavi); //System.out.println(pageNavi);
 		request.setAttribute("member", m);
 		view.forward(request, response);
+		
+		}else { // m 객체가 null일 때 즉, 탈퇴하거나 없는 회원
+			RequestDispatcher view = request.getRequestDispatcher("/views/library/member_load_fail.jsp");
+			view.forward(request, response);
+		}
+		
+		}else { // 로그인 안 했다면
+			RequestDispatcher view = request.getRequestDispatcher("/views/library/review_note_read_fail.jsp");
+			view.forward(request, response);
+		}
 		
 	}
 

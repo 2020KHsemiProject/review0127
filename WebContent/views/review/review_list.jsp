@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>REVIEW:0127</title>
-<link rel="stylesheet" type="text/css" href="/views/css/review_review_card.css"/>
+<link rel="stylesheet" type="text/css" href="/views/css/review_card.css"/>
 <style>
 	body { margin: 0; font-family: 'Noto Sans KR', sans-serif; }
 	button:focus{outline: none;}
@@ -30,11 +30,12 @@
 		/* 가로중앙 */
         margin: 0 auto;
         width: 1200px;
+        margin-top:70px;
 	}
 	#reviewList-top {
 		width: 100%; height: 150px;
 		text-align: center;
-		padding: 55px 35px 0 0;
+		padding: 30px 35px 0 0;
 	}
 	#reviewList-top>div {
 		line-height: 150px;
@@ -180,7 +181,7 @@
 					int i = 0; // 별점 스팬 id
 				for(ReviewCard rc : list){ %>
                        <div class="review-card">
-                           <div class="review-card-book-img"><img src="/image/book/<%=rc.getBookImage()%>"/></div>
+                           <div class="review-card-book-img"><img src="<%=rc.getBookImage()%>"/></div>
                            <div class="review-card-text">
                              <div class="review-card-book-title">
                                 <span class="review-card-book-title-text"><%=rc.getBookTitle() %></span><span id="review-rate<%=i%>" class="review-card-star">
@@ -230,7 +231,7 @@
 			$('.writer-profile-img').click(function(e){
 				var $writer = $(this).attr('writer');
 				if(confirm($writer+'님의 서재로 이동하시겠습니까?')) {
-					location.href='/myRivewNote.rw?libraryOwner='+$writer;
+					location.href='/myReviewNote.rw?libraryOwner='+$writer;
 				}
 				e.stopImmediatePropagation(); // 버블링 방지
 			});

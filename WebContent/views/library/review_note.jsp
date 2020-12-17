@@ -20,7 +20,7 @@
 
 <!-- 스타일 시트 -->
 <link rel= "stylesheet" type="text/css" href="/views/css/library_my_contents_top.css"/>
-<link rel="stylesheet" type="text/css" href="/views/css/library_review_card.css"/>
+<link rel="stylesheet" type="text/css" href="/views/css/review_card.css"/>
 <style>
        /* body { margin: 0; font-family: 'Noto Sans KR', sans-serif; }*/
         .reviewNoteIcon {cursor: pointer;}
@@ -70,7 +70,7 @@
             font-size: 1.3rem;
             margin: 5px;
             box-shadow: 2px 2px 5px #BDBDBD;
-            border: 1px solid gray;
+            border: 1px solid lightgray;
             
         }
         #alignButton>div:first-child>button {
@@ -154,11 +154,13 @@
 
 	 
 	Member m = (Member)request.getAttribute("member"); 
-if(m!=null){	
+	if(m.getProfileImg()!=null){
+		m.setProfileImg("default_user_dark.png");
+	}
 	//////////////////////////////////// 여기에 내 서내 남의 서재 서로 다르게 보여야 함
-	if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("member")).getMemberId().equals(libraryOwner)){
+if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("member")).getMemberId().equals(libraryOwner)){
 		// 내 서재
-		m = (Member)session.getAttribute("member");
+		
 %>
 
 <div id="reviewNote-wrapper" class="container-fluid">
@@ -179,7 +181,7 @@ if(m!=null){
 							<div id="myLibrary-title" class="col-12"><%=m.getNickname() %> 님의 서재</div>
 							<div class="col-12">
 								<ul id="myLibrary-lnb" class="row">
-									<li class="col-2"><a href="/myRivewNote.rw?libraryOwner=<%=m.getMemberId()%>">리뷰노트</a></li>
+									<li class="col-2"><a href="/myReviewNote.rw?libraryOwner=<%=m.getMemberId()%>">리뷰노트</a></li>
 									<li class="col-2"><a href="/views/library/book_case.jsp">책장</a></li>
 									<li class="col-2"><a href="/views/library/collection.jsp">컬렉션</a></li>
 								</ul>
@@ -220,7 +222,7 @@ if(m!=null){
                     		$('.reviewNote-Align').click(function(){
                     			if($(this).text()=='제목순'){
                     				$('#alignForm').attr('action','/rnAlignTitle.rw');                    			}else if($(this).text()=='최신순'){
-                    				$('#alignForm').attr('action','/myRivewNote.rw');
+                    				$('#alignForm').attr('action','/myReviewNote.rw');
                     			}
                     			$(this).removeAttr('type');
                     			$('#alignForm').submit();
@@ -291,7 +293,7 @@ if(m!=null){
 			$('.writer-profile-img').click(function(e){
 				var $writer = $(this).attr('writer');
 				if(confirm($writer+'님의 서재로 이동하시겠습니까?')) {
-					location.href='/myRivewNote.rw?libraryOwner='+$writer;
+					location.href='/myReviewNote.rw?libraryOwner='+$writer;
 				}
 				e.stopImmediatePropagation(); // 버블링 방지
 			});
@@ -312,13 +314,6 @@ if(m!=null){
                     <%=pageNavi %>
                     </ul>
                 </nav>
-                <!-- "<li class='page-item'>" + 
-					"<a class='page-link' href='/myRivewNote.rw?libraryOwner="+memberId+"&currentPage="+(endNavi+1)+"'>"+
-					"<svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-chevron-right' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>" + 
-					"<path fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/>" + 
-					"</svg>"+
-					"</a>"+
-					"</li>" -->
                 
 		</div> 
 	<% }else { %>
@@ -335,7 +330,7 @@ if(m!=null){
 	////////////////////////////////////여기에 내 서내 남의 서재 서로 다르게 보여야 함
 	}else if((Member)session.getAttribute("member")!=null){ 
 		// 남의 서재 
-		m = (Member)request.getAttribute("member"); // 이게 되긴 하는구나 ㅠㅠㅠㅠㅠ 따흑!!
+		
 	%>
 <div id="reviewNote-wrapper" class="container-fluid">
       
@@ -346,7 +341,7 @@ if(m!=null){
 				<div id="myLibrary-contents-header-size" class="row">
 					<div class="col-2">
 						<div id="userprofile">
-							<img src="/image/profile/<%=m.getProfileImg() %>" />
+							<img src="<%=m.getProfileImg() %>" />
 						</div>
 					</div>
 					<div class="col-10">
@@ -355,9 +350,8 @@ if(m!=null){
 							<div id="myLibrary-title" class="col-12"><%=m.getNickname() %> 님의 서재</div>
 							<div class="col-12">
 								<ul id="myLibrary-lnb" class="row">
-									<li class="col-2"><a href="/myRivewNote.rw?libraryOwner=<%=m.getMemberId()%>" style="color:white;">리뷰노트</a></li>
+									<li class="col-2"><a href="/myReviewNote.rw?libraryOwner=<%=m.getMemberId()%>" style="color:white;">리뷰노트</a></li>
 									<li class="col-2"><a href="/views/library/book_case.jsp" style="color:white;">책장</a></li>
-									<li class="col-2"><a href="/views/library/collection.jsp" style="color:white;">컬렉션</a></li>
 								</ul>
 							</div>
 						</div>
@@ -397,7 +391,7 @@ if(m!=null){
                     			if($(this).text()=='제목순'){
                     				$('#alignForm').attr('action','/rnAlignTitle.rw');
                     			}else if($(this).text()=='최신순'){
-                    				$('#alignForm').attr('action','/myRivewNote.rw');
+                    				$('#alignForm').attr('action','/myReviewNote.rw');
                     			}
                     			$(this).removeAttr('type');
                     			$('#alignForm').submit();
@@ -418,7 +412,7 @@ if(m!=null){
 		<%int i = 0; 
 			for(ReviewCard rc : list){ %>
                        <div class="review-card">
-                           <div class="review-card-book-img"><img src="/image/book/<%=rc.getBookImage()%>"/></div>
+                           <div class="review-card-book-img"><img src="<%=rc.getBookImage()%>"/></div>
                            <div class="review-card-text">
                              <div class="review-card-book-title">
                                 <span class="review-card-book-title-text"><%=rc.getBookTitle() %></span><span id="review-rate<%=i%>" class="review-card-star">
@@ -468,7 +462,7 @@ if(m!=null){
 			$('.writer-profile-img').click(function(e){
 				var $writer = $(this).attr('writer');
 				if(confirm($writer+'님의 서재로 이동하시겠습니까?')) {
-					location.href='/myRivewNote.rw?libraryOwner='+$writer;
+					location.href='/myReviewNote.rw?libraryOwner='+$writer;
 				}
 				e.stopImmediatePropagation(); // 버블링 방지
 			});
@@ -489,18 +483,11 @@ if(m!=null){
                         <%=pageNavi %>
                     </ul>
                 </nav>
-                <!-- "<li class='page-item'>" + 
-					"<a class='page-link' href='/myRivewNote.rw?libraryOwner="+memberId+"&currentPage="+(endNavi+1)+"'>"+
-					"<svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-chevron-right' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>" + 
-					"<path fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/>" + 
-					"</svg>"+
-					"</a>"+
-					"</li>" -->
                 
 		</div> 
 	<% }else { %>
-		님 리뷰 써요<br>
-		<a href="#">리뷰 쓰러 가기</a>
+		<conter><%=m.getNickname() %>님의 리뷰가 아직 없습니다.<br></conter>
+		
 	<% } %>
          </div> <!-- row -->
        </div> <!-- col -->
@@ -516,7 +503,6 @@ if(m!=null){
 		location.replace('/index.jsp');
 	</script>
 <% } %>
-<% } // 책장 주인이 null이 아니면  %>
 <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

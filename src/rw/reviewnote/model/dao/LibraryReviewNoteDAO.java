@@ -12,40 +12,6 @@ import rw.review.model.vo.ReviewCard;
 
 public class LibraryReviewNoteDAO {
 
-	public Member selecAlltMyLibraryHeader(Connection conn, String memberNo) {
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		Member m = null;
-		String query = "SELECT * FROM MEMBER WHERE MEMBER_NO=? AND END_YN='N'";
-		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, memberNo);
-			rset = pstmt.executeQuery();
-			if(rset.next()) {
-				m = new Member();
-				m.setMemberNo(rset.getString("MEMBER_NO"));
-				m.setMemberId(rset.getString("MEMBER_ID"));
-				m.setNickname(rset.getString("NICKNAME"));
-				m.setMemberPwd(rset.getString("MEMBER_PWD"));
-				m.setEmail(rset.getString("EMAIL"));
-				m.setEmailYN(rset.getString("EMAIL_YN").charAt(0));
-				m.setBirthYear(rset.getInt("BIRTH_YEAR"));
-				m.setGender(rset.getString("GENDER").charAt(0));
-				m.setEnrollDate(rset.getDate("ENROLL_DATE"));
-				m.setEndYN(rset.getString("END_YN").charAt(0));
-				m.setEndDate(rset.getDate("END_DATE"));
-				m.setProfileImg(rset.getString("PROFILE_IMG"));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return m;
-	}
-
 	public int countAllReview(Connection conn, String memberNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -161,21 +127,21 @@ public class LibraryReviewNoteDAO {
 		StringBuilder sb = new StringBuilder();
 				
 		// 만약 첫번째 pageNavi가 아니라면 '<' 모양을 추가해라 (첫번째 pageNavi이면 추가하지 말아라)
-		if(startNavi != 1) { //href='/myRivewNote.rw?libraryOwner="+memberId+"&currentPage="+(startNavi-1)+"'
-			sb.append("<li class='page-item'><a class='page-link' href='/myRivewNote.rw?libraryOwner="+memberId+"&currentPage="+(startNavi-1)+"'>></a></li>");
+		if(startNavi != 1) { //href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+(startNavi-1)+"'
+			sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+(startNavi-1)+"'>></a></li>");
 		}
 				
 		for(int i=startNavi; i<=endNavi; i++) {
 			if(i==currentPage) {
-				sb.append("<li class='page-item'><a class='page-link' href='/myRivewNote.rw?libraryOwner="+memberId+"&currentPage="+i+"'><B>"+i+"</B></a></li>");
+				sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+i+"'><B>"+i+"</B></a></li>");
 			}else {
-				sb.append("<li class='page-item'><a class='page-link' href='/myRivewNote.rw?libraryOwner="+memberId+"&currentPage="+i+"'>"+i+"</a></li>");
+				sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+i+"'>"+i+"</a></li>");
 			}
 		}
 		
 		//만약 마지막 pageNavi가 아니라면 '>' 모양을 추가해라 (마지막 pageNavi이면 추가하지 말아라)
 		if(endNavi != pageTotalCount) {
-			sb.append("<li class='page-item'><a class='page-link' href='/myRivewNote.rw?libraryOwner="+memberId+"&currentPage="+(startNavi+1)+"'>></a></li>");
+			sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+(startNavi+1)+"'>></a></li>");
 		}
 				
 		return sb+"";
@@ -275,21 +241,21 @@ public class LibraryReviewNoteDAO {
 				StringBuilder sb = new StringBuilder();
 						
 				// 만약 첫번째 pageNavi가 아니라면 '<' 모양을 추가해라 (첫번째 pageNavi이면 추가하지 말아라)
-				if(startNavi != 1) { //href='/myRivewNote.rw?libraryOwner="+memberId+"&currentPage="+(startNavi-1)+"'
-					sb.append("<li class='page-item'><a class='page-link' href='/myRivewNote.rw?libraryOwner="+libraryOwner+"&currentPage="+(startNavi-1)+"'>></a></li>");
+				if(startNavi != 1) { //href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+(startNavi-1)+"'
+					sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+libraryOwner+"&currentPage="+(startNavi-1)+"'>></a></li>");
 				}
 						
 				for(int i=startNavi; i<=endNavi; i++) {
 					if(i==currentPage) {
-						sb.append("<li class='page-item'><a class='page-link' href='/myRivewNote.rw?libraryOwner="+libraryOwner+"&currentPage="+i+"'><B>"+i+"</B></a></li>");
+						sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+libraryOwner+"&currentPage="+i+"'><B>"+i+"</B></a></li>");
 					}else {
-						sb.append("<li class='page-item'><a class='page-link' href='/myRivewNote.rw?libraryOwner="+libraryOwner+"&currentPage="+i+"'>"+i+"</a></li>");
+						sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+libraryOwner+"&currentPage="+i+"'>"+i+"</a></li>");
 					}
 				}
 				
 				//만약 마지막 pageNavi가 아니라면 '>' 모양을 추가해라 (마지막 pageNavi이면 추가하지 말아라)
 				if(endNavi != pageTotalCount) {
-					sb.append("<li class='page-item'><a class='page-link' href='/myRivewNote.rw?libraryOwner="+libraryOwner+"&currentPage="+(startNavi+1)+"'>></a></li>");
+					sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+libraryOwner+"&currentPage="+(startNavi+1)+"'>></a></li>");
 				}
 						
 				return sb+"";
