@@ -20,16 +20,16 @@
 
 <!-- 스타일 시트 -->
 <link rel= "stylesheet" type="text/css" href="/views/css/library_my_contents_top.css"/>
-<link rel="stylesheet" type="text/css" href="/views/css/review_card.css"/>
+<link rel="stylesheet" type="text/css" href="/views/css/library_review_card.css"/>
 <style>
-        body { margin: 0; font-family: 'Noto Sans KR', sans-serif; }
+       /* body { margin: 0; font-family: 'Noto Sans KR', sans-serif; }*/
         .reviewNoteIcon {cursor: pointer;}
-        * {
+        /* {
             margin: 0; padding: 0;
             text-decoration-line: none;
             list-style: none;
             font-size: 1rem;
-        }
+        }*/
         #reviewNote-wrapper {
             width: 100%;
             padding: 0;
@@ -149,10 +149,16 @@
 <body>
 <div id="pagename" style="display:none;">리뷰노트</div>
 <%
-	Member m = (Member)session.getAttribute("member");
+	
 	String libraryOwner = request.getParameter("libraryOwner");
-	if(m!=null&&m.getMemberId().equals(libraryOwner)){// 여기에 내 서내 남의 서재 서로 다르게 보여야 함
+
+	 
+	Member m = (Member)request.getAttribute("member"); 
+if(m!=null){	
+	//////////////////////////////////// 여기에 내 서내 남의 서재 서로 다르게 보여야 함
+	if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("member")).getMemberId().equals(libraryOwner)){
 		// 내 서재
+		m = (Member)session.getAttribute("member");
 %>
 
 <div id="reviewNote-wrapper" class="container-fluid">
@@ -183,11 +189,6 @@
 				</div>
 			</div>
 		</div>
-        
-        
-        
-        
-        
         
         
         
@@ -237,13 +238,14 @@
 
 		<div id="review-card-list" class="col-12">
 		
-		<% for(ReviewCard rc : list){ %>
+		<%int i = 0; 
+			for(ReviewCard rc : list){ %>
                        <div class="review-card">
                            <div class="review-card-book-img"><img src="/image/book/<%=rc.getBookImage()%>"/></div>
                            <div class="review-card-text">
                              <div class="review-card-book-title">
-                                <span class="review-card-book-title-text"><%=rc.getBookTitle() %></span><span class="review-card-star reviewNoteIcon">
-                                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+                                <span class="review-card-book-title-text"><%=rc.getBookTitle() %></span><span id="review-rate<%=i%>" class="review-card-star">
+                                  <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
                                 </span>
                               </div>
                                <%=rc.getReviewCont() %> 
@@ -251,7 +253,7 @@
                            <div class="row review-card-bttom">
                               <div class="col-3">
                                <div class="review-card-writer-profile">
-                                   <img src="/image/profile/<%=rc.getProfileImg()%>"/>
+                               		<img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img" writer="<%=rc.getMemberId() %>"/>
                                </div>
                                </div>
                                <div class="col-6">
@@ -259,8 +261,8 @@
                                        <div class="col-12"><%=rc.getNickname() %></div>
                                          <div class="col-12">
                                            <div class="row">
-                                               <div id="" class="col-6"><%=rc.getReviewDate() %></div>
-                                               <div id="" class="col-5">조회 <%=rc.getReviewCount() %></div>
+                                               <div class="col-7"><%=rc.getReviewDate() %></div>
+                                               <div class="col-5 review-card-count">조회 <%=rc.getReviewCount() %></div>
                                            </div> 
                                          </div>
                                    </div>
@@ -268,33 +270,56 @@
                                <div class="col-3 rvheart reviewNoteIcon"><div class="review-heart-and-count"><span class="review-heart"><a><% if(rc.getLikeYN()=='Y'){ %>♥<%}else { %>♡<% } %></a></span> <span class="heart-count"><%=rc.getReviewRate() %></span></div></div>
                            </div>
                        </div>
+        <script>
+			$(function(){
+				
+				//// 별점 데이터 설정하기
+				// <i class="fas fa-star">꽉찬</i><i class="fas fa-star-half-alt">반찬</i><i class="far fa-star">빈</i>
+			<% if(rc.getReviewRate()>0) { %>
+				var star = '<i class="fas fa-star"></i>';
+				<% for(int k=1; k<rc.getReviewRate(); k++){ %>
+					star += '<i class="fas fa-star"></i>';
+				<% } // for문  
+					for(int j=rc.getReviewRate(); j<5; j++) { %> 
+					star += '<i class="far fa-star"></i>';
+				<% } // for문 %>
+				$('#review-rate<%=i%>').html(star);
+			<% } // if문%>
+			
+			
+			//// 카드 프로필 이미지 클릭 시 해당 멤버의 서재로 이동
+			$('.writer-profile-img').click(function(e){
+				var $writer = $(this).attr('writer');
+				if(confirm($writer+'님의 서재로 이동하시겠습니까?')) {
+					location.href='/myRivewNote.rw?libraryOwner='+$writer;
+				}
+				e.stopImmediatePropagation(); // 버블링 방지
+			});
+			})
+		</script><% i++; // 별점 id %>
+		
+			
 		<% } // foreach문 %>
+		
+		
                        
                        
 			</div> <!-- #reviewNote-cardList col -->
 			
-			<div id="bookcase-page" class="col-12"> <%=pageNavi %>
-                <!-- <nav aria-label="Page navigation example">
+			<div id="bookcase-page" class="col-12"> 
+                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-                                </svg>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                                </svg>
-                            </a>
-                        </li>
+                    <%=pageNavi %>
                     </ul>
-                </nav> -->
+                </nav>
+                <!-- "<li class='page-item'>" + 
+					"<a class='page-link' href='/myRivewNote.rw?libraryOwner="+memberId+"&currentPage="+(endNavi+1)+"'>"+
+					"<svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-chevron-right' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>" + 
+					"<path fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/>" + 
+					"</svg>"+
+					"</a>"+
+					"</li>" -->
+                
 		</div> 
 	<% }else { %>
 		님 리뷰 써요<br>
@@ -306,15 +331,192 @@
 </div> <!-- wrapper -->	
 
 
-<% }else if(m!=null){ %>
-	<% libraryOwner = request.getParameter("libraryOwner"); %>
-		다른 사람 책장
+<%
+	////////////////////////////////////여기에 내 서내 남의 서재 서로 다르게 보여야 함
+	}else if((Member)session.getAttribute("member")!=null){ 
+		// 남의 서재 
+		m = (Member)request.getAttribute("member"); // 이게 되긴 하는구나 ㅠㅠㅠㅠㅠ 따흑!!
+	%>
+<div id="reviewNote-wrapper" class="container-fluid">
+      
+        
+        <div id="myLibrary-contents-header" class="row" style="background-color:#2A303D;">
+			<!-- contents-header -->
+			<div class="col-12" style="color:white;">
+				<div id="myLibrary-contents-header-size" class="row">
+					<div class="col-2">
+						<div id="userprofile">
+							<img src="/image/profile/<%=m.getProfileImg() %>" />
+						</div>
+					</div>
+					<div class="col-10">
+						<div class="row">
+						
+							<div id="myLibrary-title" class="col-12"><%=m.getNickname() %> 님의 서재</div>
+							<div class="col-12">
+								<ul id="myLibrary-lnb" class="row">
+									<li class="col-2"><a href="/myRivewNote.rw?libraryOwner=<%=m.getMemberId()%>" style="color:white;">리뷰노트</a></li>
+									<li class="col-2"><a href="/views/library/book_case.jsp" style="color:white;">책장</a></li>
+									<li class="col-2"><a href="/views/library/collection.jsp" style="color:white;">컬렉션</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        
+        
+        
+        
+        <div id="reviewNote-contents" class="row">
+           <div class="col-12">
+               <div class="row">
+                   <div class="col-12 reviewNote-contents-top">
+                       <div class="row">
+                       <% int count = (int)request.getAttribute("count"); %>
+                           <div id="reviewNote-review-count" class="col-8"><%=count %>개의 리뷰</div>
+                           <div class="col-4">
+                           <form action="#" method="post" id="alignForm">
+                                <div id="alignButton" class="row">
+                                   <div class="col-6">
+                                    <button type="button" class="reviewNote-Align reviewNoteIcon">제목순</button>
+                                    </div>
+                                    <div class="col-6">
+                                    <button type="button" class="reviewNote-Align reviewNoteIcon">최신순</button>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="libraryOwner" value="<%=libraryOwner %>"/>
+                           </form>
+                           </div>
+                       </div>
+                    </div>
+                    <script>
+                    	$(function(){
+                    		$('.reviewNote-Align').click(function(){
+                    			if($(this).text()=='제목순'){
+                    				$('#alignForm').attr('action','/rnAlignTitle.rw');
+                    			}else if($(this).text()=='최신순'){
+                    				$('#alignForm').attr('action','/myRivewNote.rw');
+                    			}
+                    			$(this).removeAttr('type');
+                    			$('#alignForm').submit();
+                    		});
+                    	})
+                    </script>
+                    
+                    
+                    
+                    
+	<% ArrayList<ReviewCard> list = (ArrayList<ReviewCard>)request.getAttribute("list"); 
+		String pageNavi = (String)request.getAttribute("pageNavi");
+		if(!list.isEmpty()){
+	%> 
+
+		<div id="review-card-list" class="col-12">
+		
+		<%int i = 0; 
+			for(ReviewCard rc : list){ %>
+                       <div class="review-card">
+                           <div class="review-card-book-img"><img src="/image/book/<%=rc.getBookImage()%>"/></div>
+                           <div class="review-card-text">
+                             <div class="review-card-book-title">
+                                <span class="review-card-book-title-text"><%=rc.getBookTitle() %></span><span id="review-rate<%=i%>" class="review-card-star">
+                                  <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                </span>
+                              </div>
+                               <%=rc.getReviewCont() %> 
+                           </div>
+                           <div class="row review-card-bttom">
+                              <div class="col-3">
+                               <div class="review-card-writer-profile">
+                               		<img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img" writer="<%=rc.getMemberId() %>"/>
+                               </div>
+                               </div>
+                               <div class="col-6">
+                                   <div class="row review-card-infor">
+                                       <div class="col-12"><%=rc.getNickname() %></div>
+                                         <div class="col-12">
+                                           <div class="row">
+                                               <div class="col-7"><%=rc.getReviewDate() %></div>
+                                               <div class="col-5 review-card-count">조회 <%=rc.getReviewCount() %></div>
+                                           </div> 
+                                         </div>
+                                   </div>
+                               </div>
+                               <div class="col-3 rvheart reviewNoteIcon"><div class="review-heart-and-count"><span class="review-heart"><a><% if(rc.getLikeYN()=='Y'){ %>♥<%}else { %>♡<% } %></a></span> <span class="heart-count"><%=rc.getReviewRate() %></span></div></div>
+                           </div>
+                       </div>
+        <script>
+			$(function(){
+				
+				//// 별점 데이터 설정하기
+				// <i class="fas fa-star">꽉찬</i><i class="fas fa-star-half-alt">반찬</i><i class="far fa-star">빈</i>
+			<% if(rc.getReviewRate()>0) { %>
+				var star = '<i class="fas fa-star"></i>';
+				<% for(int k=1; k<rc.getReviewRate(); k++){ %>
+					star += '<i class="fas fa-star"></i>';
+				<% } // for문  
+					for(int j=rc.getReviewRate(); j<5; j++) { %> 
+					star += '<i class="far fa-star"></i>';
+				<% } // for문 %>
+				$('#review-rate<%=i%>').html(star);
+			<% } // if문%>
+			
+			
+			//// 카드 프로필 이미지 클릭 시 해당 멤버의 서재로 이동
+			$('.writer-profile-img').click(function(e){
+				var $writer = $(this).attr('writer');
+				if(confirm($writer+'님의 서재로 이동하시겠습니까?')) {
+					location.href='/myRivewNote.rw?libraryOwner='+$writer;
+				}
+				e.stopImmediatePropagation(); // 버블링 방지
+			});
+			})
+		</script><% i++; // 별점 id %>
+		
+			
+		<% } // foreach문 %>
+		
+		
+                       
+                       
+			</div> <!-- #reviewNote-cardList col -->
+			
+			<div id="bookcase-page" class="col-12"> 
+                 <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <%=pageNavi %>
+                    </ul>
+                </nav>
+                <!-- "<li class='page-item'>" + 
+					"<a class='page-link' href='/myRivewNote.rw?libraryOwner="+memberId+"&currentPage="+(endNavi+1)+"'>"+
+					"<svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-chevron-right' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>" + 
+					"<path fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/>" + 
+					"</svg>"+
+					"</a>"+
+					"</li>" -->
+                
+		</div> 
+	<% }else { %>
+		님 리뷰 써요<br>
+		<a href="#">리뷰 쓰러 가기</a>
+	<% } %>
+         </div> <!-- row -->
+       </div> <!-- col -->
+    </div> <!-- #reviewNote-contents row  -->
+</div> <!-- wrapper -->	
+		
+		
+		
+		
 <% }else { %>
 	<script>
-		alert('회원이 아닙니다. 여기에는 나중에 음...회원가입 링크를 주자...');
+		alert('회원이 아닙니다');
 		location.replace('/index.jsp');
 	</script>
 <% } %>
+<% } // 책장 주인이 null이 아니면  %>
 <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>
