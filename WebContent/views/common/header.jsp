@@ -41,7 +41,7 @@
 
         <ul id="menu-bar">
     	<%if(m!=null) { %>
-    	<li><a href="">로그아웃</a></li>
+    	<li><a href="/memberLogout.rw">로그아웃</a></li>
         <li><a href="/views/member/modify_info.jsp">회원정보수정</a></li>
     	<%}else {%>
         <li><a href="/views/member/login.jsp">로그인</a></li>
