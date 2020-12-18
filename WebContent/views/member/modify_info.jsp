@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="/views/common/header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,6 +37,7 @@
 		padding: 0;
 	}
 </style>
+
 </head>
 <body>
 	<script>
@@ -48,10 +50,9 @@
 			});
 		});
 	</script>
+	
 	<div id="wrapper">
-		<div id="header">
-			<%@ include file="/views/common/header.jsp"%>
-		</div>
+		
 	<% session.getAttribute("member"); %>
 	<script>
 		$(function(){
@@ -190,10 +191,6 @@
 			</div>
 
 		</div>
-
-		<div id="footer">
-			<%@ include file="/views/common/footer.jsp" %>
-		</div>
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
@@ -241,5 +238,6 @@
 			</div>
 		</div>
 	</div>
+	<%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>
