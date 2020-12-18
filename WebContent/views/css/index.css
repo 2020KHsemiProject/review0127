@@ -59,3 +59,7 @@ li{
     margin-top: 20px;
     padding-right: 50px;
 }
+
+@media (max-width:1200px){
+    .wrapper{ width: 1200px;}
+}

@@ -63,4 +63,11 @@ public class BookService {
 		return result;
 	}
 
+	public Book selectOneBook(String bookId) {
+		Connection conn = JDBCTemplate.getConnection();
+		Book b = bDAO.selectOneBook(conn,bookId);
+		JDBCTemplate.close(conn);
+		return b;
+	}
+
 }
