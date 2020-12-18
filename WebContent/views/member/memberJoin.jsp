@@ -37,11 +37,14 @@
     			var nickName = $('input[name=nickName]');
     			var memberPwd = $('input[name=memberPwd]');
     			var memberPwd_re = $('input[name=memberPwd_re]');
-    			var email = $('input[name=birthYear]');
+    			var email = $('input[name=email]');
     			var birthYear = $('input[name=birthYear]');
     			var checkNumber = memberPwd.val().search(/[0-9]/g);
     		    var checkEnglish = memberPwd.val().search(/[a-z]/ig);
     			
+    		    console.log(memberId.val()+"/"+nickName.val()+"/"+memberPwd.val()+"/"+memberPwd_re.val()
+    		    		+"/"+email.val()+"/"+birthYear.val());
+    		    
     			if(!(/^[a-zA-Z0-9]{5,20}$/.test(memberId.val()))) {
     				memberId.prev().prev().text("아이디를 다시 확인해주세요.").css('color','red');
     				return false;
@@ -63,13 +66,10 @@
     			} else if((memberPwd.val()!=memberPwd_re.val())) {
     				memberPwd_re.prev().prev().text("비밀번호가 동일하지 않습니다.").css('color','red');
     				return false;
-    			} else if(!(/^[a-zA-Z0-9@]+$/.test(email.val()))) {
-    				email.prev().prev().text("올바른 이메일 형식으로 입력해주세요.").css('color','red');
-    				return false;
-    			} else if(!(/^[0-9\s]{4,4}$/.test(birthYear.val()))) {
+    			} /*else if(!(/^[0-9\s]{4,4}$/.test(birthYear.val()))) {
     				alert("출생년도는 숫자 네 자리만 입력해주세요.");
     				return false;
-    			}
+    			} */
     			return true;
     		});
     		
@@ -92,10 +92,7 @@
 				$(this).css('border','1.2px solid #ccc');
 				$(this).prev().prev().text("");
 			});
-    		/*$('#data-agree').not('#data-agree','checked') {
-    			preventDefault();
-    			alert("개인 정보 제공 및 활용 동의에 체크해주세요.");
-    		};*/
+    		
     	});
     </script>
     <div id="join_wrapper">
@@ -116,6 +113,7 @@
                         <br>
                         <span class="guide_span"></span><br>
                         <input type="text" name="nickName" placeholder="닉네임" class="input_group"/>
+                        <button type="button" id="nick_check">중복확인</button>
                         <br> 
                         <span class="guide_span"></span><br>                       
                         <input type="password" name="memberPwd" placeholder="비밀번호" id="input_pw" class="input_group"/>
@@ -127,11 +125,19 @@
                         <input type="email" name="email" placeholder="이메일 주소" class="input_group"/>
                         <br>
                         <p id="option_text">선택 입력 (예시. 1996 / 남)</p>        
-                        <input type="text" name="birthYear" placeholder="출생년도" class="input_group"/>
-                        <button type="button" class="btn btn-outline-primary" name="gender" value="M">남</button>
-                        <button type="button" class="btn btn-outline-primary" name="gender" value="F">여</button>
+                        <input type="number" name="birthYear" placeholder="출생년도" class="input_group" min="1900" max="2020"/>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+							<label class="btn btn-warning radio_size">
+								<input type="radio" name="gender" id="radio_M" value="M">남
+							</label>
+							<label class="btn btn-warning radio_size">
+								<input type="radio" name="gender" id="radio_F" value="F">여
+							</label>
+						</div>
                         <br>
-                        <span id="data_agree">개인 정보 제공 및 활용 동의</span><input type="checkbox" name="agreement" value="동의"/>
+                        <div id="option_data">
+                        	<span id="data_agree">개인 정보 제공 및 활용 동의</span><input type="checkbox" name="agreement" value="동의" required/>
+                        </div>
                         <br><br>
                         <input type="submit" value="회원가입"/><br>
                         <input type="reset" value="취소"/>
