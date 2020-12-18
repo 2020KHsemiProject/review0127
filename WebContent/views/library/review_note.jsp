@@ -29,8 +29,9 @@
 <title>REVIEW:0127</title>
 
 <!-- 스타일 시트 -->
-<link rel="stylesheet" type="text/css"
-	href="/views/css/library_my_contents_top.css" />
+<!-- 서재 헤더 -->
+<link rel="stylesheet" type="text/css" href="/views/css/library_my_contents_top.css" />
+<!-- 리뷰 카드 -->
 <link rel="stylesheet" type="text/css" href="/views/css/review_card.css" />
 <style>
 /* body { margin: 0; font-family: 'Noto Sans KR', sans-serif; }*/
@@ -47,12 +48,6 @@
 	width: 100%;
 	padding: 0;
 }
-
-#reviewNote-wrapper>.row {
-	/*padding: 0 13.03%;*/
-	
-}
-
 button:focus {
 	outline: none;
 }
@@ -93,7 +88,7 @@ button:focus {
 	font-size: 1.3rem;
 	margin: 5px;
 	box-shadow: 2px 2px 5px #BDBDBD;
-	border: 1px solid lightgray;
+	border: 1px solid #eeeeee;
 }
 
 #alignButton>div:first-child>button {
@@ -238,7 +233,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 								<ul id="myLibrary-lnb" class="row">
 									<li class="col-2"><a
 										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>">리뷰노트</a></li>
-									<li class="col-2"><a href="/views/library/book_case.jsp">책장</a></li>
+									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>">책장</a></li>
 									<li class="col-2"><a href="/views/library/collection.jsp">컬렉션</a></li>
 								</ul>
 							</div>
@@ -257,8 +252,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 					<div class="col-12 reviewNote-contents-top">
 						<div class="row">
 							<% int count = (int)request.getAttribute("count"); %>
-							<div id="reviewNote-review-count" class="col-8"><%=count %>개의
-								리뷰
+							<div id="reviewNote-review-count" class="col-8"><%=count %>개의 리뷰
 							</div>
 							<div class="col-4">
 								<form action="#" method="post" id="alignForm">
@@ -307,12 +301,8 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 							</div>
 							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="review-card-book-title">
-									<span class="review-card-book-title-text"><%=rc.getBookTitle() %></span><span
-										id="review-rate<%=i%>" class="review-card-star"> <i
-										class="far fa-star"></i><i class="far fa-star"></i><i
-										class="far fa-star"></i><i class="far fa-star"></i><i
-										class="far fa-star"></i>
-									</span>
+									<span class="review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
+									<span class="review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
@@ -330,8 +320,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 											<div class="row">
 												<div class="col-7"><%=rc.getReviewDate() %></div>
 												<div class="col-5 review-card-count">
-													조회
-													<%=rc.getReviewCount() %></div>
+													조회	<%=rc.getReviewCount() %></div>
 											</div>
 										</div>
 									</div>
@@ -350,7 +339,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 				
 				//// 별점 데이터 설정하기
 				// <i class="fas fa-star">꽉찬</i><i class="fas fa-star-half-alt">반찬</i><i class="far fa-star">빈</i>
-			<% if(rc.getReviewRate()>0) { %>
+			<%--<% if(rc.getReviewRate()>0) { %>
 				var star = '<i class="fas fa-star"></i>';
 				<% for(int k=1; k<rc.getReviewRate(); k++){ %>
 					star += '<i class="fas fa-star"></i>';
@@ -359,7 +348,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 					star += '<i class="far fa-star"></i>';
 				<% } // for문 %>
 				$('#review-rate<%=i%>').html(star);
-			<% } // if문%>
+			<% } // if문%>--%>
 			
 			
 			//// 카드 프로필 이미지 클릭 시 해당 멤버의 서재로 이동
@@ -438,7 +427,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 									<li class="col-2"><a
 										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>"
 										style="color: white;">리뷰노트</a></li>
-									<li class="col-2"><a href="/views/library/book_case.jsp"
+									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>"
 										style="color: white;">책장</a></li>
 								</ul>
 							</div>
@@ -508,12 +497,8 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 							</div>
 							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="review-card-book-title">
-									<span class="review-card-book-title-text"><%=rc.getBookTitle() %></span><span
-										id="review-rate<%=i%>" class="review-card-star"> <i
-										class="far fa-star"></i><i class="far fa-star"></i><i
-										class="far fa-star"></i><i class="far fa-star"></i><i
-										class="far fa-star"></i>
-									</span>
+									<span class="review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
+									<span class="review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
@@ -548,21 +533,6 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 						</div>
 						<script>
 			$(function(){
-				
-				//// 별점 데이터 설정하기
-				// <i class="fas fa-star">꽉찬</i><i class="fas fa-star-half-alt">반찬</i><i class="far fa-star">빈</i>
-			<% if(rc.getReviewRate()>0) { %>
-				var star = '<i class="fas fa-star"></i>';
-				<% for(int k=1; k<rc.getReviewRate(); k++){ %>
-					star += '<i class="fas fa-star"></i>';
-				<% } // for문  
-					for(int j=rc.getReviewRate(); j<5; j++) { %> 
-					star += '<i class="far fa-star"></i>';
-				<% } // for문 %>
-				$('#review-rate<%=i%>').html(star);
-			<% } // if문%>
-			
-			
 			//// 카드 프로필 이미지 클릭 시 해당 멤버의 서재로 이동
 			$('.writer-profile-img').click(function(e){
 				var $writer = $(this).attr('writer');
@@ -573,10 +543,8 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 			});
 			})
 		</script>
-						<% i++; // 별점 id %>
 
-
-						<% } // foreach문 %>
+			<% } // foreach문 %>
 
 
 

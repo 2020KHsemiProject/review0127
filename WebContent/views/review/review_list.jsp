@@ -27,17 +27,9 @@
 <title>REVIEW:0127</title>
 <link rel="stylesheet" type="text/css" href="/views/css/review_card.css" />
 <style>
-body {
+/*body {
 	margin: 0;
 	font-family: 'Noto Sans KR', sans-serif;
-}
-
-button:focus {
-	outline: none;
-}
-
-.reviewListIcon {
-	cursor: pointer;
 }
 
 * {
@@ -45,7 +37,18 @@ button:focus {
 	padding: 0;
 	text-decoration-line: none;
 	list-style: none;
+	
+}
+*/
+*{
 	font-size: 1rem;
+}
+button:focus {
+	outline: none;
+}
+
+.reviewListIcon {
+	cursor: pointer;
 }
 
 #reviewList-contents {
@@ -120,7 +123,7 @@ hr {
 	height: 50px;
 	background-color: white;
 	border-radius: 50px 50px;
-	border: 1px solid gray;
+	border: 1px solid lightgray;
 	margin: 0 auto;
 	line-height: 50px;
 }
@@ -242,12 +245,8 @@ hr {
 							</div>
 							<div class="review-card-text">
 								<div class="review-card-book-title">
-									<span class="review-card-book-title-text"><%=rc.getBookTitle() %></span><span
-										id="review-rate<%=i%>" class="review-card-star"> <i
-										class="far fa-star"></i><i class="far fa-star"></i><i
-										class="far fa-star"></i><i class="far fa-star"></i><i
-										class="far fa-star"></i>
-									</span>
+									<span class="review-card-book-title-text"><%=rc.getBookTitle() %></span>
+									<span class="review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
@@ -306,19 +305,6 @@ hr {
 				$('.review-card-book-img').mouseout(function(){
 					$(this).css('box-shadow','');
 				});
-				
-				//// 별점 데이터 설정하기
-				// <i class="fas fa-star">꽉찬</i><i class="fas fa-star-half-alt">반찬</i><i class="far fa-star">빈</i>
-			<% if(rc.getReviewRate()>0) { %>
-				var star = '<i class="fas fa-star"></i>';
-				<% for(int k=1; k<rc.getReviewRate(); k++){ %>
-					star += '<i class="fas fa-star"></i>';
-				<% } // for문  
-					for(int j=rc.getReviewRate(); j<5; j++) { %> 
-					star += '<i class="far fa-star"></i>';
-				<% } // for문 %>
-				$('#review-rate<%=i%>').html(star);
-			<% } // if문%>
 			
 			
 			//// 카드 프로필 이미지 클릭 시 해당 멤버의 서재로 이동

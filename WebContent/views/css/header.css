@@ -27,6 +27,8 @@ li{
     background-color: #2A303D;
     color: white;
     margin: 0 auto;
+    position:relative;
+    z-index: 999;
 }
 
 #logo {
