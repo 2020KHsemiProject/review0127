@@ -190,6 +190,26 @@
         
         
         /*********** 모달 ***********/
+        .modal-body::-webkit-scrollbar { 
+            visibility: hidden;
+            width: 20px; height:15px;
+        }
+        .modal-body:hover::-webkit-scrollbar { 
+            visibility: visible;
+            width: 20px; height:15px;
+        }
+        /* 스크롤바의 width */
+        .modal-body:hover::-webkit-scrollbar-track { display: none;}
+        /* 스크롤바의 전체 배경색 */        
+        .modal-body:hover::-webkit-scrollbar-thumb { 
+            background-color: #ffe58d;
+            border-radius: 40px 40px 40px 40px;
+        }
+        /* 스크롤바 색 */
+        .modal-body:hover::-webkit-scrollbar-button { display: none; }
+        /* 위 아래 버튼 (버튼 없애기를 함) */
+        
+        
         #add-bookcase-modal {
             width:100%;
         }
@@ -203,8 +223,12 @@
             padding: 0 100px;
         }
         .modal-body {
-            overflow: hidden;
+        	height: 420px;
+	    	margin-bottom: 30px; 
+        	white-space:nowrap; 
+            overflow-x: auto;
         }
+        
         .bookInPopUp {
             width: 220px; height: 320px;
             float: left;
@@ -613,8 +637,10 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                 </button>
               </div>
               <div class="modal-body">
-              <!-- 내가 좋아요 누른 책 리스트 -->
               
+              
+              <!-- 내가 좋아요 누른 책 리스트 -->
+              <div id="modal-body-wrapper">
          <% for(Book likeB : listLB) { %>
               
                 <div class="selectBookListInPopUp">
@@ -637,7 +663,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                 </div>
                 
            <% } %>   
-                
+           </div>
                 
               </div>
               <div class="modalFooter">
