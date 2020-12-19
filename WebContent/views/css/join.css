@@ -1,0 +1,113 @@
+@charset "UTF-8";
+
+#join_header {
+    background-color: #FFF6D6;
+}
+
+#join_logo_img {
+    margin-top: 22.5px;
+    width: 200px;
+    cursor: pointer;
+}
+
+#join_logo {
+    height: 80px;
+    border-bottom: 1.5px solid #c9c9c9;
+}
+
+.btn-outline-primary {
+    width: 100px;    
+}
+
+form{
+	margin-top: 35px;
+}
+
+input {
+    border-radius: 5px;
+    width: 400px; height: 30px;
+    padding: 20px;
+    font-size: 1.2rem;
+    font-weight: 400;
+    border: 1.2px solid #ccc; 
+}
+#id_check {
+	line-height: 0.15;
+	padding: 15px;
+	height: 40px;
+	border-radius: 5px;
+    background-color: #FFE687;
+    border: 1.2px solid #ccc; 
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+#nick_check {
+	line-height: 0.15;
+	padding: 15px;
+	height: 40px;
+	border-radius: 5px;
+    background-color: #FFE687;
+    border: 1.2px solid #ccc; 
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+input[name=memberId] {
+	width: 305px;
+}
+
+input[name=nickName] {
+	width: 305px;
+}
+
+input[name=birthYear] {
+    text-align: left;
+    width: 170px;
+    margin-right: 20px;
+}
+
+.radio_size{
+	width:100px;
+	font-weight: 500;
+}
+
+#option_text {
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: #707070;
+}
+
+#input_pw {
+    margin: 0;
+}
+
+#option_data{
+	margin-top: 10px;	
+}
+input[type=checkbox] {
+    display: inline;
+    width: 15px; height: 15px;
+    margin-left: 15px;
+}
+
+#data_agree {
+    font-weight: 400;
+    font-size: 1.05rem;
+    color: #707070;
+}
+
+input[type=submit] {
+    line-height: 0.1;
+    background-color: #FFE687;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+input[type=reset] {
+    line-height: 0.25;
+    background-color: #FFE687;
+    font-size: 1.15rem;
+    font-weight: 500;
+}
