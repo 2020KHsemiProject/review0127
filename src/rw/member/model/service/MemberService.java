@@ -25,9 +25,7 @@ public class MemberService {
 			JDBCTemplate.rollback(conn);
 		} JDBCTemplate.close(conn); 
 		return result;		
-
 	}	
-
 
 	public Member selectOneMemberId(String memberId) { // 회원 ID로 회원 찾기
 		Connection conn = JDBCTemplate.getConnection();
@@ -45,7 +43,7 @@ public class MemberService {
 	}
 
 	public boolean nickNameCheck(String nickName) {
-		Connection conn = null;
+		Connection conn = JDBCTemplate.getConnection();
 		boolean result = mDAO.nickNameCheck(conn,nickName);
 		JDBCTemplate.close(conn);
 		return result;		

@@ -14,7 +14,7 @@ import rw.member.model.service.MemberService;
 /**
  * Servlet implementation class MemberNickCheckServlet
  */
-@WebServlet("/nickCkeck.rw")
+@WebServlet("/nickCheck.rw")
 public class MemberNickCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -40,7 +40,7 @@ public class MemberNickCheckServlet extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		
-		if(result == true) {
+		if(result==true) {
 			out.print("not-usalbe");	
 		} else {
 			out.print("usable");	

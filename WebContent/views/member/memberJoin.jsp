@@ -39,11 +39,12 @@
     			var memberPwd_re = $('input[name=memberPwd_re]');
     			var email = $('input[name=email]');
     			var birthYear = $('input[name=birthYear]');
+    			var gender = $('input[name=gender]');
     			var checkNumber = memberPwd.val().search(/[0-9]/g);
     		    var checkEnglish = memberPwd.val().search(/[a-z]/ig);
-    			
-    		    console.log(memberId.val()+"/"+nickName.val()+"/"+memberPwd.val()+"/"+memberPwd_re.val()
-    		    		+"/"+email.val()+"/"+birthYear.val());
+    			    
+    		    console.log(memberId.val()+"/"+nickName.val()+"/"+memberPwd.val()+"/"
+    		    		+memberPwd_re.val()+"/"+email.val()+"/"+birthYear.val()+"/"+gender.val());
     		    
     			if(!(/^[a-zA-Z0-9]{5,20}$/.test(memberId.val()))) {
     				memberId.prev().prev().text("아이디를 다시 확인해주세요.").css('color','red');
@@ -66,10 +67,7 @@
     			} else if((memberPwd.val()!=memberPwd_re.val())) {
     				memberPwd_re.prev().prev().text("비밀번호가 동일하지 않습니다.").css('color','red');
     				return false;
-    			} /*else if(!(/^[0-9\s]{4,4}$/.test(birthYear.val()))) {
-    				alert("출생년도는 숫자 네 자리만 입력해주세요.");
-    				return false;
-    			} */
+    			} else if($('#id_check').click)
     			return true;
     		});
     		
@@ -125,7 +123,7 @@
     				alert("닉네임을 입력해주세요.");
     			} else {
     				$.ajax({
-        				url:"/nickCkeck.rw",
+        				url:"/nickCheck.rw",
         				type:"post",
         				data:{"nickName":nickName},
         				success:function(data){
@@ -173,14 +171,18 @@
                         <input type="email" name="email" placeholder="이메일 주소" class="input_group"/>
                         <br>
                         <p id="option_text">선택 입력 (예시. 1996 / 남)</p>        
-                        <input type="number" name="birthYear" placeholder="출생년도" class="input_group" min="1900" max="2020"/>
+                        <input type="number" name="birthYear" placeholder="출생년도" class="input_group" min="1900" max="2020" value="1900"/>
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-warning radio_size" id="label_M">
 								<input type="radio" name="gender" id="radio_M" value="M">남
+								<input type="hidden" name="gender" value="null" />
 							</label>
 							<label class="btn btn-warning radio_size" id="label_F">
+								<input type="hidden" name="gender" value="null" />
 								<input type="radio" name="gender" id="radio_F" value="F">여
+								
 							</label>
+							 
 						</div>
                         <br>
                         <div id="option_data">
