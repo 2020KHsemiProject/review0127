@@ -1,11 +1,11 @@
 package rw.library.model.vo;
 
 public class Library {
-	private String bookShelfId;
-	private String bookShelfName;
-	private String memberNo;
-	private char privateYN;
-	private char delYN;
+	private String bookShelfId;		// 책장 ID
+	private String bookShelfName;	// 책장 이름
+	private String memberNo;		// 내 회원고유번호
+	private char privateYN;			// 공개여부 YN
+	private char delYN;				// 삭제 YN
 	
 	public Library() {
 		super();

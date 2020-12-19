@@ -1,3 +1,4 @@
+
 package rw.member.model.vo;
 
 import java.sql.Date;

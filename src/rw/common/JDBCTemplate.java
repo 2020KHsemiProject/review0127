@@ -16,7 +16,7 @@ public class JDBCTemplate {
 
 		Properties properties = new Properties();
 
-		String path = JDBCTemplate.class.getResource("database.properties").getPath();
+		String path = JDBCTemplate.class.getResource("/rw/config/database.properties").getPath();
 		try {
 			properties.load(new FileReader(path));
 		} catch (FileNotFoundException e) {

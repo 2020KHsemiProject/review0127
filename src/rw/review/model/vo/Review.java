@@ -3,14 +3,15 @@ package rw.review.model.vo;
 import java.sql.Date;
 
 public class Review {
-	private String reviewId;
-	private Date reviewDate;
-	private int reviewCount;
-	private int reviewRate;
-	private String reviewCont;
-	private String bookId;
-	private String memberNo;
-	private char delYN;
+	
+	private String reviewId;	// 리뷰 고유 ID
+	private Date reviewDate;	// 리뷰 작성일
+	private int reviewCount;	// 리뷰 조회수
+	private int reviewRate;		// 리뷰 별점
+	private String reviewCont;	// 리뷰 내용
+	private String bookId;		// 책 고유 ID
+	private String memberNo;	// 회원 고유 번호
+	private char delYN;			// 리뷰 삭제 여부
 
 	public String getReviewId() {
 		return reviewId;
@@ -93,5 +94,4 @@ public class Review {
 		this.memberNo = memberNo;
 		this.delYN = delYN;
 	}
-
 }
