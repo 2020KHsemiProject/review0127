@@ -28,7 +28,7 @@
                         <div class="inner_article">
                             <ul class="customer_ul">
                                 <li class="fl w15 ">
-                                    <a href="/views/member/customer_center.jsp"><img src="/image/icon/backBtn.png" class="back_img" /></a>
+                                    <a href="/views/service_center/customer_center.jsp"><img src="/image/icon/backBtn.png" class="back_img" /></a>
                                 </li>
                                 <li class="fl w_title">공지사항</li>
                                 <li class="fl w75">REVIEW : 0127 서비스를 오픈하였습니다.</li>

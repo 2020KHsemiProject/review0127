@@ -32,7 +32,7 @@
                         <div id="inner_notice_contents">
                             <ul class="customer_ul">
                                 <li class="fl w10 ">1</li>
-                                <li class="fl w80"><a href="/views/member/customer_notice.jsp">REVIEW:0127 서비스를 오픈하였습니다.</a></li>
+                                <li class="fl w80"><a href="/views/service_center/customer_notice.jsp">REVIEW:0127 서비스를 오픈하였습니다.</a></li>
                                 <li class="fl w12">20.11.22</li>
                             </ul>
                             <ul class="customer_ul">
