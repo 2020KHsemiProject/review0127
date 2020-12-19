@@ -8,11 +8,11 @@
 <jsp:include page="/views/common/header.jsp" flush="false" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <head>
+<!-- <script src="http://code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script> -->
     <!-- 폰트 어썸 -->
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
    	<!-- 부트스트랩 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <!-- font noto sans kr -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
@@ -23,13 +23,8 @@
 <link rel="stylesheet" type="text/css" href="/views/css/library_my_contents_top.css" />
 
     <style>
-        /*body { margin: 0; font-family: 'Noto Sans KR', sans-serif; }*/
         .caseIcon {cursor: pointer;}
-        /* {
-            margin: 0; padding: 0;
-            text-decoration-line: none;
-            list-style: none;
-        }*/
+        
         #myBookcase-wrapper {
             width: 100%;
             padding: 0;
@@ -94,7 +89,7 @@
         	border: none;
         	outline: none;
         }
-        .modifyCaseNameForm button[type=submit] {
+        .modifyCaseNameForm button.sendModifyTitleBtn {
         	display: none;
         }
         .bookcase-settingicon {
@@ -170,7 +165,7 @@
             display: none;
         }
         
-        #book-nullPlace{
+        .book-nullPlace{
         	/* 추가할 책 빈공간 */
             background-color: #ffe58d;
             text-align: center;
@@ -254,7 +249,7 @@
         $(function(){
             
         	// bookcaseName 수정 아이콘 클릭
-        	$('.modifyCaseNameForm').find('button[type=button]').click(function(){
+        	$('.modifyCaseNameForm').find('button.modifyTitleBtn').click(function(){
         		var existName = $(this).parents('.modifyCaseNameForm').prev().text();
         		$(this).css('display','none');
         		$(this).parent().next().find('button').css('display','inline');
@@ -266,21 +261,11 @@
         		var LayerPopup = $(".modifyCaseNameForm");
         		if(LayerPopup.has(e.target).length === 0){
         			$('.modifyCaseNameForm').find('input[name=bookcaseName]').attr('type','hidden').val('');
-        			$('.modifyCaseNameForm').find('button[type=submit]').css('display','none');
-        			$('.modifyCaseNameForm').find('button[type=button]').css('display','inline');
+        			$('.modifyCaseNameForm').find('button.sendModifyTitleBtn').css('display','none');
+        			$('.modifyCaseNameForm').find('button.modifyTitleBtn').css('display','inline');
         			$('.bookcase-name').css('display','inline');
         		}
         	});
-            // 책장 열쇠 잠금
-            $('.fa-lock-open').click(function(){
-                $(this).css('display','none');
-                $(this).parent().next().children().css('display','inline');
-            });
-            // 책장 열쇠 열림
-            $('.fa-lock').click(function(){
-                $(this).css('display','none');
-                $(this).parent().prev().children().css('display','inline');
-            });
             // 책장 수정 아이콘
             $('.bi-gear').click(function(){
                 $(this).css('display','none');
@@ -292,7 +277,7 @@
             $('.addBook-checkIcon').click(function(){
                 $(this).css('display','none');
                 $(this).next().children().css('display','inline');
-                $(this).parents('.bookcase-case').find('.bookcase-booklist').children('#book-nullPlace').remove();
+                $(this).parents('.bookcase-case').find('.bookcase-booklist').children('.book-nullPlace').remove();
                 $(this).parents('.bookcase-case').find('.minusButton').css('z-index','1').css('visibility','hidden');
                 // 여기서 저장하는 로직으로 이어져야 함
             });
@@ -328,6 +313,13 @@
                 $(this).parent().prev().children().css('display','inline');
             });
             
+            
+         	// lnb hover 시 
+            $('#mylibrary-lnb>li>a').hover(function(){
+                $(this).css('font-weight','bold');
+            },function(){
+                $(this).css('font-weight','');
+            });
             // lnb bold 처리
             var lnbText = $('#pagename').text();
             console.log(lnbText);
@@ -408,13 +400,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                 </div>
             </div>
             
-<script>
-    function addBookCase(){
-        let add = $('#bookCase-nullPlace').html();
-        $('#bookcase-contents').children().eq(1).after(add);
-    	//$('#add-bookcase-modal').modal('show');
-    }
-</script>
+
 	<% ArrayList<BookCase> list = (ArrayList<BookCase>)request.getAttribute("list");
 		if(!list.isEmpty()){
 			
@@ -427,6 +413,78 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                 <div class="row bookcase-case">
                 
                 
+                <script>
+                	$(function(){
+                		////// 책장 이름 수정
+                		$('.sendModifyTitleBtn').click(function(){
+	                		var bookShelfId = '<%=libr.getBookShelfId()%>';
+	                		var titleName = $(this).parent().prev().prev().val();
+	                		var $thisBtn = $(this);
+	                		var object = {'bookShelfId':bookShelfId,'titleName':titleName};
+	                		$.ajax({
+	                			url : '/bookCaseModifyTitle.rw',
+	                			data : object,
+	                			type : 'post',
+	                			success : function(data){
+	                				$('.modifyCaseNameForm').find('input[name=bookcaseName]').attr('type','hidden').val('');
+	                    			$('.modifyCaseNameForm').find('button.sendModifyTitleBtn').css('display','none');
+	                    			$('.modifyCaseNameForm').find('button.modifyTitleBtn').css('display','inline');
+	                    			$('.bookcase-name').css('display','inline');
+	                    			$thisBtn.parent().parent().prev().text(titleName);
+	                			},
+	                			error : function(){
+	                				alert('책장 이름 수정에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.')
+	                			}
+	                		});
+                		});
+                		
+                		
+                		//// 자물쇠 버튼
+                		// 책장 열쇠 잠금
+                        $('.fa-lock-open').click(function(){
+                            var $thisBtn = $(this);
+                            var lockData = 'N';
+                            var bookShelfId = '<%=libr.getBookShelfId()%>';
+                            var object = {'bookShelfId':bookShelfId,'lockData':lockData};
+                            $.ajax({
+                            	url : '/bookCaseModifyLock.rw',
+                            	data : object,
+                            	type : 'post',
+                            	success : function(){
+                            		alert('성공');
+                            		$thisBtn.css('display','none');
+                                    $thisBtn.parent().next().children().css('display','inline'); 
+                            	},
+                            	error : function(){
+                            		alert('책장 잠금에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.')
+                            	}
+                            });
+                        });
+                        // 책장 열쇠 열림
+                        $('.fa-lock').click(function(){
+                        	var $thisBtn = $(this);
+                            var lockData = 'Y';
+                            var bookShelfId = '<%=libr.getBookShelfId()%>';
+                            var object = {'bookShelfId':bookShelfId,'lockData':lockData};
+                            $.ajax({
+                            	url : '/bookCaseModifyLock.rw',
+                            	data : object,
+                            	type : 'post',
+                            	success : function(){
+                            		alert('성공');
+                            		$thisBtn.css('display','none');
+                                    $thisBtn.parent().prev().children().css('display','inline');
+                            	},
+                            	error : function(){
+                            		alert('책장 잠금에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.')
+                            	}
+                            });
+                        });
+                	})
+                </script>
+                
+                
+                
                     <div class="col-12">
                         <div class="row">
                             <div class="col-10">
@@ -434,8 +492,8 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                                 <span class="bookcase-name font-rem"><%=libr.getBookShelfName() %></span>
                                 <form class="modifyCaseNameForm">
                                     <input type="hidden" class="modifyCaseName" name="bookcaseName"/>
-                                    <span><button type="button" class="font-rem"><i class="far fa-edit caseIcon"></i></button></span>
-                                    <span><button type="submit" class="font-rem"><i class="fas fa-edit caseIcon"></i></button></span>
+                                    <span><button type="button" class="font-rem modifyTitleBtn"><i class="far fa-edit caseIcon"></i></button></span>
+                                    <span><button type="button" class="font-rem sendModifyTitleBtn"><i class="fas fa-edit caseIcon"></i></button></span>
                                 </form>
                                 <span class="font-rem"><i class="fas fa-lock-open caseIcon"></i></span>
                                 <span class="font-rem"><i class="fas fa-lock caseIcon"></i></span>
@@ -456,7 +514,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                                   <path fill-rule="evenodd" d="M8 5.754a2.246 2.246 0 1 0 0 4.492 2.246 2.246 0 0 0 0-4.492zM4.754 8a3.246 3.246 0 1 1 6.492 0 3.246 3.246 0 0 1-6.492 0z"/>
                                 </svg>
                                 </span>
-                                <!-- + 아이콘 -->
+                                <!-- x 아이콘 -->
                                 <span class="minus-book-icon">
                                     <svg width="2.1rem" height="2.1rem" viewBox="0 0 16 16" class="bi bi-x caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                       <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
@@ -472,7 +530,315 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                     
                     
                     
+                    <div class="col-12 bookcase-booklist"> <!-- 여기가 책 리스트 -->
+                       
+					<% for(Book b : listB){ %>
+                       
+                        <div class="bookcase-book" style="margin: 8px;">
+                           <div class="minusButton">
+                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-dash-circle caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                            </svg>
+                            </div>
+                            <img src="<%=b.getBookImage() %>"/>
+                        </div>
+                        
+                     <% } /// 포이치문 책표지%>
+                        
+                    </div>
                     
+                    
+                    
+				</div>
+			</div>
+            
+          <% } //// 포이치문 책장 %>  
+            
+            
+       	<script>
+    function addBookCase(){
+        let add = $('#bookCase-nullPlace').html();
+        $('#bookcase-contents').children().eq(1).after(add);
+    	//$('#add-bookcase-modal').modal('show');
+    }
+    
+		</script>     
+            
+            
+            
+            
+            <div id="bookcase-page" class="col-12">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+    <% ArrayList<Book> listLB = (ArrayList<Book>)request.getAttribute("listLB"); %>        
+            <!-- modal 1 -->
+        
+        <div class="modal fade" id="add-bookcase-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+             <form>
+              <div class="modal-header">
+                  <h2 class="modal-title" id="exampleModalLabel">추가할 책을 선택하세요</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+              <!-- 내가 좋아요 누른 책 리스트 -->
+              
+         <% for(Book likeB : listLB) { %>
+              
+                <div class="selectBookListInPopUp">
+                    <div class="checkInPopUp">
+                        <span class="minusBookInPopUp">
+                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-check-circle caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/>
+                            </svg>
+                        </span>
+                        <span class="plusBookInPopUp">
+                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-check-circle-fill caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="bookInPopUp" style="margin: 8px;">
+                        <img src="<%=likeB.getBookImage()%>"/>
+                    </div>                    
+                </div>
+                
+           <% } %>   
+                
+                
+              </div>
+              <div class="modalFooter">
+                <button id="bookAddBtn" class="btn">선택완료</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+            
+            
+	<% } else { %>   
+            <div class="not-yet"><%=mem.getNickname() %>님의 책장이 아직 없습니다.</div>
+	<% } %>
+        </div>
+
+        
+
+        
+    </div>
+    
+
+        
+        <!-- 추가할 책의 빈공간 -->
+        <!-- <div class="bookcase-book" style="margin: 8px;"> 첫번째 div 속성 이걸로 해야함
+            즉 id 값과 onclick 값 빼면 됨  -->
+        <div id="addBook">
+            <div class="bookcase-book book-nullPlace" style="margin: 8px;" onclick="addBookInCase();">
+                <svg width="4em" height="4em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+            </div>
+        </div>
+        
+	
+        
+        <!-- 책 빈공간 안에 데이터 채울 공간 -->
+        <div id="inAddBook">
+            <div class="minusButton">
+                <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-dash-circle caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                </svg>
+            </div>
+            <img src="/image/book/b001.jpg"/>           
+        </div>
+        
+
+        
+        <!-- 추가할 책장의 빈공간 -->
+        <div id="bookCase-nullPlace">
+            <div class="col-12">
+               <br><br>
+                <div class="row bookcase-case">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-10">
+                                <H3>
+                                <span class="bookcase-name">(user1) 님의 개인 책장</span>
+                                <form class="modifyCaseNameForm">
+                                    <input type="hidden" class="modifyCaseName" name="bookcaseName" placeholder="(user1) 님의 개인 책장"/>
+                                    <span><button type="button"><i class="far fa-edit caseIcon"></i></button></span>
+                                    <span><button type="submit"><i class="fas fa-edit caseIcon"></i></button></span>
+                                </form>
+                                <span><i class="fas fa-lock-open caseIcon"></i></span>
+                                <span><i class="fas fa-lock caseIcon"></i></span>
+                                </H3>
+                            </div>
+                            <div class="col-2 bookcase-settingicon">
+                                <H3>
+                                <span  class="addBook-checkIcon">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check-circle caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                      <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                      <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/>
+                                    </svg>   
+                                </span>
+                                <!-- 톱니바퀴 아이콘 -->
+                                <span class="modifyBook-gearIcon">
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-gear caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                  <path fill-rule="evenodd" d="M8.837 1.626c-.246-.835-1.428-.835-1.674 0l-.094.319A1.873 1.873 0 0 1 4.377 3.06l-.292-.16c-.764-.415-1.6.42-1.184 1.185l.159.292a1.873 1.873 0 0 1-1.115 2.692l-.319.094c-.835.246-.835 1.428 0 1.674l.319.094a1.873 1.873 0 0 1 1.115 2.693l-.16.291c-.415.764.42 1.6 1.185 1.184l.292-.159a1.873 1.873 0 0 1 2.692 1.116l.094.318c.246.835 1.428.835 1.674 0l.094-.319a1.873 1.873 0 0 1 2.693-1.115l.291.16c.764.415 1.6-.42 1.184-1.185l-.159-.291a1.873 1.873 0 0 1 1.116-2.693l.318-.094c.835-.246.835-1.428 0-1.674l-.319-.094a1.873 1.873 0 0 1-1.115-2.692l.16-.292c.415-.764-.42-1.6-1.185-1.184l-.291.159A1.873 1.873 0 0 1 8.93 1.945l-.094-.319zm-2.633-.283c.527-1.79 3.065-1.79 3.592 0l.094.319a.873.873 0 0 0 1.255.52l.292-.16c1.64-.892 3.434.901 2.54 2.541l-.159.292a.873.873 0 0 0 .52 1.255l.319.094c1.79.527 1.79 3.065 0 3.592l-.319.094a.873.873 0 0 0-.52 1.255l.16.292c.893 1.64-.902 3.434-2.541 2.54l-.292-.159a.873.873 0 0 0-1.255.52l-.094.319c-.527 1.79-3.065 1.79-3.592 0l-.094-.319a.873.873 0 0 0-1.255-.52l-.292.16c-1.64.893-3.433-.902-2.54-2.541l.159-.292a.873.873 0 0 0-.52-1.255l-.319-.094c-1.79-.527-1.79-3.065 0-3.592l.319-.094a.873.873 0 0 0 .52-1.255l-.16-.292c-.892-1.64.902-3.433 2.541-2.54l.292.159a.873.873 0 0 0 1.255-.52l.094-.319z"/>
+                                  <path fill-rule="evenodd" d="M8 5.754a2.246 2.246 0 1 0 0 4.492 2.246 2.246 0 0 0 0-4.492zM4.754 8a3.246 3.246 0 1 1 6.492 0 3.246 3.246 0 0 1-6.492 0z"/>
+                                </svg>
+                                </span>
+                                <!-- + 아이콘 -->
+                                <span class="minus-book-icon">
+                                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-x caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                      <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                    </svg>
+                                </span>
+                                </H3>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="col-12 bookcase-booklist">
+                       <div class="bookcase-book book-nullPlace" style="margin: 8px;" onclick="addBookInCase();">
+                            <svg width="4em" height="4em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                            </svg>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <button id="add-bookcase-btn" data-toggle="modal" data-target="#add-bookcase-modal">책장 추가하기</button> 모달ㄴ -->
+        
+        
+    <script>
+		function addBookInCase(){
+	       	// 모달 책장의 책 추가 onload면 안 됨
+			$('#add-bookcase-modal').modal('show');
+		};
+      	
+	</script>
+
+ <% } else if((Member)session.getAttribute("member")!=null){ 
+ ///////////////////////////////////////////////////////////////////////////////////// 다른사람 책장
+ %> 
+
+
+<div id="myBookcase-wrapper" class="container-fluid">
+	
+        
+        <div id="myLibrary-contents-header" class="row" style="background-color: #2A303D;">
+			<!-- contents-header -->
+			<div class="col-12">
+				<div id="myLibrary-contents-header-size" class="row">
+					<div class="col-2">
+						<div id="userprofile">
+							<img src="/image/profile/<%=mem.getProfileImg() %>" />
+						</div>
+					</div>
+					<div class="col-10">
+						<div class="row">
+
+							<div id="myLibrary-title" class="col-12" style="color: white;"><%=mem.getNickname() %>님의 서재</div>
+							<div class="col-12">
+								<ul id="myLibrary-lnb" class="row">
+									<li class="col-2"><a
+										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">리뷰노트</a></li>
+									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">책장</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+     
+        
+        
+        
+        <div id="bookcase-contents" class="row">
+        <!-- contents -->
+            <div class="col-12">
+                <div class="row myBookcase-contents-top">
+                   <!-- user의 프로필과 서재 네비게이션 부분 -->
+                    <div id="bookcase-count" class="col-10"><%=count %>개의 책장</div>
+                    <div class="col-2">
+                      <!--   <button id="add-bookcase-btn" onclick="addBookCase();">책장 추가하기</button>  -->
+                    </div>
+                </div>
+            </div>
+            
+	<% ArrayList<BookCase> list = (ArrayList<BookCase>)request.getAttribute("list");
+		if(!list.isEmpty()){
+			
+			for(BookCase bkc : list) {
+				Library libr = bkc.getLibr();
+				ArrayList<Book> listB = bkc.getListB();
+	%>
+            <div class="col-12">
+               <br><br>
+                <div class="row bookcase-case">
+                
+                
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-10">
+                                <H3>
+                                <span class="bookcase-name font-rem"><%=libr.getBookShelfName() %></span>
+                                <span class="font-rem"><i class="fas fa-lock-open caseIcon"></i></span>
+                                <span class="font-rem"><i class="fas fa-lock caseIcon"></i></span>
+                                </H3>
+                            </div>
+                            <div class="col-2 bookcase-settingicon">
+                                <H3>
+                                <!-- + 아이콘 -->
+                                <span class="minus-book-icon">
+                                    <svg width="2.1rem" height="2.1rem" viewBox="0 0 16 16" class="bi bi-x caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                      <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                    </svg>
+                                </span>
+                                </H3>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
                     
                     
                     
@@ -543,161 +909,16 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 
         
     </div>
-    <!-- modal 1 -->
-        
-        <div class="modal fade" id="add-bookcase-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-             <form>
-              <div class="modal-header">
-                  <h2 class="modal-title" id="exampleModalLabel">추가할 책을 선택하세요</h2>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-              <!-- 내가 좋아요 누른 책 리스트 -->
-                <div class="selectBookListInPopUp">
-                    <div class="checkInPopUp">
-                        <span class="minusBookInPopUp">
-                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-check-circle caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/>
-                            </svg>
-                        </span>
-                        <span class="plusBookInPopUp">
-                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-check-circle-fill caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                            </svg>
-                        </span>
-                    </div>
-                    <div class="bookInPopUp" style="margin: 8px;">
-                        <img src="/image/book/b0009.jpg"/>
-                    </div>                    
-                </div>
-                
-                <div class="selectBookListInPopUp">
-                    <div class="checkInPopUp">
-                        <span class="minusBookInPopUp">
-                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-check-circle caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/>
-                            </svg>
-                        </span>
-                        <span class="plusBookInPopUp">
-                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-check-circle-fill caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                            </svg>
-                        </span>
-                    </div>
-                    <div class="bookInPopUp" style="margin: 8px;">
-                        <img src="/image/book/b0001.jpg"/>
-                    </div>                    
-                </div>
-              </div>
-              <div class="modalFooter">
-                <button id="bookAddBtn" class="btn">선택완료</button>
-              </div>
-              </form>
-            </div>
-          </div>
-        </div>
 
-        
-        <!-- 추가할 책의 빈공간 -->
-        <!-- <div class="bookcase-book" style="margin: 8px;"> 첫번째 div 속성 이걸로 해야함
-            즉 id 값과 onclick 값 빼면 됨  -->
-        <div id="addBook">
-            <div id="book-nullPlace" class="bookcase-book" style="margin: 8px;" onclick="addBookInCase();">
-                <svg width="4em" height="4em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                </svg>
-            </div>
-        </div>
-        
-        <!-- 책 빈공간 안에 데이터 채울 공간 -->
-        <div id="inAddBook">
-            <div class="minusButton">
-                <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-dash-circle caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
-                </svg>
-            </div>
-            <img src="/image/book/b001.jpg"/>           
-        </div>
-        
-<script>
-      	// 책 빈공간 추가
-	function addBookInCase(){
-       	// 모달 책장의 책 추가
-		$('#add-bookcase-modal').modal('show');
-	}
-</script>
-        
-        <!-- 추가할 책장의 빈공간 -->
-        <div id="bookCase-nullPlace">
-            <div class="col-12">
-               <br><br>
-                <div class="row bookcase-case">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-10">
-                                <H3>
-                                <span class="bookcase-name">(user1) 님의 개인 책장</span>
-                                <form class="modifyCaseNameForm">
-                                    <input type="hidden" class="modifyCaseName" name="bookcaseName" placeholder="(user1) 님의 개인 책장"/>
-                                    <span><button type="button"><i class="far fa-edit caseIcon"></i></button></span>
-                                    <span><button type="submit"><i class="fas fa-edit caseIcon"></i></button></span>
-                                </form>
-                                <span><i class="fas fa-lock-open caseIcon"></i></span>
-                                <span><i class="fas fa-lock caseIcon"></i></span>
-                                </H3>
-                            </div>
-                            <div class="col-2 bookcase-settingicon">
-                                <H3>
-                                <span  class="addBook-checkIcon">
-                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check-circle caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                      <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/>
-                                    </svg>   
-                                </span>
-                                <!-- 톱니바퀴 아이콘 -->
-                                <span class="modifyBook-gearIcon">
-                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-gear caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                  <path fill-rule="evenodd" d="M8.837 1.626c-.246-.835-1.428-.835-1.674 0l-.094.319A1.873 1.873 0 0 1 4.377 3.06l-.292-.16c-.764-.415-1.6.42-1.184 1.185l.159.292a1.873 1.873 0 0 1-1.115 2.692l-.319.094c-.835.246-.835 1.428 0 1.674l.319.094a1.873 1.873 0 0 1 1.115 2.693l-.16.291c-.415.764.42 1.6 1.185 1.184l.292-.159a1.873 1.873 0 0 1 2.692 1.116l.094.318c.246.835 1.428.835 1.674 0l.094-.319a1.873 1.873 0 0 1 2.693-1.115l.291.16c.764.415 1.6-.42 1.184-1.185l-.159-.291a1.873 1.873 0 0 1 1.116-2.693l.318-.094c.835-.246.835-1.428 0-1.674l-.319-.094a1.873 1.873 0 0 1-1.115-2.692l.16-.292c.415-.764-.42-1.6-1.185-1.184l-.291.159A1.873 1.873 0 0 1 8.93 1.945l-.094-.319zm-2.633-.283c.527-1.79 3.065-1.79 3.592 0l.094.319a.873.873 0 0 0 1.255.52l.292-.16c1.64-.892 3.434.901 2.54 2.541l-.159.292a.873.873 0 0 0 .52 1.255l.319.094c1.79.527 1.79 3.065 0 3.592l-.319.094a.873.873 0 0 0-.52 1.255l.16.292c.893 1.64-.902 3.434-2.541 2.54l-.292-.159a.873.873 0 0 0-1.255.52l-.094.319c-.527 1.79-3.065 1.79-3.592 0l-.094-.319a.873.873 0 0 0-1.255-.52l-.292.16c-1.64.893-3.433-.902-2.54-2.541l.159-.292a.873.873 0 0 0-.52-1.255l-.319-.094c-1.79-.527-1.79-3.065 0-3.592l.319-.094a.873.873 0 0 0 .52-1.255l-.16-.292c-.892-1.64.902-3.433 2.541-2.54l.292.159a.873.873 0 0 0 1.255-.52l.094-.319z"/>
-                                  <path fill-rule="evenodd" d="M8 5.754a2.246 2.246 0 1 0 0 4.492 2.246 2.246 0 0 0 0-4.492zM4.754 8a3.246 3.246 0 1 1 6.492 0 3.246 3.246 0 0 1-6.492 0z"/>
-                                </svg>
-                                </span>
-                                <!-- + 아이콘 -->
-                                <span class="minus-book-icon">
-                                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-x caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                    </svg>
-                                </span>
-                                </H3>
-                            </div>
-                        </div>
-                        <hr>
-                    </div>
-                    <div class="col-12 bookcase-booklist">
-                       <div id="book-nullPlace" class="bookcase-book" style="margin: 8px;" onclick="addBookInCase();">
-                            <svg width="4em" height="4em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                            </svg>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- <button id="add-bookcase-btn" data-toggle="modal" data-target="#add-bookcase-modal">책장 추가하기</button> 모달ㄴ -->
 
- <% } else if((Member)session.getAttribute("member")!=null){ 
- ///////////////////////////////////////////////////////////////////////////////////// 다른사람 책장
- %> 
- <H1><%=mem.getMemberId() %>님의 책장</H1>
+
+
+
+
+
+
+
+
 
 <% } else {
 ///////////////////////////////////////////////////////////////////////////////////// member 객체 없거나 잘못된 접근?
@@ -707,6 +928,6 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 		location.replace('/index.jsp');
 	</script>
 <% } %>
-<%@ include file="/views/common/footer.jsp" %>   
+<%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

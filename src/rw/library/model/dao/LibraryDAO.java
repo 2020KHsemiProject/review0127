@@ -118,5 +118,69 @@ public class LibraryDAO {
 		}
 		return listB;
 	}
+	public int updateTitle(Connection conn, String memberNo, String bookShelfId, String titleName) {
+		/// 책장 이름 수정
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "UPDATE LIBRARY SET BOOKSHELF_NAME=? WHERE BOOKSHELF_ID=? AND MEMBER_NO=? AND DEL_YN='N'";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, titleName);
+			pstmt.setString(2, bookShelfId);
+			pstmt.setString(3, memberNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+	public int updateLock(Connection conn, String memberNo, String bookShelfId, char lockData) {
+		// 책장 잠금 수정
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "UPDATE LIBRARY SET PRIVATE_YN=? WHERE BOOKSHELF_ID=? AND MEMBER_NO=? AND DEL_YN='N'";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, lockData+"");
+			pstmt.setString(2, bookShelfId);
+			pstmt.setString(3, memberNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+	public ArrayList<Book> selectLikeBook(Connection conn, String memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Book> listLB = new ArrayList<Book>();
+		String query = "SELECT * FROM BOOK_LIKE LEFT JOIN BOOK USING(BOOK_ID) WHERE MEMBER_NO=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Book b = new Book();
+				b.setBookId(rset.getString("BOOK_ID"));
+				b.setBookTitle(rset.getString("BOOK_TITLE"));
+				b.setBookAuthor(rset.getString("BOOK_AUTHOR"));
+				b.setBookImage(rset.getString("BOOK_IMAGE"));
+				listLB.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return listLB;
+	}
 
 }

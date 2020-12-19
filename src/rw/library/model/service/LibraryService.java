@@ -40,4 +40,37 @@ public class LibraryService {
 		return count;
 	}
 
+	public int updateTitle(String memberNo, String bookShelfId, String titleName) {
+		// 책장의 타이틀 수정
+		Connection conn = JDBCTemplate.getConnection();
+		int result = lDAO.updateTitle(conn,memberNo,bookShelfId,titleName);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int updateLock(String memberNo, String bookShelfId, char lockData) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = lDAO.updateLock(conn,memberNo,bookShelfId,lockData);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+		
+	}
+
+	public ArrayList<Book> selectLikeBook(String memberNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Book> listLB = lDAO.selectLikeBook(conn,memberNo);
+		JDBCTemplate.close(conn);
+		return listLB;
+	}
+
 }
