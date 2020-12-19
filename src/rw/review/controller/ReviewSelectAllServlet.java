@@ -1,6 +1,7 @@
 package rw.review.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -9,6 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 
 import rw.review.model.service.ReviewService;
 import rw.review.model.vo.ReviewCard;
@@ -45,17 +48,12 @@ public class ReviewSelectAllServlet extends HttpServlet {
 				rc.setProfileImg("default_user_dark.png");
 			}
 		}
-		String moreLocal = request.getParameter("moreLocal"); //System.out.println(moreLocal);
-		String jspLink;
-		if(request.getParameter("moreLocal")==null) {
-			jspLink = "/views/review/review_list.jsp";
-		}else {
-			jspLink = "/views/review/review_list.jsp#"+moreLocal;
-		}
-		RequestDispatcher view = request.getRequestDispatcher(jspLink);
+		
+		RequestDispatcher view = request.getRequestDispatcher("/views/review/review_list.jsp");
 		request.setAttribute("list", list);
 		request.setAttribute("end", end);
 		view.forward(request, response);
+		
 	}
 
 	/**

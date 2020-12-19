@@ -33,6 +33,7 @@
 <link rel="stylesheet" type="text/css" href="/views/css/library_my_contents_top.css" />
 <!-- 리뷰 카드 -->
 <link rel="stylesheet" type="text/css" href="/views/css/review_card.css" />
+<link rel="stylesheet" type="text/css" href="/views/css/other_review_card.css" />
 <style>
 /* body { margin: 0; font-family: 'Noto Sans KR', sans-serif; }*/
 .reviewNoteIcon {
@@ -127,6 +128,12 @@ button:focus {
 	height: 450px;
 	font-size: 3rem;
 }
+.reviweScrap{
+/* 카드 속> 이미지 div 속> 책갈피 YN */
+	z-index: 20;
+	position: relative;
+	color: gray;
+}
 </style>
 
 
@@ -154,6 +161,32 @@ button:focus {
 				location.href="#";// 개별 도서 페이지
 			});// 마우스가 요소 외부에 있을 때 그림자 삭제
 			$('.review-card-book-img').mouseout(function(){
+				$(this).css('box-shadow','');
+			});
+			
+			
+			// other_
+			// review-card-text 누르면 개별리뷰페이지로 이동
+			$('.other_review-card-text').mousedown(function(){
+				$(this).css('box-shadow','0px 0px 10px 5px #0080ff').css('position','relative').css('z-index','999');
+			});// 클릭 뗄 때 이동
+			$('.other_review-card-text').mouseup(function(){
+				$(this).css('box-shadow','').css('position','').css('z-index','');
+				location.href="#";// 개별 도서 페이지
+			});// 마우스가 요소 외부에 있을 때 그림자 삭제
+			$('.other_review-card-text').mouseout(function(){
+				$(this).css('box-shadow','').css('position','').css('z-index','');
+			});
+			
+			// review-card-book-img 누르면 개별도서페이지로 이동
+			$('.other_review-card-book-img').mousedown(function(){
+				$(this).css('box-shadow','0px 0px 10px 5px #0080ff');
+			});// 클릭 뗄 때 이동
+			$('.other_review-card-book-img').mouseup(function(){
+				$(this).css('box-shadow','');
+				location.href="#";// 개별 도서 페이지
+			});// 마우스가 요소 외부에 있을 때 그림자 삭제
+			$('.other_review-card-book-img').mouseout(function(){
 				$(this).css('box-shadow','');
 			});
         	
@@ -191,8 +224,21 @@ button:focus {
             	$('#myLibrary-lnb>li:nth-child(3)').css('font-weight','bold');
             }
             
+         	// 책갈피
+            $('.other_reviweScrap').click(function(e){
+            	var color = $(this).css('color');
+            	console.log(color);
+                if(color=='rgb(255, 108, 108)') {
+                    if(confirm('해당 리뷰를 삭제하시겠습니까?')){
+                        $(this).css('color','gray');
+                    }
+                }else {
+                    $(this).css('color','#FF6C6C');
+                }
+                e.stopImmediatePropagation(); // 버블링 방지
+            }); 
             
-            
+       		
         })
     </script>
 </head>
@@ -293,11 +339,10 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 
 					<div id="review-card-list" class="col-12">
 
-						<%int i = 0; 
-			for(ReviewCard rc : list){ %>
+				<% for(ReviewCard rc : list){ %>
 						<div class="review-card">
 							<div class="review-card-book-img">
-								<img src="/image/book/<%=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." />
+								<img src="<%=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." />
 							</div>
 							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="review-card-book-title">
@@ -309,8 +354,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 							<div class="row review-card-bttom">
 								<div class="col-3">
 									<div class="review-card-writer-profile">
-										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+										<img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -334,9 +378,9 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 								</div>
 							</div>
 						</div>
-						<script>
-			$(function(){
-				
+		
+						<% } // foreach문 %>
+		<script>
 				//// 별점 데이터 설정하기
 				// <i class="fas fa-star">꽉찬</i><i class="fas fa-star-half-alt">반찬</i><i class="far fa-star">빈</i>
 			<%--<% if(rc.getReviewRate()>0) { %>
@@ -350,22 +394,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 				$('#review-rate<%=i%>').html(star);
 			<% } // if문%>--%>
 			
-			
-			//// 카드 프로필 이미지 클릭 시 해당 멤버의 서재로 이동
-			$('.writer-profile-img').click(function(e){
-				var $writer = $(this).attr('writer');
-				if(confirm($writer+'님의 서재로 이동하시겠습니까?')) {
-					location.href='/myReviewNote.rw?libraryOwner='+$writer;
-				}
-				e.stopImmediatePropagation(); // 버블링 방지
-			});
-			})
 		</script>
-						<% i++; // 별점 id %>
-
-
-						<% } // foreach문 %>
-
 
 
 
@@ -406,8 +435,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 	<div id="reviewNote-wrapper" class="container-fluid">
 
 
-		<div id="myLibrary-contents-header" class="row"
-			style="background-color: #2A303D;">
+		<div id="myLibrary-contents-header" class="row" style="background-color: #2A303D;">
 			<!-- contents-header -->
 			<div class="col-12" style="color: white;">
 				<div id="myLibrary-contents-header-size" class="row">
@@ -419,16 +447,14 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 					<div class="col-10">
 						<div class="row">
 
-							<div id="myLibrary-title" class="col-12"><%=mem.getNickname() %>
+							<div id="myLibrary-title" class="col-12" style="color: white;"><%=mem.getNickname() %>
 								님의 서재
 							</div>
 							<div class="col-12">
 								<ul id="myLibrary-lnb" class="row">
 									<li class="col-2"><a
-										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>"
-										style="color: white;">리뷰노트</a></li>
-									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>"
-										style="color: white;">책장</a></li>
+										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">리뷰노트</a></li>
+									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">책장</a></li>
 								</ul>
 							</div>
 						</div>
@@ -487,70 +513,61 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 		if(!list.isEmpty()){
 	%>
 
-					<div id="review-card-list" class="col-12">
+			<div id="review-card-list" class="col-12">
 
-						<%int i = 0; 
-			for(ReviewCard rc : list){ %>
-						<div class="review-card">
-							<div class="review-card-book-img" title="누르면 해당 도서페이지로 이동합니다.">
+						<% for(ReviewCard rc : list){ %>
+						<div class="other_review-card">
+							<div class="other_review-card-book-img" title="누르면 해당 도서페이지로 이동합니다.">
+								<span class="other_reviweScrap collectionIcon">
+                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
+                                    </svg>
+                                </span>
 								<img src="<%=rc.getBookImage()%>" />
 							</div>
-							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
-								<div class="review-card-book-title">
-									<span class="review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
-									<span class="review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
+							<div class="other_review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
+								<div class="other_review-card-book-title">
+									<span class="other_review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
+									<span class="other_review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
-							<div class="row review-card-bttom">
+							<div class="row other_review-card-bttom">
 								<div class="col-3">
-									<div class="review-card-writer-profile">
+									<div class="other_review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
-									<div class="row review-card-infor">
+									<div class="row other_review-card-infor">
 										<div class="col-12"><%=rc.getNickname() %></div>
 										<div class="col-12">
 											<div class="row">
 												<div class="col-7"><%=rc.getReviewDate() %></div>
-												<div class="col-5 review-card-count">
+												<div class="col-5 other_review-card-count">
 													조회
 													<%=rc.getReviewCount() %></div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="col-3 rvheart reviewNoteIcon">
-									<div class="review-heart-and-count">
-										<span class="review-heart"><a>
+								<div class="col-3 other_rvheart reviewNoteIcon">
+									<div class="other_review-heart-and-count">
+										<span class="other_review-heart"><a>
 												<% if(rc.getLikeYN()=='Y'){ %>♥<%}else { %>♡<% } %>
-										</a></span> <span class="heart-count"><%=rc.getReviewRate() %></span>
+										</a></span> <span class="other_heart-count"><%=rc.getReviewRate() %></span>
 									</div>
 								</div>
 							</div>
 						</div>
-						<script>
-			$(function(){
-			//// 카드 프로필 이미지 클릭 시 해당 멤버의 서재로 이동
-			$('.writer-profile-img').click(function(e){
-				var $writer = $(this).attr('writer');
-				if(confirm($writer+'님의 서재로 이동하시겠습니까?')) {
-					location.href='/myReviewNote.rw?libraryOwner='+$writer;
-				}
-				e.stopImmediatePropagation(); // 버블링 방지
-			});
-			})
-		</script>
+						
+			
 
 			<% } // foreach문 %>
 
 
-
-
-					</div>
-					<!-- #reviewNote-cardList col -->
+		</div><!-- #reviewNote-cardList col -->
 
 					<div id="bookcase-page" class="col-12">
 						<nav aria-label="Page navigation example">
@@ -560,11 +577,11 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 						</nav>
 
 					</div>
-					<% }else { %>
+			<% }else { ///////////////////////// 리스트가 비어있다면%>
 					<div class="not-yet"><%=mem.getNickname() %>님의 리뷰가 아직 없습니다.
 					</div>
 
-					<% } %>
+			<% } %>
 				</div>
 				<!-- row -->
 			</div>

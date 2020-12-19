@@ -26,23 +26,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>REVIEW:0127</title>
 <link rel="stylesheet" type="text/css" href="/views/css/review_card.css" />
+<link rel="stylesheet" type="text/css" href="/views/css/other_review_card.css" />
 <style>
-/*body {
-	margin: 0;
-	font-family: 'Noto Sans KR', sans-serif;
-}
-
-* {
-	margin: 0;
-	padding: 0;
-	text-decoration-line: none;
-	list-style: none;
-	
-}
-*/
-*{
-	font-size: 1rem;
-}
 button:focus {
 	outline: none;
 }
@@ -150,6 +135,57 @@ hr {
     
         $(function(){
         	
+        	// review-card-text 누르면 개별리뷰페이지로 이동
+			$('.review-card-text').mousedown(function(){
+				$(this).css('box-shadow','0px 0px 10px 5px #0080ff').css('position','relative').css('z-index','999');
+			});// 클릭 뗄 때 이동
+			$('.review-card-text').mouseup(function(){
+				$(this).css('box-shadow','').css('position','').css('z-index','');
+				location.href="#";// 개별 도서 페이지
+			});// 마우스가 요소 외부에 있을 때 그림자 삭제
+			$('.review-card-text').mouseout(function(){
+				$(this).css('box-shadow','').css('position','').css('z-index','');
+			});
+			
+			// review-card-book-img 누르면 개별도서페이지로 이동
+			$('.review-card-book-img').mousedown(function(){
+				$(this).css('box-shadow','0px 0px 10px 5px #0080ff');
+			});// 클릭 뗄 때 이동
+			$('.review-card-book-img').mouseup(function(){
+				$(this).css('box-shadow','');
+				location.href="#";// 개별 도서 페이지
+			});// 마우스가 요소 외부에 있을 때 그림자 삭제
+			$('.review-card-book-img').mouseout(function(){
+				$(this).css('box-shadow','');
+			});
+			
+			// other_
+			// review-card-text 누르면 개별리뷰페이지로 이동
+			$('.other_review-card-text').mousedown(function(){
+				$(this).css('box-shadow','0px 0px 10px 5px #0080ff').css('position','relative').css('z-index','999');
+			});// 클릭 뗄 때 이동
+			$('.other_review-card-text').mouseup(function(){
+				$(this).css('box-shadow','').css('position','').css('z-index','');
+				location.href="#";// 개별 도서 페이지
+			});// 마우스가 요소 외부에 있을 때 그림자 삭제
+			$('.other_review-card-text').mouseout(function(){
+				$(this).css('box-shadow','').css('position','').css('z-index','');
+			});
+			
+			// review-card-book-img 누르면 개별도서페이지로 이동
+			$('.other_review-card-book-img').mousedown(function(){
+				$(this).css('box-shadow','0px 0px 10px 5px #0080ff');
+			});// 클릭 뗄 때 이동
+			$('.other_review-card-book-img').mouseup(function(){
+				$(this).css('box-shadow','');
+				location.href="#";// 개별 도서 페이지
+			});// 마우스가 요소 외부에 있을 때 그림자 삭제
+			$('.other_review-card-book-img').mouseout(function(){
+				$(this).css('box-shadow','');
+			});
+        	
+        	//var offset = $('#moreBtn').offset();
+            //$('html, body').animate({scrollTop : offset.top}, 400);
         	// 리뷰 좋아요 클릭 시
             $('.rvheart').click(function(){
             	// 현재 하트 상태 데이터 가져오기
@@ -195,13 +231,41 @@ hr {
 			$('.writerBtn').click(function(){
 				location.href="/reviewWrite.rw";
 			});
+			
+			
+			
+			
+			// 책갈피
+            $('.other_reviweScrap').click(function(e){
+            	var color = $(this).css('color');
+            	console.log(color);
+                if(color=='rgb(255, 108, 108)') {
+                    if(confirm('해당 리뷰를 삭제하시겠습니까?')){
+                        $(this).css('color','gray');
+                    }
+                }else {
+                    $(this).css('color','#FF6C6C');
+                }
+                e.stopImmediatePropagation(); // 버블링 방지
+            });
+			
+			
         })
+        
+        
     </script>
 
 
 </head>
 <body>
+
 	<% ArrayList<ReviewCard> list = (ArrayList<ReviewCard>)request.getAttribute("list"); %>
+	
+	
+	
+	
+	<% if((Member)session.getAttribute("member")!=null) { %>
+	
 	<div id="reviewList-wrapper">
 		<%@ include file="/views/common/header.jsp"%>
 		<div id="reviewList-contents">
@@ -237,7 +301,192 @@ hr {
 					<div id="review-card-list" class="col-12">
 
 						<% int morecount = 0;
-					int i = 0; // 별점 스팬 id
+					
+				for(ReviewCard rc : list){ 
+				
+					if(((Member)session.getAttribute("member")).getMemberNo().equals(rc.getMemberNo())) { 
+				%>
+						<div class="review-card">
+							<div class="review-card-book-img">
+								<img src="<%=rc.getBookImage()%>" />
+							</div>
+							<div class="review-card-text">
+								<div class="review-card-book-title">
+									<span class="review-card-book-title-text"><%=rc.getBookTitle() %></span>
+									<span class="review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
+								</div>
+								<%=rc.getReviewCont() %>
+							</div>
+							<div class="row review-card-bttom">
+								<div class="col-3">
+									<div class="review-card-writer-profile">
+										<img src="/image/profile/<%=rc.getProfileImg()%>"
+											class="writer-profile-img" writer="<%=rc.getMemberId() %>" />
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="row review-card-infor">
+										<div class="col-12"><%=rc.getNickname() %></div>
+										<div class="col-12">
+											<div class="row">
+												<div class="col-7"><%=rc.getReviewDate() %></div>
+												<div class="col-5 review-card-count">
+													조회
+													<%=rc.getReviewCount() %></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-3 rvheart reviewNoteIcon">
+									<div class="review-heart-and-count">
+										<span class="review-heart"><a>
+												<% if(rc.getLikeYN()=='Y'){ %>♥<%}else { %>♡<% } %>
+										</a></span> <span class="heart-count"><%=rc.getReviewRate() %></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<% } else { %>
+						<div class="other_review-card">
+							<div class="other_review-card-book-img">
+								<span class="other_reviweScrap collectionIcon">
+                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
+                                    </svg>
+                                </span>
+								<img src="<%=rc.getBookImage()%>" />
+							</div>
+							<div class="other_review-card-text">
+								<div class="other_review-card-book-title">
+									<span class="other_review-card-book-title-text"><%=rc.getBookTitle() %></span>
+									<span class="other_review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
+								</div>
+								<%=rc.getReviewCont() %>
+							</div>
+							<div class="row other_review-card-bttom">
+								<div class="col-3">
+									<div class="other_review-card-writer-profile">
+										<img src="/image/profile/<%=rc.getProfileImg()%>"
+											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>" />
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="row other_review-card-infor">
+										<div class="col-12"><%=rc.getNickname() %></div>
+										<div class="col-12">
+											<div class="row">
+												<div class="col-7"><%=rc.getReviewDate() %></div>
+												<div class="col-5 other_review-card-count">
+													조회
+													<%=rc.getReviewCount() %></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-3 other_rvheart other_reviewNoteIcon">
+									<div class="other_review-heart-and-count">
+										<span class="other_review-heart"><a>
+												<% if(rc.getLikeYN()=='Y'){ %>♥<%}else { %>♡<% } %>
+										</a></span> <span class="other_heart-count"><%=rc.getReviewRate() %></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<% } %>
+						
+						<span id="moreLocal<% morecount++; %>" style="display: none;"></span>
+		<script>
+			$(function(){
+				
+			
+			
+			//// 카드 프로필 이미지 클릭 시 해당 멤버의 서재로 이동
+			$('.writer-profile-img').click(function(e){
+				var $writer = $(this).attr('writer');
+				if(confirm($writer+'님의 서재로 이동하시겠습니까?')) {
+					location.href='/myReviewNote.rw?libraryOwner='+$writer;
+				}
+				e.stopImmediatePropagation(); // 버블링 방지
+			});
+			///// 다른 사람 서재로 이동
+			$('.other_writer-profile-img').click(function(e){
+				var $writer = $(this).attr('writer');
+				if(confirm($writer+'님의 서재로 이동하시겠습니까?')) {
+					location.href='/myReviewNote.rw?libraryOwner='+$writer;
+				}
+				e.stopImmediatePropagation(); // 버블링 방지
+			});
+			})
+		</script>
+						
+						
+						<% } // foreach문 %>
+					</div>
+					<div id="moreReview" class="col-12">
+						<form action="/reviewPage.rw" method="post">
+							<div id="moreDiv">
+								<button id="moreBtn" class="reviewListIcon">더 보기</button>
+							</div>
+							<input type="hidden" name="end"
+								value="<%=(int)request.getAttribute("end")%>" /> <input
+								type="hidden" name="moreLocal" value="moreLocal<%= morecount %>" />
+						</form>
+					</div>
+					<% if(list.size()<(int)request.getAttribute("end")) { // 더이상 더보기할 리뷰가 없으면 %>
+					<script>
+            		$('#moreReview').css('visibility', 'hidden');
+            	</script>
+					<% } %>
+					<% } else {// if문(list가 null이 아니라면) %>
+					<div class="not-yet">
+						아직 리뷰가 없습니다.<br>
+						<div>당신이 우리 REVIEW:0127의 첫번째 리뷰 작성자가 되어 주시겠습니까?</div>
+						<a href="/reviewWrite.rw">리뷰 쓰기</a>
+					</div>
+					<% } %>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<% } else { ////////////////////////////// 비로그인 %> 
+	<div id="reviewList-wrapper">
+		<%@ include file="/views/common/header.jsp"%>
+		<div id="reviewList-contents">
+			<div id="reviewList-top">
+				<div>review</div>
+			</div>
+			<div>
+				<hr style="border: 1px solid gray;">
+				<div id="reviewList-writeBar">
+					<div class="reviewAlignBtn">
+						<span class="reviewListIcon">추천순</span>
+					</div>
+					<div class="reviewAlignBtn">
+						<span class="reviewListIcon">최신순</span>
+					</div>
+					<div class="writerBtn reviewWriteBtn">
+						<span class="reviewListIcon">리뷰등록</span>
+					</div>
+					<div class="barLine reviewWriteBtn"
+						style="border: 1px solid lightgray; height: 85%; margin-top: 3.5px;"></div>
+				</div>
+				<hr>
+			</div>
+
+
+
+			<div id="reviewList-content">
+				<div id="toTheTop">
+					<i class="fas fa-chevron-circle-up reviewListIcon"></i>
+				</div>
+				<div class="row">
+					<% if(!list.isEmpty()){ %>
+					<div id="review-card-list" class="col-12">
+
+						<% int morecount = 0;
+					
 				for(ReviewCard rc : list){ %>
 						<div class="review-card">
 							<div class="review-card-book-img">
@@ -282,29 +531,7 @@ hr {
 						<span id="moreLocal<% morecount++; %>" style="display: none;"></span>
 						<script>
 			$(function(){
-				// review-card-text 누르면 개별리뷰페이지로 이동
-				$('.review-card-text').mousedown(function(){
-					$(this).css('box-shadow','0px 0px 10px 5px #0080ff').css('position','relative').css('z-index','999');
-				});// 클릭 뗄 때 이동
-				$('.review-card-text').mouseup(function(){
-					$(this).css('box-shadow','').css('position','').css('z-index','');
-					location.href="#";// 개별 도서 페이지
-				});// 마우스가 요소 외부에 있을 때 그림자 삭제
-				$('.review-card-text').mouseout(function(){
-					$(this).css('box-shadow','').css('position','').css('z-index','');
-				});
 				
-				// review-card-book-img 누르면 개별도서페이지로 이동
-				$('.review-card-book-img').mousedown(function(){
-					$(this).css('box-shadow','0px 0px 10px 5px #0080ff');
-				});// 클릭 뗄 때 이동
-				$('.review-card-book-img').mouseup(function(){
-					$(this).css('box-shadow','');
-					location.href="#";// 개별 도서 페이지
-				});// 마우스가 요소 외부에 있을 때 그림자 삭제
-				$('.review-card-book-img').mouseout(function(){
-					$(this).css('box-shadow','');
-				});
 			
 			
 			//// 카드 프로필 이미지 클릭 시 해당 멤버의 서재로 이동
@@ -317,11 +544,9 @@ hr {
 			});
 			})
 		</script>
-						<% i++; // 별점 id %>
+						
 						<% } // foreach문 %>
-
 					</div>
-
 					<div id="moreReview" class="col-12">
 						<form action="/reviewPage.rw" method="post">
 							<div id="moreDiv">
@@ -337,29 +562,20 @@ hr {
             		$('#moreReview').css('visibility', 'hidden');
             	</script>
 					<% } %>
-
 					<% } else {// if문(list가 null이 아니라면) %>
 					<div class="not-yet">
 						아직 리뷰가 없습니다.<br>
 						<div>당신이 우리 REVIEW:0127의 첫번째 리뷰 작성자가 되어 주시겠습니까?</div>
-						<a href="/reviewWrite.rw">리뷰 쓰기</a>
+						<a href="/login.jsp">로그인</a>
 					</div>
-
 					<% } %>
-
 				</div>
 			</div>
-
-
-
-
-
 		</div>
-
-		<%@ include file="/views/common/footer.jsp"%>
+		
 	</div>
+	<% } %>
 
-
-
+<%@ include file="/views/common/footer.jsp"%>
 </body>
 </html>
