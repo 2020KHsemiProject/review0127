@@ -1,5 +1,8 @@
 @charset "UTF-8";
-
+#join_wrapper {
+	margin-top: 10px;
+	margin-bottom: 350px;
+}
 #join_header {
     background-color: #FFF6D6;
 }
@@ -70,6 +73,14 @@ input[name=birthYear] {
 .radio_size{
 	width:100px;
 	font-weight: 500;
+}
+
+#label_M {
+	border-right: 1px solid #d39e00;
+}
+
+#label_F {
+	border-left: 1px solid #d39e00;
 }
 
 #option_text {

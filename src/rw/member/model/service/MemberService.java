@@ -36,4 +36,18 @@ public class MemberService {
 		return m;
 
 	}
+
+	public boolean memberIdCheck(String memberId) {
+		Connection conn = JDBCTemplate.getConnection();
+		boolean result = mDAO.memberIdCheck(conn,memberId);
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public boolean nickNameCheck(String nickName) {
+		Connection conn = null;
+		boolean result = mDAO.nickNameCheck(conn,nickName);
+		JDBCTemplate.close(conn);
+		return result;		
+	}
 }

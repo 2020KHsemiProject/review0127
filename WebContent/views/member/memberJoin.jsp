@@ -93,7 +93,55 @@
 				$(this).prev().prev().text("");
 			});
     		
-    	});
+    		$('#id_check').click(function(){
+    			
+    			var memberId = $('input[name=memberId]').val();
+    		
+    			if(memberId == "") {
+    				alert("아이디를 입력해주세요.");
+    			} else {
+    				$.ajax({
+        				url:"/idCheck.rw",
+        				type:"post",
+        				data:{"memberId":memberId},
+        				success:function(data){
+        					if(data == 'usable') {
+        						alert("사용 가능한 아이디입니다.");
+        					} else {
+        						alert("이미 사용 중인 아이디입니다.");
+        					}
+        				},
+        				error:function(){
+        					console.log("error");
+        				}
+        			});	// end of ajax
+    			} // end of else
+    		}); // end of click   
+    		
+    		$('#nick_check').click(function(){
+    			var nickName = $('input[name=nickName]').val();
+    			
+    			if(nickName == "") {
+    				alert("닉네임을 입력해주세요.");
+    			} else {
+    				$.ajax({
+        				url:"/nickCkeck.rw",
+        				type:"post",
+        				data:{"nickName":nickName},
+        				success:function(data){
+        					if(data == 'usable') {
+        						alert("사용 가능한 닉네임입니다.");
+        					} else {
+        						alert("이미 사용 중인 닉네임입니다.");
+        					}
+        				},
+        				error:function(){
+        					console.log("error");
+        				}
+        			}); // end of ajax	
+    			} // end of else    			
+    		}); // end of click
+    	}); // end of function
     </script>
     <div id="join_wrapper">
         <div id="join_header">
@@ -127,10 +175,10 @@
                         <p id="option_text">선택 입력 (예시. 1996 / 남)</p>        
                         <input type="number" name="birthYear" placeholder="출생년도" class="input_group" min="1900" max="2020"/>
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-							<label class="btn btn-warning radio_size">
+							<label class="btn btn-warning radio_size" id="label_M">
 								<input type="radio" name="gender" id="radio_M" value="M">남
 							</label>
-							<label class="btn btn-warning radio_size">
+							<label class="btn btn-warning radio_size" id="label_F">
 								<input type="radio" name="gender" id="radio_F" value="F">여
 							</label>
 						</div>
