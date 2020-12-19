@@ -43,7 +43,6 @@
     </div>
 -->
 <%
-	//Member m = (Member)session.getAttribute("member");
 	if(m!=null){
 %>
 	<b><a href="#">[<%=m.getNickname() %>]</a></b> 님 환영합니다. <a href="#">로그아웃</a><br>
@@ -51,25 +50,13 @@
 	<% if(m.getMemberNo().equals("M0001")) { %>
 		<a href="#">회원관리(관리자전용)</a>
 	<% }%>
-	<br>
-
-	<a href="#">마이페이지</a>
-	<br>
 	<a href="/views/review/reviewList.jsp">리뷰</a>
 	<br>
-	<a href="#">내 서재</a>
-	<br>
-
-	<a href="/myRivewNote.rw?libraryOwner=<%=m.getMemberId()%>">내 서재 (Servlet)</a>
-
+	<a href="/myReviewNote.rw?libraryOwner=<%=m.getMemberId()%>">내 서재 (Servlet)</a>
 	<a href="/views/review/review_write.jsp">리뷰 작성</a><br>
 	<a href="/bookInfo.rw?bookId=9788936433635">도서정보</a><br>
 
-<% }else { %> 
-
-	<H1>review 0127</H1>
-	<h2>메인 페이지</h2>
-<% } %>
+<% } %> 
 
 <%@ include file="/views/common/footer.jsp" %>
 

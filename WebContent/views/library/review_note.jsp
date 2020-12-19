@@ -181,7 +181,7 @@ if(m!=null){
 								<ul id="myLibrary-lnb" class="row">
 									<li class="col-2"><a href="/myRivewNote.rw?libraryOwner=<%=m.getMemberId()%>">리뷰노트</a></li>
 									<li class="col-2"><a href="/views/library/book_case.jsp">책장</a></li>
-									<li class="col-2"><a href="/views/library/collection.jsp">컬렉션</a></li>
+									<li class="col-2"><a href="/myCollection.rw?libraryOwner=<%=m.getMemberId()%>">컬렉션</a></li>
 								</ul>
 							</div>
 						</div>

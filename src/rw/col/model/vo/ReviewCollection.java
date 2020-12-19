@@ -3,7 +3,7 @@ package rw.col.model.vo;
 public class ReviewCollection {
 	
 	private int colReviewId;	// 컬렉션 - 리뷰 고유 ID
-	private String memberId;	// 멤버 고유 번호
+	private String memberNo;	// 멤버 고유 번호
 	private String reviewId;	// 리뷰 고유 ID
 	
 	public int getColReviewId() {
@@ -12,11 +12,11 @@ public class ReviewCollection {
 	public void setColReviewId(int colReviewId) {
 		this.colReviewId = colReviewId;
 	}
-	public String getMemberId() {
-		return memberId;
+	public String getMemberNo() {
+		return memberNo;
 	}
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setMemberNo(String memberNo) {
+		this.memberNo = memberNo;
 	}
 	public String getReviewId() {
 		return reviewId;
@@ -24,10 +24,10 @@ public class ReviewCollection {
 	public void setReviewId(String reviewId) {
 		this.reviewId = reviewId;
 	}
-	public ReviewCollection(int colReviewId, String memberId, String reviewId) {
+	public ReviewCollection(int colReviewId, String memberNo, String reviewId) {
 		super();
 		this.colReviewId = colReviewId;
-		this.memberId = memberId;
+		this.memberNo = memberNo;
 		this.reviewId = reviewId;
 	}
 	public ReviewCollection() {
