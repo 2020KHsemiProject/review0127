@@ -435,7 +435,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 	<div id="reviewNote-wrapper" class="container-fluid">
 
 
-		<div id="myLibrary-contents-header" class="row" style="background-color: #2A303D;">
+		<div id="myLibrary-contents-header" class="row" style="background-color: #7895B5;">
 			<!-- contents-header -->
 			<div class="col-12" style="color: white;">
 				<div id="myLibrary-contents-header-size" class="row">
@@ -595,10 +595,159 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 
 
 	<% }else { %>
-	<script>
-		alert('회원이 아닙니다');
-		location.replace('/index.jsp');
-	</script>
+	<div id="reviewNote-wrapper" class="container-fluid">
+
+
+		<div id="myLibrary-contents-header" class="row" style="background-color: #7895B5;">
+			<!-- contents-header -->
+			<div class="col-12" style="color: white;">
+				<div id="myLibrary-contents-header-size" class="row">
+					<div class="col-2">
+						<div id="userprofile">
+							<img src="/image/profile/<%=mem.getProfileImg() %>" />
+						</div>
+					</div>
+					<div class="col-10">
+						<div class="row">
+
+							<div id="myLibrary-title" class="col-12" style="color: white;"><%=mem.getNickname() %>
+								님의 서재
+							</div>
+							<div class="col-12">
+								<ul id="myLibrary-lnb" class="row">
+									<li class="col-2"><a
+										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">리뷰노트</a></li>
+									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">책장</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<div id="reviewNote-contents" class="row">
+			<div class="col-12">
+				<div class="row">
+					<div class="col-12 reviewNote-contents-top">
+						<div class="row">
+							<% int count = (int)request.getAttribute("count"); %>
+							<div id="reviewNote-review-count" class="col-8"><%=count %>개의
+								리뷰
+							</div>
+							<div class="col-4">
+								<form action="#" method="post" id="alignForm">
+									<div id="alignButton" class="row">
+										<div class="col-6">
+											<button type="button" class="reviewNote-Align reviewNoteIcon">제목순</button>
+										</div>
+										<div class="col-6">
+											<button type="button" class="reviewNote-Align reviewNoteIcon">최신순</button>
+										</div>
+									</div>
+									<input type="hidden" name="libraryOwner"
+										value="<%=libraryOwner %>" />
+								</form>
+							</div>
+						</div>
+					</div>
+					<script>
+                    	$(function(){
+                    		$('.reviewNote-Align').click(function(){
+                    			if($(this).text()=='제목순'){
+                    				$('#alignForm').attr('action','/rnAlignTitle.rw');
+                    			}else if($(this).text()=='최신순'){
+                    				$('#alignForm').attr('action','/myReviewNote.rw');
+                    			}
+                    			$(this).removeAttr('type');
+                    			$('#alignForm').submit();
+                    		});
+                    	})
+                    </script>
+
+
+
+
+					<% ArrayList<ReviewCard> list = (ArrayList<ReviewCard>)request.getAttribute("list"); 
+		String pageNavi = (String)request.getAttribute("pageNavi");
+		if(!list.isEmpty()){
+	%>
+
+			<div id="review-card-list" class="col-12">
+
+						<% for(ReviewCard rc : list){ %>
+						<div class="review-card">
+							<div class="review-card-book-img" title="누르면 해당 도서페이지로 이동합니다.">
+								<img src="<%=rc.getBookImage()%>" />
+							</div>
+							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
+								<div class="review-card-book-title">
+									<span class="review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
+									<span class="review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
+								</div>
+								<%=rc.getReviewCont() %>
+							</div>
+							<div class="row review-card-bttom">
+								<div class="col-3">
+									<div class="review-card-writer-profile">
+										<img src="/image/profile/<%=rc.getProfileImg()%>"
+											class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="row review-card-infor">
+										<div class="col-12"><%=rc.getNickname() %></div>
+										<div class="col-12">
+											<div class="row">
+												<div class="col-7"><%=rc.getReviewDate() %></div>
+												<div class="col-5 review-card-count">
+													조회
+													<%=rc.getReviewCount() %></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-3 rvheart reviewNoteIcon">
+									<div class="review-heart-and-count">
+										<span class="review-heart"><a>
+												<% if(rc.getLikeYN()=='Y'){ %>♥<%}else { %>♡<% } %>
+										</a></span> <span class="heart-count"><%=rc.getReviewRate() %></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+			
+
+			<% } // foreach문 %>
+
+
+		</div><!-- #reviewNote-cardList col -->
+
+					<div id="bookcase-page" class="col-12">
+						<nav aria-label="Page navigation example">
+						<ul class="pagination justify-content-center">
+							<%=pageNavi %>
+						</ul>
+						</nav>
+
+					</div>
+			<% }else { ///////////////////////// 리스트가 비어있다면%>
+					<div class="not-yet"><%=mem.getNickname() %>님의 리뷰가 아직 없습니다.
+					</div>
+
+			<% } %>
+				</div>
+				<!-- row -->
+			</div>
+			<!-- col -->
+		</div>
+		<!-- #reviewNote-contents row  -->
+	</div>
+	<!-- wrapper -->
 	<% } %>
 	<%@ include file="/views/common/footer.jsp"%>
 </body>

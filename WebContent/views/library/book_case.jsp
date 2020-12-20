@@ -570,7 +570,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 			//// 자물쇠 버튼
     		// 책장 열쇠 잠금
     		function modifyLock(bookShelfId,lock){
-				
+			
 				var object = {'bookShelfId':bookShelfId,'lockData':lock};
 				if(lock=='N'){
 	                $.ajax({
@@ -914,12 +914,135 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 
 
 <% } else {
-///////////////////////////////////////////////////////////////////////////////////// member 객체 없거나 잘못된 접근?
+///////////////////////////////////////////////////////////////////////////////////// 비회원
 %>
-	<script>
-		alert('회원이 아닙니다');
-		location.replace('/index.jsp');
-	</script>
+<div id="myBookcase-wrapper" class="container-fluid">
+	
+        
+        <div id="myLibrary-contents-header" class="row" style="background-color: #7895B5;">
+			<!-- contents-header -->
+			<div class="col-12">
+				<div id="myLibrary-contents-header-size" class="row">
+					<div class="col-2">
+						<div id="userprofile">
+							<img src="/image/profile/<%=mem.getProfileImg() %>" />
+						</div>
+					</div>
+					<div class="col-10">
+						<div class="row">
+
+							<div id="myLibrary-title" class="col-12" style="color: white;"><%=mem.getNickname() %>님의 서재</div>
+							<div class="col-12">
+								<ul id="myLibrary-lnb" class="row">
+									<li class="col-2"><a
+										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">리뷰노트</a></li>
+									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">책장</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+     
+        
+        
+        
+        <div id="bookcase-contents" class="row">
+        <!-- contents -->
+            <div class="col-12">
+                <div class="row myBookcase-contents-top">
+                   <!-- user의 프로필과 서재 네비게이션 부분 -->
+                    <div id="bookcase-count" class="col-10"><%=count %>개의 책장</div>
+                    <div class="col-2">
+                      <!--   <button id="add-bookcase-btn" onclick="addBookCase();">책장 추가하기</button>  -->
+                    </div>
+                </div>
+            </div>
+            
+	<% LibraryPageData listPage = (LibraryPageData)request.getAttribute("list");
+		ArrayList<BookCase> list = listPage.getList();
+		String pageNavi = listPage.getPageNavi();
+		if(!list.isEmpty()){
+			
+			for(BookCase bkc : list) {
+				Library libr = bkc.getLibr();
+				ArrayList<Book> listB = bkc.getListB();
+	%>
+          
+            <div class="col-12">
+               <br><br>
+                <div class="row bookcase-case">
+                
+                
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-10">
+                                <H3>
+                                <span class="bookcase-name font-rem"><%=libr.getBookShelfName() %></span>
+                                </H3>
+                            </div>
+                            <div class="col-2 bookcase-settingicon">
+                                
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    
+                    
+                    
+                    <div class="col-12 bookcase-booklist"> <!-- 여기가 책 리스트 -->
+                       
+					<% for(Book b : listB){ %>
+                       
+                        <div class="bookcase-book" style="margin: 8px;">
+                           <div class="minusButton">
+                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-dash-circle caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                            </svg>
+                            </div>
+                            <img src="<%=b.getBookImage() %>"/>
+                        </div>
+                        
+                     <% } /// 포이치문 책표지%>
+                        
+                    </div>
+                    
+                    
+                    
+				</div>
+			</div>
+          
+          <% } //// 포이치문 책장 %>  
+            
+            
+            
+            
+            
+            
+            
+            <div id="bookcase-page" class="col-12">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <%=pageNavi %>
+                    </ul>
+                </nav>
+            </div>
+            
+            
+	<% } else { %>   
+            <div class="not-yet">
+            	<%=mem.getNickname() %>님의 책장이 아직 없습니다.
+			</div>
+	<% } %>
+        </div>
+
+        
+
+        
+    </div>
+
 <% } %>
 <%@ include file="/views/common/footer.jsp" %>
 </body>

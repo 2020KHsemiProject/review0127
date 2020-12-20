@@ -222,7 +222,7 @@ public class LibraryDAO {
 	}
 	public String getPageNavi(Connection conn, String memberNo, String libraryOwner, int currentPage,
 			int recordCountPerPage, int naviCountPerPage) {
-		int postTotalCount = countAllBookCase(conn,memberNo);
+		int postTotalCount = countOtherAllBookCase(conn,memberNo);
 		
 		int pageTotalCount; // 전체페이지를 저장하는 변수
 		if(postTotalCount % recordCountPerPage > 0){
