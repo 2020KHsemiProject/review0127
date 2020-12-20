@@ -56,7 +56,7 @@ public class MemberLoginServlet extends HttpServlet {
 			view.forward(request, response);
 		}else {
 			out.println("<script>alert('로그인에 실패하였습니다.');</script>");
-			out.println("<script>location.repalce('/views/member/login.jsp');</script>");
+			out.println("<script>location.replace('/views/member/login.jsp');</script>");
 		}
 	}
 

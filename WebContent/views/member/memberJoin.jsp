@@ -32,6 +32,8 @@
 <body>
     <script>
     	$(function(){
+    		var idCheckClick;
+    		var nickCheckClick;
     		$('form').submit(function(){
     			var memberId = $('input[name=memberId]');
     			var nickName = $('input[name=nickName]');
@@ -46,7 +48,7 @@
     		    console.log(memberId.val()+"/"+nickName.val()+"/"+memberPwd.val()+"/"
     		    		+memberPwd_re.val()+"/"+email.val()+"/"+birthYear.val()+"/"+gender.val());
     		    
-    			if(!(/^[a-zA-Z0-9]{5,20}$/.test(memberId.val()))) {
+    		    if(!(/^[a-zA-Z0-9]{5,20}$/.test(memberId.val()))) {
     				memberId.prev().prev().text("아이디를 다시 확인해주세요.").css('color','red');
     				return false;
     			} else if(!(/^[a-zA-z0-9가-힣]{1,10}$/.test(nickName.val()))) {
@@ -67,13 +69,13 @@
     			} else if((memberPwd.val()!=memberPwd_re.val())) {
     				memberPwd_re.prev().prev().text("비밀번호가 동일하지 않습니다.").css('color','red');
     				return false;
-    			} else if(!($('#id_check').click)){
-    				alert('아이디 중복확인을 해주세요.');
+    			}  else if(idCheckClick != true) {
+    				alert("아이디의 중복 여부를 확인해주세요.");
     				return false;
-    			} else if(!($('#nick_check').click)){
-    				alert('닉네임 중복확인을 해주세요.');
-    				return false;
-    			}
+    			}  else if(nickCheckClick != true) {
+					alert("닉네임의 중복 여부를 확인해주세요.");
+					return false;
+				}
     			return true;
     		});
     		
@@ -98,9 +100,9 @@
 			});
     		
     		$('#id_check').click(function(){
-    			
+    			idCheckClick = true;
     			var memberId = $('input[name=memberId]').val();
-    		
+    			
     			if(memberId == "") {
     				alert("아이디를 입력해주세요.");
     			} else {
@@ -109,6 +111,10 @@
         				type:"post",
         				data:{"memberId":memberId},
         				success:function(data){
+        					if(!(/^[a-zA-Z0-9]{5,20}$/.test(memberId))) {
+        	    				alert("아이디를 다시 확인해주세요.");
+        	    				return false;
+        	    			} 
         					if(data == 'usable') {
         						alert("사용 가능한 아이디입니다.");
         					} else {
@@ -123,8 +129,9 @@
     		}); // end of click   
     		
     		$('#nick_check').click(function(){
+    			nickCheckClick = true;
     			var nickName = $('input[name=nickName]').val();
-    			
+  
     			if(nickName == "") {
     				alert("닉네임을 입력해주세요.");
     			} else {
@@ -133,6 +140,10 @@
         				type:"post",
         				data:{"nickName":nickName},
         				success:function(data){
+        					if(!(/^[a-zA-z0-9가-힣]{1,10}$/.test(nickName))) {
+        	    				alert("닉네임을 다시 확인해주세요.");
+        	    				return false;
+        	    			}
         					if(data == 'usable') {
         						alert("사용 가능한 닉네임입니다.");
         					} else {

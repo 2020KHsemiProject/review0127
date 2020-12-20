@@ -173,4 +173,44 @@ public class MemberDAO {
 		}
 		return result;		
 	}
+
+
+	public int deleteMember(Connection conn, String memberId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "update member set end_YN='Y', end_date=sysdate where member_id=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;		
+	}
+
+
+	public int updateMemberPwd(Connection conn, String memberId, String memberPwd) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "update member set member_pwd=? where member_id=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberPwd);
+			pstmt.setString(2, memberId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;		
+	}
 }
