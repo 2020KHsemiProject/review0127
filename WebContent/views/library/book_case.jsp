@@ -151,21 +151,6 @@
             color: black;
         }
         
-        
-    
-        #addBook {
-        	/* 책 추가할 빈 공간 div */
-            display: none;
-        }
-        #inAddBook {
-        	/* 추가한 책의 안쪽 html */
-            display: none;
-        }
-        #bookCase-nullPlace {
-        	/* 추가할 책장 빈공간 div */
-            display: none;
-        }
-        
         .book-nullPlace{
         	/* 추가할 책 빈공간 */
             background-color: #ffe58d;
@@ -180,10 +165,6 @@
         /* Icon */
         .addBook-checkIcon {
         	/* 추가완료 버튼 */
-            display: none;
-        }
-        .fa-lock {
-        	/* 자물쇠 버튼 */
             display: none;
         }
         
@@ -309,10 +290,7 @@
                 $(this).parents('.bookcase-case').find('.minusButton').css('z-index','1').css('visibility','hidden');
                 history.go(0);
             });
-            // 책장 삭제
-            $('.minus-book-icon').click(function(){
-                let result = window.confirm('해당 책장을 삭제하시겠습니까?');
-            });
+            
             
             
             
@@ -498,45 +476,8 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                 		});
                 		
                 		
-                		//// 자물쇠 버튼
-                		// 책장 열쇠 잠금
-                        $('.fa-lock-open').click(function(){
-                            var $thisBtn = $(this);
-                            var lockData = 'N';
-                            var bookShelfId = '<%=libr.getBookShelfId()%>';
-                            var object = {'bookShelfId':bookShelfId,'lockData':lockData};
-                            $.ajax({
-                            	url : '/bookCaseModifyLock.rw',
-                            	data : object,
-                            	type : 'post',
-                            	success : function(){
-                            		$thisBtn.css('display','none');
-                                    $thisBtn.parent().next().children().css('display','inline'); 
-                            	},
-                            	error : function(){
-                            		alert('책장 잠금에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.')
-                            	}
-                            });
-                        });
-                        // 책장 열쇠 열림
-                        $('.fa-lock').click(function(){
-                        	var $thisBtn = $(this);
-                            var lockData = 'Y';
-                            var bookShelfId = '<%=libr.getBookShelfId()%>';
-                            var object = {'bookShelfId':bookShelfId,'lockData':lockData};
-                            $.ajax({
-                            	url : '/bookCaseModifyLock.rw',
-                            	data : object,
-                            	type : 'post',
-                            	success : function(){
-                            		$thisBtn.css('display','none');
-                                    $thisBtn.parent().prev().children().css('display','inline');
-                            	},
-                            	error : function(){
-                            		alert('책장 잠금에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.')
-                            	}
-                            });
-                        });
+                		
+                     	
                 	})
                 </script>
                 
@@ -552,8 +493,14 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                                     <span><button type="button" class="font-rem modifyTitleBtn"><i class="far fa-edit caseIcon"></i></button></span>
                                     <span><button type="button" class="font-rem sendModifyTitleBtn"><i class="fas fa-edit caseIcon"></i></button></span>
                                 </form>
-                                <span class="font-rem"><i class="fas fa-lock-open caseIcon"></i></span>
-                                <span class="font-rem"><i class="fas fa-lock caseIcon"></i></span>
+                                
+					<% if(libr.getPrivateYN()=='N'){ %>
+						<span class="font-rem"><i class="fas fa-lock-open caseIcon" onclick="modifyLock('<%=libr.getBookShelfId()%>','N');"></i></span>
+                        <span class="font-rem"><i class="fas fa-lock caseIcon" style="display:none;" onclick="modifyLock('<%=libr.getBookShelfId()%>','Y');"></i></span>
+					<% }else { %>
+						<span class="font-rem"><i class="fas fa-lock-open caseIcon" style="display:none;" onclick="modifyLock('<%=libr.getBookShelfId()%>','N');"></i></span>
+                        <span class="font-rem"><i class="fas fa-lock caseIcon" onclick="modifyLock('<%=libr.getBookShelfId()%>','Y');"></i></span>
+					<% } %>
                                 </H3>
                             </div>
                             <div class="col-2 bookcase-settingicon">
@@ -573,7 +520,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                                 </span>
                                 <!-- x 아이콘 -->
                                 <span class="minus-book-icon">
-                                    <svg width="2.1rem" height="2.1rem" viewBox="0 0 16 16" class="bi bi-x caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <svg width="2.1rem" height="2.1rem" viewBox="0 0 16 16" class="bi bi-x caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" onclick="delCase('<%=libr.getBookShelfId() %>');">
                                       <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                     </svg>
                                 </span>
@@ -618,11 +565,52 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                     
 				</div>
 			</div>
+			
+			<script>
+			//// 자물쇠 버튼
+    		// 책장 열쇠 잠금
+    		function modifyLock(bookShelfId,lock){
+				
+				var object = {'bookShelfId':bookShelfId,'lockData':lock};
+				if(lock=='N'){
+	                $.ajax({
+	                	url : '/bookCaseModifyLock.rw',
+	                	data : object,
+	                	type : 'post',
+	                	success : function(){
+	                		history.go(0);
+	                	},
+	                	error : function(){
+	                		alert('책장 잠금에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.');
+	                	}
+	                });
+					}else{
+		                $.ajax({
+		                	url : '/bookCaseModifyLock.rw',
+		                	data : object,
+		                	type : 'post',
+		                	success : function(){
+		                		history.go(0);
+		                	},
+		                	error : function(){
+		                		alert('책장 잠금에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.')
+		                	}
+						});
+					}
+				}
+            
+          	function delCase(bookShelfId){
+          		confirm(bookShelfId);
+          		var result = window.confirm('해당 책장을 삭제하시겠습니까?');
+       			if(result){
+              		location.replace('/deletBookCase.rw?libraryOwner='+'<%=libraryOwner%>'+'&bookShelfId='+bookShelfId);
+              	}
+       		};
+          </script>
             
           <% } //// 포이치문 책장 %>  
             
-              
-            
+          
             
             
             
@@ -830,6 +818,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 				Library libr = bkc.getLibr();
 				ArrayList<Book> listB = bkc.getListB();
 	%>
+          
             <div class="col-12">
                <br><br>
                 <div class="row bookcase-case">
@@ -884,7 +873,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                     
 				</div>
 			</div>
-            
+          
           <% } //// 포이치문 책장 %>  
             
             

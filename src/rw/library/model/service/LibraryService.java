@@ -126,4 +126,50 @@ public class LibraryService {
 		
 	}
 
+	public LibraryPageData selectOtherAllBookCase(String memberNo, String libraryOwner, int currentPage) {
+		Connection conn = JDBCTemplate.getConnection();
+		int recordCountPerPage = 3; // 한 페이지당 몇개의 게시물이 보이게 될 것인지
+		ArrayList<Library> listLib = lDAO.selectOtherAllCase(conn,memberNo,currentPage,recordCountPerPage);
+		ArrayList<BookCase> list = new ArrayList<BookCase>(); // 책장 + 책장에 담긴 책들 vo
+		if(!listLib.isEmpty()) {
+			for(Library libr : listLib) { // 각각의 책장에 담아진 책 list를 가져와서 BookCase vo에 넣어준다.
+				BookCase bCase = new BookCase();
+				bCase.setLibr(libr);
+				ArrayList<Book> listB = lDAO.selectBookInOneCase(conn,libr.getBookShelfId());
+				if(!listB.isEmpty()) {
+					bCase.setListB(listB); // ArrayList 객체
+				}
+				list.add(bCase); // 하나의 책장 + 해당 책장의 책 list 를 담은 객체를 배열로 담음
+			}
+		}
+		
+		int naviCountPerPage = 5; // page Navi값이 몇개씩 보여줄 것인지
+		String pageNavi = lDAO.getPageNavi(conn,memberNo,libraryOwner,currentPage,recordCountPerPage,naviCountPerPage);
+		LibraryPageData lpd = new LibraryPageData();
+		lpd.setList(list);
+		lpd.setPageNavi(pageNavi);
+		JDBCTemplate.close(conn);
+		return lpd;
+	}
+
+	public int countOtherAllBookCase(String memberNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int count = lDAO.countOtherAllBookCase(conn,memberNo);
+		JDBCTemplate.close(conn);
+		return count;
+	}
+
+	public int deleteBookCase(String memberNo, String bookShelfId) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = lDAO.deleteBookCase(conn,memberNo,bookShelfId);
+		if(result>0) {
+			lDAO.disconnectBook(conn,bookShelfId); // 책 삭제
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
 }

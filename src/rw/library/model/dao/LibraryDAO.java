@@ -16,7 +16,7 @@ public class LibraryDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		int count = 0;
-		String query = "SELECT COUNT(*) AS COUNT FROM LIBRARY WHERE MEMBER_NO=?";
+		String query = "SELECT COUNT(*) AS COUNT FROM LIBRARY WHERE MEMBER_NO=? AND DEL_YN='N'";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, memberNo);
@@ -73,7 +73,7 @@ public class LibraryDAO {
 		ArrayList<Library> listLib = new ArrayList<Library>(); 
 		int start = currentPage * recordCountPerPage - (recordCountPerPage-1);
 		int end = currentPage * recordCountPerPage;
-		String query = "SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY L.BOOKSHELF_ID DESC) AS ROW_NUM,L.* FROM LIBRARY L LEFT JOIN MEMBER M ON (M.MEMBER_NO=L.MEMBER_NO) WHERE L.MEMBER_NO=?) WHERE ROW_NUM BETWEEN ? AND ?";
+		String query = "SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY L.BOOKSHELF_ID DESC) AS ROW_NUM,L.* FROM LIBRARY L LEFT JOIN MEMBER M ON (M.MEMBER_NO=L.MEMBER_NO) WHERE L.MEMBER_NO=? AND L.DEL_YN='N') WHERE ROW_NUM BETWEEN ? AND ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, memberNo);
@@ -99,7 +99,7 @@ public class LibraryDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<Book> listB = new ArrayList<Book>();
-		String query = "SELECT B.* FROM (SELECT * FROM LIBRARY WHERE BOOKSHELF_ID=?) L LEFT JOIN PERSONAL_LIBRARY PL ON (PL.BOOKSHELF_ID=L.BOOKSHELF_ID) LEFT JOIN BOOK B ON (B.BOOK_ID=PL.BOOK_ID) ORDER BY B.BOOK_TITLE";
+		String query = "SELECT B.* FROM (SELECT * FROM LIBRARY WHERE BOOKSHELF_ID=? AND DEL_YN='N') L LEFT JOIN PERSONAL_LIBRARY PL ON (PL.BOOKSHELF_ID=L.BOOKSHELF_ID) LEFT JOIN BOOK B ON (B.BOOK_ID=PL.BOOK_ID) ORDER BY B.BOOK_TITLE";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, bookShelfId);
@@ -302,6 +302,88 @@ public class LibraryDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return bookShelfId;
+	}
+	public ArrayList<Library> selectOtherAllCase(Connection conn, String memberNo, int currentPage,
+			int recordCountPerPage) { //// 남으 ㅣ책장 전체 리스트
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Library> listLib = new ArrayList<Library>(); 
+		int start = currentPage * recordCountPerPage - (recordCountPerPage-1);
+		int end = currentPage * recordCountPerPage;
+		String query = "SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY L.BOOKSHELF_ID DESC) AS ROW_NUM,L.* FROM LIBRARY L LEFT JOIN MEMBER M ON (M.MEMBER_NO=L.MEMBER_NO) WHERE L.MEMBER_NO=? AND PRIVATE_YN='N' AND L.DEL_YN='N') WHERE ROW_NUM BETWEEN ? AND ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberNo);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Library libr = new Library();
+				libr.setBookShelfId(rset.getString("BOOKSHELF_ID"));
+				libr.setBookShelfName(rset.getString("BOOKSHELF_NAME"));
+				libr.setMemberNo(rset.getString("MEMBER_NO"));
+				libr.setPrivateYN(rset.getString("PRIVATE_YN").charAt(0));
+				libr.setDelYN(rset.getString("DEL_YN").charAt(0));
+				listLib.add(libr);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listLib;
+	}
+	public int countOtherAllBookCase(Connection conn, String memberNo) { //// 다른사람 책장의 총 책장 수 
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int count = 0;
+		String query = "SELECT COUNT(*) AS COUNT FROM LIBRARY WHERE MEMBER_NO=? AND PRIVATE_YN='N' AND DEL_YN='N'";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberNo);
+			rset = pstmt.executeQuery();
+			rset.next();
+			count = rset.getInt("COUNT");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return count;
+	}
+	public int deleteBookCase(Connection conn, String memberNo, String bookShelfId) {
+		PreparedStatement pstmt = null; // 책장 삭제
+		int result = 0;
+		String query = "UPDATE LIBRARY SET DEL_YN='Y' WHERE BOOKSHELF_ID=? AND MEMBER_NO=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bookShelfId);
+			pstmt.setString(2, memberNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+	public int disconnectBook(Connection conn, String bookShelfId) { 
+		PreparedStatement pstmt = null; // 삭제한 책장의 책 모두 삭제
+		int result = 0;
+		String query = "DELETE FROM PERSONAL_LIBRARY WHERE BOOKSHELF_ID=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bookShelfId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
 	}
 
 }

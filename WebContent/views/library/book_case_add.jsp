@@ -394,7 +394,7 @@
 			</div>
 		</div>
 
-		<div id="bookcase-contents" class="row" style="border:1px solid gray;">
+		<div id="bookcase-contents" class="row">
 		<form>
 			<div class="col-12" style="height:120px; padding-top:50px;">
 				<input type="text" name="bookCaseTitle" placeholder="책장이름을 입력해주세요" style="width:400px; height:50px; border-style: none; margin-left:20px;"/>
@@ -454,20 +454,24 @@
 		
 		$('#add-bookcase-btn').click(function(){
 			var bookCaseTitle = $('input[name=bookCaseTitle]').val();
-			var object = {'addBookList':arr,'bookCaseTitle':bookCaseTitle};
-			$.ajax({
-				url : '/addBookCase.rw?libraryOwner='+'<%=libraryOwner%>',
-				datatype : 'json',
-				traditional : true,
-				data : object,
-				type : 'post',
-				success : function(){
-					location.replace('/myBookCase.rw?library='+'<%=libraryOwner%>');
-				},
-				error : function(){
-					
-				}
-			});
+			if(bookCaseTitle==''){
+				alert('책장 제목을 입력해주세요');
+			}else{
+				var object = {'addBookList':arr,'bookCaseTitle':bookCaseTitle};
+				$.ajax({
+					url : '/addBookCase.rw?libraryOwner='+'<%=libraryOwner%>',
+					datatype : 'json',
+					traditional : true,
+					data : object,
+					type : 'post',
+					success : function(){
+						location.replace('/myBookCase.rw?libraryOwner='+'<%=libraryOwner%>');
+					},
+					error : function(){
+						
+					}
+				});
+			}
 		});
 		
 		$('#reset-btn').click(function(){
