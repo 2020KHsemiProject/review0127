@@ -42,7 +42,7 @@
 <body>
 	<script>
 		$(function() {
-			$('#modify_pw_btn').click(function(){
+			$('#password_form').submit(function(){
 				var memberId = $('#member_id').val();
 				var sessionPwd = '<%=m.getMemberPwd()%>';
 				var currentPwd = $('#current_pwd').val();
@@ -72,7 +72,9 @@
     			} else if((memberPwd!=memberPwd_re)) {
     				$('#new_pwd_re').next().text("비밀번호가 동일하지 않습니다.").css('color','red');
     				return false;
-    			} else {
+    			} 
+    		   	return true;
+    		    	/*else {
     				 $.ajax({
     	    			url:"/memberPwdChange.rw",
     	    			type:"post",
@@ -88,8 +90,7 @@
     	    				console.log("error");
     	    			}
     	    		 });
-    			}
-    		    //return true;
+    			}*/
     		   
 			});
 			$('#current_pwd').focusout(function(){
@@ -137,6 +138,7 @@
 			});
 		});
 	</script>
+
 	<div id="wrapper">
 		<div id="content">
 			<div id="content_title">
@@ -150,14 +152,14 @@
 							<center>
 								<div id="picture_box">
 									<div id="profile_img_area">
-									<form>
+									<form >
 										<div id="image_box">
 											<!--사진을 업로드하면 이미지를 diplay:none 설정-->
 											<img src="#" class="profile_img" id="upload_img"/>
 											<img src="/image/profile/default_user_dark.png"	class="profile_img" />
 										</div>
 										<label id="profile_change_btn">
-											<input type="file" accept="image/" id="input_file" />
+											<input type="file" accept="image/*" id="input_file" />
 										</label>
 									</form>	
 										<p id="profile_info">※ 프로필 사진은 100px X 100px 사이즈를 권장합니다.</p>
@@ -217,7 +219,7 @@
 								<tr class="tr_fourth">
 									<th id="th_pw_re">비밀번호 재설정</th>
 									<td>
-										<form id="password_form">
+										<form action="/memberPwdChange.rw" method="post" id="password_form">
 											<div class="password_change_guide">
 												<p class="guide_title">비밀번호 변경 시 유의사항</p>
 												<ul class="guide_list_wrapper">
@@ -243,7 +245,7 @@
 													class="pw_warning_text"></span>
 											</div>
 											<div class="password_row">
-												<button type="button" id="modify_pw_btn">비밀번호 변경</button>
+												<button type="submit" id="modify_pw_btn">비밀번호 변경</button>
 											</div>
 										</form>
 									</td>
