@@ -53,7 +53,8 @@ $(function(){
 
 			});
 	
-	$('emailList').submit(
+	/* 12월 20일 보경 수정. */
+	$('#emailList').submit(
 					function() {
 
 						var $checkArr = new Array();
@@ -84,8 +85,9 @@ $(function(){
 							if (confirm("선택 회원에게 인증 이메일을 전송하시겠습니까?") == true) {
 
 								$('input[name=emailArr]').val(whereQuery);
+								console.log(whereQuery);
 
-								return true;
+								return false;
 
 							} else {
 

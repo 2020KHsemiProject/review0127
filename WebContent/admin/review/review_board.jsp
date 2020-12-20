@@ -133,9 +133,9 @@
 									String bookImage = ra.getBookImage();
 								if ((bookImage.substring(0, 1)).equals("b_")) {
 								%>
-								<td class='book-image'><img
-									src="/image/book/<%=ra.getBookImage()%>" style="width: 80px; border:0px solid white; cursor:pointer;" 
-									data-toggle="modal" data-target="#myLargeModal<%=ra.getReviewId() %>"></td>
+								<td class='book-image'><img src="/image/book/<%=ra.getBookImage() %>" style="width: 80px; border:0px solid white; cursor:pointer;" 
+									data-toggle="modal" data-target="#myLargeModal<%=ra.getReviewId() %>">
+									</td>
 								<%
 									} else {
 								%>

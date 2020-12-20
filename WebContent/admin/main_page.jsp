@@ -25,14 +25,13 @@
 <body>
 	
 	<%
-			Member admin = (Member)request.getAttribute("member");
-			session.setAttribute("member", admin);
-
-			if(admin==null){
-				
-				response.sendRedirect("/admin/common/error/error.jsp");
-				
-			}
+		Member admin = (Member)session.getAttribute("member");
+	
+		if(admin==null){
+		
+		response.sendRedirect("/admin/common/error/error.jsp");
+		
+		}
 			
 
 			ArrayList<ReviewAdmin> rl = (ArrayList<ReviewAdmin>) request.getAttribute("reviewList");

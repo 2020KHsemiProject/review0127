@@ -49,8 +49,10 @@ public class MemberLoginServlet extends HttpServlet {
 
 		if (m != null) {
 			
+			//12월 20일 보경 수정 
+			HttpSession session = request.getSession();
+			session.setAttribute("member", m);
 			RequestDispatcher view = request.getRequestDispatcher("/main.ad");
-			request.setAttribute("member", m);
 			view.forward(request, response);
 
 		} else {
