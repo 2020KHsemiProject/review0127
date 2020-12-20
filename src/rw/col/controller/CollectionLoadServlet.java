@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import rw.col.model.service.CollectionService;
 import rw.col.model.vo.BookshelfCollection;
@@ -95,6 +96,11 @@ public class CollectionLoadServlet extends HttpServlet {
 		CollectionData<OtherBookcase,BookshelfCollection> cdBB = colService.selectBookshelfCollection(bookshelfCurrentPage, owner.getMemberNo());
 		int bsTotalCount = colService.bsTotalCount(owner.getMemberNo());
 		
+		//남의 서재가 내 컬렉션에 있는지 확인
+		HttpSession session = request.getSession();
+		Member m = (Member)session.getAttribute("member");
+		boolean result = colService.existsMyLibCol(m.getMemberNo(),memberId);
+		
 		//데이터 전송
 		RequestDispatcher view = request.getRequestDispatcher("/views/library/collection.jsp");
 		request.setAttribute("owner", owner);
@@ -105,6 +111,7 @@ public class CollectionLoadServlet extends HttpServlet {
 		request.setAttribute("lcTotalCount", lcTotalCount);
 		request.setAttribute("bookshelf", cdBB);
 		request.setAttribute("bsTotalCount", bsTotalCount);
+		request.setAttribute("inMyLibCol", result);
 		view.forward(request, response);
 	}
 

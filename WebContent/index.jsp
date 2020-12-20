@@ -36,12 +36,11 @@
             <h3>@야무지개님의 컬렉션</h3>
         </div>
     </div>
- <!--   <div id="review-wrap" class="wrapper">
+    <div id="review-wrap" class="wrapper">
         <div id="rev" class="content">
-            
+            베스트 리뷰
         </div>
     </div>
--->
 <%
 	if(m!=null){
 %>
@@ -50,10 +49,8 @@
 	<% if(m.getMemberNo().equals("M0001")) { %>
 		<a href="#">회원관리(관리자전용)</a>
 	<% }%>
-	<a href="/views/review/reviewList.jsp">리뷰</a>
-	<br>
-	<a href="/myReviewNote.rw?libraryOwner=<%=m.getMemberId()%>">내 서재 (Servlet)</a>
-	<a href="/views/review/review_write.jsp">리뷰 작성</a><br>
+	<a href="/myReviewNote.rw?libraryOwner=<%=m.getMemberId()%>">내 서재 (Servlet)</a><br>
+	<a href="/reviewWrite.rw">리뷰 작성</a><br>
 	<a href="/bookInfo.rw?bookId=9788936433635">도서정보</a><br>
 
 <% } %> 

@@ -33,7 +33,11 @@
         <div id="logo"><a href="/index.jsp"><img src="/image/logo.png" alt=""></a></div>
         <ul id="gnb">
             <li><a href="/reviewPage.rw">리뷰</a></li>
-            <%-- <li><a href="/myReviewNote.rw?libraryOwner=<%=m.getMemberId()%>">서재</a></li>--%>
+            <% if(m!=null) {%>
+            <li><a href="/myReviewNote.rw?libraryOwner=<%=m.getMemberId()%>">서재</a></li>
+            <%}else { %>
+            <li><a href="#" id="lib-enter">서재</a></li>
+            <%} %>
             <li><img id="user-menu-btn" src="/image/profile/<%=profileImg %>" alt=""></li>
         </ul>
 
@@ -58,6 +62,9 @@
                 }else{
                     $('#menu-bar').css('display','none');
                 }
+            });
+            $('#lib-enter').click(function(){
+            		alert('로그인을 해야 합니다.');
             });
         });
     </script>

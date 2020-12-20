@@ -90,6 +90,61 @@ public class CollectionService {
 		return totalCount;
 	}
 
+	public int insertLibraryCollection(String memberNo, String ownerId) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = cDAO.insertLibraryCollection(conn,memberNo,ownerId);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public boolean existsMyLibCol(String memberNo, String memberId) {
+		Connection conn = JDBCTemplate.getConnection();
+		boolean result = cDAO.existsMyLibCol(conn,memberNo,memberId);
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int deleteLibraryCollection(String memberNo, String memberId) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = cDAO.deleteLibraryCollection(conn,memberNo, memberId);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int deleteBookshelfCollection(String memberNo, String bookshelfId) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = cDAO.deleteBookshelfCollection(conn,memberNo, bookshelfId);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int deleteReviewCollection(String memberNo, String reviewId) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = cDAO.deleteReviewCollection(conn,memberNo, reviewId);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
 	
 
 }

@@ -407,6 +407,111 @@ public class CollectionDAO {
 		return totalCount;
 	}
 
+	public int insertLibraryCollection(Connection conn, String memberNo, String ownerId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO LIBRARY_COLLECTION VALUES(LIBRARY_COLLECTION_SEQ.NEXTVAL, ?,?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberNo);
+			pstmt.setString(2, ownerId);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public boolean existsMyLibCol(Connection conn, String memberNo, String memberId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		boolean result = false;
+		
+		String query = "SELECT 1 FROM LIBRARY_COLLECTION WHERE MEMBER_NO = ? AND MEMBER_ID = ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberNo);
+			pstmt.setString(2, memberId);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteLibraryCollection(Connection conn, String memberNo, String memberId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "DELETE FROM LIBRARY_COLLECTION WHERE MEMBER_NO = ? AND MEMBER_ID = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,memberNo);
+			pstmt.setString(2,memberId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteBookshelfCollection(Connection conn, String memberNo, String bookshelfId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "DELETE FROM BOOKSHELF_COLLECTION WHERE MEMBER_NO = ? AND BOOKSHELF_ID = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,memberNo);
+			pstmt.setString(2,bookshelfId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteReviewCollection(Connection conn, String memberNo, String reviewId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "DELETE FROM REVIEW_COLLECTION WHERE MEMBER_NO = ? AND REVIEW_ID = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,memberNo);
+			pstmt.setString(2,reviewId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
 	
 
 

@@ -243,11 +243,32 @@ body {
 	height: 100%;
 	width: 100%;
 }
+/* 페이지 네비게이션*/
+nav{
+margin:0 auto;
+}
+
+/* 컬렉션 id랑 세션 id랑 같으면 내서재. 다르면 남의 서재 */
+<% Member owner = (Member)request.getAttribute("owner"); //서재 주인%>
+<%if(!(m.getMemberNo().equals(owner.getMemberNo()))){ %>
+#myLibrary-contents-header{
+	background-color:#7895B5;
+}
+#library-add-btn{
+	display:inline-block;
+	width:160px;
+	background-color:rgb(255,255,255,0.5);
+	color:#7895B5;
+	border-radius : 10px;
+	margin-left:5px;
+	text-align:center;
+}
+<%}%>
 </style>
 </head>
-<body> <!-- 컬렉션 id랑 세션 id랑 같으면 내서재. 다르면 남의 서재 -->
+<body> 
 	<% 
-	   Member owner = (Member)request.getAttribute("owner"); //서재 주인
+	   
 	  	//Review 데이터
 	  	CollectionData<ReviewCard,ReviewCollection> cdRR = (CollectionData<ReviewCard,ReviewCollection>)request.getAttribute("review");
 	  	ArrayList<ReviewCard> rcList = cdRR.getList();
@@ -269,7 +290,11 @@ body {
 		ArrayList<BookshelfCollection> bcList = cdBB.getColList();
 		String bsPageNavi = cdBB.getPageNavi();
 		int bsTotalCount = (int)request.getAttribute("bsTotalCount");
+		
+		//내 서재에 있는지 확인
+		boolean inMyLibCol = (boolean)request.getAttribute("inMyLibCol");
 	%>
+	<% if(m!=null) {%>
 	<div id="myCollection-wrapper" class="container-fluid">
 		<div id="myLibrary-contents-header" class="row">
 			<!-- contents-header -->
@@ -286,7 +311,15 @@ body {
 					</div>
 					<div class="col-10">
 						<div class="row">
-							<div id="myLibrary-title" class="col-12"><%=owner.getNickname() %> 님의 서재</div>
+							<div id="myLibrary-title" class="col-12"><%=owner.getNickname() %> 님의 서재 
+							<%if(!(m.getMemberNo().equals(owner.getMemberNo()))){ %>
+								<%if(inMyLibCol) {%>
+								<a id="library-add-btn" href="/libraryCollectionRemove2.rw?memberId=<%=owner.getMemberId()%>">내 컬렉션에서 빼기</a>
+								<%}else{ %>
+								<a id="library-add-btn" href="/libraryCollectionAdd.rw?memberId=<%=owner.getMemberId()%>">내 컬렉션에 추가</a>
+								<%} %>
+							<%} %>
+							</div>
 							<div class="col-12">
 								<ul id="myLibrary-lnb" class="row">
 									<li class="col-2"><a href="/myReviewNote.rw?libraryOwner=<%=owner.getMemberId()%>">리뷰노트</a></li>
@@ -310,10 +343,12 @@ body {
 						<% for(ReviewCard rc : rcList){ %>
 						<div class="other_review-card">
 							<div class="other_review-card-book-img">
-								<span class="other_reviweScrap collectionIcon"> <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<form action="/reviewCollectionRemove.rw" method="get" id="deleteRcForm">
+								<input type="hidden" name="reviewId" value="<%=rc.getReviewId()%>">
+								<span class="other_reviewScrap collectionIcon"> <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="#FF6C6C" xmlns="http://www.w3.org/2000/svg">
 								 <path fill-rule="evenodd"	d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z" />
 									</svg>
-								</span> <img src="<%=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." />
+								</span></form> <img src="<%=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." />
 							</div>
 							<div class="other_review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="other_review-card-book-title">
@@ -322,7 +357,7 @@ body {
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
-							<div class="row other_review-card-bttom">
+							<div class="row other_review-card-bottom">
 								<div class="col-3">
 									<div class="other_review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>" class="other_writer-profile-img" writer="<%=rc.getMemberId()%>" title="누르면 해당 회원의 서재로 이동합니다." />
@@ -361,14 +396,14 @@ body {
 							})
 						</script>
 					</div>
-
-				</div>
 				<!-- 카드 리스트 -->
 				<nav aria-label="Page navigation example">
 				<ul class="pagination">
 					<%=rcPageNavi %>
 				</ul>
 				</nav>
+
+				</div>
 			</div>
 
 			<div class="col-12">
@@ -377,9 +412,12 @@ body {
 					<div id="others-library-wrap" class="col-12">
 						<% for(Member m2 : libMList) {%>
 						<div class="others-library">
+							<form action="/libraryCollectionRemove.rw" method="get" id="deleteLibForm">
+							<input type="hidden" name="memberId" value="<%=m2.getMemberId()%>">
 							<div class="others-library-delete collectionIcon">
 								<i class="fas fa-trash-alt"></i>
 							</div>
+							</form>
 							<div class="others-user-profile">
 								<%if(m2.getProfileImg()!=null) {%>
 								<img src="/image/profile/<%=m2.getProfileImg() %>" title="<%=m2.getNickname()%>"/>
@@ -407,10 +445,13 @@ body {
 					<%for(OtherBookcase ob : obList) {%>
 						<div class="collectionBox">
 							<div class="row collectionBox-title">
-								<div class="col-9"><%=ob.getM().getNickname() %>님의 <%=ob.getLib().getBookShelfName() %></div>
+								<div class="col-11"><%=ob.getM().getNickname() %>님의 <%=ob.getLib().getBookShelfName() %></div>
+								<form action="/boolshelfCollectionRemove.rw" method="get" id="deleteBscForm">
+								<input type="hidden" name="bookshlefId" value="<%=ob.getLib().getBookShelfId()%>">
 								<div class="col-3 collectionBox-delete">
 									<i class="fas fa-trash-alt collectionIcon"></i>
 								</div>
+								</form>
 							</div>
 							<hr>
 							<div class="collectionBox-wrap">
@@ -433,25 +474,24 @@ body {
 			</div>
 		</div>
 	</div>
+	<%}else{ %>
+	<script> alert('로그인이 필요합니다.');
+		location.href='/index.jsp';
+	</script>
+	<%} %>
 <script>
 	$(function() {
 		// other_
 		// review-card-text 누르면 개별리뷰페이지로 이동
-		$('.other_review-card-text').mousedown(
-				function() {
-					$(this).css('box-shadow', '0px 0px 10px 5px #0080ff').css(
-							'position', 'relative').css('z-index', '999');
+		$('.other_review-card-text').mousedown(	function() {
+					$(this).css('box-shadow', '0px 0px 10px 5px #0080ff').css('position', 'relative').css('z-index', '999');
 				});// 클릭 뗄 때 이동
-		$('.other_review-card-text').mouseup(
-				function() {
-					$(this).css('box-shadow', '').css('position', '').css(
-							'z-index', '');
+		$('.other_review-card-text').mouseup(function() {
+					$(this).css('box-shadow', '').css('position', '').css('z-index', '');
 					location.href = "#";// 개별 도서 페이지
 				});// 마우스가 요소 외부에 있을 때 그림자 삭제
-		$('.other_review-card-text').mouseout(
-				function() {
-					$(this).css('box-shadow', '').css('position', '').css(
-							'z-index', '');
+		$('.other_review-card-text').mouseout(function() {
+					$(this).css('box-shadow', '').css('position', '').css('z-index', '');
 				});
 
 		// review-card-book-img 누르면 개별도서페이지로 이동
@@ -484,29 +524,25 @@ body {
 		});
 
 		// 책갈피
-		$('.other_reviweScrap').click(function(e) {
-			var color = $(this).css('color');
-			console.log(color);
-			if (color == 'rgb(255, 108, 108)') {
-				if (confirm('해당 리뷰를 삭제하시겠습니까?')) {
-					$(this).css('color', 'gray');
-				}
-			} else {
-				$(this).css('color', '#FF6C6C');
+		$('.other_reviewScrap').click(function(e) {
+			if (window.confirm('해당 리뷰를 삭제하시겠습니까?')) {
+				$('#deleteRcForm').submit();
 			}
 			e.stopImmediatePropagation(); // 버블링 방지
 		});
 
 		// 다른 사람 서재 삭제 버튼 클릭 시 
 		$('.others-library-delete').click(function() {
-			if (confirm("해당 서재를 삭제하실건가요?")) {
-				//삭제 로직
+			if (window.confirm("해당 서재를 삭제하실건가요?")) {
+				$('#deleteLibForm').submit();
 			}
 		});
 
 		//
 		$('.collectionBox-delete>.fa-trash-alt').click(function() {
-			confirm('해당 책장을 삭제하실건가요?');
+			if(window.confirm('해당 책장을 삭제하실건가요?')){
+				$('#deleteBscForm').submit();
+			};
 		});
 
 		// lnb hover 시 
