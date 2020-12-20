@@ -1,6 +1,7 @@
 package rw.member.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,6 +39,17 @@ public class MemberUpdatePwdServlet extends HttpServlet {
 		String memberPwd = request.getParameter("memberPwd");
 		
 		int result = new MemberService().updateMemberPwd(memberId,memberPwd);
+		
+		response.setCharacterEncoding("UTF-8");
+		
+		PrintWriter out = response.getWriter();
+		
+		if(result > 0) {
+			out.print("complete");
+		} else {
+			out.print("fail");
+		}
+		
 	}
 
 	/**

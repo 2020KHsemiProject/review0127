@@ -42,39 +42,55 @@
 <body>
 	<script>
 		$(function() {
-			$('#password_form').submit(function(){
+			$('#modify_pw_btn').click(function(){
 				var memberId = $('#member_id').val();
-				var sessionPwd = <%=m.getMemberPwd()%>
-				var currentPwd = $('#current_pwd');
-    			var memberPwd = $('#new_pwd');
-    			var memberPwd_re = $('#new_pwd_re');
-    			var checkNumber = memberPwd.val().search(/[0-9]/g);
-    		    var checkEnglish = memberPwd.val().search(/[a-z]/ig);
+				var sessionPwd = '<%=m.getMemberPwd()%>';
+				var currentPwd = $('#current_pwd').val();
+    			var memberPwd = $('#new_pwd').val();
+    			var memberPwd_re = $('#new_pwd_re').val();
+    			var checkNumber = memberPwd.search(/[0-9]/g);
+    		    var checkEnglish = memberPwd.search(/[a-z]/ig);
     		    
-    		    if((sessionPwd!=currentPwd.val())) {
-    		    	currentPwd.next().text("현재 비밀번호와 일치하지 않습니다.").css('color','red');
+    		    if((sessionPwd!=currentPwd)) {
+    		    	$('#current_pwd').next().text("현재 비밀번호와 일치하지 않습니다.").css('color','red');
     				return false;
-				} else if(!(/^[a-zA-Z0-9]{8,16}$/.test(memberPwd.val()))) {
-    				memberPwd.next().text("비밀번호의 길이를 다시 확인해주세요.").css('color','red');
+				} else if(currentPwd == memberPwd) {
+					$('#new_pwd').next().text("현재 비밀번호와 동일합니다.").css('color','red');
+					return false;
+				} else if(!(/^[a-zA-Z0-9]{8,16}$/.test(memberPwd))) {
+					$('#new_pwd').next().text("비밀번호의 길이를 다시 확인해주세요.").css('color','red');
     				return false;
     			} else if(checkNumber <0 || checkEnglish <0){
-    				memberPwd.next().text("숫자와 영문자를 혼용하여 입력해주세요.").css('color','red');
+    				$('#new_pwd').next().text("숫자와 영문자를 혼용하여 입력해주세요.").css('color','red');
     		        return false;
-    		    } else if(memberPwd.val().search(memberId)>-1) {
-    				memberPwd.next().text("비밀번호에 아이디가 포함되었습니다.").css('color','red');
+    		    } else if(memberPwd.search(memberId)>-1) {
+    		    	$('#new_pwd').next().text("비밀번호에 아이디가 포함되었습니다.").css('color','red');
     				return false;
-    			} else if(/(\w)\1\1\1/.test(memberPwd.val())) {
-    				memberPwd.next().text("같은 문자를 4번 이상 사용하실 수 없습니다.").css('color','red');
+    			} else if(/(\w)\1\1\1/.test(memberPwd)) {
+    				$('#new_pwd').next().text("같은 문자를 4번 이상 사용하실 수 없습니다.").css('color','red');
     				return false; 				
-    			} else if((memberPwd.val()!=memberPwd_re.val())) {
-    				memberPwd_re.next().text("비밀번호가 동일하지 않습니다.").css('color','red');
+    			} else if((memberPwd!=memberPwd_re)) {
+    				$('#new_pwd_re').next().text("비밀번호가 동일하지 않습니다.").css('color','red');
     				return false;
+    			} else {
+    				 $.ajax({
+    	    			url:"/memberPwdChange.rw",
+    	    			type:"post",
+    	    			data:{"memberId":memberId,"memberPwd":memberPwd},
+    	    			success:function(data){
+    	    				if(data == "complete") {
+    	    					alert("비밀번호 변경이 완료되었습니다.");
+    	    				} else {
+    	    					alert("비밀번호 변경이 정상적으로 처리되지 못했습니다. 지속적인 문제 발생 시 관리자에게 문의해주세요.");
+    	    				}
+    	    			},
+    	    			error:function(){
+    	    				console.log("error");
+    	    			}
+    	    		 });
     			}
-    		    return true;
-    		    
-    		    $.ajax({
-    		    	
-    		    });
+    		    //return true;
+    		   
 			});
 			$('#current_pwd').focusout(function(){
 				$(this).css('border','1.2px solid #ccc');
@@ -135,14 +151,15 @@
 							<center>
 								<div id="picture_box">
 									<div id="profile_img_area">
+									<form>
 										<div id="image_box">
 											<!--사진을 업로드하면 이미지를 diplay:none 설정-->
-											<img src="/image/profile/default_user_dark.png"
-												id="profile_img" />
+											<img src="/image/profile/default_user_dark.png"	id="profile_img" />
 										</div>
-										<label id="profile_change_btn"><input type="file"
-											accept="image/" id="input_file" /></label>
-
+										<label id="profile_change_btn">
+											<input type="file" accept="image/" id="input_file" />
+										</label>
+									</form>	
 										<p id="profile_info">※ 프로필 사진은 100px X 100px 사이즈를 권장합니다.</p>
 
 										<button type="button" class="btn btn-primary"
@@ -155,7 +172,8 @@
 							<table class="modify_table">
 								<tr class="tr_first">
 									<th>아이디</th>
-									<td><input type="text" id="member_id" value="<%=m.getMemberId()%>" readonly/></td>
+									<td><input type="text" id="member_id"
+										value="<%=m.getMemberId()%>" readonly /></td>
 								</tr>
 								<tr class="tr_second">
 									<th>닉네임</th>
@@ -199,7 +217,7 @@
 								<tr class="tr_fourth">
 									<th id="th_pw_re">비밀번호 재설정</th>
 									<td>
-										<form id="password_form" method="post" action="/memberPwdChange.rw">
+										<form id="password_form">
 											<div class="password_change_guide">
 												<p class="guide_title">비밀번호 변경 시 유의사항</p>
 												<ul class="guide_list_wrapper">
@@ -211,21 +229,21 @@
 											</div>
 											<div class="password_row">
 												<input type="password" class="modify_pwd" id="current_pwd"
-													name="memberPwd" placeholder="현재 비밀번호" />
-												<span class="pw_warning_text"></span>
+													name="memberPwd" placeholder="현재 비밀번호" /> <span
+													class="pw_warning_text"></span>
 											</div>
 											<div class="password_row">
 												<input type="password" class="modify_pwd" id="new_pwd"
-													name="memberPwd_new" placeholder="새 비밀번호" /> 
-												<span class="pw_warning_text"></span>
+													name="memberPwd_new" placeholder="새 비밀번호" /> <span
+													class="pw_warning_text"></span>
 											</div>
 											<div class="password_row">
 												<input type="password" class="modify_pwd" id="new_pwd_re"
-													name="memberPwd_new_re" placeholder="새 비밀번호 확인" /> 
-												<span class="pw_warning_text"></span>
+													name="memberPwd_new_re" placeholder="새 비밀번호 확인" /> <span
+													class="pw_warning_text"></span>
 											</div>
 											<div class="password_row">
-												<button type="submit" id="modify_pw_btn">비밀번호 변경</button>
+												<button type="button" id="modify_pw_btn">비밀번호 변경</button>
 											</div>
 										</form>
 									</td>
@@ -295,8 +313,8 @@
 						<form action="/memberWithdraw.rw" method="post"
 							class="withdraw_form">
 							<input type="checkbox" name="withdrawAgree" id="withdraw_check"
-								required /> <span id="check_text">해당 내용을 모두 확인했으며, 회원 탈퇴에
-								동의합니다.</span><br> <input type="submit" name="withdrawOK"
+								required /> <span id="check_text">해당 내용을 모두 확인했으며, 회원
+								탈퇴에 동의합니다.</span><br> <input type="submit" name="withdrawOK"
 								value="회원탈퇴" id="check_submit" />
 						</form>
 					</div>
