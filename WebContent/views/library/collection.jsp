@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<jsp:include page="/views/common/header.jsp" flush="false" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,7 +16,10 @@
 <title>REVIEW:0127</title>
 
 <!-- 스타일 시트 -->
-<link rel= "stylesheet" type="text/css" href="/views/css/library_my_contents_top.css">
+<!-- 서재 헤더 -->
+<link rel="stylesheet" type="text/css" href="/views/css/library_my_contents_top.css" />
+<!-- 리뷰 카드 -->
+<link rel="stylesheet" type="text/css" href="/views/css/other_review_card.css" />
 
     <style>
         body { margin: 0; font-family: 'Noto Sans KR', sans-serif; }
@@ -30,9 +34,6 @@
         #myCollection-wrapper {
             width: 100%;
             padding: 0;
-        }
-        #myCollection-wrapper>.row {
-            /*padding: 0 13.03%;*/
         }
 
 
@@ -55,124 +56,7 @@
         }
         
         /****************리뷰카드*****************/
-        #myCollection-cardList {
-        	padding-left: 20px;
-        }
-        #myCollection-cardList>div:nth-child(2){
-        	padding:0;
-        }
-        .myCollection-book-card {
-        	/* 리뷰카드 크기&스타일 */
-            margin: 8px;
-            width: 370px; height: 560px;
-            border: 1px solid gray;
-            float: left;
-            box-shadow: 2px 2px 5px #D5D5D5;
-        }
-        .myCollection-book-img {
-        	/* 카드 속> 이미지 div */
-            width: 100%; height: 55%;
-            overflow: hidden;
-        }
-        .myCollection-book-img>img {
-        	/* 카드 속> 이미지 div 속> 이미지 태그 크기 */
-            width: 100%;
-            z-index: 19;
-            position: relative;
-            bottom: 15.5%;
-        }
-        .reviweScrap {
-        	/* 카드 속> 이미지 div 속> 책갈피 YN */
-            z-index: 20;
-            position: relative;
-            color: #FF6C6C;
-        }
-        .reviweScrapN {
-        	/* 카드 속> 이미지 div 속> 책갈피 YM 속> 책갈피 N */
-            display: none;
-            color: #FF6C6C;
-        }
-        .myCollection-book-text {
-        	/* 카드 속> 리뷰 text div */
-            width: 100%; height: 30%;
-            padding: 3% 4% 1% 4%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .book-text-title {
-        	/* 카드 속> 리뷰 text div 속> 제목 및 별 div */
-            padding-bottom: 2%;  
-        }
-        .book-text-title-name {
-        	/* 카드 속> 리뷰 text div 속> 제목 span */
-        	display: inline-block;
-        	width: 72%;
-        }
-        .review-star {
-        	/* 카드 속> 리뷰 text div 속> 별점 span */
-            position: relative;
-            right: 8px;
-            color: gold;   
-        }
-        .myCollection-card-text-bttom {
-        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div */
-            width: 100%; height: 15%;
-            padding-top: 3%;
-        }
-        .myCollection-userProfile {
-        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 프로필 이미지 div 스타일 */
-            width: 50px; height: 50px;
-            border-radius: 100%;
-            position: relative;
-            left: 40%;
-            overflow: hidden;
-        }
-        .myCollection-userProfile>img {
-        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 프로필 이미지 div 속> 이미지 태그 크기 */
-            width: 100%; height: 100%;
-        }
-        .myCollection-book-card-user {
-        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div*/
-            font-size: 14px;
-            padding: 5% 0 1% 0;
-        }
-        .myCollection-book-card-user div {
-        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div 속> 모든 div*/
-            padding-right: 0;
-        }
-        .myCollection-book-card-user .row>div:last-child {
-        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div 속> 조회수*/
-            position: relative;
-            left: 6%;
-        }
         
-        /********** 좋아요 **********/
-        .rvheart {
-        	/* 좋아요 div를 담은 div */
-            padding: 5% 0 0 8%;
-        }
-        .review-heart-and-count {
-        	/* 좋아요 div 스타일 */
-            border: 1px solid gray;
-            width: 120%; height: 63%;
-            border-radius: 40px 40px 40px 40px;
-            position: relative;
-            right: 30%;
-            bottom: 10%;
-        }
-        .review-heart {
-        	/* 좋아요 div 속> 하트 */
-            color: red;
-            position: relative;
-            top: 9%;
-            left: 15%;
-        }
-        .heart-count {
-        	/* 좋아요 div 속> 좋아요 수 */
-            position: relative;
-            top: 9%;
-            left: 30%;
-        }
         
         /* 서재 */
         .others-library {
@@ -318,6 +202,30 @@
     <script>
     
         $(function(){
+        	// other_
+			// review-card-text 누르면 개별리뷰페이지로 이동
+			$('.other_review-card-text').mousedown(function(){
+				$(this).css('box-shadow','0px 0px 10px 5px #0080ff').css('position','relative').css('z-index','999');
+			});// 클릭 뗄 때 이동
+			$('.other_review-card-text').mouseup(function(){
+				$(this).css('box-shadow','').css('position','').css('z-index','');
+				location.href="#";// 개별 도서 페이지
+			});// 마우스가 요소 외부에 있을 때 그림자 삭제
+			$('.other_review-card-text').mouseout(function(){
+				$(this).css('box-shadow','').css('position','').css('z-index','');
+			});
+			
+			// review-card-book-img 누르면 개별도서페이지로 이동
+			$('.other_review-card-book-img').mousedown(function(){
+				$(this).css('box-shadow','0px 0px 10px 5px #0080ff');
+			});// 클릭 뗄 때 이동
+			$('.other_review-card-book-img').mouseup(function(){
+				$(this).css('box-shadow','');
+				location.href="#";// 개별 도서 페이지
+			});// 마우스가 요소 외부에 있을 때 그림자 삭제
+			$('.other_review-card-book-img').mouseout(function(){
+				$(this).css('box-shadow','');
+			});
             
          // 리뷰 좋아요 클릭 시
             $('.rvheart').click(function(){
@@ -337,18 +245,17 @@
             });
             
             // 책갈피
-            $('.reviweScrap').click(function(){
-                if($(this).attr('class').indexOf('Y')!=-1) {
+            $('.other_reviweScrap').click(function(e){
+            	var color = $(this).css('color');
+            	console.log(color);
+                if(color=='rgb(255, 108, 108)') {
                     if(confirm('해당 리뷰를 삭제하시겠습니까?')){
-                        $(this).css('display','none');
-                        $(this).next().css('display','inline');
-                    }else{
-                        
+                        $(this).css('color','gray');
                     }
                 }else {
-                    $(this).css('display','none');
-                    $(this).prev().css('display','inline');
+                    $(this).css('color','#FF6C6C');
                 }
+                e.stopImmediatePropagation(); // 버블링 방지
             });
             
          	// 다른 사람 서재 삭제 버튼 클릭 시 
@@ -425,272 +332,96 @@
         
         
         <div id="myCollection-contents" class="row">
+        
+        
+        
+        
            <div class="col-12">
+           
+           
+           
                <div id="myCollection-cardList" class="row">
+               
+               
                    <div id="myCollection-review-count" class="col-12 myCollection-contents-title">리뷰(18)</div>
                    <div class="col-12">
-                       <div class="myCollection-book-card">
-                           <div class="myCollection-book-img">
-                                <span class="reviweScrap reviweScrapY collectionIcon">
+                   
+                   
+                   
+                   <% //for(ReviewCard rc : list){ %>
+                       <div class="other_review-card">
+                           <div class="other_review-card-book-img">
+                                <span class="other_reviweScrap collectionIcon">
                                     <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                       <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
                                     </svg>
                                 </span>
-                                <span class="reviweScrap reviweScrapN collectionIcon">
-                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
-                                    </svg>
-                                </span>
-                               <img src="/image/book/b001.jpg"/>
+                               <img src="<%//=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." />
                             </div>
-                           <div class="myCollection-book-text">
-                             <div class="book-text-title">
-                                <span class="book-text-title-name">나는 손발이 모두 묶여도, 자유</span><span class="review-star collectionIcon">
-                                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
-                                </span>
-                              </div>
-                               이 책은 많은 사람들에게 새벽 기상의 힘을 전파하고 있는 김유진 변호사가 새벽 기상이 자신의 삶을 어떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동이 전파하고 있는 김유진 변호사가 새벽 기상이 자신의 삶을 어떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동
-                           </div>
-                           <div class="row myCollection-card-text-bttom">
+                           <div class="other_review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
+								<div class="other_review-card-book-title">
+									<span class="other_review-card-book-title-text" style="width: 290px;"><%//=rc.getBookTitle() %></span>
+									<span class="other_review-card-star"><i class="fas fa-star"></i></span><%//=rc.getReviewRate() %>
+								</div>
+								<%//=rc.getReviewCont() %>
+							</div>
+                           <div class="row other_review-card-bttom">
                               <div class="col-3">
-                               <div class="myCollection-userProfile">
-                                   <img src="/image/profile/ppp.jpg"/>
+                               <div class="other_review-card-writer-profile">
+                                   <img src="/image/profile/<%//=rc.getProfileImg()%>" class="other_writer-profile-img" writer="<%//=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
                                </div>
                                </div>
                                <div class="col-6">
-                                   <div class="row myCollection-book-card-user">
-                                       <div class="col-12 userNickname-data">(userNickname)</div>
+                                   <div class="row other_review-card-infor">
+                                       <div class="col-12"><%//=rc.getNickname() %></div>
                                          <div class="col-12">
                                            <div class="row">
-                                               <div id="" class="col-4">2020.12.01</div>
-                                               <div class="col-5">조회 55</div>
-                                           </div> 
+												<div class="col-7"><%//=rc.getReviewDate() %></div>
+												<div class="col-5 other_review-card-count">
+													조회	<%//=rc.getReviewCount() %></div>
+											</div>
                                          </div>
                                    </div>
                                </div>
-                               <div class="col-3 rvheart collectionIcon"><div class="review-heart-and-count"><span class="review-heart">♡</span> <span class="heart-count">90</span></div></div>
-                           </div>
+								<div class="col-3 other_rvheart other_reviewNoteIcon">
+									<div class="other_review-heart-and-count">
+										<span class="other_review-heart"><a>
+												<%// if(rc.getLikeYN()=='Y'){ %>♥<%//}else { %>♡<%// } %>
+										</a></span> <span class="other_heart-count"><%//=rc.getReviewRate() %></span>
+									</div>
+								</div>                           
+							</div>
                        </div>
-                       <div class="myCollection-book-card">
-                            <div class="myCollection-book-img">
-                                <span class="reviweScrap reviweScrapY collectionIcon">
-                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
-                                    </svg>
-                                </span>
-                                <span class="reviweScrap reviweScrapN collectionIcon">
-                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
-                                    </svg>
-                                </span>
-                               <img src="/image/book/b001.jpg"/>
-                            </div>
-                           <div class="myCollection-book-text">
-                             <div class="book-text-title">
-                                <span class="book-text-title-name">제목</span><span class="review-star collectionIcon">
-                                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
-                                </span>
-                              </div>
-                               이 책은 많은 사람들에게 새벽 기상의 힘을 전파하고 있는 김유진 변호사가 새벽 기상이 자신의 삶을 어떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동이 
-                           </div>
-                           <div class="row myCollection-card-text-bttom">
-                              <div class="col-3">
-                               <div class="myCollection-userProfile">
-                                   <img src="/image/profile/ppp.jpg"/>
-                               </div>
-                               </div>
-                               <div class="col-6">
-                                   <div class="row myCollection-book-card-user">
-                                       <div class="col-12 userNickname-data">(userNickname)</div>
-                                         <div class="col-12">
-                                           <div class="row">
-                                               <div id="" class="col-4">2020.12.01</div>
-                                               <div class="col-5">조회 55</div>
-                                           </div> 
-                                         </div>
-                                   </div>
-                               </div>
-                               <div class="col-3 rvheart collectionIcon"><div class="review-heart-and-count"><span class="review-heart">♡</span> <span class="heart-count">90</span></div></div>
-                           </div>
-                       </div>
-                       <div class="myCollection-book-card">
-                           <div class="myCollection-book-img">
-                                <span class="reviweScrap reviweScrapY collectionIcon">
-                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
-                                    </svg>
-                                </span>
-                                <span class="reviweScrap reviweScrapN collectionIcon">
-                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
-                                    </svg>
-                                </span>
-                               <img src="/image/book/b001.jpg"/>
-                            </div>
-                           <div class="myCollection-book-text">
-                             <div class="book-text-title">
-                                <span class="book-text-title-name">제목</span><span class="review-star collectionIcon">
-                                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
-                                </span>
-                              </div>
-                               이 책은 많은 사람들에게 새벽 기상의 힘을 전파하고 있는 김유진 변호사가 새벽 기상이 자신의 삶을 어떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동이 
-                           </div>
-                           <div class="row myCollection-card-text-bttom">
-                              <div class="col-3">
-                               <div class="myCollection-userProfile">
-                                   <img src="/image/profile/ppp.jpg"/>
-                               </div>
-                               </div>
-                               <div class="col-6">
-                                   <div class="row myCollection-book-card-user">
-                                       <div class="col-12 userNickname-data">(userNickname)</div>
-                                         <div class="col-12">
-                                           <div class="row">
-                                               <div id="" class="col-4">2020.12.01</div>
-                                               <div class="col-5">조회 55</div>
-                                           </div> 
-                                         </div>
-                                   </div>
-                               </div>
-                               <div class="col-3 rvheart collectionIcon"><div class="review-heart-and-count"><span class="review-heart">♡</span> <span class="heart-count">90</span></div></div>
-                           </div>
-                       </div>
+         
+                       
+                       <%// } // foreach문 %>
+               <script>
+			$(function(){
+			//// 카드 프로필 이미지 클릭 시 해당 멤버의 서재로 이동
+			$('.other_writer-profile-img').click(function(e){
+				var $writer = $(this).attr('writer');
+				if(confirm($writer+'님의 서재로 이동하시겠습니까?')) {
+					location.href='/myReviewNote.rw?libraryOwner='+$writer;
+				}
+				e.stopImmediatePropagation(); // 버블링 방지
+			});
+			})
+		</script>        
                        
                        
-                       <div class="myCollection-book-card">
-                           <div class="myCollection-book-img">
-                                <span class="reviweScrap reviweScrapY collectionIcon">
-                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
-                                    </svg>
-                                </span>
-                                <span class="reviweScrap reviweScrapN collectionIcon">
-                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
-                                    </svg>
-                                </span>
-                               <img src="/image/book/b001.jpg"/>
-                            </div>
-                           <div class="myCollection-book-text">
-                             <div class="book-text-title">
-                                <span class="book-text-title-name">제목</span><span class="review-star collectionIcon">
-                                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
-                                </span>
-                              </div>
-                               이 책은 많은 사람들에게 새벽 기상의 힘을 전파하고 있는 김유진 변호사가 새벽 기상이 자신의 삶을 어떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동이 
-                           </div>
-                           <div class="row myCollection-card-text-bttom">
-                              <div class="col-3">
-                               <div class="myCollection-userProfile">
-                                   <img src="/image/profile/ppp.jpg"/>
-                               </div>
-                               </div>
-                               <div class="col-6">
-                                   <div class="row myCollection-book-card-user">
-                                       <div class="col-12 userNickname-data">(userNickname)</div>
-                                         <div class="col-12">
-                                           <div class="row">
-                                               <div id="" class="col-4">2020.12.01</div>
-                                               <div class="col-5">조회 55</div>
-                                           </div> 
-                                         </div>
-                                   </div>
-                               </div>
-                               <div class="col-3 rvheart collectionIcon"><div class="review-heart-and-count"><span class="review-heart">♡</span> <span class="heart-count">90</span></div></div>
-                           </div>
-                       </div>
                        
                        
-                       <div class="myCollection-book-card">
-                           <div class="myCollection-book-img">
-                                <span class="reviweScrap reviweScrapY collectionIcon">
-                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
-                                    </svg>
-                                </span>
-                                <span class="reviweScrap reviweScrapN collectionIcon">
-                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
-                                    </svg>
-                                </span>
-                               <img src="/image/book/b001.jpg"/>
-                            </div>
-                           <div class="myCollection-book-text">
-                             <div class="book-text-title">
-                                <span class="book-text-title-name">제목</span><span class="review-star collectionIcon">
-                                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
-                                </span>
-                              </div>
-                               이 책은 많은 사람들에게 새벽 기상의 힘을 전파하고 있는 김유진 변호사가 새벽 기상이 자신의 삶을 어떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동이 
-                           </div>
-                           <div class="row myCollection-card-text-bttom">
-                              <div class="col-3">
-                               <div class="myCollection-userProfile">
-                                   <img src="/image/profile/ppp.jpg"/>
-                               </div>
-                               </div>
-                               <div class="col-6">
-                                   <div class="row myCollection-book-card-user">
-                                       <div class="col-12 userNickname-data">(userNickname)</div>
-                                         <div class="col-12">
-                                           <div class="row">
-                                               <div id="" class="col-4">2020.12.01</div>
-                                               <div class="col-5">조회 55</div>
-                                           </div> 
-                                         </div>
-                                   </div>
-                               </div>
-                               <div class="col-3 rvheart collectionIcon"><div class="review-heart-and-count"><span class="review-heart">♡</span> <span class="heart-count">90</span></div></div>
-                           </div>
-                       </div>
                        
                        
-                       <div class="myCollection-book-card">
-                           <div class="myCollection-book-img">
-                                <span class="reviweScrap reviweScrapY collectionIcon">
-                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
-                                    </svg>
-                                </span>
-                                <span class="reviweScrap reviweScrapN collectionIcon">
-                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
-                                    </svg>
-                                </span>
-                               <img src="/image/book/b001.jpg"/>
-                            </div>
-                           <div class="myCollection-book-text">
-                             <div class="book-text-title">
-                                <span class="book-text-title-name">제목</span><span class="review-star collectionIcon">
-                                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
-                                </span>
-                              </div>
-                               이 책은 많은 사람들에게 새벽 기상의 힘을 전파하고 있는 김유진 변호사가 새벽 기상이 자신의 삶을 어떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동이 떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동이 떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동이 
-                           </div>
-                           <div class="row myCollection-card-text-bttom">
-                              <div class="col-3">
-                               <div class="myCollection-userProfile">
-                                   <img src="/image/profile/ppp.jpg"/>
-                               </div>
-                               </div>
-                               <div class="col-6">
-                                   <div class="row myCollection-book-card-user">
-                                        <div class="col-12 userNickname-data">(userNickname)</div>
-                                        <div class="col-12">
-                                           <div class="row">
-                                               <div id="" class="col-4">2020.12.01</div>
-                                               <div class="col-5">조회 55</div>
-                                           </div> 
-                                        </div>
-                                   </div>
-                               </div>
-                               <div class="col-3 rvheart collectionIcon"><div class="review-heart-and-count"><span class="review-heart">♡</span> <span class="heart-count">90</span></div></div>
-                           </div>
-                       </div>
+                       
                        
                    </div>
-               </div>
+                   
+               </div> <!-- 카드 리스트 -->
+               
             </div>
+            
+            
             
             <div class="col-12">
                <div class="row">
@@ -828,6 +559,6 @@
        
     </div>
     
-
+<%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <%@ page import="rw.member.model.vo.Member" %>
 <%@ page import="rw.library.model.vo.BookCase" %>
 <%@ page import="rw.library.model.vo.Library" %>
+<%@ page import="rw.library.model.vo.LibraryPageData" %>
 <%@ page import="rw.review.model.vo.Book" %>
 <%@ page import="java.util.ArrayList" %>
 <jsp:include page="/views/common/header.jsp" flush="false" />
@@ -173,6 +174,7 @@
             color: white;
             cursor: pointer;
             box-shadow: 0 1px 3px gray;
+            display:none;
         }
         
         /* Icon */
@@ -294,7 +296,7 @@
             $('.bi-gear').click(function(){
                 $(this).css('display','none');
                 $(this).parent().prev().css('display','inline');
-                $(this).parents('.bookcase-case').find('.bookcase-booklist').prepend($('#addBook').html());
+                $(this).parents('.bookcase-case').find('.book-nullPlace').css('display','inline');
                 $(this).parents('.bookcase-case').find('.minusButton').css('z-index','10').css('visibility','visible');
             });
             // 책장 수정 완료 아이콘
@@ -303,19 +305,13 @@
                 $(this).next().children().css('display','inline');
                 $(this).parents('.bookcase-case').find('.bookcase-booklist').children('.book-nullPlace').remove();
                 $(this).parents('.bookcase-case').find('.minusButton').css('z-index','1').css('visibility','hidden');
-                // 여기서 저장하는 로직으로 이어져야 함
+                history.go(0);
             });
             // 책장 삭제
             $('.minus-book-icon').click(function(){
                 let result = window.confirm('해당 책장을 삭제하시겠습니까?');
             });
-            // 책 삭제
-            $('.minusButton').click(function(){
-                let result = window.confirm('정말 삭제하시겠습니까?');
-                if(result){
-                    $(this).parent().remove();
-                }
-            });
+            
             
             
             
@@ -326,16 +322,29 @@
                 $(this).css('font-weight','');
             });
             
+         // 책 삭제
+            $('.bi-dash-circle').click(function(){
+            	var $thisTag = $(this);
+            	var bookShelfId = $thisTag.parents('.bookcase-case').attr('name');
+    			var delBookId = $thisTag.prev().val();
+    			var object = {'bookShelfId':bookShelfId,'bookId':delBookId};
+                var result = window.confirm('정말 삭제하시겠습니까?');
+                if(result){
+                    $.ajax({
+                    	url : '/delBookInCase.rw',
+                    	data : object,
+                    	type : 'post',
+                    	success : function(result){
+                    		if(result){
+                    			$thisTag.parents('.bookcase-book').remove();	
+                    		}else{
+                    			alert('해당 책 삭제에 실패했습니다. 다시 시도해주세요. \n만약, 지속적인 오류 발생시 관리자에 문의하세요.');
+                    		}
+                    	}
+                    });
+                }
+            });
             
-            // 모달 체크 버튼
-            $('.bi-check-circle').click(function(){
-                $(this).css('display','none');
-                $(this).parent().next().children().css('display','inline');
-            });
-            $('.bi-check-circle-fill').click(function(){
-                $(this).css('display','none');
-                $(this).parent().prev().children().css('display','inline');
-            });
             
             
          	// lnb hover 시 
@@ -358,6 +367,26 @@
             
         });
 
+        
+        
+        
+        
+        
+        
+        /// 다른사람 책장
+        // 책갈피
+            $('.other_bookCaseScrap').click(function(e){
+            	var color = $(this).css('color');
+            	console.log(color);
+                if(color=='rgb(255, 108, 108)') {
+                    if(confirm('해당 리뷰를 삭제하시겠습니까?')){
+                        $(this).css('color','gray');
+                    }
+                }else {
+                    $(this).css('color','#FF6C6C');
+                }
+                e.stopImmediatePropagation(); // 버블링 방지
+            });
     </script>
     
     
@@ -419,13 +448,16 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                    <!-- user의 프로필과 서재 네비게이션 부분 -->
                     <div id="bookcase-count" class="col-10"><%=count %>개의 책장</div>
                     <div class="col-2">
-                        <button id="add-bookcase-btn" onclick="addBookCase();">책장 추가하기</button>
+                    <form action="/views/library/book_case_add.jsp?libraryOwner=<%=libraryOwner %>" post="post">
+                        <button type="submit" id="add-bookcase-btn">책장 추가하기</button>
+                    </form>
                     </div>
                 </div>
             </div>
-            
 
-	<% ArrayList<BookCase> list = (ArrayList<BookCase>)request.getAttribute("list");
+	<% LibraryPageData listPage = (LibraryPageData)request.getAttribute("list");
+			ArrayList<BookCase> list = listPage.getList();
+			String pageNavi = listPage.getPageNavi();
 		if(!list.isEmpty()){
 			
 			for(BookCase bkc : list) {
@@ -434,7 +466,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 	%>
             <div class="col-12">
                <br><br>
-                <div class="row bookcase-case">
+                <div class="row bookcase-case" name="<%=libr.getBookShelfId()%>">
                 
                 
                 <script>
@@ -475,7 +507,6 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                             	data : object,
                             	type : 'post',
                             	success : function(){
-                            		alert('성공');
                             		$thisBtn.css('display','none');
                                     $thisBtn.parent().next().children().css('display','inline'); 
                             	},
@@ -495,7 +526,6 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                             	data : object,
                             	type : 'post',
                             	success : function(){
-                            		alert('성공');
                             		$thisBtn.css('display','none');
                                     $thisBtn.parent().prev().children().css('display','inline');
                             	},
@@ -555,11 +585,20 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                     
                     
                     <div class="col-12 bookcase-booklist"> <!-- 여기가 책 리스트 -->
+                    
+                    
+                    <div class="bookcase-book book-nullPlace" style="margin: 8px;" onclick="addBookInCase('<%=libr.getBookShelfId()%>');">
+                		<svg width="4em" height="4em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+	                    	<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+	                    	<path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                		</svg>
+            		</div>
                        
 					<% for(Book b : listB){ %>
                        
                         <div class="bookcase-book" style="margin: 8px;">
                            <div class="minusButton">
+                           <input type="hidden" value="<%=b.getBookId()%>"/>
                             <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-dash-circle caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                 <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
@@ -579,15 +618,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
             
           <% } //// 포이치문 책장 %>  
             
-            
-       	<script>
-    function addBookCase(){
-        let add = $('#bookCase-nullPlace').html();
-        $('#bookcase-contents').children().eq(1).after(add);
-    	//$('#add-bookcase-modal').modal('show');
-    }
-    
-		</script>     
+              
             
             
             
@@ -595,23 +626,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
             <div id="bookcase-page" class="col-12">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-                                </svg>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                                </svg>
-                            </a>
-                        </li>
+						<%=pageNavi %>
                     </ul>
                 </nav>
             </div>
@@ -640,19 +655,19 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
               
               
               <!-- 내가 좋아요 누른 책 리스트 -->
-              <div id="modal-body-wrapper">
-         <% for(Book likeB : listLB) { %>
               
+         <% for(Book likeB : listLB) { %>
                 <div class="selectBookListInPopUp">
+                <input type="hidden" value="<%=likeB.getBookId()%>"/>
                     <div class="checkInPopUp">
                         <span class="minusBookInPopUp">
-                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-check-circle caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-check-circle caseIcon befor-like" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                 <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/>
                             </svg>
                         </span>
                         <span class="plusBookInPopUp">
-                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-check-circle-fill caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-check-circle-fill caseIcon after-like" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                             </svg>
                         </span>
@@ -662,17 +677,78 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                     </div>                    
                 </div>
                 
-           <% } %>   
-           </div>
+           <% } ///// 모달 책 포이치문%>   
+           
                 
               </div>
               <div class="modalFooter">
-                <button id="bookAddBtn" class="btn">선택완료</button>
+                <button type="button" id="bookAddBtn" class="btn">선택완료</button>
               </div>
               </form>
             </div>
           </div>
         </div>
+            
+            
+            
+            
+      <script>
+    	var modalData; // 책장 고유ID
+    	
+		function addBookInCase(data){
+	       	// 모달 책장의 책 추가 onload면 안 됨
+			$('#add-bookcase-modal').modal('show');
+			modalData = data;
+		};
+      	
+		// 모달 체크 추가버튼
+		$('.bi-check-circle').click(function(){
+			var $thisTag = $(this);
+			var addBookId = $thisTag.parent().parent().prev().val();
+			//console.log(addBookId);
+			var object = {'bookShelfId':modalData,'bookId':addBookId};
+			$.ajax({
+				url : '/addBookInCase.rw',
+				data : object,
+				type: 'post',
+				success : function(){
+					$thisTag.css('display','none');
+					$thisTag.parent().next().children().css('display','inline');
+				},
+				error : function(){
+					console.log('책 추가에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.');
+				}
+			});
+			
+		});
+		
+		// 모달 체크 삭제버튼
+		$('.bi-check-circle-fill').click(function(){
+			var $thisTag = $(this);
+			var delBookId = $thisTag.parent().parent().prev().val();
+			var object = {'bookShelfId':modalData,'bookId':delBookId};
+			$.ajax({
+				url : '/delBookInCase.rw',
+				data : object,
+				type: 'post',
+				success : function(){
+					$thisTag.css('display','none');
+					$thisTag.parent().prev().children().css('display','inline');
+				},
+				error : function(){
+					console.log('책 추가에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.');
+				}
+			});
+			
+		});
+		// 모달 선택완료 버튼
+		$('#bookAddBtn').click(function(){
+			history.go(0);
+		});
+	</script>      
+            
+            
+            
             
             
 	<% } else { %>   
@@ -687,19 +763,6 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
     
 
         
-        <!-- 추가할 책의 빈공간 -->
-        <!-- <div class="bookcase-book" style="margin: 8px;"> 첫번째 div 속성 이걸로 해야함
-            즉 id 값과 onclick 값 빼면 됨  -->
-        <div id="addBook">
-            <div class="bookcase-book book-nullPlace" style="margin: 8px;" onclick="addBookInCase();">
-                <svg width="4em" height="4em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                </svg>
-            </div>
-        </div>
-        
-	
         
         <!-- 책 빈공간 안에 데이터 채울 공간 -->
         <div id="inAddBook">
@@ -774,16 +837,12 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
         <!-- <button id="add-bookcase-btn" data-toggle="modal" data-target="#add-bookcase-modal">책장 추가하기</button> 모달ㄴ -->
         
         
-    <script>
-		function addBookInCase(){
-	       	// 모달 책장의 책 추가 onload면 안 됨
-			$('#add-bookcase-modal').modal('show');
-		};
-      	
-	</script>
+    
 
  <% } else if((Member)session.getAttribute("member")!=null){ 
  ///////////////////////////////////////////////////////////////////////////////////// 다른사람 책장
+ 
+ 
  %> 
 
 
@@ -831,7 +890,9 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                 </div>
             </div>
             
-	<% ArrayList<BookCase> list = (ArrayList<BookCase>)request.getAttribute("list");
+	<% LibraryPageData listPage = (LibraryPageData)request.getAttribute("list");
+		ArrayList<BookCase> list = listPage.getList();
+		String pageNavi = listPage.getPageNavi();
 		if(!list.isEmpty()){
 			
 			for(BookCase bkc : list) {
@@ -848,16 +909,18 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                             <div class="col-10">
                                 <H3>
                                 <span class="bookcase-name font-rem"><%=libr.getBookShelfName() %></span>
-                                <span class="font-rem"><i class="fas fa-lock-open caseIcon"></i></span>
-                                <span class="font-rem"><i class="fas fa-lock caseIcon"></i></span>
                                 </H3>
                             </div>
                             <div class="col-2 bookcase-settingicon">
                                 <H3>
-                                <!-- + 아이콘 -->
-                                <span class="minus-book-icon">
-                                    <svg width="2.1rem" height="2.1rem" viewBox="0 0 16 16" class="bi bi-x caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                <!-- 스크랩 아이콘 -->
+                       <% //if(){ ////////////////////////////////////////////////////////////////////////////////////////////////////%>
+                                <span class="other_bookCaseScrap caseIcon">
+                       <% //}else { %>
+                       
+                       <% //} %>
+                                    <svg width="2.5em" height="2.5em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                      <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
                                     </svg>
                                 </span>
                                 </H3>
@@ -902,23 +965,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
             <div id="bookcase-page" class="col-12">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-                                </svg>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                                </svg>
-                            </a>
-                        </li>
+                        <%=pageNavi %>
                     </ul>
                 </nav>
             </div>

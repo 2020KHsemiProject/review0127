@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import rw.library.model.service.LibraryService;
-import rw.library.model.vo.BookCase;
+import rw.library.model.vo.LibraryPageData;
 import rw.member.model.service.MemberService;
 import rw.member.model.vo.Member;
 import rw.review.model.vo.Book;
@@ -46,13 +46,22 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 		Member m = new MemberService().selectOneMemberId(libraryOwner);
 		int count = 0; // 책장 개수
 		
+		
 		if(m!=null) {
 			count = lService.countAllBookCase(m.getMemberNo()); // 책장 개수
-			ArrayList<BookCase> list = lService.selectAllBookCase(m.getMemberNo());
+			
+			// 페이징 처리
+			int currentPage; // 현재 페이지값을 가지고 있는 변수
+			if(request.getParameter("currentPage")==null) {
+				currentPage = 1;
+			}else {
+				currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			}
+			
+			LibraryPageData list = lService.selectAllBookCase(m.getMemberNo(),libraryOwner,currentPage);
 			// 최종적으로 list 안에 담긴 데이터 = (책장 + 해당 책장에 담긴 책들) 객체를 담은 BookCase 객체// 배열
 			
-			ArrayList<Book> listLB = lService.selectLikeBook(m.getMemberNo());
-			
+			ArrayList<Book> listLB = lService.selectLikeBook(m.getMemberNo()); // 좋아요 한 책 리스트
 			
 			
 			RequestDispatcher view = request.getRequestDispatcher("/views/library/book_case.jsp?libraryOwner="+libraryOwner);

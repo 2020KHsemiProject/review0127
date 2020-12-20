@@ -93,7 +93,7 @@ public class LibraryReviewNoteServlet extends HttpServlet {
 		}
 		
 		}else { // 로그인 안 했다면
-			RequestDispatcher view = request.getRequestDispatcher("/views/library/review_note_read_fail.jsp");
+			RequestDispatcher view = request.getRequestDispatcher("/views/library/library_read_fail.jsp");
 			view.forward(request, response);
 		}
 		

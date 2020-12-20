@@ -1,31 +1,30 @@
-package rw.review.controller;
+package rw.library.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 
+import javax.print.attribute.standard.RequestingUserName;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-
-import rw.review.model.service.ReviewService;
-import rw.review.model.vo.ReviewCard;
+import rw.library.model.service.LibraryService;
+import rw.member.model.vo.Member;
 
 /**
- * Servlet implementation class ReviewSelectAllServlet
+ * Servlet implementation class LBCInsertBookServlet
  */
-@WebServlet("/reviewPage.rw")
-public class ReviewSelectAllServlet extends HttpServlet {
+@WebServlet("/addBookInCase.rw")
+public class LBCInsertBookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewSelectAllServlet() {
+    public LBCInsertBookServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,24 +33,13 @@ public class ReviewSelectAllServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		int end;
-		if(request.getParameter("end")==null) {
-			end=12;
-		}else {
-			end=Integer.parseInt(request.getParameter("end"))+6;
-		}
-		ArrayList<ReviewCard> list = new ReviewService().selectAllReview(end);
-		for(ReviewCard rc : list) {
-			if(rc.getProfileImg()==null) {
-				rc.setProfileImg("default_user_dark.png");
-			}
+		HttpSession session = request.getSession();
+		if((Member)session.getAttribute("member")!=null) {
+			String bookShelfId = request.getParameter("bookShelfId");
+			String bookId = request.getParameter("bookId");
+			new LibraryService().insertBookInCase(bookShelfId,bookId);
 		}
 		
-		RequestDispatcher view = request.getRequestDispatcher("/views/review/review_list.jsp");
-		request.setAttribute("list", list);
-		request.setAttribute("end", end);
-		view.forward(request, response);
 		
 	}
 

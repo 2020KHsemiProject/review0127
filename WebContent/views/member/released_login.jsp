@@ -7,12 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<script>
-		if(confirm('내 서재는 로그인한 회원만 사용가능합니다.\n로그인하시겠습니까?')){
-			location.href="/views/member/login.jsp";
-		}else{
-			history.back();	
-		}
-	</script>
+<script>
+	alert('로그인 상태가 아닙니다. 로그인 후 다시 시도해주세요.');
+	location.replace('/index.jsp');
+</script>
 </body>
 </html>

@@ -1,8 +1,7 @@
-package rw.review.controller;
+package rw.library.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,22 +9,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 
-import rw.review.model.service.ReviewService;
-import rw.review.model.vo.ReviewCard;
+import rw.library.model.service.LibraryService;
+import rw.member.model.vo.Member;
 
 /**
- * Servlet implementation class ReviewSelectAllServlet
+ * Servlet implementation class LBCDeleteBookServlet
  */
-@WebServlet("/reviewPage.rw")
-public class ReviewSelectAllServlet extends HttpServlet {
+@WebServlet("/delBookInCase.rw")
+public class LBCDeleteBookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewSelectAllServlet() {
+    public LBCDeleteBookServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,25 +35,26 @@ public class ReviewSelectAllServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		int end;
-		if(request.getParameter("end")==null) {
-			end=12;
-		}else {
-			end=Integer.parseInt(request.getParameter("end"))+6;
-		}
-		ArrayList<ReviewCard> list = new ReviewService().selectAllReview(end);
-		for(ReviewCard rc : list) {
-			if(rc.getProfileImg()==null) {
-				rc.setProfileImg("default_user_dark.png");
+		HttpSession session = request.getSession();
+		if((Member)session.getAttribute("member")!=null) {
+			String bookShelfId = request.getParameter("bookShelfId");
+			String bookId = request.getParameter("bookId");
+			
+			int result = new LibraryService().deleteBookInCase(bookShelfId,bookId);
+			
+			JSONObject object = new JSONObject();
+			
+			if(result>0) {
+				object.put("result", true);
+			}else {
+				object.put("result", false);
 			}
+			response.setContentType("application/json");
+			
+			PrintWriter out = response.getWriter();
+			
+			out.print(object);
 		}
-		
-		RequestDispatcher view = request.getRequestDispatcher("/views/review/review_list.jsp");
-		request.setAttribute("list", list);
-		request.setAttribute("end", end);
-		view.forward(request, response);
-		
 	}
 
 	/**

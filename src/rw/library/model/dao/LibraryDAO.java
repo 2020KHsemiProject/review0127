@@ -67,14 +67,18 @@ public class LibraryDAO {
 		return list;
 	}
 */
-	public ArrayList<Library> selectAllCase(Connection conn, String memberNo) {
+	public ArrayList<Library> selectAllCase(Connection conn, String memberNo, int currentPage, int recordCountPerPage) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<Library> listLib = new ArrayList<Library>(); 
-		String query = "SELECT ROWNUM,L.* FROM LIBRARY L LEFT JOIN MEMBER M ON (M.MEMBER_NO=L.MEMBER_NO) WHERE L.MEMBER_NO=? ORDER BY ROWNUM DESC";
+		int start = currentPage * recordCountPerPage - (recordCountPerPage-1);
+		int end = currentPage * recordCountPerPage;
+		String query = "SELECT * FROM (SELECT ROWNUM,L.* FROM LIBRARY L LEFT JOIN MEMBER M ON (M.MEMBER_NO=L.MEMBER_NO) ORDER BY ROWNUM DESC) WHERE MEMBER_NO=? AND ROWNUM BETWEEN ? AND ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, memberNo);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
 			rset = pstmt.executeQuery();
 			while(rset.next()) {
 				Library libr = new Library();
@@ -181,6 +185,85 @@ public class LibraryDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return listLB;
+	}
+	public int insertBookInCase(Connection conn, String bookShelfId, String bookId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "INSERT INTO PERSONAL_LIBRARY VALUES(PSN_LIBRARY.NEXTVAL,?,?)";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bookShelfId);
+			pstmt.setString(2, bookId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+	public int deleteBookInCase(Connection conn, String bookShelfId, String bookId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "DELETE FROM PERSONAL_LIBRARY WHERE BOOKSHELF_ID=? AND BOOK_ID=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bookShelfId);
+			pstmt.setString(2, bookId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+	public String getPageNavi(Connection conn, String memberNo, String libraryOwner, int currentPage,
+			int recordCountPerPage, int naviCountPerPage) {
+		int postTotalCount = countAllBookCase(conn,memberNo);
+		
+		int pageTotalCount; // 전체페이지를 저장하는 변수
+		if(postTotalCount % recordCountPerPage > 0){
+			pageTotalCount = postTotalCount / recordCountPerPage + 1;
+			// ex) pageTotalCount = 108 / 5 + 1 -> 22 Page
+		}else {
+			pageTotalCount = postTotalCount / recordCountPerPage + 0;
+			// ex) pageTotalCount = 105 / 5 + 0 -> 21 Page
+		}
+		
+		// 현재 페이지 번호 구하기
+		// startNavi = ((현재페이지-1)/보여질 navi개수) * 보여질navi개수 +1;
+		int startNavi = ((currentPage -1) / naviCountPerPage) * naviCountPerPage +1;
+		// endNavi = 시작navi번호 + 보여질 navi개수 - 1;
+		int endNavi = startNavi + naviCountPerPage - 1;
+		// 마지막 페이지 번호가 총 페이지 수보다 높을 때
+		if(endNavi > pageTotalCount) {
+			endNavi = pageTotalCount;
+		}		
+		
+		StringBuilder sb = new StringBuilder();
+		
+		// 만약 첫번째 pageNavi가 아니라면 '<' 모양을 추가해라 (첫번째 pageNavi이면 추가하지 말아라)
+		if(startNavi != 1) { //href='/myBookCase.rw?libraryOwner="+memberId+"&currentPage="+(startNavi-1)+"'
+			sb.append("<li class='page-item'><a class='page-link' href='/myBookCase.rw?libraryOwner="+libraryOwner+"&currentPage="+(startNavi-1)+"'>></a></li>");
+		}
+						
+		for(int i=startNavi; i<=endNavi; i++) {
+			if(i==currentPage) {
+				sb.append("<li class='page-item'><a class='page-link' href='/myBookCase.rw?libraryOwner="+libraryOwner+"&currentPage="+i+"'><B>"+i+"</B></a></li>");
+			}else {
+				sb.append("<li class='page-item'><a class='page-link' href='/myBookCase.rw?libraryOwner="+libraryOwner+"&currentPage="+i+"'>"+i+"</a></li>");
+			}
+		}
+				
+		//만약 마지막 pageNavi가 아니라면 '>' 모양을 추가해라 (마지막 pageNavi이면 추가하지 말아라)
+		if(endNavi != pageTotalCount) {
+			sb.append("<li class='page-item'><a class='page-link' href='/myBookCase.rw?libraryOwner="+libraryOwner+"&currentPage="+(startNavi+1)+"'>></a></li>");
+		}
+				
+		return sb+"";
 	}
 
 }
