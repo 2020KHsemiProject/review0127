@@ -67,7 +67,13 @@
     			} else if((memberPwd.val()!=memberPwd_re.val())) {
     				memberPwd_re.prev().prev().text("비밀번호가 동일하지 않습니다.").css('color','red');
     				return false;
-    			} else if($('#id_check').click)
+    			} else if(!($('#id_check').click)){
+    				alert('아이디 중복확인을 해주세요.');
+    				return false;
+    			} else if(!($('#nick_check').click)){
+    				alert('닉네임 중복확인을 해주세요.');
+    				return false;
+    			}
     			return true;
     		});
     		
@@ -175,14 +181,10 @@
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-warning radio_size" id="label_M">
 								<input type="radio" name="gender" id="radio_M" value="M">남
-								<input type="hidden" name="gender" value="null" />
 							</label>
 							<label class="btn btn-warning radio_size" id="label_F">
-								<input type="hidden" name="gender" value="null" />
 								<input type="radio" name="gender" id="radio_F" value="F">여
-								
 							</label>
-							 
 						</div>
                         <br>
                         <div id="option_data">

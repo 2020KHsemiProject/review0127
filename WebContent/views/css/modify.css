@@ -10,6 +10,7 @@
 #wrapper {
 	width: 100%; 
     height: auto;
+    margin: 0 auto;
     font-family: 'Noto Sans', sans-serif;
     font-family: 'Noto Sans KR', sans-serif;
 }
@@ -181,7 +182,7 @@ tbody{
     border-radius: 50px;
     width: 100%; height: 40px;
     padding: 15px;
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 400;
     border: 1.5px solid #9F9C9C; 
 }
@@ -298,7 +299,7 @@ select{
     border-radius: 50px;
     width: 100%; height: 40px;
     padding: 15px;
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 400;
     border: 1.5px solid #9F9C9C; 
 }
@@ -306,7 +307,7 @@ select{
     width: 260px; height: 45px;
 }
 .input_box_email+button {
-    width: 110px; height: 40px;
+    width: 120px; height: 40px;
     margin-left: 15px;
     border-radius: 50px;
     font-size: 1rem;

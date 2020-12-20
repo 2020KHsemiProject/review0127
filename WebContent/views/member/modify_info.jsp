@@ -53,7 +53,6 @@
 	
 	<div id="wrapper">
 		
-	<% session.getAttribute("member"); %>
 	<script>
 		$(function(){
 			var currentPwd = $('#current_pwd');
@@ -62,7 +61,6 @@
 			
 		});
 	</script>
-
 		<div id="content">
 			<div id="content_title">
 				<h1>회원 정보 수정</h1>
@@ -93,18 +91,16 @@
 							<table class="modify_table">
 								<tr class="tr_first">
 									<th>아이디</th>
-									<td><span class="user_id">이따가</span></td>
+									<td><span class="user_id"><%= m.getMemberId() %></span></td>
 								</tr>
 								<tr class="tr_second">
 									<th>닉네임</th>
 									<td>
 										<div class="input_group_nick">
 											<div class="input_box_nick">
-												<input type="text" class="input-text_nick" value="개똥이" />
+												<input type="text" class="input-text_nick" value="<%= m.getNickname() %>" />
 											</div>
-											<button type="button">중복확인</button>
-											<span class="exp_complete">사용 가능한 닉네임입니다.</span>
-											<!-- <span class="exp_lack">이미 존재하는 닉네임입니다.</span>-->
+											<button type="button" id="nick_check_re">중복확인</button>
 										</div>
 									</td>
 								</tr>
@@ -114,7 +110,7 @@
 										<div class="input_group_email">
 											<div class="input_box_email">
 												<input type="email" class="input-text_email"
-													value="abc1234@abc.com" />
+													value="<%= m.getEmail() %>" />
 											</div>
 											<button type="button" id="email_change_btn">이메일 변경</button>
 										</div>
