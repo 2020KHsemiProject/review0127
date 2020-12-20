@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="rw.member.model.vo.Member" %>
-<%@ page import="rw.library.model.vo.BookCase" %>
-<%@ page import="rw.library.model.vo.Library" %>
-<%@ page import="rw.library.model.vo.LibraryPageData" %>
 <%@ page import="rw.review.model.vo.Book" %>
 <%@ page import="java.util.ArrayList" %>
 <jsp:include page="/views/common/header.jsp" flush="false" />
@@ -22,7 +19,11 @@
 
 <!-- 스타일 시트 -->
 <link rel="stylesheet" type="text/css" href="/views/css/library_my_contents_top.css" />
-
+<dependency>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-resources-plugin</artifactId>
+		<version>2.4.3</version>
+	</dependency>
     <style>
         .caseIcon {cursor: pointer;}
         
@@ -42,26 +43,13 @@
         	/* 가로중앙 */
             margin: 0 auto;
             width: 1200px;
+            height: auto;
         }
         .bookcase-case{
         	padding-bottom: 10%;
         }
-        .myBookcase-contents-top {
-        	/* 타이틀 중 '?개의 책장' 부분 스타일 */
-            font-weight: bold;
-            height: 150px;
-            padding-top: 4%;
-        }
-        #bookcase-count{
-        	font-size: 1.6rem;
-        }
         .font-rem{
         	font-size:1.6rem;
-        }
-        #bookcase-contents-top>div:last-child {
-            /* 책장 추가하기 버튼을 감싼 div */
-            text-align: right;
-            padding-top: 4%;
         }
         #add-bookcase-btn {
             /* 책장 추가하기 버튼 */
@@ -75,23 +63,20 @@
             font-size: 1.1rem;
             color: gray;
             box-shadow: 1px 1px 5px -1px gray;
+            margin: 0 10px;
         }
-        .modifyCaseNameForm {
-        	display: inline-block;
-        }
-        .modifyCaseName {
-        	/* 책장 이름 수정 input 태그 */
-        	width: 85%; height:30px;
-        	border: 0;
-        }
-        .modifyCaseNameForm button{
-        	/* 책장 이름 수정 버튼 */
-        	background-color: white;
-        	border: none;
-        	outline: none;
-        }
-        .modifyCaseNameForm button.sendModifyTitleBtn {
-        	display: none;
+        #reset-btn{
+         	background-color: #ffe58d;
+            width: 160px;
+            height: 60px;
+            border-radius: 40px;
+            border: 0;
+            outline: 0;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: gray;
+            box-shadow: 1px 1px 5px -1px gray;
+            margin: 0 10px;
         }
         .bookcase-settingicon {
             /* 톱니바퀴 + 있는 div col */
@@ -243,6 +228,7 @@
             float: left;
             position: relative;
             bottom: 25px;
+            margin: 27px;
         }
         .checkInPopUp{
             text-align: right;
@@ -307,10 +293,6 @@
                 $(this).parents('.bookcase-case').find('.minusButton').css('z-index','1').css('visibility','hidden');
                 history.go(0);
             });
-            // 책장 삭제
-            $('.minus-book-icon').click(function(){
-                let result = window.confirm('해당 책장을 삭제하시겠습니까?');
-            });
             
             
             
@@ -368,25 +350,6 @@
         });
 
         
-        
-        
-        
-        
-        
-        /// 다른사람 책장
-        // 책갈피
-            $('.other_bookCaseScrap').click(function(e){
-            	var color = $(this).css('color');
-            	console.log(color);
-                if(color=='rgb(255, 108, 108)') {
-                    if(confirm('해당 리뷰를 삭제하시겠습니까?')){
-                        $(this).css('color','gray');
-                    }
-                }else {
-                    $(this).css('color','#FF6C6C');
-                }
-                e.stopImmediatePropagation(); // 버블링 방지
-            });
     </script>
     
     
@@ -396,9 +359,131 @@
         
 <% 
 	String libraryOwner = request.getParameter("libraryOwner");
-	
+	Member mem = (Member)session.getAttribute("member");
 %>
 
+<% if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("member")).getMemberId().equals(libraryOwner)){ %>
+<div id="myBookcase-wrapper" class="container-fluid">
+	
+        <div id="myLibrary-contents-header" class="row">
+			<!-- contents-header -->
+			<div class="col-12">
+				<div id="myLibrary-contents-header-size" class="row">
+					<div class="col-2">
+						<div id="userprofile">
+							<img src="/image/profile/<%=mem.getProfileImg() %>" />
+						</div>
+					</div>
+					<div class="col-10">
+						<div class="row">
+
+							<div id="myLibrary-title" class="col-12"><%=mem.getNickname() %>
+								님의 서재
+							</div>
+							<div class="col-12">
+								<ul id="myLibrary-lnb" class="row">
+									<li class="col-2"><a
+										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>">리뷰노트</a></li>
+									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>">책장</a></li>
+									<li class="col-2"><a href="/views/library/collection.jsp">컬렉션</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="bookcase-contents" class="row" style="border:1px solid gray;">
+		<form>
+			<div class="col-12" style="height:120px; padding-top:50px;">
+				<input type="text" name="bookCaseTitle" placeholder="책장이름을 입력해주세요" style="width:400px; height:50px; border-style: none; margin-left:20px;"/>
+				<hr style="margin:5px;">
+			</div>
+			<div class="col-12" height: auto;">
+			<div id="bookList">
+	<% ArrayList<Book> listLB = (ArrayList<Book>)request.getAttribute("listLB"); %> 
+	<% for(Book likeB : listLB) { %>  
+			<div class="selectBookListInPopUp">
+                <input type="hidden" value="<%=likeB.getBookId()%>"/>
+                    <div class="checkInPopUp" thisBookId="<%=likeB.getBookId()%>">
+                        <span class="minusBookInPopUp">
+                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-check-circle caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/>
+                            </svg>
+                        </span>
+                        <span class="plusBookInPopUp">
+                            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-check-circle-fill caseIcon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="bookInPopUp" style="margin: 8px;">
+                        <img src="<%=likeB.getBookImage()%>"/>
+                    </div>                    
+                </div>
+	<% } %>	
+			</div>	
+			</div>
+		</form>
+		<div class="col-12" style="height:100px;">
+				<div style="margin: 0 400px;">
+				<button id="add-bookcase-btn" type="button">추가 완료</button> 
+				<button id="reset-btn" type="button">취소</button>
+				</div>
+			</div>
+		</div>
+
+<script>
+	$(function(){
+		var arr = [];
+		$('.bi-check-circle').click(function(){
+			$(this).css('display','none');
+			$(this).parent().next().children().css('display','inline');
+			var thisBookId = $(this).parent().parent().attr('thisBookId');
+			arr.push(thisBookId);
+		});
+		$('.bi-check-circle-fill').click(function(){
+			$(this).css('display','none');
+			$(this).parent().prev().children().css('display','inline');
+			var thisBookId = $(this).parent().parent().attr('thisBookId');
+			var delId = arr.indexOf(thisBookId);
+			arr.splice(delId,1);
+		});
+		
+		$('#add-bookcase-btn').click(function(){
+			var bookCaseTitle = $('input[name=bookCaseTitle]').val();
+			var object = {'addBookList':arr,'bookCaseTitle':bookCaseTitle};
+			$.ajax({
+				url : '/addBookCase.rw?libraryOwner='+'<%=libraryOwner%>',
+				datatype : 'json',
+				traditional : true,
+				data : object,
+				type : 'post',
+				success : function(){
+					location.replace('/myBookCase.rw?library='+'<%=libraryOwner%>');
+				},
+				error : function(){
+					
+				}
+			});
+		});
+		
+		$('#reset-btn').click(function(){
+			history.back();
+		});
+	})
+</script>
+
+
+</div> <!-- wrpper -->
+<% } else { %>
+<script>
+alert('잘못된 접근입니다.');
+history.back();
+</script>
+<% } %>
 <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

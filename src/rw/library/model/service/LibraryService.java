@@ -19,7 +19,7 @@ public class LibraryService {
 		Connection conn = JDBCTemplate.getConnection();
 		int recordCountPerPage = 3; // 한 페이지당 몇개의 게시물이 보이게 될 것인지
 		ArrayList<Library> listLib = lDAO.selectAllCase(conn,memberNo,currentPage,recordCountPerPage);
-		ArrayList<BookCase> list = new ArrayList<BookCase>();
+		ArrayList<BookCase> list = new ArrayList<BookCase>(); // 책장 + 책장에 담긴 책들 vo
 		if(!listLib.isEmpty()) {
 			for(Library libr : listLib) { // 각각의 책장에 담아진 책 list를 가져와서 BookCase vo에 넣어준다.
 				BookCase bCase = new BookCase();
@@ -103,6 +103,27 @@ public class LibraryService {
 		}
 		JDBCTemplate.close(conn);
 		return result;
+	}
+
+	public int insertBookCase(String memberNo, String[] addBookList, String bookCaseTitle) {
+		Connection conn = JDBCTemplate.getConnection();
+		int addCaseResult = lDAO.insertBookCase(conn, memberNo, bookCaseTitle); // 책장 추가
+		
+		if(addCaseResult>0) {
+			
+			if(addBookList!=null) { // 추가할 책이 있으면
+				String bookShelfId = lDAO.selectOneBookCase(conn, memberNo); // 책장 Id 가져오기
+				for(int i=0; i<addBookList.length; i++) {
+					lDAO.insertBookInCase(conn, bookShelfId, addBookList[i]); // 책장에 책 추가
+				}
+			}
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return addCaseResult;
+		
 	}
 
 }

@@ -122,6 +122,10 @@ hr {
 	height: 450px;
 	font-size: 3rem;
 }
+
+@media (max-width:1200px){
+    #reviewList-wrapper{ width: 1200px;}
+}
 </style>
 
 <script>
@@ -229,7 +233,7 @@ hr {
 			
 			
 			// 책갈피
-            $('.other_reviweScrap').click(function(e){
+            $('.other_reviewScrap').click(function(e){
             	var color = $(this).css('color');
             	console.log(color);
                 if(color=='rgb(255, 108, 108)') {
@@ -310,7 +314,7 @@ hr {
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
-							<div class="row review-card-bttom">
+							<div class="row review-card-bottom">
 								<div class="col-3">
 									<div class="review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
@@ -343,7 +347,7 @@ hr {
 						<% } else { %>
 						<div class="other_review-card">
 							<div class="other_review-card-book-img">
-								<span class="other_reviweScrap reviewNoteIcon">
+								<span class="other_reviewScrap reviewNoteIcon">
                                     <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                       <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
                                     </svg>
@@ -357,7 +361,7 @@ hr {
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
-							<div class="row other_review-card-bttom">
+							<div class="row other_review-card-bottom">
 								<div class="col-3">
 									<div class="other_review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
@@ -492,7 +496,7 @@ hr {
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
-							<div class="row review-card-bttom">
+							<div class="row review-card-bottom">
 								<div class="col-3">
 									<div class="review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"

@@ -73,7 +73,7 @@ public class LibraryDAO {
 		ArrayList<Library> listLib = new ArrayList<Library>(); 
 		int start = currentPage * recordCountPerPage - (recordCountPerPage-1);
 		int end = currentPage * recordCountPerPage;
-		String query = "SELECT * FROM (SELECT ROWNUM,L.* FROM LIBRARY L LEFT JOIN MEMBER M ON (M.MEMBER_NO=L.MEMBER_NO) ORDER BY ROWNUM DESC) WHERE MEMBER_NO=? AND ROWNUM BETWEEN ? AND ?";
+		String query = "SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY L.BOOKSHELF_ID DESC) AS ROW_NUM,L.* FROM LIBRARY L LEFT JOIN MEMBER M ON (M.MEMBER_NO=L.MEMBER_NO) WHERE L.MEMBER_NO=?) WHERE ROW_NUM BETWEEN ? AND ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, memberNo);
@@ -189,7 +189,7 @@ public class LibraryDAO {
 	public int insertBookInCase(Connection conn, String bookShelfId, String bookId) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "INSERT INTO PERSONAL_LIBRARY VALUES(PSN_LIBRARY.NEXTVAL,?,?)";
+		String query = "INSERT INTO PERSONAL_LIBRARY VALUES(PSN_LIBRARY_SEQ.NEXTVAL,?,?)";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, bookShelfId);
@@ -264,6 +264,44 @@ public class LibraryDAO {
 		}
 				
 		return sb+"";
+	}
+	public int insertBookCase(Connection conn, String memberNo, String bookCaseTitle) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "INSERT INTO LIBRARY VALUES('L'||LIBRARY_SEQ.NEXTVAL,?,?,'N','N')";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bookCaseTitle);
+			pstmt.setString(2, memberNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+	public String selectOneBookCase(Connection conn, String memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String bookShelfId = null;
+		String query = "SELECT * FROM (SELECT ROWNUM,L.* FROM LIBRARY l WHERE MEMBER_NO=? ORDER BY ROWNUM DESC) WHERE ROWNUM = 1";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				bookShelfId = rset.getString("BOOKSHELF_ID");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return bookShelfId;
 	}
 
 }

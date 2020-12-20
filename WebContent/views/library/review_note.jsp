@@ -131,6 +131,9 @@ button:focus {
 	position: relative;
 	color: gray;
 }
+@media (max-width:1200px){
+    #reviewNote-wrapper{ width: 1200px;}
+}
 </style>
 
 
