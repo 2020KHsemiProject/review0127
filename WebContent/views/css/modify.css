@@ -135,6 +135,7 @@ tbody {
 	border-radius: 50%;
 	text-align: center;
 	border: 0;
+	position: relative;
 }
 
 #withdraw_btn {
@@ -150,9 +151,17 @@ tbody {
 	margin-left: 430px;
 }
 
-#profile_img {
+.profile_img {
+	position: absolute;
 	width: 100px;
 	height: 100px;
+	z-index: -1;
+}
+
+#upload_img {
+	border-radius: 50px;
+	/*background-color: red;*/
+	z-index: 1;
 }
 
 #profile_change_btn {
@@ -161,7 +170,7 @@ tbody {
 	position: absolute;
 	transform: translate(80px, -15px);
 	border-radius: 10px;
-	background: url(../../image/profile/picture_change.png) center center
+	background: url(/image/profile/picture_change.png) center center
 		no-repeat;
 	display: block;
 	bottom: 0;
