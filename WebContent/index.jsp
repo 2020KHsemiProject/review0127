@@ -20,7 +20,6 @@
 </head>
 
 <body>
-
     <div id="intro-wrap" class="wrapper">
         <div id="intro" class="content">
             <h1>안녕하세요 REVIEW:0127입니다.</h1>
