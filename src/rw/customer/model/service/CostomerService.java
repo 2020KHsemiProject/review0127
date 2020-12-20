@@ -20,7 +20,9 @@ public class CostomerService {
 
 	public ArrayList<Faq> selectFAQ() {
 		Connection conn = JDBCTemplate.getConnection();
+
 		ArrayList<Faq> list = new CustomerDAO().selectFAQ(conn);
+
 		JDBCTemplate.close(conn);
 
 		return list;

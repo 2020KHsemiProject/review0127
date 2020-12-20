@@ -18,7 +18,7 @@ public class CustomerDAO {
 		ArrayList<Faq> list = new ArrayList<Faq>();
 		
 		String query =
-				"select * from (select row_number() over (order by faq_no asc) as row_num, faq.* from faq)";
+				"select * from (select row_number() over (order by faq_no asc) as row_num, faq.* from faq) ";
 		
 		try {
 			pstmt = conn.prepareStatement(query);

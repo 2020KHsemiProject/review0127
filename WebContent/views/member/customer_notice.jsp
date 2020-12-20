@@ -19,7 +19,7 @@
 </head>
 <body>
 <% 
-	Notice notice = (Notice)request.getAttribute("notice");
+	Notice notice = (Notice)request.getAttribute("Notice");
 %>
     <div id="wrapper">
         <div id="content">

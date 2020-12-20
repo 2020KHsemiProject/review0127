@@ -49,7 +49,7 @@ ArrayList<Notice> nl = (ArrayList<Notice>) request.getAttribute("noticeList");
 					   %>
                             <ul class="customer_ul">
                                 <li class="fl w10 "><%=i+1 %></li>
-                                <li class="fl w80"><a href="./customer_notice.rw?NoticeNo=<%=n.getNoticeNo() %>" ><%=n.getNoticeTitle() %></a></li>
+                                <li class="fl w80"><a href="/customer_notice.rw?NoticeNo=<%=n.getNoticeNo() %>" ><%=n.getNoticeTitle() %></a></li>
                                 <li class="fl w12"><%=n.getNoticeDate() %></li>
                             </ul>
                             <%} %>
@@ -59,10 +59,9 @@ ArrayList<Notice> nl = (ArrayList<Notice>) request.getAttribute("noticeList");
                         <div class="inner_article">
                             <p class="inner_contents_text">FAQ</p>
                         </div>
-						<%
+                        <%
 							for (int i = 0; i < fl.size(); i++) {
-								Faq f = fl.get(i); %>
-					   
+								Faq f = fl.get(i); %>			   
                         <div id="inner_faq_contents">
                             <ul class="customer_ul faq_ul">
                                 <li class="fl w10 ">
@@ -77,7 +76,10 @@ ArrayList<Notice> nl = (ArrayList<Notice>) request.getAttribute("noticeList");
                         </div>
                     </div>
 				<%} %>
+				<div class="more">더보기</div>
                 </div>
+                
+                <!-- 슬라이드업 /다운 -->
                 <script>
 					$(function(){
 						$(".faq_list").click(function(){
@@ -91,9 +93,10 @@ ArrayList<Notice> nl = (ArrayList<Notice>) request.getAttribute("noticeList");
                         	$('.faq_li_contents:eq('+index+')').slideDown();
                         }  
 						});
-					});
-				</script>
-                <%if(m!=null){ %>
+										
+					</script>
+
+					<%if(m!=null){ %>
                 <div id="one_to_one">
                     <div class="inner_article">
                         <p class="inner_contents_text">1:1 문의</p>

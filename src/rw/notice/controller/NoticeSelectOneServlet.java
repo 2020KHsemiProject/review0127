@@ -16,7 +16,7 @@ import rw.notice.model.vo.Notice;
 /**
  * Servlet implementation class InquirySelectOneServlet
  */
-@WebServlet("customer_notice.rw")
+@WebServlet("/customer_notice.rw")
 public class NoticeSelectOneServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
