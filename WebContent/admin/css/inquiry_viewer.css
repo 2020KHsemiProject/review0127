@@ -1,0 +1,81 @@
+#viewer-id {
+  width: 100%;
+  margin: 0px;
+  height: 50px;
+  border-bottom: 0.5px solid lightgray;
+  overflow: hidden;
+}
+#viewer-email {
+  height: 50px;
+  width: 100%;
+  margin: 0px;
+  border-bottom: 0.5px solid lightgray;
+  overflow: hidden;
+}
+#viewer-category {
+  height: 50px;
+  width: 100%;
+  margin: 0px;
+  border-bottom: 0.5px solid lightgray;
+  overflow: hidden;
+}
+#viewer-title {
+  height: 50px;
+  width: 100%;
+  margin: 0px;
+  border-bottom: 0.5px solid lightgray;
+  overflow: hidden;
+}
+#viewer-contents {
+  height: 150px;
+  width: 100%;
+  margin: 0px;
+}
+
+.viewer-column {
+  text-align: center;
+  line-height: 50px;
+  font-size: 14px;
+  padding: 0px;
+  margin: 0px;
+  border-right: 0.5px solid lightgray;
+  background-color: #fafafc;
+}
+
+.veiwer-info {
+  line-height: 50px;
+  border-right: 0.5px solid #fafafc;
+  padding: 0px;
+  background-color: white !important;
+}
+
+.viewer-info input:not(textarea) {
+  width: 90%;
+  padding: 2px;
+  margin-top: 9px;
+  margin-left: 10px;
+  border: 0px solid lightgray;
+}
+
+.viewer-info textarea {
+  width: 90%;
+  height: 90%;
+  padding: 2px;
+  margin-top: 9px;
+  margin-left: 10px;
+  border: 0px solid lightgray;
+  resize:none;
+  overflow: auto;
+}
+
+.modal-dialog {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.modal-body {
+  
+  padding: 0px !important;
+  margin: 0px !important;
+  
+}

@@ -1,0 +1,67 @@
+@charset "utf-8";
+
+#header_text1 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+#wrap {
+    text-align: center;
+}
+
+table {
+    width: 50%;
+    height: 450px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 2%;
+}
+
+th {
+    border: 1px solid lightgray;
+    width: 15%;
+    height: 8%;
+    font-weight: 600;
+}
+
+td{
+     border: 1px solid lightgray;
+}
+
+#write {
+    height: 80%;
+}
+
+table input,
+table textarea {
+    border: 1px solid white;
+    float: left;
+    margin-left: 12px;
+    width: 96%;
+    height: 96%;
+}
+
+button {
+    margin-top: 15px;
+    color: white;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: #487CEB;
+    font-weight: 600;
+    width: 10%;
+    height: 30px;
+}
+
+button[type="submit"] {
+    background-color: #487CEB;
+    border-radius: 5px;
+    margin-left: 40%;
+} 
+
+button[type="reset"] {
+    background-color: #9E9E9E;
+     border-radius: 5px;
+}
+

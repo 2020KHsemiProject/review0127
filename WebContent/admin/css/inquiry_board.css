@@ -1,0 +1,65 @@
+.select {
+  width: 5%;
+}
+.inquiry-no {
+  width: 8%;
+}
+
+.member-id {
+  width: 15%;
+}
+
+.reply-email {
+  width: 15%;
+}
+
+.inquiry-title {
+  width: 22%;
+}
+.inquiry-date {
+  width: 13%;
+}
+
+.update {
+  width: 12%;
+}
+.delete {
+  width: 10%;
+}
+
+.state-y {
+  margin: 0px;
+  display: inline-block;
+  text-align: center;
+  color: white;
+  background-color: #0e40aa;
+  font-size: 0.8rem;
+  padding: 3px 10px 3px 10px;
+  border-radius: 999px;
+  border: 0px solid white;
+}
+
+.state-n {
+  margin: 0px;
+  display: inline-block;
+  text-align: center;
+  color: white;
+  background-color: #ff2525;
+  padding: 3px 10px 3px 10px;
+  font-size : 0.8rem;
+  border-radius: 999px;
+  border: 0px solid white;
+}
+
+.state-n:hover{
+	text-decoration : none;
+	color : white;
+	border : none;
+	
+}
+
+.inquiry-title > a{
+	text-decoration : none;
+	color : black;
+	border : none;
+}
