@@ -22,12 +22,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <style>
-* {
-	margin: 0;
-	padding: 0;
-}
+* {	margin: 0;
+	padding: 0;}
 </style>
-
 </head>
 <body>
 	<div id="wrapper">
@@ -43,13 +40,14 @@
 							<center>
 								<div id="picture_box">
 									<div id="profile_img_area">
-									<form >
+									<form action="/profileUpload.rw" method="post" enctype="multipart/form-data">
 										<div id="image_box">
 											<!--사진을 업로드하면 이미지를 diplay:none 설정-->
-											<img src="/image/profile/default_user_dark.png"	class="profile_img" />
+											<input type="hidden" >
+											<img src="/image/profile/default_user_dark.png"	id="profile_img"  />
 										</div>
 										<label id="profile_change_btn">
-											<input type="file" accept="image/*" id="input_file" />
+											<input type="file" onChange="uploadImg();" accept="image/*" id="input_file" />
 										</label>
 									</form>	
 										<p id="profile_info">※ 프로필 사진은 100px X 100px 사이즈를 권장합니다.</p>
@@ -85,7 +83,7 @@
 										<div class="input_group_email">
 											<div class="input_box_email">
 												<input type="email" class="input-text_email"
-													value="<%=m.getEmail()%>" />
+													value="<%=m.getEmail()%>" id="email_change"/>
 											</div>
 											<button type="button" id="email_change_btn">이메일 변경</button>
 										</div>
@@ -102,7 +100,7 @@
 												</p>
 											</div>
 										<% } %>
-										<p class="email_confirm">이메일 주소를 인증하시면, 변경이 완료됩니다.</p>
+										<p class="email_confirm">이메일을 인증하면, 변경이 완료됩니다.</p>
 									</td>
 								</tr>
 								<tr class="tr_fourth">

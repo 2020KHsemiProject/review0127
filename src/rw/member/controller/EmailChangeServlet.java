@@ -10,20 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import rw.common.MailAuthentication;
 import rw.member.model.service.MemberService;
 import rw.member.model.vo.Member;
 
 /**
- * Servlet implementation class MemberMyPageServlet
+ * Servlet implementation class EmailChangeServlet
  */
-@WebServlet("/modifyPageLoad.rw")
-public class MemberModifyLoadServlet extends HttpServlet {
+@WebServlet("/emailChange.rw")
+public class EmailChangeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberModifyLoadServlet() {
+    public EmailChangeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,16 +33,24 @@ public class MemberModifyLoadServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String email = request.getParameter("email");
+		System.out.println(email);
 		HttpSession session = request.getSession();
-		
 		Member m = (Member)session.getAttribute("member");
 		String memberId = m.getMemberId();
-		String memberPwd = m.getMemberPwd();
 		
-		m = new MemberService().loginMember(memberId, memberPwd);
-		session.setAttribute("member", m); // session 갱신
+		int upload = new MemberService().emailChange(email,memberId);
 		
-		response.sendRedirect("/views/member/modify_info.jsp");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		if(upload > 0) {
+			new MailAuthentication().sendMail(email);
+			out.print("success");
+		} else {
+			out.print("fail");
+		}
 	}
 
 	/**

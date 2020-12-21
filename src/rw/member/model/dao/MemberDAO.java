@@ -257,4 +257,44 @@ public class MemberDAO {
 		}
 		return result;
 	}
+
+
+	public int uploadFile(Connection conn, Member m) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "update member set profile_img=? where memberId=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, m.getProfileImg());
+			pstmt.setString(2, m.getMemberId());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		} 
+		return result;
+	}
+
+
+	public int emailChange(Connection conn, String email, String memberId) {
+		PreparedStatement pstmt = null;
+		int upload = 0;
+		
+		String query = "update member set email=? email_YN='N' where member_id=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, email);
+			pstmt.setString(2, memberId);
+			upload = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return upload;		
+	}
 }

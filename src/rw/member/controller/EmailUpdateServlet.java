@@ -40,6 +40,7 @@ public class EmailUpdateServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		if(result > 0) {
+			new MemberService().updateEmail(email);
 			out.print("<script>alert('이메일 인증이 완료되었습니다.');</script>");
 			out.print("<script>location.replace('/index.jsp');</script>");
 		} else {

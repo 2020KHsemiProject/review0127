@@ -92,4 +92,29 @@ public class MemberService {
 		} JDBCTemplate.close(conn);
 		return result;
 	}
+
+	public int uploadFile(Member m) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = mDAO.uploadFile(conn,m);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		} JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int emailChange(String email, String memberId) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int upload = mDAO.emailChange(conn,email,memberId);
+		
+		if(upload > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		} JDBCTemplate.close(conn);
+		return upload;
+	}
 }

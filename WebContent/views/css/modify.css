@@ -151,7 +151,8 @@ tbody {
 	margin-left: 430px;
 }
 
-.profile_img {
+#profile_img {
+	border-radius: 50%;
 	width: 100px;
 	height: 100px;
 	z-index: -1;
@@ -260,10 +261,6 @@ tbody {
 	line-height: 2.5;
 	margin-left: 8px;
 	color: #006BC9;
-}
-
-#modify_current_pw {
-	
 }
 
 .pw_wrapper {
