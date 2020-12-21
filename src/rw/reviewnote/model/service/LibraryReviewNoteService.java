@@ -45,12 +45,7 @@ public class LibraryReviewNoteService {
 		JDBCTemplate.close(conn);
 		return rnpd;
 	}
-	public ArrayList<ReviewCollection> selectColReview(String memberNo) {
-		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<ReviewCollection> rColList = rnDAO.selectColReview(conn,memberNo);
-		JDBCTemplate.close(conn);
-		return rColList;
-	}
+	
 	
 }
 	

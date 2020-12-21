@@ -229,9 +229,9 @@ button:focus {
             	var reviewId = $thisTag.parents('.other_review-card').attr('name');
             	
                 if(color=='rgb(255, 108, 108)') { // 빨간색일 때
-                	if(confirm('해당 리뷰를 삭제하시겠습니까?')){
+                	if(confirm('해당 리뷰를 삭제하시겠습니까?')){                		
                 	$.ajax({
-                		url : '/reviewCollectiondel.rw',
+                		url : '/reviewCollectionDel.rw',
                 		data : {'reviewId':reviewId},
                 		type : 'post',
                 		success : function(data){

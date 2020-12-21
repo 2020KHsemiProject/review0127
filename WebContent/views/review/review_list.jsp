@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="rw.review.model.vo.ReviewCard"%>
+<%@ page import="rw.col.model.vo.ReviewCollection" %>
 <%@ page import="java.util.ArrayList"%>
+<%@ include file="/views/common/header.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -234,16 +236,51 @@ hr {
 			
 			// 책갈피
             $('.other_reviewScrap').click(function(e){
+            	e.stopImmediatePropagation(); // 버블링 방지
             	var color = $(this).css('color');
-            	console.log(color);
-                if(color=='rgb(255, 108, 108)') {
-                    if(confirm('해당 리뷰를 삭제하시겠습니까?')){
-                        $(this).css('color','gray');
+            	var $thisTag = $(this);
+            	alert(color);
+            	
+            	var reviewId = $thisTag.parents('.other_review-card').attr('name');
+            	
+                if(color=='rgb(255, 108, 108)') { // 빨간색일 때
+                	if(confirm('해당 리뷰를 삭제하시겠습니까?')){                		
+                	$.ajax({
+                		url : '/reviewCollectionDel.rw',
+                		data : {'reviewId':reviewId},
+                		type : 'post',
+                		success : function(data){
+                			if(data.result>0){
+                				alert("컬렉션에서 삭제가 완료되었습니다.");
+                				$thisTag.css('color','gray');
+                			}else{
+                				alert('컬렉션 삭제에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                			}
+                			
+                		},
+                		error : function(){
+                			
+                		}
+                	});
                     }
-                }else {
-                    $(this).css('color','#FF6C6C');
-                }
-                e.stopImmediatePropagation(); // 버블링 방지
+                }else { // 회색일 때 
+                    $.ajax({
+                    	url : '/reviewCollectionAdd.rw',
+                    	data : {'reviewId':reviewId},
+                    	type : 'post',
+                    	success : function(data){
+                    		if(data.result>0){
+                   				alert('컬렉션에 추가되었습니다.');
+                   				$thisTag.css('color','#FF6C6C');
+                   			}else{
+                   				alert('컬렉션 추가에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                   			}
+                    		},
+                   		error : function(){
+                   			alert('컬렉션 추가에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                    	}
+                   	});
+           		 } // 회색 또는 빨간색 if문
             });
 			
 			
@@ -264,7 +301,7 @@ hr {
 	<% if((Member)session.getAttribute("member")!=null) { %>
 	
 	<div id="reviewList-wrapper">
-		<%@ include file="/views/common/header.jsp"%>
+		
 		<div id="reviewList-contents">
 			<div id="reviewList-top">
 				<div>review</div>
@@ -343,9 +380,9 @@ hr {
 						</div>
 						
 						<% } else { %>
-						<div class="other_review-card">
+						<div class="other_review-card" name="<%=rc.getReviewId()%>">
 							<div class="other_review-card-book-img" title="누르면 해당 도서페이지로 이동합니다.">
-								<span class="other_reviewScrap collectionIcon">
+								<span class="other_reviewScrap reviewScrap<%=rc.getReviewId() %> collectionIcon">
                                     <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                       <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
                                     </svg>
@@ -414,7 +451,15 @@ hr {
 			});
 			})
 		</script>
-						
+			<% ArrayList<ReviewCollection> rColList = (ArrayList<ReviewCollection>)request.getAttribute("rColList"); 
+				for(ReviewCollection rCol : rColList){
+					if(rc.getReviewId().equals(rCol.getReviewId())){ %>
+				<script>
+					$('.reviewScrap'+'<%=rc.getReviewId() %>').css('color','#FF6C6C');
+				</script>
+			<%		}
+				}
+			%>
 						
 						<% } // foreach문 %>
 					</div>
@@ -447,7 +492,7 @@ hr {
 	</div>
 	<% } else { ////////////////////////////// 비로그인 %> 
 	<div id="reviewList-wrapper">
-		<%@ include file="/views/common/header.jsp"%>
+		
 		<div id="reviewList-contents">
 			<div id="reviewList-top">
 				<div>review</div>
