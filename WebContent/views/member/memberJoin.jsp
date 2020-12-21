@@ -105,28 +105,30 @@
     			
     			if(memberId == "") {
     				alert("아이디를 입력해주세요.");
-    			} else {
-    				$.ajax({
-        				url:"/idCheck.rw",
-        				type:"post",
-        				data:{"memberId":memberId},
-        				success:function(data){
-        					if(!(/^[a-zA-Z0-9]{5,20}$/.test(memberId))) {
-        	    				alert("아이디를 다시 확인해주세요.");
-        	    				return false;
-        	    			} 
-        					if(data == 'usable') {
-        						alert("사용 가능한 아이디입니다.");
-        					} else {
-        						alert("이미 사용 중인 아이디입니다.");
-        					}
-        				},
-        				error:function(){
-        					console.log("error");
-        				}
-        			});	// end of ajax
-    			} // end of else
+    			} 
     		}); // end of click   
+    		$('input[name=memberId]').focusin(function(){
+    			var memberId = $('input[name=memberId]').val();
+    			
+    			$.ajax({
+    				url:"/idCheck.rw",
+    				type:"post",
+    				data:{"memberId":memberId},
+    				success:function(data){
+    					if(!(/^[a-zA-Z0-9]{5,20}$/.test(memberId))) {
+    	    				alert("아이디를 다시 확인해주세요.");
+    	    				return false;
+    	    			} 
+    					if(data == 'usable') {
+    						memberId.prev().prev().text("사용가능한 아이디입니다.").css('color','red');
+    					} else {
+    						memberId.prev().prev().text("이미 사용중인 아이디입니다.").css('color','red');
+    					}
+    				},
+    				error:function(){
+    					console.log("error");
+    				}
+    			});	// end of ajax    		
     		
     		$('#nick_check').click(function(){
     			nickCheckClick = true;
@@ -186,8 +188,9 @@
                         <br> 
                         <span class="guide_span"></span><br>                 
                         <input type="email" name="email" placeholder="이메일 주소" class="input_group"/>
+                        <button type="button" id="email_check">중복확인</button>
                         <br>
-                        <p id="option_text">선택 입력 (예시. 1996 / 남)</p>        
+                        <%--<p id="option_text">선택 입력 (예시. 1996 / 남)</p> --%>        
                         <input type="number" name="birthYear" placeholder="출생년도" class="input_group" min="1900" max="2020"/>
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-warning radio_size" id="label_M">

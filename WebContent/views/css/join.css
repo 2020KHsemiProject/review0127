@@ -56,6 +56,17 @@ input {
     font-weight: 500;
 }
 
+#email_check {
+	line-height: 0.15;
+	padding: 15px;
+	height: 40px;
+	border-radius: 5px;
+    background-color: #FFE687;
+    border: 1.2px solid #ccc; 
+    font-size: 1rem;
+    font-weight: 500;
+}
+
 input[name=memberId] {
 	width: 305px;
 }
@@ -64,10 +75,16 @@ input[name=nickName] {
 	width: 305px;
 }
 
+input[name=email] {
+	width: 305px;
+}
+
+
 input[name=birthYear] {
     text-align: left;
-    width: 170px;
+    width: 175px;
     margin-right: 20px;
+    margin-top: 20px;
 }
 
 .radio_size{

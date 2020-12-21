@@ -42,7 +42,7 @@
 <body>
 	<script>
 		$(function() {
-			$('#password_form').submit(function(){
+			$('#modify_pw_btn').click(function(){
 				var memberId = $('#member_id').val();
 				var sessionPwd = '<%=m.getMemberPwd()%>';
 				var currentPwd = $('#current_pwd').val();
@@ -72,25 +72,26 @@
     			} else if((memberPwd!=memberPwd_re)) {
     				$('#new_pwd_re').next().text("비밀번호가 동일하지 않습니다.").css('color','red');
     				return false;
-    			} 
-    		   	return true;
-    		    	/*else {
-    				 $.ajax({
-    	    			url:"/memberPwdChange.rw",
-    	    			type:"post",
-    	    			data:{"memberId":memberId,"memberPwd":memberPwd},
-    	    			success:function(data){
-    	    				if(data == "complete") {
-    	    					alert("비밀번호 변경이 완료되었습니다.");
-    	    				} else {
-    	    					alert("비밀번호 변경이 정상적으로 처리되지 못했습니다. 지속적인 문제 발생 시 관리자에게 문의해주세요.");
-    	    				}
-    	    			},
-    	    			error:function(){
-    	    				console.log("error");
-    	    			}
-    	    		 });
-    			}*/
+    			} else {
+   				 $.ajax({
+ 	    			url:"/memberPwdChange.rw",
+ 	    			type:"post",
+ 	    			data:{"memberId":memberId,"memberPwd":memberPwd},
+ 	    			success:function(data){
+ 	    				if(data == "complete") {
+ 	    					alert("비밀번호 변경이 완료되었습니다.");
+ 	    					location.replace('/views/member/modify_info.jsp');
+ 	    				} else {
+ 	    					alert("비밀번호 변경이 정상적으로 처리되지 못했습니다. 지속적인 문제 발생 시 관리자에게 문의해주세요.");
+ 	    				}
+ 	    			},
+ 	    			error:function(){
+ 	    				console.log("error");
+ 	    			}
+ 	    		 });
+ 				}
+    		   	//return true;
+    		  
     		   
 			});
 			$('#current_pwd').focusout(function(){
@@ -218,7 +219,8 @@
 								<tr class="tr_fourth">
 									<th id="th_pw_re">비밀번호 재설정</th>
 									<td>
-										<form action="/memberPwdChange.rw" method="post" id="password_form">
+										<%--<form action="/memberPwdChange.rw" method="post" --%>
+										<form id="password_form">
 											<div class="password_change_guide">
 												<p class="guide_title">비밀번호 변경 시 유의사항</p>
 												<ul class="guide_list_wrapper">
@@ -244,7 +246,8 @@
 													class="pw_warning_text"></span>
 											</div>
 											<div class="password_row">
-												<button type="submit" id="modify_pw_btn">비밀번호 변경</button>
+												<button type="button" id="modify_pw_btn">비밀번호 변경</button>
+												<%--<button type="submit" id="modify_pw_btn">비밀번호 변경</button>--%>
 											</div>
 										</form>
 									</td>
