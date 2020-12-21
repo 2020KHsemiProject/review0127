@@ -155,7 +155,6 @@
 									<form >
 										<div id="image_box">
 											<!--사진을 업로드하면 이미지를 diplay:none 설정-->
-											<img src="#" class="profile_img" id="upload_img"/>
 											<img src="/image/profile/default_user_dark.png"	class="profile_img" />
 										</div>
 										<label id="profile_change_btn">
