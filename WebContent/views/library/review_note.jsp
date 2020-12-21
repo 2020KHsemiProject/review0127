@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="rw.member.model.vo.Member"%>
@@ -231,7 +232,7 @@ button:focus {
                 if(color=='rgb(255, 108, 108)') { // 빨간색일 때
                 	if(confirm('해당 리뷰를 삭제하시겠습니까?')){                		
                 	$.ajax({
-                		url : '/reviewCollectionDel3.rw',
+                		url : '/reviewCollectionDel.rw',
                 		data : {'reviewId':reviewId},
                 		type : 'post',
                 		success : function(data){
@@ -351,7 +352,8 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                     	$(function(){
                     		$('.reviewNote-Align').click(function(){
                     			if($(this).text()=='제목순'){
-                    				$('#alignForm').attr('action','/rnAlignTitle.rw');                    			}else if($(this).text()=='최신순'){
+                    				$('#alignForm').attr('action','/rnAlignTitle.rw');
+                    			}else if($(this).text()=='최신순'){
                     				$('#alignForm').attr('action','/myReviewNote.rw');
                     			}
                     			$(this).removeAttr('type');

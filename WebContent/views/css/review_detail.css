@@ -1,0 +1,137 @@
+@charset "UTF-8";
+
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    /*border: 1px solid black;*/
+    font-size: 1rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style-type: none;
+}
+
+/*기본 영역 wrapper*/
+#contents {
+    width: 1200px;
+    height: auto;
+    margin: 70px auto 0;
+    padding-bottom : 50px;
+}
+
+.r-wrap {
+    width: 70%;
+    margin: 0 auto;
+}
+
+#back-btn {
+    width: 50px;
+    height: 100%;
+    float: left;
+    text-align: center;
+    cursor: pointer;
+}
+
+#back-btn i{
+    margin-top: 20px;
+    font-size:3rem;
+    color: dimgray;
+}
+#profile {
+    border-radius: 40px;
+    width: 80px;
+    margin: 10px 20px;
+    display: inline-block;
+    float: left;
+}
+
+#review-header {
+	padding-top:20px;
+    height: 120px;
+    line-height: 90px;
+}
+
+#review-header h3{
+    width: 600px;
+    float: left;
+    margin-top: 25px;
+}
+hr{
+	width:800px;
+	margin:0 auto;
+}
+
+#review-book {
+    height: auto;
+    padding: 20px;
+}
+
+#review-book div,#review-book h5{
+    text-align: center;
+    margin-bottom:20px;
+}
+
+#review-info {
+    height: auto;
+    padding: 10px;
+    text-align:center;
+}
+#review-info>span{
+	display:inline-block;
+	margin:0 20px;
+}
+
+#review-text {
+    height: auto;
+    padding: 20px 25px;
+}
+
+#review-footer div{
+    background-color: white;
+    border: 1px solid darkgray;
+    width: 130px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    border-radius: 25px;
+    box-shadow: 3px 3px 3px lightgray;
+    cursor: pointer;
+}
+
+#modify-btn {
+    float:right;
+    margin-left:20px;
+}
+
+#delete-btn {
+    float:right;
+}
+
+#review-footer {
+    padding: 20px;
+    height: 100px;
+}
+/*좋아요 버튼*/
+#review-heart-and-count {
+    /* 좋아요 div 스타일 */
+    border: 1px solid gray;
+    display:inline-block;
+    width: 50px;
+    height: 30px;
+    line-height:30px;
+    border-radius: 40px;
+    text-align : center;
+    cursor:pointer;
+}
+.review-heart{
+	color :red;
+}
+.fa-star{
+	color:#FFE58D;
+}

@@ -19,6 +19,7 @@ li{
     height:70px;
     position:absolute;
     top:0;
+    z-index:999;
 }
 
 #gnb-wrap {
@@ -76,8 +77,10 @@ li{
 #gnb li a:link{
     color: white;
 }
+#gnb img{
+	cursor:pointer;
+}
 #user-menu-btn {
-
     width: 50px;
 }
 
