@@ -20,6 +20,6 @@
 			alert('내 컬렉션에서 제거하지 못했습니다.<br>(지속적인 실패서 관리자에게 문의하세요)');
 		</script>
 	<%} %>
-		<script>location.replace('/myReviewNote.rw?libraryOwner=<%=m.getMemberId()%>');</script>
+		<script>location.replace('/myCollection.rw?libraryOwner=<%=m.getMemberId()%>');</script>
 </body>
 </html>

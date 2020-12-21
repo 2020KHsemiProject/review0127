@@ -110,7 +110,7 @@ public class LibraryReviewNoteDAO {
 				rc.setBookAuthor(rset.getString("BOOK_AUTHOR"));
 				rc.setBookImage(rset.getString("BOOK_IMAGE"));
 				
-				rc.setLikeId(rset.getString("LIKE_ID"));
+				rc.setLikeId(rset.getInt("LIKE_ID"));
 			if(rset.getString("LIKE_YN")==null) {
 				rc.setLikeYN('N');
 			}else {
@@ -223,7 +223,7 @@ public class LibraryReviewNoteDAO {
 				rc.setBookAuthor(rset.getString("BOOK_AUTHOR"));
 				rc.setBookImage(rset.getString("BOOK_IMAGE"));
 				
-				rc.setLikeId(rset.getString("LIKE_ID"));
+				rc.setLikeId(rset.getInt("LIKE_ID"));
 			if(rset.getString("LIKE_YN")==null) {
 				rc.setLikeYN('N');
 			}else {

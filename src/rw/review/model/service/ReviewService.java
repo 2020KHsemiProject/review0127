@@ -76,6 +76,37 @@ public class ReviewService {
 		return result;
 	}
 
+	public char existsReviewLike(String reviewId, String memberNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		char result = rDAO.existsReviewLike(conn,reviewId, memberNo);
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int insertReviewLike(String reviewId, String memberNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = rDAO.insertReviewLike(conn,reviewId,memberNo);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int updateReviewLike(char resultYN, String reviewId, String memberNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = rDAO.updateReviewLike(conn,resultYN,reviewId,memberNo);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
 	
 }
 

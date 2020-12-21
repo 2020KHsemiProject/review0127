@@ -5,12 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import rw.col.model.vo.BookshelfCollection;
-import rw.col.model.vo.CollectionData;
-import rw.col.model.vo.LibraryCollection;
+import rw.col.model.vo.CollectionPageData;
 import rw.col.model.vo.OtherBookcase;
-import rw.col.model.vo.ReviewCollection;
 import rw.common.JDBCTemplate;
 import rw.library.model.vo.Library;
 import rw.member.model.vo.Member;
@@ -18,40 +16,30 @@ import rw.review.model.vo.ReviewCard;
 
 public class CollectionDAO {
 
-	public CollectionData<ReviewCard, ReviewCollection> selectReviewCollecton(Connection conn, int reviewCurrentPage, int recordCountPerPage, String memberNo) {
+	public CollectionPageData<ReviewCard> selectReviewCollecton(Connection conn, int reviewCurrentPage, int recordCountPerPage, String ownerNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		CollectionData<ReviewCard, ReviewCollection> cd = new CollectionData<ReviewCard, ReviewCollection>();  
+		CollectionPageData<ReviewCard> cpd = new CollectionPageData<ReviewCard>();  
 		ArrayList<ReviewCard> rcList = new ArrayList<ReviewCard>();
-		ArrayList<ReviewCollection> rcColList = new ArrayList<ReviewCollection>();  
 		
 		//리뷰카드로 다시 수정. 쿼리문 수정필요.
 		int start = reviewCurrentPage * recordCountPerPage - (recordCountPerPage-1);
 		int end = reviewCurrentPage * recordCountPerPage;
 
-		String query = "SELECT * FROM (WITH RV AS (SELECT RC.COL_REVIEW_ID, RC.MEMBER_NO RCMN, RC.REVIEW_ID, " + 
-				"R.REVIEW_CONT, R.REVIEW_COUNT, R.REVIEW_DATE, R.REVIEW_RATE, R.DEL_YN, " + 
-				"M.*, B.* FROM REVIEW_COLLECTION RC JOIN REVIEW R ON RC.REVIEW_ID = R.REVIEW_ID " + 
-				"JOIN MEMBER M ON R.MEMBER_NO = M.MEMBER_NO JOIN BOOK B ON R.BOOK_ID = B.BOOK_ID " + 
-				"WHERE RC.MEMBER_NO = ? AND R.DEL_YN = 'N') " + 
-				"SELECT ROW_NUMBER() OVER(ORDER BY RV.COL_REVIEW_ID DESC) AS RN, RV.* FROM RV) " + 
-				"WHERE RN BETWEEN ? AND ?";
+		String query = "SELECT * FROM (WITH RV AS (SELECT RC.COL_REVIEW_ID, RC.MEMBER_NO RCMN, RC.REVIEW_ID, R.REVIEW_CONT, " + 
+				"R.REVIEW_COUNT, R.REVIEW_DATE, R.REVIEW_RATE, R.DEL_YN, M.*, B.* FROM REVIEW_COLLECTION RC " + 
+				"JOIN REVIEW R ON RC.REVIEW_ID = R.REVIEW_ID JOIN MEMBER M ON R.MEMBER_NO = M.MEMBER_NO " + 
+				"JOIN BOOK B ON R.BOOK_ID = B.BOOK_ID WHERE RC.MEMBER_NO = ? AND R.DEL_YN = 'N') " + 
+				"SELECT ROW_NUMBER() OVER(ORDER BY RV.COL_REVIEW_ID DESC) AS RN, RV.* FROM RV) WHERE RN BETWEEN ? AND ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, memberNo);
+			pstmt.setString(1, ownerNo);
 			pstmt.setInt(2, start);
 			pstmt.setInt(3, end);
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				ReviewCollection rc = new ReviewCollection();
-				rc.setColReviewId(rset.getInt("col_review_id"));
-				rc.setMemberNo(memberNo);
-				rc.setReviewId(rset.getString("review_id"));
-				
-				rcColList.add(rc);
-				
 				ReviewCard rd = new ReviewCard();
 				rd.setReviewId(rset.getString("REVIEW_ID"));
 				rd.setReviewDate(rset.getDate("REVIEW_DATE"));
@@ -72,8 +60,7 @@ public class CollectionDAO {
 				rcList.add(rd);
 			}
 			
-			cd.setColList(rcColList);
-			cd.setList(rcList);
+			cpd.setList(rcList);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -82,7 +69,7 @@ public class CollectionDAO {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
-		return cd;
+		return cpd;
 		
 	}
 	
@@ -109,23 +96,19 @@ public class CollectionDAO {
 		
 		// < 버튼 출력
 		if(startNavi !=1) {//페이지 서블릿 생성 후 링크 넣기 - ajax
-			sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#\" aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span>	</a></li>");
-			//sb.append("<a href='/boardAllListPage.kh?currentPage="+(startNavi-1)+"'><</a> ");
+			sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#other-review-card-wrap\" aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span>	</a></li>");
 		}
 		
 		for(int i=startNavi; i<=endNavi; i++) {
 			if(i==reviewCurrentPage) {
-				sb.append("<li class=\"page-item active\"><a class=\"page-link\" href=\"#\">"+i+"</a></li>");
-				//sb.append("<a href='/boardAllListPage.kh?currentPage="+i+"'><b>"+i+"</b></a> ");
+				sb.append("<li class=\"page-item active\"><a class=\"page-link\" href=\"#other-review-card-wrap\">"+i+"</a></li>");
 			}else {
-				sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#\">"+i+"</a></li>");
-				//sb.append("<a href='/boardAllListPage.kh?currentPage="+i+"'>"+i+"</a> ");
+				sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#other-review-card-wrap\">"+i+"</a></li>");
 			}
 		}
 		// > 버튼 출력
 		if(endNavi != pageTotalCount) {
-			sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#\" aria-label=\"Next\"> <span aria-hidden=\"true\">&raquo;</span>	</a></li>");
-			//sb.append("<a href='/boardAllListPage.kh?currentPage="+(endNavi+1)+"'>></a> ");
+			sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#other-review-card-wrap\" aria-label=\"Next\"> <span aria-hidden=\"true\">&raquo;</span>	</a></li>");
 		}
 		
 		return sb.toString();
@@ -156,12 +139,11 @@ public class CollectionDAO {
 		return totalCount;
 	}
 
-	public CollectionData<Member, LibraryCollection> selectLibraryCollection(Connection conn, int libraryCurrentPage, int recordCountPerPage, String memberNo) {
+	public CollectionPageData<Member> selectLibraryCollection(Connection conn, int libraryCurrentPage, int recordCountPerPage, String memberNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		CollectionData<Member,LibraryCollection> cd = new CollectionData<Member, LibraryCollection>();
+		CollectionPageData<Member> cpd = new CollectionPageData<Member>();
 		ArrayList<Member> mList = new ArrayList<Member>();
-		ArrayList<LibraryCollection> libCol = new ArrayList<LibraryCollection>();
 		
 		int start = libraryCurrentPage * recordCountPerPage - (recordCountPerPage-1);
 		int end = libraryCurrentPage * recordCountPerPage;
@@ -180,12 +162,6 @@ public class CollectionDAO {
 			rset = pstmt.executeQuery();
 			while(rset.next()) {
 				Member m = new Member();
-				LibraryCollection lc = new LibraryCollection();
-				lc.setColLibraryId(rset.getInt("col_library_id"));
-				lc.setMemberNo(memberNo); //지금 호출한 사람의 번호
-				lc.setMemberId(rset.getString("member_id")); //id리스트
-				libCol.add(lc);
-				
 				m.setMemberNo(rset.getString("member_no"));//내가 추가한 사람들의 회원번호 및 정보(4개)
 				m.setMemberId(rset.getString("member_id"));
 				m.setNickname(rset.getString("nickname"));
@@ -193,9 +169,7 @@ public class CollectionDAO {
 				mList.add(m);
 			}
 			
-			cd.setList(mList);
-			cd.setColList(libCol);
-			
+			cpd.setList(mList);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -203,7 +177,7 @@ public class CollectionDAO {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
-		return cd;
+		return cpd;
 	}
 
 	public String getLibraryPageNavi(Connection conn, int libraryCurrentPage, int recordCountPerPage, int naviCountPerPage, String memberNo) {
@@ -228,23 +202,19 @@ public class CollectionDAO {
 		
 		// < 버튼 출력
 		if(startNavi !=1) {//페이지 서블릿 생성 후 링크 넣기 - ajax
-			sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#\" aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span>	</a></li>");
-			//sb.append("<a href='/boardAllListPage.kh?currentPage="+(startNavi-1)+"'><</a> ");
+			sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#others-library-wrap\" aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span>	</a></li>");
 		}
 		
 		for(int i=startNavi; i<=endNavi; i++) {
 			if(i==libraryCurrentPage) {
-				sb.append("<li class=\"page-item active\"><a class=\"page-link\" href=\"#\">"+i+"</a></li>");
-				//sb.append("<a href='/boardAllListPage.kh?currentPage="+i+"'><b>"+i+"</b></a> ");
+				sb.append("<li class=\"page-item active\"><a class=\"page-link\" href=\"#others-library-wrap\">"+i+"</a></li>");
 			}else {
-				sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#\">"+i+"</a></li>");
-				//sb.append("<a href='/boardAllListPage.kh?currentPage="+i+"'>"+i+"</a> ");
+				sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#others-library-wrap\">"+i+"</a></li>");
 			}
 		}
 		// > 버튼 출력
 		if(endNavi != pageTotalCount) {
-			sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#\" aria-label=\"Next\"> <span aria-hidden=\"true\">&raquo;</span>	</a></li>");
-			//sb.append("<a href='/boardAllListPage.kh?currentPage="+(endNavi+1)+"'>></a> ");
+			sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#others-library-wrap\" aria-label=\"Next\"> <span aria-hidden=\"true\">&raquo;</span>	</a></li>");
 		}
 		
 		return sb.toString();
@@ -275,13 +245,12 @@ public class CollectionDAO {
 		return totalCount;
 	}
 
-	public CollectionData<OtherBookcase, BookshelfCollection> selectBookshelfCollection(Connection conn, int bookshelfCurrentPage, int recordCountPerPage,
+	public CollectionPageData<OtherBookcase> selectBookshelfCollection(Connection conn, int bookshelfCurrentPage, int recordCountPerPage,
 			String memberNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		CollectionData<OtherBookcase, BookshelfCollection> cd = new CollectionData<OtherBookcase, BookshelfCollection>();
+		CollectionPageData<OtherBookcase> cpd = new CollectionPageData<OtherBookcase>();
 		ArrayList<OtherBookcase> obList = new ArrayList<OtherBookcase>();
-		ArrayList<BookshelfCollection> bcCol = new ArrayList<BookshelfCollection>();
 		
 		int start = bookshelfCurrentPage * recordCountPerPage - (recordCountPerPage-1);
 		int end = bookshelfCurrentPage * recordCountPerPage;
@@ -301,12 +270,6 @@ public class CollectionDAO {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				BookshelfCollection bc = new BookshelfCollection();
-				bc.setColBookshelfId(rset.getInt("col_bookshelf_id"));
-				bc.setBookshelfId(rset.getString("bookshelf_id"));
-				bc.setMemberNo(memberNo);
-				bcCol.add(bc);
-				
 				OtherBookcase ob = new OtherBookcase();
 				Library l = new Library();
 				Member m  = new Member();
@@ -324,8 +287,7 @@ public class CollectionDAO {
 				obList.add(ob);
 			}
 			
-			cd.setColList(bcCol);
-			cd.setList(obList);
+			cpd.setList(obList);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -333,7 +295,7 @@ public class CollectionDAO {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
-		return cd;
+		return cpd;
 	}
 
 	public String getBookshelfPageNavi(Connection conn, int bookshelfCurrentPage, int recordCountPerPage,
@@ -360,23 +322,19 @@ public class CollectionDAO {
 		
 		// < 버튼 출력
 		if(startNavi !=1) {//페이지 서블릿 생성 후 링크 넣기 - ajax
-			sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#\" aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span>	</a></li>");
-			//sb.append("<a href='/boardAllListPage.kh?currentPage="+(startNavi-1)+"'><</a> ");
+			sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#myCollection-collectionlist\" aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span>	</a></li>");
 		}
 		
 		for(int i=startNavi; i<=endNavi; i++) {
 			if(i==bookshelfCurrentPage) {
-				sb.append("<li class=\"page-item active\"><a class=\"page-link\" href=\"#\">"+i+"</a></li>");
-				//sb.append("<a href='/boardAllListPage.kh?currentPage="+i+"'><b>"+i+"</b></a> ");
+				sb.append("<li class=\"page-item active\"><a class=\"page-link\" href=\"#myCollection-collectionlist\">"+i+"</a></li>");
 			}else {
-				sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#\">"+i+"</a></li>");
-				//sb.append("<a href='/boardAllListPage.kh?currentPage="+i+"'>"+i+"</a> ");
+				sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#myCollection-collectionlist\">"+i+"</a></li>");
 			}
 		}
 		// > 버튼 출력
 		if(endNavi != pageTotalCount) {
-			sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#\" aria-label=\"Next\"> <span aria-hidden=\"true\">&raquo;</span>	</a></li>");
-			//sb.append("<a href='/boardAllListPage.kh?currentPage="+(endNavi+1)+"'>></a> ");
+			sb.append("<li class=\"page-item\"><a class=\"page-link\" href=\"#myCollection-collectionlist\" aria-label=\"Next\"> <span aria-hidden=\"true\">&raquo;</span>	</a></li>");
 		}
 		
 		return sb.toString();
@@ -510,6 +468,39 @@ public class CollectionDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return result;
+	}
+
+	public HashMap<String, String> selelctReviewLikeInRC(Connection conn, String memberNo, String ownerNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		HashMap<String, String> likeYNlist = new HashMap<String, String>();
+		
+		String query = "SELECT * FROM REVIEW_LIKE WHERE MEMBER_NO = ? AND REVIEW_ID IN " + 
+				"(SELECT REVIEW_ID FROM REVIEW_COLLECTION WHERE MEMBER_NO = ?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberNo);
+			pstmt.setString(2, ownerNo);
+			rset = pstmt.executeQuery();
+			while((rset.next())) {
+				//리뷰id를 키값으로 로그인한 회원의 YN여부 추가
+				String likeYN = rset.getString("like_yn");
+				
+				if(likeYN==null) {
+					likeYNlist.put(rset.getString("review_id"), "N");
+				}else {
+					likeYNlist.put(rset.getString("review_id"), likeYN);
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return likeYNlist;
 	}
 
 	

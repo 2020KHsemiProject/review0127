@@ -95,7 +95,8 @@
             border-radius: 40px 40px 40px 40px;
             position: relative;
             right: 20%;
-        }
+         	cursor:pointer;   
+         }
         .other_review-heart {
         	/* 좋아요 div 속> 하트 */
             color: red;

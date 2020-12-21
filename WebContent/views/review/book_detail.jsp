@@ -96,14 +96,6 @@
                         $("#image-wrap").append("<img src=' " + msg.documents[0].thumbnail +"'/>'");
 
                         });
-            //내서재 담기
-            $('#shelf-add-btn').click(function() {
-
-            });
-            // 리뷰작성하기
-            $('').click(function() {
-
-            });
         });
     </script>
     <%@ include file="/views/common/footer.jsp" %>

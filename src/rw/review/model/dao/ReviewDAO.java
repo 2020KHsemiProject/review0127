@@ -50,7 +50,7 @@ public class ReviewDAO {
 				rc.setBookAuthor(rset.getString("BOOK_AUTHOR"));
 				rc.setBookImage(rset.getString("BOOK_IMAGE"));
 
-				rc.setLikeId(rset.getString("LIKE_ID"));
+				rc.setLikeId(rset.getInt("LIKE_ID"));
 				if (rset.getString("LIKE_YN") == null) {
 					rc.setLikeYN('N');
 				} else {
@@ -130,7 +130,7 @@ public class ReviewDAO {
 				rc.setBookAuthor(rset.getString("BOOK_AUTHOR"));
 				rc.setBookImage(rset.getString("BOOK_IMAGE"));
 
-				rc.setLikeId(rset.getString("LIKE_ID"));
+				rc.setLikeId(rset.getInt("LIKE_ID"));
 				if (rset.getString("LIKE_YN") == null) {
 					rc.setLikeYN('N');
 				} else {
@@ -250,6 +250,69 @@ public class ReviewDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return result;
+	}
+
+	public char existsReviewLike(Connection conn, String reviewId, String memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		char result = 'F'; //null값인 경우의 반환값
+		String query = "SELECT * FROM REVIEW_LIKE WHERE REVIEW_ID = ? AND MEMBER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, reviewId);
+			pstmt.setString(2, memberNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getString("like_yn").charAt(0);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int insertReviewLike(Connection conn, String reviewId, String memberNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO REVIEW_LIKE VALUES(REVIEW_LIKE_SEQ.NEXTVAL, 'Y', ?,?)";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, reviewId);
+			pstmt.setString(2, memberNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateReviewLike(Connection conn, char resultYN, String reviewId, String memberNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE REVIEW_LIKE SET LIKE_YN = ? WHERE REVIEW_ID =? AND MEMBER_NO =?";
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, Character.toString(resultYN));
+				pstmt.setString(2, reviewId);
+				pstmt.setString(3, memberNo);
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				JDBCTemplate.close(pstmt);
+			}
+			return result;
 	}
 
 }

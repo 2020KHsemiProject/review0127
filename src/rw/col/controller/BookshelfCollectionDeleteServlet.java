@@ -33,7 +33,6 @@ public class BookshelfCollectionDeleteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String bookshelfId = request.getParameter("bookshelfId");
-		
 		HttpSession session = request.getSession();
 		Member m = (Member)session.getAttribute("member");
 		
