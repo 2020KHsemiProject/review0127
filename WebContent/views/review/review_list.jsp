@@ -244,7 +244,7 @@ hr {
                 if(color=='rgb(255, 108, 108)') { // 빨간색일 때
                 	if(confirm('해당 리뷰를 삭제하시겠습니까?')){                		
                 	$.ajax({
-                		url : '/reviewCollectionDel.rw',
+                		url : '/reviewCollectionDel3.rw',
                 		data : {'reviewId':reviewId},
                 		type : 'post',
                 		success : function(data){

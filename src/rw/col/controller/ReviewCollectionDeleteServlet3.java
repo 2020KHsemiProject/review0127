@@ -18,14 +18,14 @@ import rw.member.model.vo.Member;
 /**
  * Servlet implementation class ReviewCollectionDeleteServlet
  */
-@WebServlet("/reviewCollectionDel.rw")
-public class ReviewCollectionDeleteServlet extends HttpServlet {
+@WebServlet("/reviewCollectionDel3.rw")
+public class ReviewCollectionDeleteServlet3 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewCollectionDeleteServlet() {
+    public ReviewCollectionDeleteServlet3() {
         super();
         // TODO Auto-generated constructor stub
     }
