@@ -38,12 +38,10 @@ public class LRNSelectAlignTitleServlet extends HttpServlet {
 		LibraryReviewNoteService rnService = new LibraryReviewNoteService();
 		String libraryOwner = request.getParameter("libraryOwner"); // ID값
 		Member m = new MemberService().selectOneMemberId(libraryOwner);
-		if(m.getProfileImg()==null) { // 이미지 이름
-			m.setProfileImg("default_user_dark.png");
-		}
+		
 		String memberNo = m.getMemberNo();
 		// 내 서재 리뷰 개수
-		int count = rnService.countAllReview(memberNo);
+		int count = rnService.countAllReview(m.getMemberId());
 				
 				
 		// 페이징 처리
@@ -67,7 +65,7 @@ public class LRNSelectAlignTitleServlet extends HttpServlet {
 		RequestDispatcher view = request.getRequestDispatcher("/views/library/review_note.jsp");
 		request.setAttribute("count", count);
 		request.setAttribute("list", list);
-		request.setAttribute("pageNavi", pageNavi); System.out.println(pageNavi);
+		request.setAttribute("pageNavi", pageNavi);
 		request.setAttribute("member", m);
 		view.forward(request, response);
 	}

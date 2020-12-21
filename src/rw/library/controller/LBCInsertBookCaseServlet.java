@@ -1,7 +1,7 @@
-package rw.review.controller;
+package rw.library.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,23 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import rw.col.model.service.CollectionService;
-import rw.col.model.vo.ReviewCollection;
+import rw.library.model.service.LibraryService;
+import rw.member.model.service.MemberService;
 import rw.member.model.vo.Member;
-import rw.review.model.service.ReviewService;
-import rw.review.model.vo.ReviewCard;
 
 /**
- * Servlet implementation class ReviewSelectAllServlet
+ * Servlet implementation class LBCInsertBookCaseServlet
  */
-@WebServlet("/reviewPage.rw")
-public class ReviewSelectAllServlet extends HttpServlet {
+@WebServlet("/addBookCase.rw")
+public class LBCInsertBookCaseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewSelectAllServlet() {
+    public LBCInsertBookCaseServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,33 +34,26 @@ public class ReviewSelectAllServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LibraryService lService = new LibraryService();
+		request.setCharacterEncoding("UTF-8");
+		String libraryOwner = request.getParameter("libraryOwner");
+		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("member");
 		
-		
-		int end;
-		if(request.getParameter("end")==null) {
-			end=12;
-		}else {
-			end=Integer.parseInt(request.getParameter("end"))+6;
-		}
-		ArrayList<ReviewCard> list = new ReviewService().selectAllReview(end);
-		for(ReviewCard rc : list) {
-			if(rc.getProfileImg()==null) {
-				rc.setProfileImg("default_user_dark.png");
-			}
-		}
-		
-		System.out.println(end);
-		RequestDispatcher view = request.getRequestDispatcher("/views/review/review_list.jsp");
-		request.setAttribute("list", list);
-		request.setAttribute("end", end);
 		if(member!=null) {
-			// 내 컬렉션 데이터 가져오기
-			ArrayList<ReviewCollection> rColList = new CollectionService().selectColReview(member.getMemberNo());
-			request.setAttribute("rColList", rColList);
+			//int result = lService.insertBookCase(libraryOwner);
+			String[] addBookList = request.getParameterValues("addBookList");
+			String bookCaseTitle = request.getParameter("bookCaseTitle");
+			
+			int result = lService.insertBookCase(member.getMemberNo(),addBookList,bookCaseTitle);
+			
+		}else {
+			// 비로그인자
+			//RequestDispatcher view = request.getRequestDispatcher("/views/member/released_login.jsp");
+			
 		}
-		view.forward(request, response);
+		
 	}
 
 	/**
@@ -70,7 +61,11 @@ public class ReviewSelectAllServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 		doGet(request, response);
+		
 	}
+	
+	
 
 }

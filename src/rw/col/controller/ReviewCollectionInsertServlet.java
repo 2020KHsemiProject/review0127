@@ -1,9 +1,8 @@
-package rw.review.controller;
+package rw.col.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,23 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+
 import rw.col.model.service.CollectionService;
-import rw.col.model.vo.ReviewCollection;
 import rw.member.model.vo.Member;
-import rw.review.model.service.ReviewService;
-import rw.review.model.vo.ReviewCard;
 
 /**
- * Servlet implementation class ReviewSelectAllServlet
+ * Servlet implementation class ReviewCollectionInsertServlet
  */
-@WebServlet("/reviewPage.rw")
-public class ReviewSelectAllServlet extends HttpServlet {
+@WebServlet("/reviewCollectionAdd.rw")
+public class ReviewCollectionInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewSelectAllServlet() {
+    public ReviewCollectionInsertServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,30 +37,24 @@ public class ReviewSelectAllServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("member");
 		
+		String reviewId = request.getParameter("reviewId"); // 리뷰ID
+		String memberNo = member.getMemberNo(); // 내 회원ID
 		
-		int end;
-		if(request.getParameter("end")==null) {
-			end=12;
-		}else {
-			end=Integer.parseInt(request.getParameter("end"))+6;
-		}
-		ArrayList<ReviewCard> list = new ReviewService().selectAllReview(end);
-		for(ReviewCard rc : list) {
-			if(rc.getProfileImg()==null) {
-				rc.setProfileImg("default_user_dark.png");
-			}
-		}
+		int result = new CollectionService().insertReview(memberNo,reviewId); 
 		
-		System.out.println(end);
-		RequestDispatcher view = request.getRequestDispatcher("/views/review/review_list.jsp");
-		request.setAttribute("list", list);
-		request.setAttribute("end", end);
-		if(member!=null) {
-			// 내 컬렉션 데이터 가져오기
-			ArrayList<ReviewCollection> rColList = new CollectionService().selectColReview(member.getMemberNo());
-			request.setAttribute("rColList", rColList);
-		}
-		view.forward(request, response);
+		JSONObject object = new JSONObject();
+		//JSONObject는 map형태에서 파생되었음 (key,value)
+		
+		object.put("result", result);
+		// 위처럼 작성하게 되면 JSON 형태로 처리되었다고 생각하면 됨
+		// {"name":m.getName(),"age":m.getAge(),"addr":m.getAddr()}
+		
+		// JSON 객체를 보내주기 전에 해당 ajax에 데이터 타입을 알려주어야 함
+		response.setContentType("application/json");
+		
+		PrintWriter out = response.getWriter();
+		
+		out.print(object);
 	}
 
 	/**

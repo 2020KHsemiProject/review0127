@@ -1,7 +1,6 @@
-package rw.review.controller;
+package rw.library.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,23 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import rw.col.model.service.CollectionService;
-import rw.col.model.vo.ReviewCollection;
+import rw.library.model.service.LibraryService;
+import rw.member.model.service.MemberService;
 import rw.member.model.vo.Member;
-import rw.review.model.service.ReviewService;
-import rw.review.model.vo.ReviewCard;
 
 /**
- * Servlet implementation class ReviewSelectAllServlet
+ * Servlet implementation class LBCDeleteBookCaseServlet
  */
-@WebServlet("/reviewPage.rw")
-public class ReviewSelectAllServlet extends HttpServlet {
+@WebServlet("/deletBookCase.rw")
+public class LBCDeleteBookCaseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewSelectAllServlet() {
+    public LBCDeleteBookCaseServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,30 +36,21 @@ public class ReviewSelectAllServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("member");
 		
+		String libraryOwner = request.getParameter("libraryOwner");
+		String bookShelfId = request.getParameter("bookShelfId");
+		Member m = new MemberService().selectOneMemberId(libraryOwner); // 책장주인 정보
 		
-		int end;
-		if(request.getParameter("end")==null) {
-			end=12;
-		}else {
-			end=Integer.parseInt(request.getParameter("end"))+6;
-		}
-		ArrayList<ReviewCard> list = new ReviewService().selectAllReview(end);
-		for(ReviewCard rc : list) {
-			if(rc.getProfileImg()==null) {
-				rc.setProfileImg("default_user_dark.png");
+		LibraryService lService = new LibraryService();
+		
+		if(m.getMemberId().equals(member.getMemberId())) { 
+			int result = lService.deleteBookCase(m.getMemberNo(), bookShelfId);
+			if(result>0) { // 삭제 성공
+				RequestDispatcher view = request.getRequestDispatcher("/myBookCase.rw?libraryOwner="+libraryOwner);
+				view.forward(request, response);
+			}else { // 삭제 실패
+				
 			}
 		}
-		
-		System.out.println(end);
-		RequestDispatcher view = request.getRequestDispatcher("/views/review/review_list.jsp");
-		request.setAttribute("list", list);
-		request.setAttribute("end", end);
-		if(member!=null) {
-			// 내 컬렉션 데이터 가져오기
-			ArrayList<ReviewCollection> rColList = new CollectionService().selectColReview(member.getMemberNo());
-			request.setAttribute("rColList", rColList);
-		}
-		view.forward(request, response);
 	}
 
 	/**

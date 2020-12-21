@@ -3,6 +3,7 @@ package rw.reviewnote.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import rw.col.model.vo.ReviewCollection;
 import rw.common.JDBCTemplate;
 import rw.member.model.vo.Member;
 import rw.review.model.vo.ReviewCard;
@@ -11,12 +12,7 @@ import rw.reviewnote.model.vo.ReviewNotePageData;
 
 public class LibraryReviewNoteService {
 	LibraryReviewNoteDAO rnDAO = new LibraryReviewNoteDAO();
-	public Member selecAlltMyLibraryHeader(String memberNo) {
-		Connection conn = JDBCTemplate.getConnection();
-		Member m = rnDAO.selecAlltMyLibraryHeader(conn,memberNo);
-		JDBCTemplate.close(conn);
-		return m;
-	}
+	
 	public int countAllReview(String memberNo) {
 		Connection conn = JDBCTemplate.getConnection();
 		int count = rnDAO.countAllReview(conn,memberNo);
@@ -49,6 +45,7 @@ public class LibraryReviewNoteService {
 		JDBCTemplate.close(conn);
 		return rnpd;
 	}
+	
 	
 }
 	

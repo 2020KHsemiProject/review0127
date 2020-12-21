@@ -18,6 +18,7 @@
 <body>
 	<% Member m = (Member)session.getAttribute("member"); 
 		String profileImg; // 프로필 이미지 처리. 없으면 기본 이미지
+		String libraryOwner=null;
 	if (m!=null){
         if(m.getProfileImg()!=null) {
         	profileImg = m.getProfileImg();
