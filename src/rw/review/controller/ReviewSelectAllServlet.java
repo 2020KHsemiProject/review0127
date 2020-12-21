@@ -47,7 +47,7 @@ public class ReviewSelectAllServlet extends HttpServlet {
 				rc.setProfileImg("default_user_dark.png");
 			}
 		}
-		
+		System.out.println(end);
 		RequestDispatcher view = request.getRequestDispatcher("/views/review/review_list.jsp");
 		request.setAttribute("list", list);
 		request.setAttribute("end", end);

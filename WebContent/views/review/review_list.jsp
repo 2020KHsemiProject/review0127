@@ -305,20 +305,19 @@ hr {
 				%>
 						<div class="review-card">
 							<div class="review-card-book-img">
-								<img src="<%=rc.getBookImage()%>" />
+								<img src="<%=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." />
 							</div>
-							<div class="review-card-text">
+							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="review-card-book-title">
-									<span class="review-card-book-title-text"><%=rc.getBookTitle() %></span>
+									<span class="review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
 									<span class="review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
-							<div class="row review-card-bottom">
+							<div class="row review-card-bttom">
 								<div class="col-3">
 									<div class="review-card-writer-profile">
-										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="writer-profile-img" writer="<%=rc.getMemberId() %>" />
+										<img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -328,8 +327,7 @@ hr {
 											<div class="row">
 												<div class="col-7"><%=rc.getReviewDate() %></div>
 												<div class="col-5 review-card-count">
-													조회
-													<%=rc.getReviewCount() %></div>
+													조회	<%=rc.getReviewCount() %></div>
 											</div>
 										</div>
 									</div>
@@ -346,26 +344,26 @@ hr {
 						
 						<% } else { %>
 						<div class="other_review-card">
-							<div class="other_review-card-book-img">
-								<span class="other_reviewScrap reviewNoteIcon">
+							<div class="other_review-card-book-img" title="누르면 해당 도서페이지로 이동합니다.">
+								<span class="other_reviewScrap collectionIcon">
                                     <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                       <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
                                     </svg>
                                 </span>
 								<img src="<%=rc.getBookImage()%>" />
 							</div>
-							<div class="other_review-card-text">
+							<div class="other_review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="other_review-card-book-title">
-									<span class="other_review-card-book-title-text"><%=rc.getBookTitle() %></span>
+									<span class="other_review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
 									<span class="other_review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
-							<div class="row other_review-card-bottom">
+							<div class="row other_review-card-bttom">
 								<div class="col-3">
 									<div class="other_review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>" />
+											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -381,7 +379,7 @@ hr {
 										</div>
 									</div>
 								</div>
-								<div class="col-3 other_rvheart other_reviewNoteIcon">
+								<div class="col-3 other_rvheart reviewNoteIcon">
 									<div class="other_review-heart-and-count">
 										<span class="other_review-heart"><a>
 												<% if(rc.getLikeYN()=='Y'){ %>♥<%}else { %>♡<% } %>
@@ -484,23 +482,23 @@ hr {
 
 						<% int morecount = 0;
 					
-				for(ReviewCard rc : list){ %>
+						for(ReviewCard rc : list){ %>
 						<div class="review-card">
-							<div class="review-card-book-img">
+							<div class="review-card-book-img" title="누르면 해당 도서페이지로 이동합니다.">
 								<img src="<%=rc.getBookImage()%>" />
 							</div>
-							<div class="review-card-text">
+							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="review-card-book-title">
-									<span class="review-card-book-title-text"><%=rc.getBookTitle() %></span>
+									<span class="review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
 									<span class="review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
-							<div class="row review-card-bottom">
+							<div class="row review-card-bttom">
 								<div class="col-3">
 									<div class="review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="writer-profile-img" writer="<%=rc.getMemberId() %>" />
+											class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -518,13 +516,15 @@ hr {
 								</div>
 								<div class="col-3 rvheart reviewNoteIcon">
 									<div class="review-heart-and-count">
-										<span class="review-heart"><a>
-												<% if(rc.getLikeYN()=='Y'){ %>♥<%}else { %>♡<% } %>
-										</a></span> <span class="heart-count"><%=rc.getReviewRate() %></span>
+										<span class="review-heart"><a>♡</a></span> <span class="heart-count"><%=rc.getReviewRate() %></span>
 									</div>
 								</div>
 							</div>
 						</div>
+						
+			
+
+			
 						<span id="moreLocal<% morecount++; %>" style="display: none;"></span>
 						<script>
 			$(function(){

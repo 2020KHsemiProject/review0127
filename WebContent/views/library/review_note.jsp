@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="rw.member.model.vo.Member"%>
 <%@ page import="rw.review.model.vo.ReviewCard"%>
+<%@ page import= "rw.col.model.vo.ReviewCollection" %>
 <%@ page import="java.util.ArrayList"%>
 <jsp:include page="/views/common/header.jsp" flush="false" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -125,12 +126,6 @@ button:focus {
 	height: 450px;
 	font-size: 3rem;
 }
-.reviweScrap{
-/* 카드 속> 이미지 div 속> 책갈피 YN */
-	z-index: 20;
-	position: relative;
-	color: gray;
-}
 @media (max-width:1200px){
     #reviewNote-wrapper{ width: 1200px;}
 }
@@ -225,20 +220,56 @@ button:focus {
             }
             
          	// 책갈피
-            $('.other_reviweScrap').click(function(e){
+            $('.other_reviewScrap').click(function(e){
+            	e.stopImmediatePropagation(); // 버블링 방지
             	var color = $(this).css('color');
+            	var $thisTag = $(this);
             	console.log(color);
-                if(color=='rgb(255, 108, 108)') {
-                    if(confirm('해당 리뷰를 삭제하시겠습니까?')){
-                        $(this).css('color','gray');
+            	
+            	var reviewId = $thisTag.parents('.other_review-card').attr('name');
+            	
+                if(color=='rgb(255, 108, 108)') { // 빨간색일 때
+                	if(confirm('해당 리뷰를 삭제하시겠습니까?')){
+                	$.ajax({
+                		url : '/reviewCollectiondel.rw',
+                		data : {'reviewId':reviewId},
+                		type : 'post',
+                		success : function(data){
+                			if(data.result>0){
+                				alert("컬렉션에서 삭제가 완료되었습니다.");
+                				$thisTag.css('color','gray');
+                			}else{
+                				alert('컬렉션 삭제에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                			}
+                			
+                		},
+                		error : function(){
+                			
+                		}
+                	});
                     }
-                }else {
-                    $(this).css('color','#FF6C6C');
-                }
-                e.stopImmediatePropagation(); // 버블링 방지
-            }); 
+                }else { // 회색일 때 
+                    $.ajax({
+                    	url : '/reviewCollectionAdd.rw',
+                    	data : {'reviewId':reviewId},
+                    	type : 'post',
+                    	success : function(data){
+                    		if(data.result>0){
+                   				alert('컬렉션에 추가되었습니다.');
+                   				$thisTag.css('color','#FF6C6C');
+                   			}else{
+                   				alert('컬렉션 추가에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                   			}
+                    		},
+                   		error : function(){
+                   			alert('컬렉션 추가에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                    	}
+                   	});
+           		 } // 회색 또는 빨간색 if문
+            });
+            	
             
-       		
+            	
         })
     </script>
 </head>
@@ -516,9 +547,9 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 			<div id="review-card-list" class="col-12">
 
 						<% for(ReviewCard rc : list){ %>
-						<div class="other_review-card">
+						<div class="other_review-card" name="<%=rc.getReviewId()%>">
 							<div class="other_review-card-book-img" title="누르면 해당 도서페이지로 이동합니다.">
-								<span class="other_reviweScrap collectionIcon">
+								<span class="other_reviewScrap reviewScrap<%=rc.getReviewId() %> collectionIcon">
                                     <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                       <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
                                     </svg>
@@ -562,7 +593,15 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 							</div>
 						</div>
 						
-			
+			<% ArrayList<ReviewCollection> rColList = (ArrayList<ReviewCollection>)request.getAttribute("rColList"); 
+				for(ReviewCollection rCol : rColList){
+					if(rc.getReviewId().equals(rCol.getReviewId())){ %>
+				<script>
+					$('.reviewScrap'+'<%=rc.getReviewId() %>').css('color','#FF6C6C');
+				</script>
+			<%		}
+				}
+			%>
 
 			<% } // foreach문 %>
 
@@ -712,9 +751,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 								</div>
 								<div class="col-3 rvheart reviewNoteIcon">
 									<div class="review-heart-and-count">
-										<span class="review-heart"><a>
-												<% if(rc.getLikeYN()=='Y'){ %>♥<%}else { %>♡<% } %>
-										</a></span> <span class="heart-count"><%=rc.getReviewRate() %></span>
+										<span class="review-heart"><a>♡</a></span> <span class="heart-count"><%=rc.getReviewRate() %></span>
 									</div>
 								</div>
 							</div>

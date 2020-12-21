@@ -9,7 +9,7 @@
 <body>
 <script>
 	alert('로그인 상태가 아닙니다. 로그인 후 다시 시도해주세요.');
-	location.replace('/index.jsp');
+	location.replace('/views/member/login.jsp');
 </script>
 </body>
 </html>

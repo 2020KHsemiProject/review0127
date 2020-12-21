@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import rw.col.model.vo.ReviewCollection;
 import rw.member.model.service.MemberService;
 import rw.member.model.vo.Member;
 import rw.review.model.vo.ReviewCard;
@@ -80,11 +81,16 @@ public class LibraryReviewNoteServlet extends HttpServlet {
 			}
 		}
 		
+		
+		// 내 컬렉션 데이터 가져오기
+		ArrayList<ReviewCollection> rColList = rnService.selectColReview(member.getMemberNo());
+		
 		RequestDispatcher view = request.getRequestDispatcher("/views/library/review_note.jsp?libraryOwner="+libraryOwner);
 		request.setAttribute("count", count);
 		request.setAttribute("list", list);
 		request.setAttribute("pageNavi", pageNavi); //System.out.println(pageNavi);
 		request.setAttribute("member", m);
+		request.setAttribute("rColList", rColList);
 		view.forward(request, response);
 		
 		}else { // m 객체가 null일 때 즉, 탈퇴하거나 없는 회원
@@ -132,7 +138,7 @@ public class LibraryReviewNoteServlet extends HttpServlet {
 			view.forward(request, response);
 			
 			}else { // m 객체가 null일 때 즉, 탈퇴하거나 없는 회원
-				RequestDispatcher view = request.getRequestDispatcher("/views/library/member_load_fail.jsp");
+				RequestDispatcher view = request.getRequestDispatcher("/views/member/released_login.jsp");
 				view.forward(request, response);
 			}
 		}
