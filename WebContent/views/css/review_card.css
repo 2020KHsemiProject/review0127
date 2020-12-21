@@ -82,10 +82,11 @@
         .review-heart-and-count {
         	/* 좋아요 div 스타일 */
             border: 1px solid gray;
-            width: 120%; height: 63%;
+            width : 100%; right:40%;
             border-radius: 40px 40px 40px 40px;
             position: relative;
             right: 20%;
+            cursor:pointer
         }
         .review-heart {
         	/* 좋아요 div 속> 하트 */

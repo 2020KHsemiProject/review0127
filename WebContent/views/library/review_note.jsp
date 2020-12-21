@@ -225,7 +225,7 @@ button:focus {
             	e.stopImmediatePropagation(); // 버블링 방지
             	var color = $(this).css('color');
             	var $thisTag = $(this);
-            	console.log(color);
+            	
             	
             	var reviewId = $thisTag.parents('.other_review-card').attr('name');
             	
@@ -242,10 +242,9 @@ button:focus {
                 			}else{
                 				alert('컬렉션 삭제에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
                 			}
-                			
                 		},
                 		error : function(){
-                			
+                			alert('컬렉션 삭제에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
                 		}
                 	});
                     }
@@ -312,7 +311,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 									<li class="col-2"><a
 										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>">리뷰노트</a></li>
 									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>">책장</a></li>
-									<li class="col-2"><a href="/views/library/collection.jsp">컬렉션</a></li>
+									<li class="col-2"><a href="/myCollection.rw?libraryOwner=<%=mem.getMemberId()%>">컬렉션</a></li>
 								</ul>
 							</div>
 						</div>
@@ -387,7 +386,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 							<div class="row review-card-bttom">
 								<div class="col-3">
 									<div class="review-card-writer-profile">
-										<img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+										<img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img" writer="<%=rc.getMemberId() %>"/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -486,6 +485,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 									<li class="col-2"><a
 										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">리뷰노트</a></li>
 									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">책장</a></li>
+									<li class="col-2"><a href="/myCollection.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">컬렉션</a></li>
 								</ul>
 							</div>
 						</div>
@@ -567,7 +567,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 								<div class="col-3">
 									<div class="other_review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getMemberId() %>]님의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -657,6 +657,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 									<li class="col-2"><a
 										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">리뷰노트</a></li>
 									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">책장</a></li>
+									<li class="col-2"><a href="/myCollection.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">컬렉션</a></li>
 								</ul>
 							</div>
 						</div>
@@ -733,7 +734,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 								<div class="col-3">
 									<div class="review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+											class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getMemberId() %>]님의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import rw.col.model.vo.BookshelfCollection;
 import rw.col.model.vo.CollectionPageData;
 import rw.col.model.vo.OtherBookcase;
 import rw.col.model.vo.ReviewCollection;
@@ -505,6 +506,7 @@ public class CollectionDAO {
 	}
 
 	public int insertReview(Connection conn, String memberNo, String reviewId) {
+		// 남의 서재- 리뷰노트 에서 리뷰 추가
 		PreparedStatement pstmt = null;
 		int result = 0; 
 		String query = "INSERT INTO REVIEW_COLLECTION VALUES (REVIEW_COLLECTION_SEQ.NEXTVAL,?,?)";
@@ -523,6 +525,7 @@ public class CollectionDAO {
 	}
 
 	public int deleteReview(Connection conn, String memberNo, String reviewId) {
+		// 남의 서재- 리뷰노트 에서 리뷰 제거
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String query = "DELETE FROM REVIEW_COLLECTION WHERE MEMBER_NO=? AND REVIEW_ID=?";
@@ -541,6 +544,7 @@ public class CollectionDAO {
 	}
 	
 	public ArrayList<ReviewCollection> selectColReview(Connection conn, String memberNo) {
+		// 내가 스크랩한 책장
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<ReviewCollection> rColList = new ArrayList<ReviewCollection>();
@@ -564,6 +568,71 @@ public class CollectionDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return rColList;
+	}
+
+	public int insertBookCase(Connection conn, String memberNo, String bookCaseId) {
+		// 남의 서재- 책장 에서 리뷰 추가 
+		PreparedStatement pstmt = null;
+		int result = 0; 
+		String query = "INSERT INTO BOOKSHELF_COLLECTION VALUES (LIBRARY_COLLECTION_SEQ.NEXTVAL,?,?)";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberNo);
+			pstmt.setString(2, bookCaseId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteBookCase(Connection conn, String memberNo, String bookCaseId) {
+		// 남의 서재- 책장 에서 리뷰 삭제
+		PreparedStatement pstmt = null;
+		int result = 0; 
+		String query = "DELETE FROM BOOKSHELF_COLLECTION WHERE MEMBER_NO=? AND BOOKSHELF_ID=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberNo);
+			pstmt.setString(2, bookCaseId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public ArrayList<BookshelfCollection> selectColBookshelf(Connection conn, String memberNo) {
+		// 내가 스크랩한 책장
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<BookshelfCollection> bcColList = new ArrayList<BookshelfCollection>();
+		String query = "SELECT * FROM BOOKSHELF_COLLECTION WHERE MEMBER_NO=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				BookshelfCollection bcCol = new BookshelfCollection();
+				bcCol.setColBookshelfId(rset.getInt("COL_BOOKSHELF_ID"));
+				bcCol.setMemberNo(rset.getString("MEMBER_NO"));
+				bcCol.setBookshelfId(rset.getString("BOOKSHELF_ID"));
+				bcColList.add(bcCol);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return bcColList;
 	}
 
 }

@@ -18,7 +18,7 @@ import rw.member.model.vo.Member;
 /**
  * Servlet implementation class ReviewCollectionDeleteServlet
  */
-@WebServlet("/reviewCollectionDel3.rw")
+@WebServlet("/reviewCollectionDel3.rw") // 남의 서재 - 리뷰노트에서 삭제
 public class ReviewCollectionDeleteServlet3 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

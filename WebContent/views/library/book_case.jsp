@@ -5,6 +5,7 @@
 <%@ page import="rw.library.model.vo.Library" %>
 <%@ page import="rw.library.model.vo.LibraryPageData" %>
 <%@ page import="rw.review.model.vo.Book" %>
+<%@ page import="rw.col.model.vo.BookshelfCollection" %>
 <%@ page import="java.util.ArrayList" %>
 <jsp:include page="/views/common/header.jsp" flush="false" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -244,7 +245,9 @@
             font-size: 20px;
             background-color: #ffe58d;
         }
-        
+        .other_bookCaseScrap {
+        	color: gray;
+        }
         
         
         
@@ -346,27 +349,9 @@
             
             
         });
-
-        
-        
-        
-        
-        
         
         /// 다른사람 책장
-        // 책갈피
-            $('.other_bookCaseScrap').click(function(e){
-            	var color = $(this).css('color');
-            	console.log(color);
-                if(color=='rgb(255, 108, 108)') {
-                    if(confirm('해당 리뷰를 삭제하시겠습니까?')){
-                        $(this).css('color','gray');
-                    }
-                }else {
-                    $(this).css('color','#FF6C6C');
-                }
-                e.stopImmediatePropagation(); // 버블링 방지
-            });
+        
     </script>
     
     
@@ -409,7 +394,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 									<li class="col-2"><a
 										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>">리뷰노트</a></li>
 									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>">책장</a></li>
-									<li class="col-2"><a href="/views/library/collection.jsp">컬렉션</a></li>
+									<li class="col-2"><a href="/myCollection.rw?libraryOwner=<%=mem.getMemberId()%>">컬렉션</a></li>
 								</ul>
 							</div>
 						</div>
@@ -450,36 +435,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                 <div class="row bookcase-case" name="<%=libr.getBookShelfId()%>">
                 
                 
-                <script>
-                	$(function(){
-                		////// 책장 이름 수정
-                		$('.sendModifyTitleBtn').click(function(){
-	                		var bookShelfId = '<%=libr.getBookShelfId()%>';
-	                		var titleName = $(this).parent().prev().prev().val();
-	                		var $thisBtn = $(this);
-	                		var object = {'bookShelfId':bookShelfId,'titleName':titleName};
-	                		$.ajax({
-	                			url : '/bookCaseModifyTitle.rw',
-	                			data : object,
-	                			type : 'post',
-	                			success : function(data){
-	                				$('.modifyCaseNameForm').find('input[name=bookcaseName]').attr('type','hidden').val('');
-	                    			$('.modifyCaseNameForm').find('button.sendModifyTitleBtn').css('display','none');
-	                    			$('.modifyCaseNameForm').find('button.modifyTitleBtn').css('display','inline');
-	                    			$('.bookcase-name').css('display','inline');
-	                    			$thisBtn.parent().parent().prev().text(titleName);
-	                			},
-	                			error : function(){
-	                				alert('책장 이름 수정에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.')
-	                			}
-	                		});
-                		});
-                		
-                		
-                		
-                     	
-                	})
-                </script>
+                
                 
                 
                 
@@ -489,9 +445,9 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                                 <H3>
                                 <span class="bookcase-name font-rem"><%=libr.getBookShelfName() %></span>
                                 <form class="modifyCaseNameForm">
-                                    <input type="hidden" class="modifyCaseName" name="bookcaseName"/>
+                                    <input type="hidden" class="modifyCaseName" name="bookcaseName<%=libr.getBookShelfId()%>"/>
                                     <span><button type="button" class="font-rem modifyTitleBtn"><i class="far fa-edit caseIcon"></i></button></span>
-                                    <span><button type="button" class="font-rem sendModifyTitleBtn"><i class="fas fa-edit caseIcon"></i></button></span>
+                                    <span><button type="button" class="font-rem sendModifyTitleBtn" onclick="modifyTitleBtn('<%=libr.getBookShelfId() %>')"><i class="fas fa-edit caseIcon"></i></button></span>
                                 </form>
                                 
 					<% if(libr.getPrivateYN()=='N'){ %>
@@ -536,7 +492,6 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                     
                     <div class="col-12 bookcase-booklist"> <!-- 여기가 책 리스트 -->
                     
-                    
                     <div class="bookcase-book book-nullPlace" style="margin: 8px;" onclick="addBookInCase('<%=libr.getBookShelfId()%>');">
                 		<svg width="4em" height="4em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 	                    	<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -566,7 +521,31 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 				</div>
 			</div>
 			
+			
+			
 			<script>
+			
+			////// 책장 이름 수정
+    		function modifyTitleBtn(bookShelfId){
+    			var $inputTag = $('input[name=bookcaseName'+bookShelfId+']');
+        		var titleName = $inputTag.val();
+        		var object = {'bookShelfId':bookShelfId,'titleName':titleName};
+        		$.ajax({
+        			url : '/bookCaseModifyTitle.rw',
+        			data : object,
+        			type : 'post',
+        			success : function(data){
+            			$inputTag.css('display','none').val('');
+            			$inputTag.parent().prev().text(data.updateTitle).css('display','inline');
+            			$inputTag.next().children().css('display','inline');
+            			$inputTag.next().next().children().css('display','none');
+        			},
+        			error : function(){
+        				alert('책장 이름 수정에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.')
+        			}
+        		});
+    		};
+			
 			//// 자물쇠 버튼
     		// 책장 열쇠 잠금
     		function modifyLock(bookShelfId,lock){
@@ -603,7 +582,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
           		confirm(bookShelfId);
           		var result = window.confirm('해당 책장을 삭제하시겠습니까?');
        			if(result){
-              		location.replace('/deletBookCase.rw?libraryOwner='+'<%=libraryOwner%>'+'&bookShelfId='+bookShelfId);
+       				location.replace('/deletBookCase.rw?libraryOwner='+'<%=libraryOwner%>'+'&bookShelfId='+bookShelfId);
               	}
        		};
           </script>
@@ -786,6 +765,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 									<li class="col-2"><a
 										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">리뷰노트</a></li>
 									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">책장</a></li>
+									<li class="col-2"><a href="/myCollection.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">컬렉션</a></li>
 								</ul>
 							</div>
 						</div>
@@ -821,7 +801,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
           
             <div class="col-12">
                <br><br>
-                <div class="row bookcase-case">
+                <div class="row bookcase-case" name="<%=libr.getBookShelfId()%>">
                 
                 
                     <div class="col-12">
@@ -834,12 +814,8 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                             <div class="col-2 bookcase-settingicon">
                                 <H3>
                                 <!-- 스크랩 아이콘 -->
-                       <% //if(){ ////////////////////////////////////////////////////////////////////////////////////////////////////%>
-                                <span class="other_bookCaseScrap caseIcon">
-                       <% //}else { %>
-                       
-                       <% //} %>
-                                    <svg width="2.5em" height="2.5em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <span class="other_bookCaseScrap bookCaseScrap<%=libr.getBookShelfId() %> caseIcon">
+                                   	<svg width="2.5em" height="2.5em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                       <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
                                     </svg>
                                 </span>
@@ -873,7 +849,69 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                     
 				</div>
 			</div>
-          
+			
+			
+			<% ArrayList<BookshelfCollection> bcColList = (ArrayList<BookshelfCollection>)request.getAttribute("bcColList"); 
+				for(BookshelfCollection bcCol : bcColList){
+					if(libr.getBookShelfId().equals(bcCol.getBookshelfId())){ %>
+				<script>
+					$('.bookCaseScrap'+'<%=libr.getBookShelfId() %>').css('color','#FF6C6C');
+				</script>
+			<%		}
+				}
+			%>
+			
+			
+			
+			<script>
+			// 책갈피
+            $('.other_bookCaseScrap').click(function(e){
+            	e.stopImmediatePropagation(); // 버블링 방지
+            	var color = $(this).css('color');
+            	var $thisTag = $(this);
+            	
+            	var bookCaseId = $thisTag.parents('.bookcase-case').attr('name');
+            	
+                if(color=='rgb(255, 108, 108)') { // 빨간색일 때
+                	if(confirm('해당 책장을 컬렉션에서 삭제하시겠습니까?')){                		
+                	$.ajax({
+                		url : '/boolshelfCollectionDel3.rw',
+                		data : {'bookCaseId':bookCaseId},
+                		type : 'post',
+                		success : function(data){
+                			if(data.result>0){
+                				alert("컬렉션에서 삭제가 완료되었습니다.");
+                				$thisTag.css('color','gray');
+                			}else{
+                				alert('컬렉션 삭제에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                			}
+                		},
+                		error : function(){
+                			alert('컬렉션 삭제에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                		}
+                	});
+                    }
+                }else { // 회색일 때 
+                    $.ajax({
+                    	url : '/boolshelfCollectionAdd.rw',
+                    	data : {'bookCaseId':bookCaseId},
+                    	type : 'post',
+                    	success : function(data){
+                    		if(data.result>0){
+                   				alert('컬렉션에 추가되었습니다.');
+                   				$thisTag.css('color','#FF6C6C');
+                   			}else{
+                   				alert('컬렉션 추가에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                   			}
+                    		},
+                   		error : function(){
+                   			alert('컬렉션 추가에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                    	}
+                   	});
+           		 } // 회색 또는 빨간색 if문
+            });
+            </script>
+			
           <% } //// 포이치문 책장 %>  
             
             
@@ -937,6 +975,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 									<li class="col-2"><a
 										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">리뷰노트</a></li>
 									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">책장</a></li>
+									<li class="col-2"><a href="/myCollection.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">컬렉션</a></li>
 								</ul>
 							</div>
 						</div>

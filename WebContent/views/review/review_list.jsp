@@ -152,7 +152,7 @@ hr {
 			});// 클릭 뗄 때 이동
 			$('.review-card-book-img').mouseup(function(){
 				$(this).css('box-shadow','');
-				location.href="#";// 개별 도서 페이지
+				location.href="/bookInfo.rw";// 개별 도서 페이지
 			});// 마우스가 요소 외부에 있을 때 그림자 삭제
 			$('.review-card-book-img').mouseout(function(){
 				$(this).css('box-shadow','');
@@ -352,7 +352,7 @@ hr {
 							<div class="row review-card-bttom">
 								<div class="col-3">
 									<div class="review-card-writer-profile">
-										<img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+										<img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="내 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -398,7 +398,7 @@ hr {
 								<div class="col-3">
 									<div class="other_review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getMemberId() %>]님의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -467,8 +467,7 @@ hr {
 								<button id="moreBtn" class="reviewListIcon">더 보기</button>
 							</div>
 							<input type="hidden" name="end"
-								value="<%=(int)request.getAttribute("end")%>" /> <input
-								type="hidden" name="moreLocal" value="moreLocal<%= morecount %>" />
+								value="<%=(int)request.getAttribute("end")%>" /> <input type="hidden" name="moreLocal" value="moreLocal<%= morecount %>" />
 						</form>
 					</div>
 					<% if(list.size()<(int)request.getAttribute("end")) { // 더이상 더보기할 리뷰가 없으면 %>
@@ -477,8 +476,7 @@ hr {
             	</script>
 					<% } %>
 					<% } else {// if문(list가 null이 아니라면) %>
-					<div class="not-yet">
-						아직 리뷰가 없습니다.<br>
+					<div class="not-yet">아직 리뷰가 없습니다.<br>
 						<div>당신이 우리 REVIEW:0127의 첫번째 리뷰 작성자가 되어 주시겠습니까?</div>
 						<a href="/reviewWrite.rw">리뷰 쓰기</a>
 					</div>
@@ -541,7 +539,7 @@ hr {
 								<div class="col-3">
 									<div class="review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+											class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getMemberId() %>]님의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
