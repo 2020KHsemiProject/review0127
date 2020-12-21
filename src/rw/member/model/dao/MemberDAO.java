@@ -173,7 +173,32 @@ public class MemberDAO {
 		}
 		return result;		
 	}
-
+	
+	public boolean emailCheck(Connection conn, String email) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		boolean result = false;
+		
+		String query = "select email from member where email=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, email);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = true;
+			} else {
+				result = false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return result;		
+	}
 
 	public int deleteMember(Connection conn, String memberId) {
 		PreparedStatement pstmt = null;

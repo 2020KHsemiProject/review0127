@@ -89,21 +89,20 @@
 											</div>
 											<button type="button" id="email_change_btn">이메일 변경</button>
 										</div>
-										<div id="email_state_success">
-											<p id="email_success">
-												<img src="/image/icon/email_success.png"
-													id="email_success_img" /> 인증된 이메일 주소입니다.
-											</p>
-
-										</div>
-										<div id="email_state_lack">
-											<p id="email_lack">
-												<img src="/image/icon/email_lack.png" id="email_lack_img" />인증되지
-												않은 이메일 주소입니다.
-											</p>
-										</div>
+										<% if(m.getEmailYN() == 'Y') { %>
+											<div id="email_state_success">
+												<p id="email_success">
+													<img src="/image/icon/email_success.png" id="email_success_img" /> 인증된 이메일 주소입니다.
+												</p>
+											</div>
+										<% } else { %>
+											<div id="email_state_lack">
+												<p id="email_lack">
+													<img src="/image/icon/email_lack.png" id="email_lack_img" />인증되지 않은 이메일 주소입니다.
+												</p>
+											</div>
+										<% } %>
 										<p class="email_confirm">이메일 주소를 인증하시면, 변경이 완료됩니다.</p>
-
 									</td>
 								</tr>
 								<tr class="tr_fourth">
@@ -143,7 +142,7 @@
 									</td>
 								</tr>
 								<tr class="tr_fifth">
-									<th id="th_sub">추가 정보 입력 <br>(선택사항)
+									<th id="th_sub">추가 정보 입력
 									</th>
 									<td>
 										<form>

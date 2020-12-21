@@ -48,6 +48,13 @@ public class MemberService {
 		JDBCTemplate.close(conn);
 		return result;		
 	}
+	
+	public boolean emailCheck(String email) {
+		Connection conn = JDBCTemplate.getConnection();
+		boolean result = mDAO.nickNameCheck(conn,email);
+		JDBCTemplate.close(conn);
+		return result;		
+	}
 
 	public int deleteMember(String memberId) {
 		Connection conn = JDBCTemplate.getConnection();

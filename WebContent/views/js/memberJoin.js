@@ -1,6 +1,7 @@
 $(function() {
 	var idCheckClick;
 	var nickCheckClick;
+	var emailCheckClick;
 	$('form').submit(
 			function() {
 				var memberId = $('input[name=memberId]');
@@ -52,6 +53,9 @@ $(function() {
 				} else if (nickCheckClick != true) {
 					alert("닉네임의 중복 여부를 확인해주세요.");
 					return false;
+				} else if (emailCheckClick != true) {
+					alert("이메일의 중복 여부를 확인해주세요.");
+					return false;
 				}
 				return true;
 			});
@@ -61,25 +65,19 @@ $(function() {
 				$(this).css('border', '5px solid yellowgreen');
 				switch ($(this).attr('name')) {
 				case "memberId":
-					$(this).prev().prev().text("영문자와 숫자 조합 5~20 글자여야 합니다.")
-							.css('color', '#517800');
+					$(this).prev().prev().text("영문자와 숫자 조합 5~20 글자여야 합니다.").css('color', '#517800');
 					break;
 				case "nickName":
-					$(this).prev().prev().text("영문자와 숫자,한글 조합 최대10글자까지 입니다.")
-							.css('color', '#517800');
+					$(this).prev().prev().text("영문자와 숫자,한글 조합 최대10글자까지 입니다.").css('color', '#517800');
 					break;
 				case "memberPwd":
-					$(this).prev().prev().text("영문자와 숫자 조합 8~16 글자여야 합니다.")
-							.css('color', '#517800');
+					$(this).prev().prev().text("영문자와 숫자 조합 8~16 글자여야 합니다.").css('color', '#517800');
 					break;
 				case "memberPwd_re":
-					$(this).prev().prev().text("비밀번호를 한 번 더 입력해주세요.").css(
-							'color', '#517800');
+					$(this).prev().prev().text("비밀번호를 한 번 더 입력해주세요.").css('color', '#517800');
 					break;
 				case "email":
-					$(this).prev().prev().text(
-							"이메일 형식으로 입력해주세요. ex)abc123@abc.com").css('color',
-							'#517800');
+					$(this).prev().prev().text("이메일 형식으로 입력해주세요. ex)abc123@abc.com").css('color','#517800');
 					break;
 				}
 			});
@@ -149,4 +147,31 @@ $(function() {
 			}); // end of ajax	
 		} // end of else    			
 	}); // end of click
+	$('#email_check').click(function() {
+		emailCheckClick = true;
+		var email = $('input[name=email]').val();
+
+		if (email == "") {
+			alert("이메일을 입력해주세요.");
+		} else {
+			$.ajax({
+				url : "/emailCheck.rw",
+				type : "post",
+				data : {
+					"email" : email
+				},
+				success : function(data) {
+					if (data == 'usable') {
+						alert("사용 가능한 이메일입니다.");
+					} else {
+						alert("이미 사용 중인 이메일입니다.");
+					}
+				},
+				error : function() {
+					console.log("error");
+				}
+			}); // end of ajax	
+		} // end of else    			
+	}); // end of click
+	
 }); // end of function
