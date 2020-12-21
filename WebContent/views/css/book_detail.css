@@ -1,0 +1,336 @@
+@charset "UTF-8";
+*{
+    font-family: 'Noto Sans KR', sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+/*    border: 1px solid black;*/
+    font-size : 14px;
+}
+a{
+    text-decoration: none;
+}
+li{
+    list-style-type: none;
+}
+/*기본 영역 wrapper*/
+#contents {
+    width: 1200px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.v-wrap {
+    width: 100%;
+    padding: 0 50px;
+    background-color:yellow;
+}
+
+#image-wrap {
+    float: left;
+    width: 30%;
+    height: 400px;
+    padding:20px 0;
+    text-align: center;
+}
+/*도서 이미지 옆 내용*/
+#info-wrap {
+    float: left;
+    width: 70%;
+    height: 400px;
+    background-color:pink;
+}
+/*책 소개*/
+#intro-wrap {
+    clear: left;
+    height: auto;
+}
+
+#book-title {
+    padding:35px 0 20px 10px;
+    margin-bottom: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+#sub-info {
+    height:80px;
+    margin-bottom: 0;
+    padding-left: 10px;
+    color : gray;
+}
+
+#star-wrap {
+    padding-left: 10px;
+}
+#star-wrap p{
+	font-size:1.5rem;
+}
+.fa-star{ 
+	color: #FFE58D;
+	font-size:1.5rem;
+}
+
+#shelf-btn-wrap {
+    float: left;
+    width: 25%;
+    height: 100px;
+    padding-top: 45px;
+    padding-left: 10px;
+}
+
+#review-new-wrap {
+    float: left;
+    width: 45%;
+    height: 100px;
+    padding-left: 45px;
+}
+
+#shelf-add-btn {
+    background-color: #FFE58D;
+    padding:12px 30px;
+    border-radius: 25px;
+    border: #FFE58D;
+    color: dimgray;
+    cursor: pointer;
+}
+
+/*리뷰 작성하기 버튼*/
+#review-new-wrap a{
+    text-decoration: underline;
+    color: black;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    display: inline-block;
+}
+
+#intro-wrap h3,#review-list-wrap h3{
+    margin-top: 20px;
+    padding-left: 50px;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+#intro-wrap p{
+    padding: 5px 50px;
+    line-height: 30px;
+}
+#intro-wrap p:first-child{
+    font-weight: 700;
+}
+
+
+/*리뷰 리스트*/
+.review-card {
+    width: 400px;
+    height: 280px;
+    border-radius: 10px;
+    margin: 0 20px;
+    border: 1px solid gray;
+    display: inline-block;
+    white-space: normal;
+}
+
+
+#review-list-wrap{
+    padding-bottom: 40px;
+}
+
+.review-profile {
+    float: left;
+    width: 20%;
+    height: 100%;
+    text-align: center;
+    padding-top: 6px;
+}
+
+.review-profile a img{
+    border-radius: 50px;
+}
+
+.reviewer-nick {
+    float: left;
+    width: 60%;
+    height: 100%;
+    font-size: 1rem;
+    line-height: 60px;
+    padding-left: 10px;
+}
+
+.star-score {
+    float: left;
+    width: 20%;
+    height: 100%;
+    font-size: 1rem;
+    line-height: 60px;
+    text-align: center;
+}
+
+.review-card-head {
+    height: 60px;
+    width: 100%;
+    border-bottom: 1px solid gray;
+}
+.review-card-con {
+    clear: left;
+    line-height: 30px;
+    height: 170px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.review-card-con p{
+    margin:15px 20px 0;
+    height: 155px;
+    text-overflow: ellipsis;  
+}
+
+.more-view {
+    height: 50px;
+    line-height: 50px;
+    text-align: right;
+    color: blueviolet;
+    padding-right: 15px;
+    cursor: pointer;
+}
+
+#review-list-wrap>div:last-child{
+    clear: left;
+}
+
+hr{
+    width: 1150px;
+    margin: 0 auto;
+}
+
+#image-wrap img{
+    width: 250px;
+    height: 350px;
+    box-shadow: 5px 5px 5px lightgray;
+}
+/*리뷰 목록 가로스크롤처리*/
+.review-list {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 20px;
+    width: 95%;
+    margin: 0 auto;
+    
+}
+#none-msg{
+	text-align:center;
+}
+.review-list::-webkit-scrollbar {
+    border-radius: 20px;
+    width: 1px;
+}
+
+/* Track */
+.review-list::-webkit-scrollbar-track {
+  background: white;
+    width: 1px;
+}
+ 
+/* Handle */
+.review-list::-webkit-scrollbar-thumb {
+  background: lightgray; 
+     width: 1px;
+    border-radius: 20px;
+}
+
+/* Handle on hover */
+.review-list::-webkit-scrollbar-thumb:hover {
+  background: gray; 
+}
+
+.modal-content {
+    width: 1000px !important;
+    margin: 0 auto;
+    height: auto;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.close {
+    position: absolute;
+    top: -50px;
+    right: 0px;
+}
+
+.close span{
+    color: white;
+    font-size: 3rem;
+}
+
+.modal-review-header {
+    width: 100%;
+    height: 70px;
+    border-bottom: 1px solid gray;
+}
+
+.modal-review-profile {
+    float: left;
+    width: 10%;
+    height: 100%;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.modal-reviewer-nick {
+    float: left;
+    width: 75%;
+    height: 100%;
+    font-size: 1rem;
+    line-height: 60px;
+    padding-left: 10px;
+}
+
+.modal-star-score {
+    float: left;
+    width: 10%;
+    height: 100%;
+    font-size: 1rem;
+    line-height: 60px;
+    text-align: right;
+}
+
+.modal-review-body {
+    width: 100%;
+    height: auto;
+    padding: 30px;
+    line-height: 30px;
+}
+
+.modal-review-body p{
+    height: inherit;
+}
+
+#prev-review-btn {
+    margin-right: 15px;
+    width: 50px;
+    position: absolute;
+    top: 45%;
+    left: -50px;
+}
+
+#prev-review-btn i{
+    font-size: 5rem;
+    color: rgba(255,255,255,0.5);
+    cursor:pointer;
+}
+
+#next-review-btn {
+    margin-left: 15px;
+    width: 50px;
+    position: absolute;
+    top: 45%;
+    right: -50px;
+}
+
+#next-review-btn i{
+    font-size: 5rem;
+    color: rgba(255,255,255,0.5);
+    cursor:pointer;
+}
+
+
