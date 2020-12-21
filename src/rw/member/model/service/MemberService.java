@@ -73,4 +73,16 @@ public class MemberService {
 		} JDBCTemplate.close(conn);
 		return result;
 	}
+
+	public int updateEmail(String email) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = mDAO.updateEmail(conn, email);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		} JDBCTemplate.close(conn);
+		return result;
+	}
 }

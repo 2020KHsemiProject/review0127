@@ -213,4 +213,23 @@ public class MemberDAO {
 		}
 		return result;		
 	}
+
+
+	public int updateEmail(Connection conn, String email) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "update member set email_YN='Y' where email=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, email);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);		
+		}
+		return result;
+	}
 }
