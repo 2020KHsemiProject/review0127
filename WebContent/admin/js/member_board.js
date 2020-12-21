@@ -70,8 +70,8 @@ $(function(){
 								whereQuery = $(item).val();
 
 							} else {
-
-								whereQuery = whereQuery + "," + $(item).val();
+	
+								whereQuery = whereQuery + "," + $(item).val()+",";
 							}
 
 						});
@@ -85,9 +85,9 @@ $(function(){
 							if (confirm("선택 회원에게 인증 이메일을 전송하시겠습니까?") == true) {
 
 								$('input[name=emailArr]').val(whereQuery);
-								console.log(whereQuery);
+			
 
-								return false;
+								return true;
 
 							} else {
 

@@ -133,7 +133,7 @@ String pageNavi = il.getPageNavi();
 	<!-- 모달 -->				
 			
 	<div class="modal fade" id="myLargeModal<%=in.getInquiryNo() %>" tabindex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <p class="w-100 modal-title text-center" id="modalLabel"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-book-half" fill="#4D5AC8" xmlns="http://www.w3.org/2000/svg">

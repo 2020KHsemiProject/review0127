@@ -65,9 +65,17 @@ textarea:disabled{background-color:white;}
   border: 0px solid lightgray;
 }
 
+
 .modal-dialog {
+
   text-align: center;
   vertical-align: middle;
+  
+}
+
+.modal-header{
+	
+	font-size:1.2rem;
 }
 
 .modal-body {

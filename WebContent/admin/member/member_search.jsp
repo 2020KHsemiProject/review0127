@@ -224,7 +224,7 @@ location.replace("/selectAllMember.ad");
 						</table>
 						<p></p>
 						<div>
-							<form action="/sendEmail.ad" method="get"
+							<form action="/authenticationMemberList.ad" method="get"
 									id="emailList">
 									<input type="hidden" name="emailArr" />
 									<button class="btn-bottom" type="submit">인증 이메일 발송</button>
