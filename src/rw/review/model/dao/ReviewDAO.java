@@ -17,7 +17,7 @@ public class ReviewDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<ReviewCard> list = new ArrayList<ReviewCard>();
-		String query = "SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY R_ROW_NUM ASC) AS ROW_NUM, A.* FROM (SELECT * FROM (SELECT ROW_NUMBER()OVER(ORDER BY REVIEW_DATE DESC) AS R_ROW_NUM,REVIEW.* FROM REVIEW) R LEFT JOIN MEMBER M ON (M.MEMBER_NO=R.MEMBER_NO) LEFT JOIN REVIEW_LIKE L ON (L.REVIEW_ID=R.REVIEW_ID) LEFT JOIN BOOK B ON (B.BOOK_ID=R.BOOK_ID)) A) WHERE ROW_NUM BETWEEN 1 AND ?";
+		String query = "SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY REVIEW_ID DESC) AS ROW_NUM, RV.* FROM REVIEW RV) R LEFT JOIN MEMBER M ON (M.MEMBER_NO=R.MEMBER_NO) LEFT JOIN BOOK B ON (B.BOOK_ID=R.BOOK_ID) WHERE ROW_NUM BETWEEN 1 AND ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, end);
@@ -49,12 +49,7 @@ public class ReviewDAO {
 				rc.setBookAuthor(rset.getString("BOOK_AUTHOR"));
 				rc.setBookImage(rset.getString("BOOK_IMAGE"));
 				
-				rc.setLikeId(rset.getString("LIKE_ID"));
-			if(rset.getString("LIKE_YN")==null) {
-				rc.setLikeYN('N');
-			}else {
-				rc.setLikeYN(rset.getString("LIKE_YN").charAt(0));
-			}
+				
 				list.add(rc);
 			}
 		} catch (SQLException e) {

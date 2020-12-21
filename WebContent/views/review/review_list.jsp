@@ -239,8 +239,6 @@ hr {
             	e.stopImmediatePropagation(); // 버블링 방지
             	var color = $(this).css('color');
             	var $thisTag = $(this);
-            	alert(color);
-            	
             	var reviewId = $thisTag.parents('.other_review-card').attr('name');
             	
                 if(color=='rgb(255, 108, 108)') { // 빨간색일 때

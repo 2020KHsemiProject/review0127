@@ -402,9 +402,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 								</div>
 								<div class="col-3 rvheart reviewNoteIcon">
 									<div class="review-heart-and-count">
-										<span class="review-heart"><a>
-												<% if(rc.getLikeYN()=='Y'){ %>♥<%}else { %>♡<% } %>
-										</a></span> <span class="heart-count"><%=rc.getReviewRate() %></span>
+										<span class="review-heart"><a>♡</a></span> <span class="heart-count"><%=rc.getReviewRate() %></span>
 									</div>
 								</div>
 							</div>
