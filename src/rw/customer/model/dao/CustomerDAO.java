@@ -6,16 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import rw.faq.model.vo.FAQ;
 import rw.common.JDBCTemplate;
-import rw.faq.model.vo.Faq;
 import rw.notice.model.vo.Notice;
 
 public class CustomerDAO {
 
-	public ArrayList<Faq> selectFAQ(Connection conn) {
+	public ArrayList<FAQ> selectFAQ(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		ArrayList<Faq> list = new ArrayList<Faq>();
+		ArrayList<FAQ> list = new ArrayList<FAQ>();
 		
 		String query =
 				"select * from (select row_number() over (order by faq_no asc) as row_num, faq.* from faq) ";
@@ -26,7 +26,7 @@ public class CustomerDAO {
 			
 			while(rset.next()) {
 				
-				Faq faq = new Faq();
+				FAQ faq = new FAQ();
 				faq.setFaqTitle(rset.getString("faq_title"));
 				faq.setFaqCont(rset.getString("faq_cont"));
 				faq.setFaqDate(rset.getDate("faq_date"));

@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import rw.faq.model.vo.FAQ;
 import rw.customer.model.service.CostomerService;
-import rw.faq.model.vo.Faq;
 import rw.notice.model.vo.Notice;
 
 /**
@@ -35,7 +35,7 @@ public class CustomerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		ArrayList <Notice> nl = new CostomerService().selectNotice();
-		ArrayList <Faq> fl = new CostomerService().selectFAQ();
+		ArrayList <FAQ> fl = new CostomerService().selectFAQ();
 		
 		
 		RequestDispatcher view = request.getRequestDispatcher("/views/member/customer_center.jsp");

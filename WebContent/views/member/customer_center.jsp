@@ -4,7 +4,7 @@
 <%@ page import="rw.member.model.vo.Member"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="rw.notice.model.vo.Notice"%>
-<%@ page import="rw.faq.model.vo.Faq"%>
+<%@ page import="rw.faq.model.vo.FAQ"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,11 +22,10 @@
 <body>
 
 <%
-
-//Member m = (Member)request.getAttribute("member");
+	//Member m = (Member)request.getAttribute("member");
 //session.setAttribute("member", m);
-Faq faq = new Faq();
-ArrayList<Faq> fl = (ArrayList<Faq>) request.getAttribute("faqList");
+FAQ faq = new FAQ();
+ArrayList<FAQ> fl = (ArrayList<FAQ>) request.getAttribute("faqList");
 ArrayList<Notice> nl = (ArrayList<Notice>) request.getAttribute("noticeList");
 %>
 
@@ -44,15 +43,17 @@ ArrayList<Notice> nl = (ArrayList<Notice>) request.getAttribute("noticeList");
                         </div>
                         <div id="inner_notice_contents">
                        <%
-							for (int i = 0; i < nl.size(); i++) {
-							Notice n = nl.get(i);
-					   %>
+                       	for (int i = 0; i < nl.size(); i++) {
+                       					Notice n = nl.get(i);
+                       %>
                             <ul class="customer_ul">
-                                <li class="fl w10 "><%=i+1 %></li>
-                                <li class="fl w80"><a href="/customer_notice.rw?NoticeNo=<%=n.getNoticeNo() %>" ><%=n.getNoticeTitle() %></a></li>
-                                <li class="fl w12"><%=n.getNoticeDate() %></li>
+                                <li class="fl w10 "><%=i+1%></li>
+                                <li class="fl w80"><a href="/customer_notice.rw?NoticeNo=<%=n.getNoticeNo()%>" ><%=n.getNoticeTitle()%></a></li>
+                                <li class="fl w12"><%=n.getNoticeDate()%></li>
                             </ul>
-                            <%} %>
+                            <%
+                            	}
+                            %>
                         </div>
                     </div>
                     <div id="faq">
@@ -60,8 +61,9 @@ ArrayList<Notice> nl = (ArrayList<Notice>) request.getAttribute("noticeList");
                             <p class="inner_contents_text">FAQ</p>
                         </div>
                         <%
-							for (int i = 0; i < fl.size(); i++) {
-								Faq f = fl.get(i); %>			   
+                        	for (int i = 0; i < fl.size(); i++) {
+                        						FAQ f = fl.get(i);
+                        %>			   
                         <div id="inner_faq_contents">
                             <ul class="customer_ul faq_ul">
                                 <li class="fl w10 ">
@@ -84,14 +86,17 @@ ArrayList<Notice> nl = (ArrayList<Notice>) request.getAttribute("noticeList");
 					$(function(){
 						$(".faq_list").click(function(){
 						var index = $(".faq_list").index(this);
-						var subContents = $('.faq_li_contents');
+					
 						console.log(index);
                         
                         if($('.faq_li_contents:eq('+index+')').is(":visible")){
                             $('.faq_li_contents:eq('+index+')').slideUp();
                         } else {
                         	$('.faq_li_contents:eq('+index+')').slideDown();
-                        }  
+                        } 
+                        
+                        
+                        
 						});
 										
 					</script>

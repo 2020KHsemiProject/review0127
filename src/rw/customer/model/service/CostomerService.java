@@ -3,9 +3,9 @@ package rw.customer.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import rw.faq.model.vo.FAQ;
 import rw.common.JDBCTemplate;
 import rw.customer.model.dao.CustomerDAO;
-import rw.faq.model.vo.Faq;
 import rw.notice.model.vo.Notice;
 
 public class CostomerService {
@@ -18,10 +18,10 @@ public class CostomerService {
 		return list;
 	}
 
-	public ArrayList<Faq> selectFAQ() {
+	public ArrayList<FAQ> selectFAQ() {
 		Connection conn = JDBCTemplate.getConnection();
 
-		ArrayList<Faq> list = new CustomerDAO().selectFAQ(conn);
+		ArrayList<FAQ> list = new CustomerDAO().selectFAQ(conn);
 
 		JDBCTemplate.close(conn);
 

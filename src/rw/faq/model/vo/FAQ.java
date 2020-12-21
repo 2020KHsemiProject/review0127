@@ -2,7 +2,7 @@ package rw.faq.model.vo;
 
 import java.sql.Date;
 
-public class Faq {
+public class FAQ {
 	private int faqNo;
 	private String faqTitle;
 	private Date faqDate;
@@ -49,12 +49,12 @@ public class Faq {
 		this.delYN = delYN;
 	}
 
-	public Faq() {
+	public FAQ() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Faq(int faqNo, String faqTitle, Date faqDate, String faqCont, char delYN) {
+	public FAQ(int faqNo, String faqTitle, Date faqDate, String faqCont, char delYN) {
 		super();
 		this.faqNo = faqNo;
 		this.faqTitle = faqTitle;

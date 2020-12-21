@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class FAQList {
 	
-	private ArrayList<Faq> list;
+	private ArrayList<FAQ> list;
 	private String pageNavi;
 	
 	
-	public FAQList(ArrayList<Faq> list, String pageNavi) {
+	public FAQList(ArrayList<FAQ> list, String pageNavi) {
 		super();
 		this.list = list;
 		this.pageNavi = pageNavi;
@@ -19,10 +19,10 @@ public class FAQList {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ArrayList<Faq> getList() {
+	public ArrayList<FAQ> getList() {
 		return list;
 	}
-	public void setList(ArrayList<Faq> list) {
+	public void setList(ArrayList<FAQ> list) {
 		this.list = list;
 	}
 	public String getPageNavi() {
