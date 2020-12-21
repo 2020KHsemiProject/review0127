@@ -25,9 +25,7 @@ public class MemberService {
 			JDBCTemplate.rollback(conn);
 		} JDBCTemplate.close(conn); 
 		return result;		
-
 	}	
-
 
 	public Member selectOneMemberId(String memberId) { // 회원 ID로 회원 찾기
 		Connection conn = JDBCTemplate.getConnection();
@@ -35,5 +33,44 @@ public class MemberService {
 		JDBCTemplate.close(conn);
 		return m;
 
+	}
+
+	public boolean memberIdCheck(String memberId) {
+		Connection conn = JDBCTemplate.getConnection();
+		boolean result = mDAO.memberIdCheck(conn,memberId);
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public boolean nickNameCheck(String nickName) {
+		Connection conn = JDBCTemplate.getConnection();
+		boolean result = mDAO.nickNameCheck(conn,nickName);
+		JDBCTemplate.close(conn);
+		return result;		
+	}
+
+	public int deleteMember(String memberId) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = mDAO.deleteMember(conn,memberId);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		} JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	public int updateMemberPwd(String memberId, String memberPwd) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = mDAO.updateMemberPwd(conn,memberId,memberPwd);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		} JDBCTemplate.close(conn);
+		return result;
 	}
 }
