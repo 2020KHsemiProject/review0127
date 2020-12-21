@@ -33,6 +33,4 @@ public class ReviewCollection {
 	public void setReviewId(String reviewId) {
 		this.reviewId = reviewId;
 	}
-	
-
 }

@@ -351,7 +351,8 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
                     	$(function(){
                     		$('.reviewNote-Align').click(function(){
                     			if($(this).text()=='제목순'){
-                    				$('#alignForm').attr('action','/rnAlignTitle.rw');                    			}else if($(this).text()=='최신순'){
+                    				$('#alignForm').attr('action','/rnAlignTitle.rw');
+                    			}else if($(this).text()=='최신순'){
                     				$('#alignForm').attr('action','/myReviewNote.rw');
                     			}
                     			$(this).removeAttr('type');

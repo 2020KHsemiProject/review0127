@@ -25,6 +25,7 @@ li{
 #intro {
     height: 700px;
     padding-top: 100px;
+    margin-top : 70px;
     background-color: none;
     color: white;
     text-align: right;
@@ -58,4 +59,8 @@ li{
 #intro h3 {
     margin-top: 20px;
     padding-right: 50px;
+}
+
+@media (max-width:1200px){
+    .wrapper{ width: 1200px;}
 }
