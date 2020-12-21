@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="rw.review.model.vo.ReviewCard" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,8 +15,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>REVIEW:0127</title>
+<link rel="stylesheet" type="text/css" href="/views/css/review_review_card.css"/>
 <style>
 	body { margin: 0; font-family: 'Noto Sans KR', sans-serif; }
+	button:focus{outline: none;}
 	.reviewListIcon {cursor: pointer;}
 	* {
 		margin: 0; padding: 0;
@@ -30,18 +34,21 @@
 	#reviewList-top {
 		width: 100%; height: 150px;
 		text-align: center;
-		padding: 55px 35px 0 35px;
+		padding: 55px 35px 0 0;
 	}
 	#reviewList-top>div {
 		line-height: 150px;
 		font-size: 2rem;
+		position: relative;
+		z-index: 1;
 	}
 	#reviewList-writeBar {
 		width: 100%; height: 55px;
 		padding-left:10px;
 	}
 	#reviewList-contents>div:nth-child(2){
-		padding: 58px 30px 0 28px;
+		padding: 58px 30px 0 0;
+		margin-bottom: 30px;
 	}
 	hr {
 		margin: 1px;
@@ -63,129 +70,31 @@
 	.writerBtn {
 		width: 200px; 
 	}
-	#reviewList-content{
-		width: 100%;
-	}
 	
-	
-	
-	
-	
-	
-	/****************리뷰카드*****************/
-		#reviewList-cardList{
-			padding:30px 35px; width:100%;
-		}
-        .reviewList-book-card {
-        	/* 리뷰카드 크기&스타일 */
-            margin: 8px;
-            width: 370px; height: 560px;
-            border: 1px solid gray;
-            float: left;
-            box-shadow: 2px 2px 5px #D5D5D5;
-        }
-        .reviewList-book-img {
-        	/* 카드 속> 이미지 div */
-            width: 100%; height: 55%;
-            overflow: hidden;
-        }
-        .reviewList-book-img>img {
-        	/* 카드 속> 이미지 div 속> 이미지 태그 크기 */
-            width: 100%; 
-        }
-        .reviewList-book-text {
-        	/* 카드 속> 리뷰 text div */
-            width: 100%; height: 30%;
-            padding: 3% 4% 1% 4%;
-            overflow: hidden;
-            text-overflow: ellipsis; 
-        }
-        .book-text-title {
-        	/* 카드 속> 리뷰 text div 속> 제목 및 별 div */
-            padding-bottom: 2%;  
-        }
-        .book-text-title-name {
-        	/* 카드 속> 리뷰 text div 속> 제목 span */
-        	display: inline-block;
-        	width: 72%;
-        }
-        .review-star {
-        	/* 카드 속> 리뷰 text div 속> 별점 span */
-            position: relative;
-            right: 8px;
-            color: gold;
-        }
-        .reviewList-card-text-bttom {
-        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div */
-            width: 100%; height: 15%;
-            padding-top: 3%;
-        }
-        .reviewList-userProfile {
-        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 프로필 이미지 div 스타일 */
-            width: 50px; height: 50px;
-            border-radius: 100%;
-            position: relative;
-            left: 40%;
-            overflow: hidden;
-        }
-        .reviewList-userProfile>img {
-        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 프로필 이미지 div 속> 이미지 태그 크기 */
-            width: 100%; height: 100%;
-        }
-        .reviewList-book-card-user {
-        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div*/
-            padding: 5% 0 0 2%;
-        }
-        .reviewList-book-card-user div {
-        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div 속> 모든 div*/
-            padding-right: 0;
-        }
-        .reviewList-book-card-user .row>div:last-child {
-        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div 속> 조회수*/
-            position: relative;
-            left: 6%;
-        }
-        
-		/********** 좋아요 **********/
-        .rvheart {
-        	/* 좋아요 div를 담은 div */
-            padding: 5% 0 0 8%;
-        }
-        .review-heart-and-count {
-        	/* 좋아요 div 스타일 */
-            border: 1px solid gray;
-            width: 120%; height: 63%;
-            border-radius: 40px 40px 40px 40px;
-            position: relative;
-            right: 20%;
-        }
-        .review-heart {
-        	/* 좋아요 div 속> 하트 */
-            color: red;
-            position: relative;
-            top: 9%;
-            left: 15%;
-        }
-        .heart-count {
-        	/* 좋아요 div 속> 좋아요 수 */
-            position: relative;
-            top: 9%;
-            left: 30%;
-        }
-        
-        #moreReview{
-        	height: 150px; 
-        	padding-top: 25px;
-        }
-        #moreBtn{
-        	width: 300px; height: 50px; 
-        	background-color: white;
-        	border-radius: 50px 50px;
-        	border: 1px solid gray;
-        	margin: 0 auto;
-        	text-align: center;
-        	line-height: 50px;
-        }
+    #moreReview{
+      	height: 150px; 
+       	padding-top: 25px;
+    }
+    #moreDiv{
+    text-align: center;
+    }
+    #moreBtn{
+     	width: 300px; height: 50px; 
+       	background-color: white;
+       	border-radius: 50px 50px;
+      	border: 1px solid gray;
+       	margin: 0 auto;
+       	line-height: 50px;
+   	}
+   	#toTheTop{
+   		font-size: 50px;
+   		color: lightgray;
+   		text-align: right;
+   		position:fixed;
+   		top: 800px;
+   		left: 1600px;
+   		display: none;
+   	}
 </style>
 
     <script>
@@ -208,17 +117,44 @@
                     $(this).find('.heart-count').text(count-1);
                 }
             });
-            
+        	
+        	// #toTheTop 스크롤 시 나타났다 사라짐
+        	$( window ).scroll( function() {
+        		if ( $( this ).scrollTop() > 200 ) {
+        			$( '#toTheTop' ).fadeIn();
+        		} else {
+        			$( '#toTheTop' ).fadeOut();
+        		}
+        	});
+        	// #toTheTop 클릭 시 맨 위로
+        	$( '#toTheTop' ).click( function() {
+        		$( 'html, body' ).animate( { scrollTop : 0 }, 400 );
+        		return false;
+        	} );
+        	
+        	// 추천순 최신순 정렬 버튼
+			$('.reviewAlignBtn>span').click(function(){
+				var listAlign = $(this).text();
+				console.log(listAlign);
+				if(listAlign=='추천순'){
+					alert('준비중입니다!');
+				}else if(listAlign=='최신순'){
+					location.href="/reviewPage.rw";
+				}
+			});
+			// 리뷰등록 링크
+			$('.writerBtn').click(function(){
+				location.href="/reviewWrite.rw";
+			});
         })
     </script>
     
     
 </head>
 <body>
-
+<% ArrayList<ReviewCard> list = (ArrayList<ReviewCard>)request.getAttribute("list"); %>
 <div id="reviewList-wrapper">
 	<%@ include file="/views/common/header.jsp" %>
-
 	<div id="reviewList-contents">
 		<div id="reviewList-top"><div>review</div></div>
 		<div>
@@ -234,177 +170,98 @@
 		
 		
 		
-		
-		
 		<div id="reviewList-content">
+		<div id="toTheTop"><i class="fas fa-chevron-circle-up reviewListIcon"></i></div>
                <div class="row">
-                   <div id="reviewList-cardList" class="col-12">
-                       <div class="reviewList-book-card">
-                           <div class="reviewList-book-img"><img src="/image/book/b001.jpg"/></div>
-                           <div class="reviewList-book-text">
-                             <div class="book-text-title">
-                                <span class="book-text-title-name">제목</span><span class="review-star reviewListIcon">
-                                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+        <% if(!list.isEmpty()){ %>   
+                       <div id="review-card-list" class="col-12">
+		
+				<% int morecount = 0;
+					int i = 0; // 별점 스팬 id
+				for(ReviewCard rc : list){ %>
+                       <div class="review-card">
+                           <div class="review-card-book-img"><img src="/image/book/<%=rc.getBookImage()%>"/></div>
+                           <div class="review-card-text">
+                             <div class="review-card-book-title">
+                                <span class="review-card-book-title-text"><%=rc.getBookTitle() %></span><span id="review-rate<%=i%>" class="review-card-star">
+                                  <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
                                 </span>
                               </div>
-                               이 책은 많은 사람들에게 새벽 기상의 힘을 전파하고 있는 김유진 변호사가 새벽 기상이 자신의 삶을 어떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동이 
+                               <%=rc.getReviewCont() %> 
                            </div>
-                           <div class="row reviewList-card-text-bttom">
+                           <div class="row review-card-bttom">
                               <div class="col-3">
-                               <div class="reviewList-userProfile">
-                                   <img src="/image/profile/ppp.jpg"/>
+                               <div class="review-card-writer-profile">
+                                   <img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img" writer="<%=rc.getMemberId() %>"/>
                                </div>
                                </div>
                                <div class="col-6">
-                                   <div class="row reviewList-book-card-user">
-                                       <div class="col-12">(userNickname)</div>
+                                   <div class="row review-card-infor">
+                                       <div class="col-12"><%=rc.getNickname() %></div>
                                          <div class="col-12">
                                            <div class="row">
-                                               <div id="" class="col-4">2020.12.01</div>
-                                               <div id="" class="col-5">조회 55</div>
+                                               <div class="col-7"><%=rc.getReviewDate() %></div>
+                                               <div class="col-5 review-card-count">조회 <%=rc.getReviewCount() %></div>
                                            </div> 
                                          </div>
                                    </div>
                                </div>
-                               <div class="col-3 rvheart reviewListIcon"><div class="review-heart-and-count"><span class="review-heart">♡</span> <span class="heart-count">90</span></div></div>
+                               <div class="col-3 rvheart reviewNoteIcon"><div class="review-heart-and-count"><span class="review-heart"><a><% if(rc.getLikeYN()=='Y'){ %>♥<%}else { %>♡<% } %></a></span> <span class="heart-count"><%=rc.getReviewRate() %></span></div></div>
                            </div>
                        </div>
-                       <div class="reviewList-book-card">
-                           <div class="reviewList-book-img"><img src="/image/book/b001.jpg"/></div>
-                           <div class="reviewList-book-text">
-                             <div class="book-text-title">
-                                <span class="book-text-title-name">제목</span><span class="review-star reviewListIcon">
-                                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
-                                </span>
-                              </div>
-                               이 책은 많은 사람들에게 새벽 기상의 힘을 전파하고 있는 김유진 변호사가 새벽 기상이 자신의 삶을 어떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동이 
-                           </div>
-                           <div class="row reviewList-card-text-bttom">
-                              <div class="col-3">
-                               <div class="reviewList-userProfile">
-                                   <img src="/image/profile/ppp1.jpg"/>
-                               </div>
-                               </div>
-                               <div class="col-6">
-                                   <div class="row reviewList-book-card-user">
-                                       <div class="col-12">(userNickname)</div>
-                                         <div class="col-12">
-                                           <div class="row">
-                                               <div id="" class="col-4">2020.12.01</div>
-                                               <div class="col-5">조회 55</div>
-                                           </div> 
-                                         </div>
-                                   </div>
-                               </div>
-                               <div class="col-3 rvheart reviewListIcon"><div class="review-heart-and-count"><span class="review-heart">♡</span> <span class="heart-count">90</span></div></div>
-                           </div>
-                       </div>
-                       <div class="reviewList-book-card">
-                           <div class="reviewList-book-img"><img src="/image/book/b001.jpg"/></div>
-                           <div class="reviewList-book-text">
-                             <div class="book-text-title">
-                                <span class="book-text-title-name">제목</span><span class="review-star reviewListIcon">
-                                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
-                                </span>
-                              </div>
-                               이 책은 많은 사람들에게 새벽 기상의 힘을 전파하고 있는 김유진 변호사가 새벽 기상이 자신의 삶을 어떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동이 
-                           </div>
-                           <div class="row reviewList-card-text-bttom">
-                              <div class="col-3">
-                               <div class="reviewList-userProfile">
-                                   <img src="/image/profile/ppp1.jpg"/>
-                               </div>
-                               </div>
-                               <div class="col-6">
-                                   <div class="row reviewList-book-card-user">
-                                       <div class="col-12">(userNickname)</div>
-                                         <div class="col-12">
-                                           <div class="row">
-                                               <div id="" class="col-4">2020.12.01</div>
-                                               <div class="col-5">조회 55</div>
-                                           </div> 
-                                         </div>
-                                   </div>
-                               </div>
-                               <div class="col-3 rvheart reviewListIcon"><div class="review-heart-and-count"><span class="review-heart">♡</span> <span class="heart-count">90</span></div></div>
-                           </div>
-                       </div>
-                       
-                       
-                       <div class="reviewList-book-card">
-                           <div class="reviewList-book-img"><img src="/image/book/b001.jpg"/></div>
-                           <div class="reviewList-book-text">
-                             <div class="book-text-title">
-                                <span class="book-text-title-name">제목</span><span class="review-star reviewListIcon">
-                                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
-                                </span>
-                              </div>
-                               이 책은 많은 사람들에게 새벽 기상의 힘을 전파하고 있는 김유진 변호사가 새벽 기상이 자신의 삶을 어떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동이 
-                           </div>
-                           <div class="row reviewList-card-text-bttom">
-                              <div class="col-3">
-                               <div class="reviewList-userProfile">
-                                   <img src="/image/profile/ppp1.jpg"/>
-                               </div>
-                               </div>
-                               <div class="col-6">
-                                   <div class="row reviewList-book-card-user">
-                                       <div class="col-12">(userNickname)</div>
-                                         <div class="col-12">
-                                           <div class="row">
-                                               <div id="" class="col-4">2020.12.01</div>
-                                               <div class="col-5">조회 55</div>
-                                           </div> 
-                                         </div>
-                                   </div>
-                               </div>
-                               <div class="col-3 rvheart reviewListIcon"><div class="review-heart-and-count"><span class="review-heart">♡</span> <span class="heart-count">90</span></div></div>
-                           </div>
-                       </div>
-                       
-                       
-                       <div class="reviewList-book-card">
-                           <div class="reviewList-book-img"><img src="/image/book/b001.jpg"/></div>
-                           <div class="reviewList-book-text">
-                             <div class="book-text-title">
-                                <span class="book-text-title-name">제목</span><span class="review-star reviewListIcon">
-                                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
-                                </span>
-                              </div>
-                               이 책은 많은 사람들에게 새벽 기상의 힘을 전파하고 있는 김유진 변호사가 새벽 기상이 자신의 삶을 어떻게 바꿨는지 소개한다. 저자는 인생에서 주저앉고 싶은 순간이 왔을 때마다 동이 
-                           </div>
-                           <div class="row reviewList-card-text-bttom">
-                              <div class="col-3">
-                               <div class="reviewList-userProfile">
-                                   <img src="/image/profile/ppp1.jpg"/>
-                               </div>
-                               </div>
-                               <div class="col-6">
-                                   <div class="row reviewList-book-card-user">
-                                       <div class="col-12">(userNickname)</div>
-                                         <div class="col-12">
-                                           <div class="row">
-                                               <div id="" class="col-4">2020.12.01</div>
-                                               <div class="col-5">조회 55</div>
-                                           </div> 
-                                         </div>
-                                   </div>
-                               </div>
-                               <div class="col-3 rvheart reviewListIcon"><div class="review-heart-and-count"><span class="review-heart">♡</span> <span class="heart-count">90</span></div></div>
-                           </div>
-                       </div>
-                       
-                       
-                       
-                       
-                   </div>
+                       <span id="moreLocal<% morecount++; %>" style="display:none;"></span>
+        <script>
+			$(function(){
+				//// 별점 데이터 설정하기
+				// <i class="fas fa-star">꽉찬</i><i class="fas fa-star-half-alt">반찬</i><i class="far fa-star">빈</i>
+			<% if(rc.getReviewRate()>0) { %>
+				var star = '<i class="fas fa-star"></i>';
+				<% for(int k=1; k<rc.getReviewRate(); k++){ %>
+					star += '<i class="fas fa-star"></i>';
+				<% } // for문  
+					for(int j=rc.getReviewRate(); j<5; j++) { %> 
+					star += '<i class="far fa-star"></i>';
+				<% } // for문 %>
+				$('#review-rate<%=i%>').html(star);
+			<% } // if문%>
+			
+			
+			//// 카드 프로필 이미지 클릭 시 해당 멤버의 서재로 이동
+			$('.writer-profile-img').click(function(e){
+				var $writer = $(this).attr('writer');
+				if(confirm($writer+'님의 서재로 이동하시겠습니까?')) {
+					location.href='/myRivewNote.rw?libraryOwner='+$writer;
+				}
+				e.stopImmediatePropagation(); // 버블링 방지
+			});
+			})
+		</script><% i++; // 별점 id %>
+			<% } // foreach문 %>
+			
+		</div>
+			
+			<div id="moreReview" class="col-12">
+			<form action="/reviewPage.rw" method="post">
+               <div id="moreDiv"><button id="moreBtn" class="reviewListIcon">더 보기</button></div>
+               <input type="hidden" name="end" value="<%=(int)request.getAttribute("end")%>"/>
+               <input type="hidden" name="moreLocal" value="moreLocal<%= morecount %>"/>
+            </form>
+            </div>
+            <% if(list.size()<(int)request.getAttribute("end")) { // 더이상 더보기할 리뷰가 없으면 %> 
+            	<script>
+            		$('#moreReview').css('visibility', 'hidden');
+            	</script>
+            <% } %>
+       
+       <% } else {// if문(list가 null이 아니라면) %>                
+          		<center><H1>아직 리뷰가 없습니다.</H1></center>
+       <% } %>                
+                   
                </div>
             </div>
             
                     
-            <div id="moreReview" class="col-12">
-               <div id="moreBtn" class="reviewListIcon">더 보기</div>
-            </div>
+            
             
                  
 	</div>
