@@ -32,79 +32,160 @@
 	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
 	crossorigin="anonymous"></script>
 <style>
-	* {
-		margin: 0;
-		padding: 0;
-	}
+* {
+	margin: 0;
+	padding: 0;
+}
 </style>
 
 </head>
 <body>
 	<script>
-		$(function(){
-			$('#email_change_btn').click(function(){
-				$('#email_state_success').css('display','none');
-				$('#email_state_lack').css('display','block');
+		$(function() {
+			$('#modify_pw_btn').click(function(){
+				var memberId = $('#member_id').val();
+				var sessionPwd = '<%=m.getMemberPwd()%>';
+				var currentPwd = $('#current_pwd').val();
+    			var memberPwd = $('#new_pwd').val();
+    			var memberPwd_re = $('#new_pwd_re').val();
+    			var checkNumber = memberPwd.search(/[0-9]/g);
+    		    var checkEnglish = memberPwd.search(/[a-z]/ig);
+    		    
+    		    if((sessionPwd!=currentPwd)) {
+    		    	$('#current_pwd').next().text("현재 비밀번호와 일치하지 않습니다.").css('color','red');
+    				return false;
+				} else if(currentPwd == memberPwd) {
+					$('#new_pwd').next().text("현재 비밀번호와 동일합니다.").css('color','red');
+					return false;
+				} else if(!(/^[a-zA-Z0-9]{8,16}$/.test(memberPwd))) {
+					$('#new_pwd').next().text("비밀번호의 길이를 다시 확인해주세요.").css('color','red');
+    				return false;
+    			} else if(checkNumber <0 || checkEnglish <0){
+    				$('#new_pwd').next().text("숫자와 영문자를 혼용하여 입력해주세요.").css('color','red');
+    		        return false;
+    		    } else if(memberPwd.search(memberId)>-1) {
+    		    	$('#new_pwd').next().text("비밀번호에 아이디가 포함되었습니다.").css('color','red');
+    				return false;
+    			} else if(/(\w)\1\1\1/.test(memberPwd)) {
+    				$('#new_pwd').next().text("같은 문자를 4번 이상 사용하실 수 없습니다.").css('color','red');
+    				return false; 				
+    			} else if((memberPwd!=memberPwd_re)) {
+    				$('#new_pwd_re').next().text("비밀번호가 동일하지 않습니다.").css('color','red');
+    				return false;
+    			} else {
+   				 $.ajax({
+ 	    			url:"/memberPwdChange.rw",
+ 	    			type:"post",
+ 	    			data:{"memberId":memberId,"memberPwd":memberPwd},
+ 	    			success:function(data){
+ 	    				if(data == "complete") {
+ 	    					alert("비밀번호 변경이 완료되었습니다.");
+ 	    					location.replace('/views/member/modify_info.jsp');
+ 	    				} else {
+ 	    					alert("비밀번호 변경이 정상적으로 처리되지 못했습니다. 지속적인 문제 발생 시 관리자에게 문의해주세요.");
+ 	    				}
+ 	    			},
+ 	    			error:function(){
+ 	    				console.log("error");
+ 	    			}
+ 	    		 });
+ 				}
+    		   	//return true;
+    		  
+    		   
+			});
+			$('#current_pwd').focusout(function(){
+				$(this).css('border','1.2px solid #ccc');
+				$(this).next().text("");
+			});
+			$('#new_pwd').focusout(function(){
+				$(this).css('border','1.2px solid #ccc');
+				$(this).next().text("");
+			});
+			$('#new_pwd_re').focusout(function(){
+				$(this).css('border','1.2px solid #ccc');
+				$(this).next().text("");
+			});
+			$('#email_change_btn').click(function() {
+				$('#email_state_success').css('display', 'none');
+				$('#email_state_lack').css('display', 'block');
 				$('.input-text_email').val("");
 				$('#email_change_btn').text('변경 완료');
 			});
-		});
-	</script>
-	
-	<div id="wrapper">
-		
-	<% session.getAttribute("member"); %>
-	<script>
-		$(function(){
-			var currentPwd = $('#current_pwd');
-			var newPwd = $('#new_pw');
-			var newPwd_re = $('#new_pw_re');
-			
+			$('#nick_check_re').click(function() {
+				var nickName = $('#nick_change').val();
+
+				$.ajax({
+					url : "/nickCheck.rw",
+					type : "post",
+					data : {
+						"nickName" : nickName
+					},
+					success : function(data) {
+						if(!(/^[a-zA-z0-9가-힣]{1,10}$/.test(nickName))) {
+    	    				alert("닉네임을 다시 확인해주세요.");
+    	    				return false;
+    	    			}
+						if (data == 'usable') {
+							alert("사용 가능한 닉네임입니다.");
+						} else {
+							alert("이미 사용 중인 닉네임입니다.");
+						}
+					},
+					error : function() {
+						console.log("error");
+					}
+				});
+			});
 		});
 	</script>
 
+	<div id="wrapper">
 		<div id="content">
 			<div id="content_title">
 				<h1>회원 정보 수정</h1>
 			</div>
 
-			<div id="content_main">
-				<center>
+			<center>
+				<div id="content_main">
 					<div id="inner_content">
 						<div id="inner_content_first">
-							<div id="picture_box">
-								<div id="profile_img_area">
-									<div id="image_box">
-										<!--사진을 업로드하면 이미지를 diplay:none 설정-->
-										<img src="/image/profile/default_user_dark.png"
-											id="profile_img" />
-									</div>
-									<label id="profile_change_btn"><input type="file"
-										accept="image/" id="input_file" /></label>
-									<center>
+							<center>
+								<div id="picture_box">
+									<div id="profile_img_area">
+									<form >
+										<div id="image_box">
+											<!--사진을 업로드하면 이미지를 diplay:none 설정-->
+											<img src="/image/profile/default_user_dark.png"	class="profile_img" />
+										</div>
+										<label id="profile_change_btn">
+											<input type="file" accept="image/*" id="input_file" />
+										</label>
+									</form>	
 										<p id="profile_info">※ 프로필 사진은 100px X 100px 사이즈를 권장합니다.</p>
-									</center>
-									<button type="button" class="btn btn-primary" id="withdraw_btn"
-										data-toggle="modal" data-target="#myModal">회원탈퇴</button>
+
+										<button type="button" class="btn btn-primary"
+											id="withdraw_btn" data-toggle="modal" data-target="#myModal">회원탈퇴</button>
+									</div>
 								</div>
-							</div>
+							</center>
 						</div>
 						<div id="inner_content_second">
 							<table class="modify_table">
 								<tr class="tr_first">
 									<th>아이디</th>
-									<td><span class="user_id">이따가</span></td>
+									<td><input type="text" id="member_id"
+										value="<%=m.getMemberId()%>" readonly /></td>
 								</tr>
 								<tr class="tr_second">
 									<th>닉네임</th>
 									<td>
 										<div class="input_group_nick">
 											<div class="input_box_nick">
-												<input type="text" class="input-text_nick" value="개똥이" />
+												<input type="text" class="input-text_nick" id="nick_change"
+													value="<%=m.getNickname()%>" />
 											</div>
-											<button type="button">중복확인</button>
-											<span class="exp_complete">사용 가능한 닉네임입니다.</span>
-											<!-- <span class="exp_lack">이미 존재하는 닉네임입니다.</span>-->
+											<button type="button" id="nick_check_re">중복확인</button>
 										</div>
 									</td>
 								</tr>
@@ -114,51 +195,59 @@
 										<div class="input_group_email">
 											<div class="input_box_email">
 												<input type="email" class="input-text_email"
-													value="abc1234@abc.com" />
+													value="<%=m.getEmail()%>" />
 											</div>
 											<button type="button" id="email_change_btn">이메일 변경</button>
 										</div>
 										<div id="email_state_success">
 											<p id="email_success">
-												<img src="/image/icon/email_success.png" id="email_success_img"/>
-												인증된 이메일 주소입니다.
+												<img src="/image/icon/email_success.png"
+													id="email_success_img" /> 인증된 이메일 주소입니다.
 											</p>
 
-										</div> 
+										</div>
 										<div id="email_state_lack">
-                                       		<p id="email_lack"><img src="/image/icon/email_lack.png" id="email_lack_img"/>인증되지 않은 이메일 주소입니다.</p>
-                                    	</div>
-                                    	<p class="email_confirm">이메일 주소를 인증하시면, 변경이 완료됩니다.</p>
-                                    	
+											<p id="email_lack">
+												<img src="/image/icon/email_lack.png" id="email_lack_img" />인증되지
+												않은 이메일 주소입니다.
+											</p>
+										</div>
+										<p class="email_confirm">이메일 주소를 인증하시면, 변경이 완료됩니다.</p>
+
 									</td>
 								</tr>
 								<tr class="tr_fourth">
 									<th id="th_pw_re">비밀번호 재설정</th>
 									<td>
-										<form id="password_form" method="post" action="/modify.do">
+										<%--<form action="/memberPwdChange.rw" method="post" --%>
+										<form id="password_form">
 											<div class="password_change_guide">
 												<p class="guide_title">비밀번호 변경 시 유의사항</p>
 												<ul class="guide_list_wrapper">
 													<li class="guide_list">영문/숫자 조합으로 8자 이상, 16자 이하로
 														입력해주세요.</li>
-													<li class="guide_list">4자리 이상 연속된 문자는 사용할 수 없습니다.</li>
+													<li class="guide_list">4자리 이상 연속된 동일 문자는 사용할 수 없습니다.</li>
 													<li class="guide_list">ID가 포함된 비밀번호는 사용할 수 없습니다.</li>
 												</ul>
 											</div>
 											<div class="password_row">
-												<input type="password" class="modify_pwd" id="current_pwd" name="memberPwd" placeholder="현재 비밀번호" />
-												<span class="pw_warning_text"></span>
+												<input type="password" class="modify_pwd" id="current_pwd"
+													name="memberPwd" placeholder="현재 비밀번호" /> <span
+													class="pw_warning_text"></span>
 											</div>
 											<div class="password_row">
-												<input type="password" class="modify_pwd" id="new_pwd" name="memberPwd_new" placeholder="새 비밀번호" /> 
-													<span class="pw_warning_text"> 비밀번호 유의사항을 확인해주세요. </span>
+												<input type="password" class="modify_pwd" id="new_pwd"
+													name="memberPwd_new" placeholder="새 비밀번호" /> <span
+													class="pw_warning_text"></span>
 											</div>
 											<div class="password_row">
-												<input type="password" class="modify_pwd" id="new_pwd_re" name="memberPwd_new_re" placeholder="새 비밀번호 확인" /> 
-													<span class="pw_warning_text">비밀번호가 일치하지 않습니다.</span>	
+												<input type="password" class="modify_pwd" id="new_pwd_re"
+													name="memberPwd_new_re" placeholder="새 비밀번호 확인" /> <span
+													class="pw_warning_text"></span>
 											</div>
 											<div class="password_row">
-												<button type="submit" id="modify_pw_btn">비밀번호 변경</button>
+												<button type="button" id="modify_pw_btn">비밀번호 변경</button>
+												<%--<button type="submit" id="modify_pw_btn">비밀번호 변경</button>--%>
 											</div>
 										</form>
 									</td>
@@ -187,9 +276,7 @@
 							<button type="button">수정</button>
 						</div>
 					</div>
-				</center>
-			</div>
-
+				</div>
 		</div>
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -227,17 +314,19 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<form class="withdraw_form">
-							<input type="checkbox" name="withdrawAgree" id="withdraw_check" />
-							<span id="check_text">해당 내용을 모두 확인했으며, 회원 탈퇴에 동의합니다.</span><br>
-							<input type="submit" name="withdrawOK" value="회원탈퇴"
-								id="check_submit" />
+						<form action="/memberWithdraw.rw" method="post"
+							class="withdraw_form">
+							<input type="checkbox" name="withdrawAgree" id="withdraw_check"
+								required /> <span id="check_text">해당 내용을 모두 확인했으며, 회원
+								탈퇴에 동의합니다.</span><br> <input type="submit" name="withdrawOK"
+								value="회원탈퇴" id="check_submit" />
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
+		</center>
 	</div>
-	<%@ include file="/views/common/footer.jsp" %>
+	<%@ include file="/views/common/footer.jsp"%>
 </body>
 </html>

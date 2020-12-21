@@ -60,10 +60,9 @@ ArrayList<Notice> nl = (ArrayList<Notice>) request.getAttribute("noticeList");
                         <div class="inner_article">
                             <p class="inner_contents_text">FAQ</p>
                         </div>
-                        <%
-                        	for (int i = 0; i < fl.size(); i++) {
-                        						FAQ f = fl.get(i);
-                        %>			   
+                        
+               		<% for (int i = 0; i < fl.size(); i++) {
+                        	FAQ f = fl.get(i); %>	 	   
                         <div id="inner_faq_contents">
                             <ul class="customer_ul faq_ul">
                                 <li class="fl w10 ">

@@ -32,6 +32,8 @@
 <body>
     <script>
     	$(function(){
+    		var idCheckClick;
+    		var nickCheckClick;
     		$('form').submit(function(){
     			var memberId = $('input[name=memberId]');
     			var nickName = $('input[name=nickName]');
@@ -39,13 +41,14 @@
     			var memberPwd_re = $('input[name=memberPwd_re]');
     			var email = $('input[name=email]');
     			var birthYear = $('input[name=birthYear]');
+    			var gender = $('input[name=gender]');
     			var checkNumber = memberPwd.val().search(/[0-9]/g);
     		    var checkEnglish = memberPwd.val().search(/[a-z]/ig);
-    			
-    		    console.log(memberId.val()+"/"+nickName.val()+"/"+memberPwd.val()+"/"+memberPwd_re.val()
-    		    		+"/"+email.val()+"/"+birthYear.val());
+    			    
+    		    console.log(memberId.val()+"/"+nickName.val()+"/"+memberPwd.val()+"/"
+    		    		+memberPwd_re.val()+"/"+email.val()+"/"+birthYear.val()+"/"+gender.val());
     		    
-    			if(!(/^[a-zA-Z0-9]{5,20}$/.test(memberId.val()))) {
+    		    if(!(/^[a-zA-Z0-9]{5,20}$/.test(memberId.val()))) {
     				memberId.prev().prev().text("아이디를 다시 확인해주세요.").css('color','red');
     				return false;
     			} else if(!(/^[a-zA-z0-9가-힣]{1,10}$/.test(nickName.val()))) {
@@ -66,10 +69,13 @@
     			} else if((memberPwd.val()!=memberPwd_re.val())) {
     				memberPwd_re.prev().prev().text("비밀번호가 동일하지 않습니다.").css('color','red');
     				return false;
-    			} /*else if(!(/^[0-9\s]{4,4}$/.test(birthYear.val()))) {
-    				alert("출생년도는 숫자 네 자리만 입력해주세요.");
+    			}  else if(idCheckClick != true) {
+    				alert("아이디의 중복 여부를 확인해주세요.");
     				return false;
-    			} */
+    			}  else if(nickCheckClick != true) {
+					alert("닉네임의 중복 여부를 확인해주세요.");
+					return false;
+				}
     			return true;
     		});
     		
@@ -93,7 +99,66 @@
 				$(this).prev().prev().text("");
 			});
     		
-    	});
+    		$('#id_check').click(function(){
+    			idCheckClick = true;
+    			var memberId = $('input[name=memberId]').val();
+    			
+    			if(memberId == "") {
+    				alert("아이디를 입력해주세요.");
+    			} 
+    		}); // end of click   
+    		$('input[name=memberId]').focusin(function(){
+    			var memberId = $('input[name=memberId]').val();
+    			
+    			$.ajax({
+    				url:"/idCheck.rw",
+    				type:"post",
+    				data:{"memberId":memberId},
+    				success:function(data){
+    					if(!(/^[a-zA-Z0-9]{5,20}$/.test(memberId))) {
+    	    				alert("아이디를 다시 확인해주세요.");
+    	    				return false;
+    	    			} 
+    					if(data == 'usable') {
+    						memberId.prev().prev().text("사용가능한 아이디입니다.").css('color','red');
+    					} else {
+    						memberId.prev().prev().text("이미 사용중인 아이디입니다.").css('color','red');
+    					}
+    				},
+    				error:function(){
+    					console.log("error");
+    				}
+    			});	// end of ajax    		
+    		
+    		$('#nick_check').click(function(){
+    			nickCheckClick = true;
+    			var nickName = $('input[name=nickName]').val();
+  
+    			if(nickName == "") {
+    				alert("닉네임을 입력해주세요.");
+    			} else {
+    				$.ajax({
+        				url:"/nickCheck.rw",
+        				type:"post",
+        				data:{"nickName":nickName},
+        				success:function(data){
+        					if(!(/^[a-zA-z0-9가-힣]{1,10}$/.test(nickName))) {
+        	    				alert("닉네임을 다시 확인해주세요.");
+        	    				return false;
+        	    			}
+        					if(data == 'usable') {
+        						alert("사용 가능한 닉네임입니다.");
+        					} else {
+        						alert("이미 사용 중인 닉네임입니다.");
+        					}
+        				},
+        				error:function(){
+        					console.log("error");
+        				}
+        			}); // end of ajax	
+    			} // end of else    			
+    		}); // end of click
+    	}); // end of function
     </script>
     <div id="join_wrapper">
         <div id="join_header">
@@ -123,14 +188,15 @@
                         <br> 
                         <span class="guide_span"></span><br>                 
                         <input type="email" name="email" placeholder="이메일 주소" class="input_group"/>
+                        <button type="button" id="email_check">중복확인</button>
                         <br>
-                        <p id="option_text">선택 입력 (예시. 1996 / 남)</p>        
+                        <%--<p id="option_text">선택 입력 (예시. 1996 / 남)</p> --%>        
                         <input type="number" name="birthYear" placeholder="출생년도" class="input_group" min="1900" max="2020"/>
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-							<label class="btn btn-warning radio_size">
+							<label class="btn btn-warning radio_size" id="label_M">
 								<input type="radio" name="gender" id="radio_M" value="M">남
 							</label>
-							<label class="btn btn-warning radio_size">
+							<label class="btn btn-warning radio_size" id="label_F">
 								<input type="radio" name="gender" id="radio_F" value="F">여
 							</label>
 						</div>

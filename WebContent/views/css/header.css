@@ -72,7 +72,7 @@ li{
     color: white;
 }
 #user-menu-btn {
-
+	cursor: pointer;
     width: 50px;
 }
 

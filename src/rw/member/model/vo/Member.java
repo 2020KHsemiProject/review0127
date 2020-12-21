@@ -16,6 +16,29 @@ public class Member {
 	private Date endDate;
 	private String profileImg;
 
+	public Member() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public Member(String memberNo, String memberId, String nickname, String memberPwd, String email, char emailYN,
+			int birthYear, char gender, Date enrollDate, char endYN, Date endDate, String profileImg) {
+		super();
+		this.memberNo = memberNo;
+		this.memberId = memberId;
+		this.nickname = nickname;
+		this.memberPwd = memberPwd;
+		this.email = email;
+		this.emailYN = emailYN;
+		this.birthYear = birthYear;
+		this.gender = gender;
+		this.enrollDate = enrollDate;
+		this.endYN = endYN;
+		this.endDate = endDate;
+		this.profileImg = profileImg;
+	}
+
 	public String getMemberNo() {
 		return memberNo;
 	}
@@ -109,28 +132,6 @@ public class Member {
 	}
 
 	public void setProfileImg(String profileImg) {
-		this.profileImg = profileImg;
-	}
-
-	public Member() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Member(String memberNo, String memberId, String nickname, String memberPwd, String email, char emailYN,
-			int birthYear, char gender, Date enrollDate, char endYN, Date endDate, String profileImg) {
-		super();
-		this.memberNo = memberNo;
-		this.memberId = memberId;
-		this.nickname = nickname;
-		this.memberPwd = memberPwd;
-		this.email = email;
-		this.emailYN = emailYN;
-		this.birthYear = birthYear;
-		this.gender = gender;
-		this.enrollDate = enrollDate;
-		this.endYN = endYN;
-		this.endDate = endDate;
 		this.profileImg = profileImg;
 	}
 
