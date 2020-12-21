@@ -7,6 +7,7 @@ import java.util.HashMap;
 import rw.col.model.dao.CollectionDAO;
 import rw.col.model.vo.CollectionPageData;
 import rw.col.model.vo.OtherBookcase;
+import rw.col.model.vo.ReviewCollection;
 import rw.common.JDBCTemplate;
 import rw.library.model.dao.LibraryDAO;
 import rw.member.model.vo.Member;
@@ -167,5 +168,5 @@ public class CollectionService {
 		ArrayList<ReviewCollection> rColList = cDAO.selectColReview(conn,memberNo);
 		JDBCTemplate.close(conn);
 		return rColList;
-
+	}
 }

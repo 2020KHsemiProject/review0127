@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import rw.col.model.vo.CollectionPageData;
 import rw.col.model.vo.OtherBookcase;
+import rw.col.model.vo.ReviewCollection;
 import rw.common.JDBCTemplate;
 import rw.library.model.vo.Library;
 import rw.member.model.vo.Member;
