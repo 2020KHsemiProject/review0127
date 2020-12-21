@@ -1,0 +1,114 @@
+.main-wrapper > div {
+  float: left;
+  width: 50%;
+  height: 50%;
+  margin: auto;
+  padding: 10px;
+}
+
+.board-column {
+  width: 70%;
+  padding-left: 20px;
+}
+
+.board-link {
+  width: 30%;
+  text-align: right;
+  padding-right: 18px;
+}
+
+.link-btn {
+  padding: 0 10px 0 10px;
+  border-radius: 999px;
+  background-color: #2a303d;
+  color: white;
+  font-size: 13px;
+  border: 0px solid white;
+}
+
+.link-btn:hover{
+text-decoration:none;
+color:white;
+}
+
+.content-title {
+  width: 82%;
+  padding-left: 20px;
+}
+
+.state-y {
+  margin: 0px;
+  display: inline-block;
+  width: 18%;
+  text-align: center;
+  color: white;
+  background-color: #0e40aa;
+  font-size: 0.8rem;
+  border-radius: 999px;
+}
+.state-n {
+  margin: 0px;
+  display: inline-block;
+  width: 18%;
+  text-align: center;
+  color: white;
+  background-color: #ff2525;
+  font-size: 0.8rem;
+  border-radius: 999px;
+}
+
+.title {
+  width: 80%;
+  margin: 0px;
+  display: inline-block;
+}
+
+.content-date {
+  width: 20%;
+  text-align: right;
+  padding-right: 20px;
+  font-size: 0.8rem;
+}
+.board {
+  font-size: 0.8rem;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+.board th {
+  background-color: #ecf0f7;
+}
+
+.board tr {
+  height: 35px;
+  border-top: 0.5px solid lightgray;
+}
+
+.main-wrapper {
+  margin-top: 20px;
+}
+
+
+.board-column>a{
+color:black;
+text-decoration:none;
+	
+}
+
+.board-column>a:hover{
+text-decoration:none;
+	
+}
+
+.content-title a{
+color:black;
+text-decoration:none;	
+	
+}
+
+.content-title a:hover{
+text-decoration:none;
+	
+}

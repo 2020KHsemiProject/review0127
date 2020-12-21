@@ -1,0 +1,27 @@
+.email {
+  width: 15%;
+}
+.member-id {
+  width: 15%;
+}
+.nickname {
+  width: 10%;
+}
+.birth-year {
+  width: 7%;
+}
+
+.function {
+  width: 7%;
+}
+.withdraw-btn {
+  background-color: red;
+  color: white;
+  font-weight: 500;
+  font: 0.8rem;
+  border: 0px solid white;
+  padding: 3px 20px 3px 20px;
+  border-radius: 999px;
+}
+
+

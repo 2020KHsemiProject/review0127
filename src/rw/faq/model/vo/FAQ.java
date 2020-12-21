@@ -63,4 +63,7 @@ public class FAQ {
 		this.delYN = delYN;
 	}
 
+	
+
 }
+

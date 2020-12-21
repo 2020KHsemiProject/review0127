@@ -1,0 +1,67 @@
+#viewer-title {
+  width: 100%;
+  margin: 0px;
+  height: 50px;
+  border-bottom: 0.5px solid lightgray;
+  overflow: hidden;
+}
+
+#viewer-contents {
+  height: 500px;
+  width: 100%;
+  margin: 0px;
+  overflow: auto;
+}
+
+.viewer-column {
+  text-align: center;
+  line-height: 50px;
+  font-size: 14px;
+  padding: 0px;
+  margin: 0px;
+  border-right: 0.5px solid lightgray;
+  background-color: #fafafc;
+}
+
+.veiwer-info {
+  line-height: 50px;
+  border-right: 0.5px solid #fafafc;
+  padding: 0px;
+  background-color: white !important;
+}
+
+.viewer-info input:not(textarea) {
+  width: 90%;
+  padding: 2px;
+  margin-top: 12px;
+  margin-left: 8px;
+  border: 1px solid lightgray;
+}
+
+.viewer-info textarea {
+  width: 90%;
+  height: 95%;
+  padding: 2px;
+  margin-top: 9px;
+  margin-left: 8px;
+  border: 1px solid lightgray;
+  overflow: auto;
+}
+
+.modal-dialog {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.modal-body {
+  
+  padding: 0px !important;
+  margin: 0px !important;
+  
+}
+
+
+.modal-header{
+	
+	font-size:1.2rem;
+}
