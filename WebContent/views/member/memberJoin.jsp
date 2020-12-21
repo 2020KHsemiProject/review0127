@@ -44,21 +44,21 @@
                 <div id="inner_content">
                     <form action="/memberJoin.rw" method="post">
                     	<span class="guide_span"></span><br>    
-                        <input type="text" name="memberId" placeholder="아이디" class="input_group "/>
+                        <input type="text" name="memberId" placeholder="아이디" class="input_group input_data"/>
                         <button type="button" id="id_check">중복확인</button>
                         <br>
                         <span class="guide_span"></span><br>
-                        <input type="text" name="nickName" placeholder="닉네임" class="input_group"/>
+                        <input type="text" name="nickName" placeholder="닉네임" class="input_group input_data"/>
                         <button type="button" id="nick_check">중복확인</button>
                         <br> 
                         <span class="guide_span"></span><br>                       
-                        <input type="password" name="memberPwd" placeholder="비밀번호" id="input_pw" class="input_group"/>
+                        <input type="password" name="memberPwd" placeholder="비밀번호" id="input_pw" class="input_group input_data"/>
                         <br>
                         <span class="guide_span"></span><br>
-                        <input type="password" name="memberPwd_re" placeholder="비밀번호 확인" class="input_group"/>
+                        <input type="password" name="memberPwd_re" placeholder="비밀번호 확인" class="input_group input_data"/>
                         <br> 
                         <span class="guide_span"></span><br>                 
-                        <input type="email" name="email" placeholder="이메일 주소" class="input_group"/>
+                        <input type="email" name="email" placeholder="이메일 주소" class="input_group input_data"/>
                         <button type="button" id="email_check">중복확인</button>
                         <br>
                         <%--<p id="option_text">선택 입력 (예시. 1996 / 남)</p> --%>        

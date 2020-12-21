@@ -63,6 +63,7 @@ $(function() {
 	$('input[name]').focusin(
 			function() {
 				$(this).css('border', '5px solid yellowgreen');
+				$(this).css('outline','none');
 				switch ($(this).attr('name')) {
 				case "memberId":
 					$(this).prev().prev().text("영문자와 숫자 조합 5~20 글자여야 합니다.").css('color', '#517800');
@@ -81,9 +82,13 @@ $(function() {
 					break;
 				}
 			});
-	$('input[name]').focusout(function() {
+	$('.input_data').focusout(function() {
 		$(this).css('border', '1.2px solid #ccc');
 		$(this).prev().prev().text("");
+	});
+	
+	$('input[name=birthYear]').focusout(function(){
+		$(this).css('border', '1.2px solid #ccc');
 	});
 
 	$('#id_check').click(function() {

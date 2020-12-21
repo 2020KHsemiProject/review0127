@@ -5,7 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>REVIEW:0127</title>
-<link href="/views/common/elemnts/common-wrapper.css" rel="stylesheet" type="text/css">
 <link href="/views/css/login.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
@@ -47,10 +46,13 @@
 				<label id="autocheck"> 
 				<input type="checkbox" value="remember-me"> &nbsp; 자동로그인
 				</label> &nbsp;&nbsp;
-			    <a href="#" id="id_pwd_missing">아이디 / 비밀번호 찾기</a>
 			</div>
 			<button class="btn btn-lg btn-block" type="submit" value="로그인">로그인</button>
-			<a href="/views/member/memberJoin.jsp">회원가입</a>
+			<div id="member_link">
+				<a href="#" id="id_pwd_missing">아이디 ㆍ 비밀번호 찾기</a>
+				/ <a href="/views/member/memberJoin.jsp" id="join_a">회원가입</a>
+			</div>
+			
 		</form>
 		<div>
 			<p class="text1">
