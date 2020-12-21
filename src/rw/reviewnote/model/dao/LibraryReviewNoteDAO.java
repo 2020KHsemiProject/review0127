@@ -195,7 +195,7 @@ public class LibraryReviewNoteDAO {
 		return list;
 	}
 
-	public String getPageNaviAlignTitle(Connection conn, String libraryOwner, String memberNo, int currentPage,
+	public String getPageNaviAlignTitle(Connection conn, String memberNo, String memberId, int currentPage,
 			int recordCountPerPage, int naviCountPerPage) {
 		// 현재 변수 재확인
 				// currentPage			: 현재 페이지를 가지고 있는 변수
@@ -230,20 +230,20 @@ public class LibraryReviewNoteDAO {
 						
 				// 만약 첫번째 pageNavi가 아니라면 '<' 모양을 추가해라 (첫번째 pageNavi이면 추가하지 말아라)
 				if(startNavi != 1) { //href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+(startNavi-1)+"'
-					sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+libraryOwner+"&currentPage="+(startNavi-1)+"'>></a></li>");
+					sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+(startNavi-1)+"'>></a></li>");
 				}
 						
 				for(int i=startNavi; i<=endNavi; i++) {
 					if(i==currentPage) {
-						sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+libraryOwner+"&currentPage="+i+"'><B>"+i+"</B></a></li>");
+						sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+i+"'><B>"+i+"</B></a></li>");
 					}else {
-						sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+libraryOwner+"&currentPage="+i+"'>"+i+"</a></li>");
+						sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+i+"'>"+i+"</a></li>");
 					}
 				}
 				
 				//만약 마지막 pageNavi가 아니라면 '>' 모양을 추가해라 (마지막 pageNavi이면 추가하지 말아라)
 				if(endNavi != pageTotalCount) {
-					sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+libraryOwner+"&currentPage="+(startNavi+1)+"'>></a></li>");
+					sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+(startNavi+1)+"'>></a></li>");
 				}
 						
 				return sb+"";
