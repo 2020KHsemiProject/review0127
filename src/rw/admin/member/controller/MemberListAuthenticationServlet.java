@@ -60,7 +60,7 @@ public class MemberListAuthenticationServlet extends HttpServlet {
 		
 		RequestDispatcher view = request.getRequestDispatcher("/admin/member/member_authentication_result.jsp");
 		
-		if(result>0) {
+		if(result==memberList.size()) {
 			
 			request.setAttribute("result", true);
 			
