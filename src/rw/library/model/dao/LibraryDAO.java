@@ -33,41 +33,7 @@ public class LibraryDAO {
 		}
 		return count;
 	}
-/*
-	public ArrayList<BookCase> selectAllBookCase(Connection conn, String memberNo) {
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		ArrayList<BookCase> list = new ArrayList<BookCase>();
-		String query = "SELECT * FROM MEMBER M LEFT JOIN LIBRARY L ON (L.MEMBER_NO=M.MEMBER_NO) LEFT JOIN PERSONAL_LIBRARY PL ON (PL.BOOKSHELF_ID=L.BOOKSHELF_ID) WHERE M.MEMBER_NO=?";
-		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1,memberNo);
-			rset = pstmt.executeQuery();
-			while(rset.next()) {
-				BookCase bkc = new BookCase();
-				bkc.setMemberNo(rset.getString("MEMBER_NO"));
-				bkc.setMemberId(rset.getString("MEMBER_ID"));
-				bkc.setNickname(rset.getString("NICKNAME"));
-				bkc.setBirthYear(rset.getInt("BIRTH_YEAR"));
-				bkc.setGender(rset.getString("GENDER").charAt(0));
-				bkc.setEndYN(rset.getString("END_YN").charAt(0));
-				bkc.setBookshelfId(rset.getNString("BOOKSHELF_ID"));
-				bkc.setBookshelfName(rset.getNString("BOOKSHELF_NAME"));
-				bkc.setPrivateYN(rset.getString("PRIVATE_YN").charAt(0));
-				bkc.setDelYN(rset.getString("DEL_YN").charAt(0));
-				bkc.setPsnShelfId(rset.getString("PSN_SHELF_ID"));
-				list.add(bkc);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return list;
-	}
-*/
+	
 	public ArrayList<Library> selectAllCase(Connection conn, String memberNo, int currentPage, int recordCountPerPage) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
