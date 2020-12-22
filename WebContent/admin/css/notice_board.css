@@ -1,0 +1,24 @@
+.select {
+  width: 5%;
+}
+.notice-no {
+  width: 8%;
+}
+
+.notice-date {
+  width: 15%;
+}
+
+.update {
+  width: 10%;
+}
+.delete {
+  width: 10%;
+}
+
+.modal-tag {
+
+	border:0px solid white;
+	cursor:pointer;
+	
+}

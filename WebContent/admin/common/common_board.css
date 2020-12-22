@@ -1,0 +1,154 @@
+@charset "UTF-8";
+
+table * {
+  border: 1px solid #c4c4c4;
+}
+table {
+  width: 100%;
+  height: 25%;
+  vertical-align: middle;
+}
+.search select {
+  width: 100px;
+  padding: 3px 5px 3px 0px;
+  border-radius: 5px;
+  padding-left:8px;
+  background-color:white;
+}
+
+input[type="date"]{
+	
+ 	background-color:white;
+	
+}
+
+.search input {
+  height: 100%;
+  border-radius: 5px;
+  font: 0.6rem;
+  
+}
+
+.search input[type="text"] {
+  padding: 3px 0px 3px 10px;
+  font: 0.6rem;
+}
+
+.search th {
+  font-size: 12px;
+  text-align: center;
+  width: 15%;
+  background-color: #f8f8f8;
+  font-weight: 200;
+}
+.search td {
+  padding: 10px;
+  font: 1rem;
+}
+
+.search-btn {
+  background-color: #0e40aa;
+  color: white;
+  font-weight: 200;
+  font: 0.8rem;
+  border: 0px solid white;
+  padding: 3px 20px 3px 20px;
+  border-radius: 5px;
+}
+
+.delete-btn {
+  background-color: #9e9e9e;
+  color: white;
+  font-weight: 200;
+  font: 0.8rem;
+  border: 0px solid white;
+  padding: 3px 20px 3px 20px;
+  border-radius: 999px;
+}
+
+
+.update-btn {
+  background-color: #0e40aa;
+  color: white;
+  font-weight: 200;
+  font: 0.8rem;
+  border: 0px solid white;
+  padding: 3px 20px 3px 20px;
+  border-radius: 999px;
+}
+
+.head th {
+  padding: 10px;
+  font: 0.8rem;
+  text-align: center;
+  background-color: #0e40aa;
+  color: white;
+  font-weight: 100;
+  border: 0px solid white;
+}
+.contents td {
+  padding: 10px;
+  font: 0.8rem;
+  text-align: center;
+}
+.btn-bottom {
+  float: left;
+  background-color: #9e9e9e;
+  color: white;
+  font-weight: 200;
+  font: 0.8rem;
+  border: 0px solid white;
+  padding: 10px 15px 10px 15px;
+  border-radius: 5px;
+}
+
+
+
+.insert-btn {
+	
+		float:right;
+		margin-bottom:12px;
+		background-color: #0e40aa;
+  		color: white;
+ 		font-weight: 200;
+  		font: 0.8rem;
+ 		border: 0px solid white;
+  		padding: 10px 15px 10px 15px;
+ 		border-radius: 5px;
+ 		text-decoration:none;
+  
+}
+
+.insert-btn:hover{
+	color:white;
+	text-decoration:none;
+	
+}
+
+
+#board-title {
+  padding-bottom: 10px;
+}
+
+
+.subtitle{
+	float:left; 
+	margin-top:5px;
+	
+}
+
+.fnb{
+	width:100%;
+	padding-left:50%; 
+	}
+
+	
+.restore-btn {
+  background-color: blue;
+  color: white;
+  font-weight: 200;
+  font: 0.8rem;
+  border: 0px solid white;
+  padding: 3px 20px 3px 20px;
+  border-radius: 999px;
+}

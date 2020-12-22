@@ -9,26 +9,9 @@ public class Inquiry {
 	private String inquiryTitle;
 	private String inquiryCont;
 	private Date inquiryDate;
-	private char category;
+	private String category;
 	private char replyYN;
-
-	public Inquiry() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Inquiry(int inquiryNo, String memberId, String replyEmail, String inquiryTitle, String inquiryCont,
-			Date inquiryDate, char category, char replyYN) {
-		super();
-		this.inquiryNo = inquiryNo;
-		this.memberId = memberId;
-		this.replyEmail = replyEmail;
-		this.inquiryTitle = inquiryTitle;
-		this.inquiryCont = inquiryCont;
-		this.inquiryDate = inquiryDate;
-		this.category = category;
-		this.replyYN = replyYN;
-	}
+	private char delYN;
 
 	public int getInquiryNo() {
 		return inquiryNo;
@@ -78,11 +61,11 @@ public class Inquiry {
 		this.inquiryDate = inquiryDate;
 	}
 
-	public char getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(char category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 
@@ -92,6 +75,33 @@ public class Inquiry {
 
 	public void setReplyYN(char replyYN) {
 		this.replyYN = replyYN;
+	}
+
+	public char getDelYN() {
+		return delYN;
+	}
+
+	public void setDelYN(char delYN) {
+		this.delYN = delYN;
+	}
+
+	public Inquiry(int inquiryNo, String memberId, String replyEmail, String inquiryTitle, String inquiryCont,
+			Date inquiryDate, String category, char replyYN, char delYN) {
+		super();
+		this.inquiryNo = inquiryNo;
+		this.memberId = memberId;
+		this.replyEmail = replyEmail;
+		this.inquiryTitle = inquiryTitle;
+		this.inquiryCont = inquiryCont;
+		this.inquiryDate = inquiryDate;
+		this.category = category;
+		this.replyYN = replyYN;
+		this.delYN = delYN;
+	}
+
+	public Inquiry() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 }

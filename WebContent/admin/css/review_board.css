@@ -1,0 +1,23 @@
+.select {
+  width: 5%;
+}
+.review-id {
+  width: 8%;
+}
+.book-image {
+  width: 10%;
+  height: 80px;
+}
+.book-title {
+  width: 30%;
+}
+.member-no {
+  width: 10%;
+}
+.delete {
+  width: 10%;
+}
+
+.fnb {
+  padding-left: 50%;
+}
