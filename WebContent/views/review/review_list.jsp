@@ -286,10 +286,10 @@ hr {
 	<% ArrayList<ReviewCard> list = (ArrayList<ReviewCard>)request.getAttribute("list"); %>
 	
 	<% if(request.getAttribute("end")!=null){ %>
-	<% if((int)request.getAttribute("end")>6) { %>
+	<% if((int)request.getAttribute("end")>12) { %>
 		<script>
 			$(function(){
-				$('.moreLocal<%=(int)request.getAttribute("end")%>').focus();
+				document.getElementById('card<%=(int)request.getAttribute("end")-6%>').scrollIntoView();
 			})
 		</script>
 	<% } }%>
@@ -524,7 +524,7 @@ hr {
 						<% int morecount = 0;
 					
 						for(ReviewCard rc : list){ %>
-						<div class="review-card">
+						<div class="review-card" id="card<%=morecount+1%>">
 							<div class="review-card-book-img collectionIcon">
 								<a href="/bookInfo.rw?bookId=<%=rc.getBookId()%>" class="bookLink"><img src="<%=rc.getBookImage()%>" title="해당 도서페이지로 이동합니다."/></a>
 							</div>
@@ -568,7 +568,7 @@ hr {
 			
 
 			
-						<span id="moreLocal<% morecount++; %>" style="display: none;"></span>
+						<span id="moreLocal<% morecount++; %>" style="visibility: hidden;"></span>
 						<script>
 			$(function(){
 				
