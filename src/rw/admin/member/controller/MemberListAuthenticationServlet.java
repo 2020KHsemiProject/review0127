@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import rw.common.MailAuthentication;
 
 
 
@@ -50,13 +53,26 @@ public class MemberListAuthenticationServlet extends HttpServlet {
 		for(String email : memberList) {
 			
 			
-			//result = result + new MailAuthentication().sendMail(email); 
+			result = result + new MailAuthentication().sendMail(email); 
 			
 			
 		}
 		
+		RequestDispatcher view = request.getRequestDispatcher("/admin/member/member_authentication_result.jsp");
 		
+		if(result>0) {
+			
+			request.setAttribute("result", true);
+			
+			
+			
+		}else {
+			
+			request.setAttribute("result", false);
+			
+		}
 		
+		view.forward(request, response);
 
 	}
 
