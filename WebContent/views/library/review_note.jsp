@@ -1,9 +1,8 @@
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ page import="rw.member.model.vo.Member"%>
 <%@ page import="rw.review.model.vo.ReviewCard"%>
-<%@ page import= "rw.col.model.vo.ReviewCollection" %>
+<%@ page import="rw.col.model.vo.ReviewCollection" %>
+<%@ page import="rw.review.model.vo.ReviewLike" %>
 <%@ page import="java.util.ArrayList"%>
 <jsp:include page="/views/common/header.jsp" flush="false" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -192,23 +191,6 @@ button:focus {
 			$('.other_review-card-book-img').mouseout(function(){
 				$(this).css('box-shadow','');
 			});
-        	
-        	// 리뷰 좋아요 클릭 시
-            $('.rvheart').click(function(){
-            	// 현재 하트 상태 데이터 가져오기
-                let heart = $(this).find('.review-heart').text();
-            	// 현재 좋아요 수 데이터 가져오기
-                let count = parseInt($(this).find('.heart-count').text());
-                if(heart.indexOf('♡')>-1){
-                	// 1. 여기에 좋아요 누른 데이터 보내고
-                	// 2. 다시 받아와서 뿌려주는 로직..?
-                    $(this).find('.review-heart').text('♥');
-                    $(this).find('.heart-count').text(count+1);
-                }else{
-                    $(this).find('.review-heart').text('♡');
-                    $(this).find('.heart-count').text(count-1);
-                }
-            });
             
             // lnb hover 시 
             $('#reviewNote-lnb>li>a').hover(function(){
@@ -414,7 +396,7 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 								</div>
 								<div class="col-3 rvheart reviewNoteIcon">
 									<div class="review-heart-and-count" onclick="heartOnOff('<%=rc.getReviewId()%>');">
-										<span class="review-heart"><a>♡</a></span> <span class="heart-count"><%=rc.getReviewLikeCount() %></span>
+										<span class="review-heart heart<%=rc.getReviewId()%>"><a>♡</a></span> <span class="heart-count"><%=rc.getReviewLikeCount() %></span>
 									</div>
 								</div>
 							</div>
@@ -435,7 +417,6 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 				$('#review-rate<%=i%>').html(star);
 			<% } // if문%>--%>
 			function heartOnOff(reviewId){
-				$thisTag = $(this);
 				$.ajax({
 					url : '/reviewLike.rw',
 					data : {'reviewId':reviewId},
@@ -443,20 +424,27 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 					success : function(data){
 						if(data.yn=='Y'){
 							alert('좋아요를 눌렀습니다.');
-							$thisTag.children().first().text('♥');
-							$thisTag.children().last().text(data.count);
+							$('.heart'+reviewId).text('♥');
+							$('.heart'+reviewId).next().text(data.count);
 						}else{
-							alert('좋아요를 해제했습니다.')
-							$thisTag.children().first().text('♡');
-							$thisTag.children().last().text(data.count);
+							alert('좋아요를 해제했습니다.');
+							$('.heart'+reviewId).text('♡');
+							$('.heart'+reviewId).next().text(data.count);
 						}
 					},
 					error : function(){
 						alert('좋아요에 실패했습니다.')
 					}
 				});
-					
 			}
+			
+			$(function(){
+				///////// 내가 좋아요 누른 리뷰의 하트가 빨간 하트로 보이게
+				<% ArrayList<ReviewLike> rLikeList = (ArrayList<ReviewLike>)request.getAttribute("rLikeList"); %>
+				<% for(ReviewLike rLike : rLikeList) { %>
+					$('.heart'+'<%=rLike.getReviewId()%>').text('♥');
+				<% } %>
+			})
 		</script>
 
 
@@ -628,22 +616,12 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 								</div>
 								<div class="col-3 other_rvheart reviewNoteIcon">
 									<div class="other_review-heart-and-count" onclick="heartOnOff('<%=rc.getReviewId()%>')">
-										<span class="other_review-heart">♡</span> <span class="other_heart-count"><%=rc.getReviewLikeCount() %></span>
+										<span class="other_review-heart heart<%=rc.getReviewId()%>">♡</span> <span class="other_heart-count"><%=rc.getReviewLikeCount() %></span>
 									</div>
 								</div>
 							</div>
 						</div>
 						
-			<% ArrayList<ReviewCollection> rColList = (ArrayList<ReviewCollection>)request.getAttribute("rColList"); 
-				for(ReviewCollection rCol : rColList){
-					if(rc.getReviewId().equals(rCol.getReviewId())){ %>
-				<script>
-					$('.reviewScrap'+'<%=rc.getReviewId() %>').css('color','#FF6C6C');
-				</script>
-			<%		}
-				}
-			%>
-
 			<% } // foreach문 %>
 
 
@@ -657,7 +635,6 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 						</nav>
 		<script>
 		function heartOnOff(reviewId){
-			$thisTag = $(this);
 			$.ajax({
 				url : '/reviewLike.rw',
 				data : {'reviewId':reviewId},
@@ -665,13 +642,12 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 				success : function(data){
 					if(data.yn=='Y'){
 						alert('좋아요를 눌렀습니다.');
-						$thisTag.children().first().text('♥');
-						$thisTag.children().last().text(data.count);
+						$('.heart'+reviewId).text('♥');
+						$('.heart'+reviewId).next().text(data.count);
 					}else{
-						alert('좋아요를 해제했습니다.')
-						alert('안하트');
-						$thisTag.children().first().text('♡');
-						$thisTag.children().last().text(data.count);
+						alert('좋아요를 해제했습니다.');
+						$('.heart'+reviewId).text('♡');
+						$('.heart'+reviewId).next().text(data.count);
 					}
 				},
 				error : function(){
@@ -680,6 +656,20 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 			});
 				
 		}
+		
+		$(function(){
+			//////// 내가 스크랩한 리뷰가 빨간색으로 보이게
+			<% ArrayList<ReviewCollection> rColList = (ArrayList<ReviewCollection>)request.getAttribute("rColList"); %> 
+			<%	for(ReviewCollection rCol : rColList){ %>
+				$('.reviewScrap'+'<%=rCol.getReviewId() %>').css('color','#FF6C6C');
+			<%	} %>
+			
+			///////// 내가 좋아요 누른 리뷰의 하트가 빨간 하트로 보이게
+			<% ArrayList<ReviewLike> rLikeList = (ArrayList<ReviewLike>)request.getAttribute("rLikeList"); %>
+			<% for(ReviewLike rLike : rLikeList) { %>
+				$('.heart'+'<%=rLike.getReviewId()%>').text('♥');
+			<% } %>
+		})
 		</script>
 					</div>
 			<% }else { ///////////////////////// 리스트가 비어있다면%>
