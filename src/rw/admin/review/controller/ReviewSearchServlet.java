@@ -45,7 +45,7 @@ public class ReviewSearchServlet extends HttpServlet {
 		int month = cal.get(Calendar.MONTH);
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 		
-		String today = (year+"-"+(month+1)+"-"+day);
+		String today = (year+"-"+(month+1)+"-"+(day+1));
 		
 		
 		
@@ -54,6 +54,8 @@ public class ReviewSearchServlet extends HttpServlet {
 		
 		Date dateFrom;
 		Date dateTill;
+		
+		
 		
 		
 		//date 타입에 초기값 넣어주기. (사용자가 입력하지 않더라도 입력값을 디폴트로 넣어서 검색 > 쿼리의 양이 줄어들음) 
@@ -112,8 +114,6 @@ public class ReviewSearchServlet extends HttpServlet {
 				
 		}
 			
-			
-		
 		if(rl!=null) {
 		
 		RequestDispatcher view = request.getRequestDispatcher("/admin/review/review_search.jsp");

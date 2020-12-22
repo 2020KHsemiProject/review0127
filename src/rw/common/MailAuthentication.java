@@ -68,4 +68,60 @@ public class MailAuthentication {
 	System.out.println("완료페이지로 이동");
 	return 1;
 	}
+	
+	public int sendMailInquriy(String email, String title, String content) {
+
+		Properties p = new Properties(); // 정보를 담을 객체
+
+		p.put("mail.smtp.host", "smtp.gmail.com");
+		p.put("mail.smtp.port", "465");
+		p.put("mail.smtp.starttls.enable", "true");
+		p.put("mail.smtp.auth", "true");
+		p.put("mail.smtp.debug", "true");
+		p.put("mail.smtp.socketFactory.port", "465");
+		p.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		p.put("mail.smtp.socketFactory.fallback", "false");
+
+		try {
+			Authenticator auth = new SMTPAuthenticatior();
+			Session ses = Session.getInstance(p, auth);
+
+			ses.setDebug(true);
+			MimeMessage msg = new MimeMessage(ses); // 메일의 내용을 담을 객체
+
+			msg.setSubject(title); // 제목
+
+			StringBuffer sb = new StringBuffer();
+			// 내용
+
+			sb.append("<div style='width:700px; height:400px;'>");
+			sb.append("<div style='width:100%; height:50px; background-color:#FFEB60'></div>");
+			sb.append("<div style='width:100%; text-align: center; font-size: 0.8rem'>");
+			sb.append("<h3>안녕하세요. REVIEW:0127입니다.</h3>");
+			sb.append("<h5>"+content+"</h5> <br>");
+			sb.append("</div><div style='width:100%; height:50px; background-color:#FFEB60'></div></div>");
+
+			Address fromAddr = new InternetAddress("rvw0127@gmail.com");
+			msg.setFrom(fromAddr);
+
+			Address toAddr = new InternetAddress(email);
+			msg.addRecipient(Message.RecipientType.TO, toAddr); // 받는 사람
+
+			msg.setContent(sb.toString(), "text/html; charset=UTF-8"); // 내용
+			Transport.send(msg); // 전송
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("발송 실패");
+
+			return 0;
+
+		}
+
+		System.out.println("완료페이지로 이동");
+
+		return 1;
+
+	}
+
 }
