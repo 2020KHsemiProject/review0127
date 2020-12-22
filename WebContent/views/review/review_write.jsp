@@ -10,39 +10,20 @@
 <link href="/views/css/review_write.css" rel="stylesheet" type="text/css" />
 <!--웹폰트-->
 <link rel="preconnect" href="https://fonts.gstatic.com">
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <!--jquery-->
-<script src="https://code.jquery.com/jquery-3.5.1.js"
-	integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-	crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-	integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
-	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
 <!--부트스트랩-->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
-	crossorigin="anonymous">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-	crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<script	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"	crossorigin="anonymous"></script>
 <!--별점주기-->
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-<link rel="stylesheet" href="../css/fontawesome-stars.css">
-<script type="text/javascript" src="../js/jquery.barrating.js"></script>
+<link rel="stylesheet"	href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet" href="/views/css/fontawesome-stars.css">
+<script type="text/javascript" src="/views/js/jquery.barrating.js"></script>
 <!-- fontawesome-->
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.15.1/css/solid.css"
-	integrity="sha384-yo370P8tRI3EbMVcDU+ziwsS/s62yNv3tgdMqDSsRSILohhnOrDNl142Df8wuHA+"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.15.1/css/fontawesome.css"
-	integrity="sha384-ijEtygNrZDKunAWYDdV3wAZWvTHSrGhdUfImfngIba35nhQ03lSNgfTJAKaGFjk2"
-	crossorigin="anonymous">
+<link rel="stylesheet"	href="https://use.fontawesome.com/releases/v5.15.1/css/solid.css"	integrity="sha384-yo370P8tRI3EbMVcDU+ziwsS/s62yNv3tgdMqDSsRSILohhnOrDNl142Df8wuHA+"	crossorigin="anonymous">
+<link rel="stylesheet"	href="https://use.fontawesome.com/releases/v5.15.1/css/fontawesome.css"	integrity="sha384-ijEtygNrZDKunAWYDdV3wAZWvTHSrGhdUfImfngIba35nhQ03lSNgfTJAKaGFjk2" crossorigin="anonymous">
 </head>
 <body>
 	<%
@@ -97,24 +78,29 @@
             });
             //도서 검색 api - 검색버튼
             $('#searchBtn').click(function() {
-                $('#search-book-list').empty();
-                $('#search-book-list').css('display', 'block').css('position', 'relative');
-                var query = $('#bookName').val();
-                $.ajax({
-                        method: "GET",
-                        url: "https://dapi.kakao.com/v3/search/book?target=title",
-                        data: {
-                            query: query
-                        },
-                        headers: {
-                            Authorization: "KakaoAK ec3d74416465dd038d237fac4f57f5f7"
-                        }
-                    })
-                    .done(function(msg) {
-                        for (var i = 0; i < msg.documents.length; i++) {
-                            $('#search-book-list').append('<div class="book-wrap"><div class="book-thumbnail"><img src="' + msg.documents[i].thumbnail + '" title="'+msg.documents[i].title+'"></div><div class="book-title" author="' + msg.documents[i].authors + '" isbn="' + msg.documents[i].isbn + '">' + msg.documents[i].title + '</div></div>');
-                        }
-                    });
+            	var $bookList =$('#search-book-list'); 
+            	$bookList.empty();
+            	if($bookList.css('display')=='none'){
+	            	$bookList.css('display', 'block').css('position', 'relative');
+	                var query = $('#bookName').val();
+	                $.ajax({
+	                        method: "GET",
+	                        url: "https://dapi.kakao.com/v3/search/book?target=title",
+	                        data: {
+	                            query: query
+	                        },
+	                        headers: {
+	                            Authorization: "KakaoAK ec3d74416465dd038d237fac4f57f5f7"
+	                        }
+	                    })
+	                    .done(function(msg) {
+	                        for (var i = 0; i < msg.documents.length; i++) {
+	                            $('#search-book-list').append('<div class="book-wrap"><div class="book-thumbnail"><img src="' + msg.documents[i].thumbnail + '" title="'+msg.documents[i].title+'"></div><div class="book-title" author="' + msg.documents[i].authors + '" isbn="' + msg.documents[i].isbn + '">' + msg.documents[i].title + '</div></div>');
+	                        }
+	                    });
+            	}else {
+            		$bookList.css('display', 'none');
+            	}
             });
             //도서 id를 받아서 넘어온 경우 미리 셋팅
             <%if (bookId != null) {%>
@@ -175,6 +161,7 @@
 	<%} else {%>
 	<script>
 		alert('잘못된 접근입니다.');
+		location.href = "/index.jsp";
 	</script>
 	<%}%>
 </body>

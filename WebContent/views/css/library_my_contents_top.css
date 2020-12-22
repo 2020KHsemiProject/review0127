@@ -5,15 +5,15 @@
             /* 노란색 / contents의 header */
             width: 100%;
             background-color: #ffe58d;
-            height: 250px;
+            height: 320px;
             box-shadow: 0 2px 5px -1px gray;
             margin: 0 auto;
-            /*position: relative;
-            z-index:1;*/
+            
         }
         #myLibrary-contents-header-size {
         	width: 1200px;
         	margin: 0 auto;
+        	padding-top:50px;
         }
         #myLibrary-contents-header-size>div:first-child {
             /* 내 프로필 사진 있는 div */
@@ -21,7 +21,7 @@
         }
         #userprofile {
             /* 내 프로필 사진 div */
-            width: 100px; height: 100px;
+            width: 100px; height: 110px;
             border-radius: 100%;
             overflow: hidden;
             position: relative;
@@ -30,7 +30,7 @@
         }
         #userprofile>img {
         	/* 내 프로필 이미지 */
-            width: 100px; height: 100px;
+            width: 105px; height: 100px;
         }
         #myLibrary-title {
         	/* 내 서재 타이틀 */
@@ -52,4 +52,3 @@
             text-decoration: none;
             font-size: 1.5rem;
             color: black;
-        }

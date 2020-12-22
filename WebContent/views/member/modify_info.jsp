@@ -8,7 +8,6 @@
 <title>REVIEW:0127</title>
 <!--외부 CSS-->
 <link href="/views/css/header.css" rel="stylesheet" type="text/css" />
-<!-- <link href="./css/wrapper.css" rel="stylesheet" type="text/css" /> -->
 <link href="/views/css/modify.css" rel="stylesheet" type="text/css" />
 <!--웹폰트-->
 <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -16,130 +15,18 @@
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
 	rel="stylesheet">
 <!--jquery-->
-<script src="https://code.jquery.com/jquery-3.5.1.js"
-	integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-	crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-	integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
-	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="	crossorigin="anonymous"></script>
+	<script src="/views/js/modify_info.js"></script>
 <!--bootStrap-->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
-	crossorigin="anonymous">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-	crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <style>
-* {
-	margin: 0;
-	padding: 0;
-}
+* {	margin: 0;
+	padding: 0;}
 </style>
-
 </head>
 <body>
-	<script>
-		$(function() {
-			$('#modify_pw_btn').click(function(){
-				var memberId = $('#member_id').val();
-				var sessionPwd = '<%=m.getMemberPwd()%>';
-				var currentPwd = $('#current_pwd').val();
-    			var memberPwd = $('#new_pwd').val();
-    			var memberPwd_re = $('#new_pwd_re').val();
-    			var checkNumber = memberPwd.search(/[0-9]/g);
-    		    var checkEnglish = memberPwd.search(/[a-z]/ig);
-    		    
-    		    if((sessionPwd!=currentPwd)) {
-    		    	$('#current_pwd').next().text("현재 비밀번호와 일치하지 않습니다.").css('color','red');
-    				return false;
-				} else if(currentPwd == memberPwd) {
-					$('#new_pwd').next().text("현재 비밀번호와 동일합니다.").css('color','red');
-					return false;
-				} else if(!(/^[a-zA-Z0-9]{8,16}$/.test(memberPwd))) {
-					$('#new_pwd').next().text("비밀번호의 길이를 다시 확인해주세요.").css('color','red');
-    				return false;
-    			} else if(checkNumber <0 || checkEnglish <0){
-    				$('#new_pwd').next().text("숫자와 영문자를 혼용하여 입력해주세요.").css('color','red');
-    		        return false;
-    		    } else if(memberPwd.search(memberId)>-1) {
-    		    	$('#new_pwd').next().text("비밀번호에 아이디가 포함되었습니다.").css('color','red');
-    				return false;
-    			} else if(/(\w)\1\1\1/.test(memberPwd)) {
-    				$('#new_pwd').next().text("같은 문자를 4번 이상 사용하실 수 없습니다.").css('color','red');
-    				return false; 				
-    			} else if((memberPwd!=memberPwd_re)) {
-    				$('#new_pwd_re').next().text("비밀번호가 동일하지 않습니다.").css('color','red');
-    				return false;
-    			} else {
-   				 $.ajax({
- 	    			url:"/memberPwdChange.rw",
- 	    			type:"post",
- 	    			data:{"memberId":memberId,"memberPwd":memberPwd},
- 	    			success:function(data){
- 	    				if(data == "complete") {
- 	    					alert("비밀번호 변경이 완료되었습니다.");
- 	    					location.replace('/views/member/modify_info.jsp');
- 	    				} else {
- 	    					alert("비밀번호 변경이 정상적으로 처리되지 못했습니다. 지속적인 문제 발생 시 관리자에게 문의해주세요.");
- 	    				}
- 	    			},
- 	    			error:function(){
- 	    				console.log("error");
- 	    			}
- 	    		 });
- 				}
-    		   	//return true;
-    		  
-    		   
-			});
-			$('#current_pwd').focusout(function(){
-				$(this).css('border','1.2px solid #ccc');
-				$(this).next().text("");
-			});
-			$('#new_pwd').focusout(function(){
-				$(this).css('border','1.2px solid #ccc');
-				$(this).next().text("");
-			});
-			$('#new_pwd_re').focusout(function(){
-				$(this).css('border','1.2px solid #ccc');
-				$(this).next().text("");
-			});
-			$('#email_change_btn').click(function() {
-				$('#email_state_success').css('display', 'none');
-				$('#email_state_lack').css('display', 'block');
-				$('.input-text_email').val("");
-				$('#email_change_btn').text('변경 완료');
-			});
-			$('#nick_check_re').click(function() {
-				var nickName = $('#nick_change').val();
-
-				$.ajax({
-					url : "/nickCheck.rw",
-					type : "post",
-					data : {
-						"nickName" : nickName
-					},
-					success : function(data) {
-						if(!(/^[a-zA-z0-9가-힣]{1,10}$/.test(nickName))) {
-    	    				alert("닉네임을 다시 확인해주세요.");
-    	    				return false;
-    	    			}
-						if (data == 'usable') {
-							alert("사용 가능한 닉네임입니다.");
-						} else {
-							alert("이미 사용 중인 닉네임입니다.");
-						}
-					},
-					error : function() {
-						console.log("error");
-					}
-				});
-			});
-		});
-	</script>
-
 	<div id="wrapper">
 		<div id="content">
 			<div id="content_title">
@@ -153,13 +40,16 @@
 							<center>
 								<div id="picture_box">
 									<div id="profile_img_area">
-									<form >
+									<form action="/profileUpload.rw" method="post" enctype="multipart/form-data" id="profile_form">
 										<div id="image_box">
-											<!--사진을 업로드하면 이미지를 diplay:none 설정-->
-											<img src="/image/profile/default_user_dark.png"	class="profile_img" />
+											<input type="hidden" >
+											<img src="/image/profile/default_user_dark.png"	id="profile_img" name="profileImg"/>
 										</div>
 										<label id="profile_change_btn">
-											<input type="file" accept="image/*" id="input_file" />
+											<input type="file" onChange="uploadImg();" accept="image/*" id="input_file" />
+										</label>
+										<label id="profile_del_btn">
+											<img src="/image/profile/picture_change_del.png" id="img_del"/>
 										</label>
 									</form>	
 										<p id="profile_info">※ 프로필 사진은 100px X 100px 사이즈를 권장합니다.</p>
@@ -195,25 +85,24 @@
 										<div class="input_group_email">
 											<div class="input_box_email">
 												<input type="email" class="input-text_email"
-													value="<%=m.getEmail()%>" />
+													value="<%=m.getEmail()%>" id="email_change"/>
 											</div>
 											<button type="button" id="email_change_btn">이메일 변경</button>
 										</div>
-										<div id="email_state_success">
-											<p id="email_success">
-												<img src="/image/icon/email_success.png"
-													id="email_success_img" /> 인증된 이메일 주소입니다.
-											</p>
-
-										</div>
-										<div id="email_state_lack">
-											<p id="email_lack">
-												<img src="/image/icon/email_lack.png" id="email_lack_img" />인증되지
-												않은 이메일 주소입니다.
-											</p>
-										</div>
-										<p class="email_confirm">이메일 주소를 인증하시면, 변경이 완료됩니다.</p>
-
+										<% if(m.getEmailYN() == 'Y') { %>
+											<div id="email_state_success">
+												<p id="email_success">
+													<img src="/image/icon/email_success.png" id="email_success_img" /> 인증된 이메일 주소입니다.
+												</p>
+											</div>
+										<% } else { %>
+											<div id="email_state_lack">
+												<p id="email_lack">
+													<img src="/image/icon/email_lack.png" id="email_lack_img" />인증되지 않은 이메일 주소입니다.
+												</p>
+											</div>
+										<% } %>
+										<p class="email_confirm">이메일을 인증하면, 변경이 완료됩니다.</p>
 									</td>
 								</tr>
 								<tr class="tr_fourth">
@@ -253,15 +142,14 @@
 									</td>
 								</tr>
 								<tr class="tr_fifth">
-									<th id="th_sub">추가 정보 입력 <br>(선택사항)
+									<th id="th_sub">추가 정보 입력
 									</th>
 									<td>
 										<form>
 											<div id="sub_option">
-												<span id="age_title">연령대</span> <input type="text"
-													name="age" placeholder="예)1996" size="5" id="age" />
-												<div class="btn-group" role="group"
-													aria-label="Button group with nested dropdown">
+												<span id="age_title">연령대</span> 
+												<input type="text" name="age" value="<%= m.getBirthYear() %>" size="5" id="age" />
+												<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
 													<span id="gender_title">성별</span>
 													<button type="button" class="btn btn-secondary" id="man">남</button>
 													<button type="button" class="btn btn-secondary" id="woman">여</button>

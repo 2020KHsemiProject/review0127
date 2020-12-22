@@ -1,0 +1,113 @@
+@charset "UTF-8";
+#review-card-list {
+        	padding-left: 20px;
+        }
+        /****************리뷰카드*****************/
+        .other_review-card {
+        	/* 리뷰카드 크기&스타일 */
+            margin: 0 12px 36px 12px;
+            width: 360px; height: 560px;
+            border: 1px solid #eeeeee;
+            float: left;
+            box-shadow: 2px 2px 5px #D5D5D5;
+        }
+        .other_review-card-book-img {
+        	/* 카드 속> 이미지 div */
+            width: 100%; height: 55%;
+            overflow: hidden;
+        }
+        .other_review-card-book-img>img {
+        	/* 카드 속> 이미지 div 속> 이미지 태그 크기 == .writer-profile-img */
+            width: 100%; 
+            z-index: 19;
+            position: relative;
+            bottom: 15.5%;
+        }
+        .other_reviewScrap{
+		/* 카드 속> 이미지 div 속> 책갈피 YN */
+			z-index: 20;
+            position: relative;
+			color: gray;
+		}
+        .other_review-card-text {
+        	/* 카드 속> 리뷰 text div */
+            width: 100%; height: 27%;
+            padding: 6% 4% 0 4%;
+            overflow: hidden;
+            text-overflow: ellipsis; 
+            margin-bottom: 3%;
+        }
+        .other_review-card-book-title {
+        	/* 카드 속> 리뷰 text div 속> 제목 및 별 div */
+            padding-bottom: 2%;  
+        }
+        .other_review-card-book-title-text {
+        	/* 카드 속> 리뷰 text div 속> 제목 span */
+        	display: inline-block;
+        	width: 290px;
+        }
+        .other_review-card-star {
+        	/* 카드 속> 리뷰 text div 속> 별점 span */
+            position: relative;
+            right: 8px;
+            color: gold;
+        }
+        .other_review-card-bttom {
+        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div */
+            width: 100%; height: 15%;
+            padding-top: 3%;
+        }
+        .other_review-card-writer-profile {
+        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 프로필 이미지 div 스타일 */
+            width: 65px; height: 65px;
+            border-radius: 100%;
+            position: relative;
+            left: 35%;
+            overflow: hidden;
+        }
+        .other_writer-profile-img {
+        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 프로필 이미지 div 속> 이미지 태그 크기 */
+            width: 65px; height: 60px;
+        }
+        .other_review-card-infor {
+        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div*/
+            font-size: 1rem;
+            padding: 5% 0 0 2%;
+        }
+        .other_review-card-infor div {
+        	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div 속> 모든 div*/
+            padding-right: 0;
+        }
+        .other_review-card-count {
+        	padding-left: 0;
+        }
+        
+        
+		/********** 좋아요 **********/
+        .other_rvheart {
+        	/* 좋아요 div를 담은 div */
+            padding: 5% 0 0 8%;
+        }
+        .other_review-heart-and-count {
+        	/* 좋아요 div 스타일 */
+            border: 1px solid gray;
+            width: 100%; height: 63%;
+            border-radius: 40px 40px 40px 40px;
+            position: relative;
+            right: 40%;
+            cursor:pointer;
+        }
+        .other_review-heart {
+        	/* 좋아요 div 속> 하트 */
+            color: red;
+            position: relative;
+            top: 9%;
+            left: 15%;
+        }
+        .other_heart-count {
+        	/* 좋아요 div 속> 좋아요 수 */
+            position: relative;
+            top: 9%;
+            left: 30%;
+        }
+        

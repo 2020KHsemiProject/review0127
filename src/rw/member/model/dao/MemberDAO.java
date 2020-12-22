@@ -35,19 +35,7 @@ public class MemberDAO {
 				m.setEndYN(rset.getString("END_YN").charAt(0));
 				m.setEndDate(rset.getDate("END_DATE"));
 				m.setProfileImg(rset.getString("PROFILE_IMG"));
-				
-				System.out.println(rset.getString("MEMBER_NO"));
-				System.out.println(rset.getString("MEMBER_ID"));
-				System.out.println(rset.getString("NICKNAME"));
-				System.out.println(rset.getString("MEMBER_PWD"));
-				System.out.println(rset.getString("EMAIL"));
-				System.out.println(rset.getString("EMAIL_YN").charAt(0));
-				System.out.println(rset.getInt("BIRTH_YEAR"));
-				System.out.println(rset.getString("GENDER").charAt(0));
-				System.out.println(rset.getDate("ENROLL_DATE"));
-				System.out.println(rset.getString("END_YN").charAt(0));
-				System.out.println(rset.getDate("END_DATE"));
-				System.out.println(rset.getString("PROFILE_IMG"));
+
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -173,7 +161,32 @@ public class MemberDAO {
 		}
 		return result;		
 	}
-
+	
+	public boolean emailCheck(Connection conn, String email) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		boolean result = false;
+		
+		String query = "select email from member where email=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, email);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = true;
+			} else {
+				result = false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return result;		
+	}
 
 	public int deleteMember(Connection conn, String memberId) {
 		PreparedStatement pstmt = null;
@@ -212,5 +225,64 @@ public class MemberDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return result;		
+	}
+
+
+	public int updateEmail(Connection conn, String email) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "update member set email_YN='Y' where email=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, email);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);		
+		}
+		return result;
+	}
+
+
+	public int uploadFile(Connection conn, Member m) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "update member set profile_img=? where memberId=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, m.getProfileImg());
+			pstmt.setString(2, m.getMemberId());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		} 
+		return result;
+	}
+
+
+	public int emailChange(Connection conn, String email, String memberId) {
+		PreparedStatement pstmt = null;
+		int upload = 0;
+		
+		String query = "update member set email=? email_YN='N' where member_id=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, email);
+			pstmt.setString(2, memberId);
+			upload = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return upload;		
 	}
 }

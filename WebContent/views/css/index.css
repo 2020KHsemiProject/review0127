@@ -25,27 +25,27 @@ li{
 #intro {
     height: 700px;
     padding-top: 100px;
+    margin-top : 70px;
     background-color: none;
     color: white;
     text-align: right;
 }
 
 #lib {
-    height: 200px;
+    height: 350px;
+    padding: 30px;
 }
 
 #rev {
-    height: 900px;
+    height: auto;
 }
-
-
 
 #lib-wrap {
     background-color: #F2F2F2;
 }
 
 #intro-wrap {
-    background-image: url(../../image/main-image.jpg);
+    background-image: url(/image/main-image.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -58,4 +58,207 @@ li{
 #intro h3 {
     margin-top: 20px;
     padding-right: 50px;
+}
+
+#goToLib {
+    width: 30%;
+    height: 75%;
+    float: left;
+}
+
+#col-list {
+    width: 70%;
+    height: 75%;
+    float: left;
+    white-space:nowarp;
+    overflow-x: auto;
+}
+#col-list ::-webkit-scrollbar {
+    border-radius: 20px;
+    width: 1px;
+}
+
+/* Track */
+#col-list ::-webkit-scrollbar-track {
+  background: white;
+    width: 1px;
+}
+ 
+/* Handle */
+#col-list ::-webkit-scrollbar-thumb {
+  background: lightgray; 
+     width: 1px;
+    border-radius: 20px;
+}
+
+/* Handle on hover */
+#col-list ::-webkit-scrollbar-thumb:hover {
+  background: gray; 
+}
+
+#col-list img{
+    width: 120px;
+    height: 150px;
+    margin: 20px;
+}
+
+#goToLib-btn {
+    width: 200px;
+    height: 50px;
+    padding:10px;
+    text-align: center;
+    line-height: 30px;
+    display: inline-block;
+    border-radius: 20px;
+    background-color: #FFE58D;
+    margin-left: 50px;
+    margin-top: 100px;
+    cursor: pointer;
+    color: black;
+}
+
+#goToLib-btn:hover {
+    box-shadow: 3px 3px 3px lightgray;
+}
+#goToLib-btn:link{
+    text-decoration: none;
+}
+
+#rev h3{
+    text-align: center;
+    height: 100px;
+    line-height: 100px;
+}
+#more-review-btn {
+    width: 200px;
+    height: 50px;
+    display: inline-block;
+    background-color: #2A303D;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 20px;
+    color: white;
+}
+#more-review-btn:hover{
+    box-shadow: 3px 3px 3px gray;
+}
+#more-review-btn:link{
+    text-decoration: none;
+}
+#review-card-wrap{
+	width:100%;
+	height:1200px;
+	padding-left:25px;
+}
+
+#review-wrap-footer {
+    text-align: center;
+    padding: 30px;
+}
+.fa-star{
+	color:ffd700;
+}
+
+@media (max-width:1200px){
+    .wrapper{ width: 1200px;}
+}
+
+/****************리뷰카드*****************/
+.reviewNote-book-card {
+   /* 리뷰카드 크기&스타일 */
+    margin: 0 12px 36px 12px;
+    width: 360px; height: 560px;
+    border: 1px solid lightgray;
+    float: left;
+    box-shadow: 2px 2px 5px #D5D5D5;
+}
+.reviewNote-book-img {
+   /* 카드 속> 이미지 div */
+    width: 100%; height: 55%;
+    overflow: hidden;
+}
+.reviewNote-book-img>img {
+   /* 카드 속> 이미지 div 속> 이미지 태그 크기 */
+    width: 100%; 
+}
+.reviewNote-book-text {
+   /* 카드 속> 리뷰 text div */
+    width: 100%; height: 27%;
+    padding: 6% 4% 0 4%;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    margin-bottom: 3%;
+}
+.book-text-title {
+   /* 카드 속> 리뷰 text div 속> 제목 및 별 div */
+    padding-bottom: 2%;  
+}
+.book-text-title-name {
+   /* 카드 속> 리뷰 text div 속> 제목 span */
+   display: inline-block;
+   width: 71%;
+}
+.review-star {
+   /* 카드 속> 리뷰 text div 속> 별점 span */
+    position: relative;
+    right: 8px;
+    color: gold;
+}
+.reviewNote-card-text-bottom {
+   /* 카드 속> 작성자 정보 및 좋아요 버튼 div */
+    width: 100%; height: 15%;
+    padding-top: 3%;
+}
+.reviewNote-userProfile {
+   /* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 프로필 이미지 div 스타일 */
+    width: 60px; height: 60px;
+    border-radius: 100%;
+    position: relative;
+    left: 35%;
+    overflow: hidden;
+}
+.reviewNote-userProfile>img {
+   /* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 프로필 이미지 div 속> 이미지 태그 크기 */
+    width: 100%; height: 100%;
+}
+.reviewNote-book-card-user {
+   /* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div*/
+    font-size: 14px;
+    padding: 5% 0 0 2%;
+}
+.reviewNote-book-card-user div {
+   /* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div 속> 모든 div*/
+    padding-right: 0;
+}
+.reviewNote-book-card-user .row>div:last-child {
+   /* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div 속> 조회수*/
+    position: relative;
+    left: 6%;
+}
+
+/********** 좋아요 **********/
+.rvheart {
+   /* 좋아요 div를 담은 div */
+    padding: 5% 0 0 8%;
+}
+.review-heart-and-count {
+   /* 좋아요 div 스타일 */
+    border: 1px solid gray;
+    width: 120%; height: 63%;
+    border-radius: 40px 40px 40px 40px;
+    position: relative;
+    right: 20%;
+}
+.review-heart {
+   /* 좋아요 div 속> 하트 */
+    color: red;
+    position: relative;
+    top: 9%;
+    left: 15%;
+}
+.heart-count {
+   /* 좋아요 div 속> 좋아요 수 */
+    position: relative;
+    top: 9%;
+    left: 30%;
 }

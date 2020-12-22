@@ -2,6 +2,11 @@
     pageEncoding="UTF-8"%>
     <%@ include file="/views/common/header.jsp" %>
 <%@ page import="rw.member.model.vo.Member" %>
+<%@ page import="rw.review.model.vo.Book" %>
+<%@ page import="rw.review.model.vo.ReviewCard" %>
+<%@ page import="rw.library.model.vo.BookCase2" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.HashMap" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,9 +22,17 @@
     <!--부트스트랩-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <!-- fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/solid.css" integrity="sha384-yo370P8tRI3EbMVcDU+ziwsS/s62yNv3tgdMqDSsRSILohhnOrDNl142Df8wuHA+" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/fontawesome.css" integrity="sha384-ijEtygNrZDKunAWYDdV3wAZWvTHSrGhdUfImfngIba35nhQ03lSNgfTJAKaGFjk2" crossorigin="anonymous">
 </head>
 
 <body>
+	<% BookCase2 bc = (BookCase2)request.getAttribute("bookCol");
+		ArrayList<Book> blist = (ArrayList<Book>)request.getAttribute("bookList");
+		ArrayList<ReviewCard> rlist = (ArrayList<ReviewCard>)request.getAttribute("reviewList");
+		HashMap<String,Integer> likeList = (HashMap<String,Integer>)request.getAttribute("likeList");
+	%>
     <div id="intro-wrap" class="wrapper">
         <div id="intro" class="content">
             <h1>안녕하세요 REVIEW:0127입니다.</h1>
@@ -27,50 +40,69 @@
             <h3>REVIEW:0127에서 다양한 리뷰와 함께 더 풍부한 독서활동을 경험하세요!</h3>
         </div>
     </div>
-<!--  하단부 아직 미구현  -->
-
-    <div id="lib-wrap" class="wrapper">
+    <%if (bc!=null){ %>
+	<div id="lib-wrap" class="wrapper">
         <div id="lib" class="content">
             <h5>남의 서재</h5>
-            <h3>@야무지개님의 컬렉션</h3>
+            <h3><%=bc.getNickname() %>님의 <%=bc.getBookshelfName() %></h3>
+            <div id="goToLib"><a href="/myReviewNote.rw?libraryOwner=<%=bc.getMemberId() %>" id="goToLib-btn">서재 보러가기</a></div>
+            <div id="col-list">
+            	<%for(Book b : blist){ %>
+                <a href="/bookInfo.rw?bookId=<%=b.getBookId() %>"><img src="<%=b.getBookImage() %>" alt=""/></a>
+                <%} %>
+            </div>
         </div>
     </div>
- <!--   <div id="review-wrap" class="wrapper">
+    <%} %>
+            <%if(rlist!=null){ %>
+    <div id="review-wrap" class="wrapper">
         <div id="rev" class="content">
-            
+            <h3>베스트 리뷰</h3>
+            <hr>
+            <div id="review-card-wrap">
+            <% for(ReviewCard rc : rlist) { %>
+				<div class="reviewNote-book-card">
+                       <div class="reviewNote-book-img"><img src="/image/book/<%=rc.getBookImage() %>"/></div>
+                       <div class="reviewNote-book-text">
+                         <div class="book-text-title">
+                            <span class="book-text-title-name" style="width: 290px;"><%=rc.getBookTitle() %></span>
+                            <span class="other_review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate()%>
+                          </div>
+                          <%=rc.getReviewCont() %>
+                       </div>
+                       <div class="row reviewNote-card-text-bottom">
+                          <div class="col-3">
+                           <div class="reviewNote-userProfile">
+                           	<%if(rc.getProfileImg()!=null) {%>
+                               <img src="/image/profile/<%=rc.getProfileImg() %>"/>
+                               <%}else{ %>
+                               <img src="/image/profile/default_user_dark.png"/>
+                               <%} %>
+                           </div>
+                           </div>
+                           <div class="col-6">
+								<div class="row other_review-card-infor">
+									<div class="col-12"><%=rc.getNickname()	%></div>
+									<div class="col-12">
+										<div class="row">
+											<div class="col-7">	<%=rc.getReviewDate()%>	</div>
+											<div class="col-5 other_review-card-count">	조회	<%=rc.getReviewCount()%></div>
+										</div>
+									</div>
+								</div>
+								</div>
+                           <div class="col-3 rvheart reviewNoteIcon"><div class="review-heart-and-count"><span class="review-heart">♡</span> <span class="heart-count"><%=likeList.get(rc.getReviewId()) %></span></div></div>
+                       </div>
+                   </div>
+                    <%} %>
+            </div>
+            <div id="review-wrap-footer">
+                <a href="/reviewPage.rw" id="more-review-btn">더보기</a>
+            </div>
         </div>
     </div>
--->
-<%
-	//Member m = (Member)session.getAttribute("member");
-	if(m!=null){
-%>
-	<b><a href="#">[<%=m.getNickname() %>]</a></b> 님 환영합니다. <a href="#">로그아웃</a><br>
- 
-	<% if(m.getMemberNo().equals("M0001")) { %>
-		<a href="#">회원관리(관리자전용)</a>
-	<% }%>
-	<br>
-
-	<a href="#">마이페이지</a>
-	<br>
-	<a href="/views/review/reviewList.jsp">리뷰</a>
-	<br>
-	<a href="#">내 서재</a>
-	<br>
-
-	<a href="/myRivewNote.rw?libraryOwner=<%=m.getMemberId()%>">내 서재 (Servlet)</a>
-
-	<a href="/views/review/review_write.jsp">리뷰 작성</a><br>
-	<a href="/bookInfo.rw?bookId=9788936433635">도서정보</a><br>
-
-<% }else { %> 
-
-	<H1>review 0127</H1>
-	<h2>메인 페이지</h2>
-<% } %>
-
+	<%} %>
 <%@ include file="/views/common/footer.jsp" %>
-
 </body>
 </html>
+
