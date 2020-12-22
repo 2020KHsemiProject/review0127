@@ -125,15 +125,7 @@ button:focus {
 	text-align: center;
 	font-size: 3rem;
 }
-#library-add-btn{ /*서재 컬렉션 추가 버튼*/
-	display:inline-block;
-	width:160px;
-	background-color:rgb(255,255,255,0.5);
-	color:#7895B5;
-	border-radius : 10px;
-	margin-left:5px;
-	text-align:center;
-}
+
 @media (max-width:1200px){
     #reviewNote-wrapper{ width: 1200px;}
 }
