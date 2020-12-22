@@ -125,6 +125,16 @@ button:focus {
 	text-align: center;
 	font-size: 3rem;
 }
+
+#library-add-btn{ /*서재 컬렉션 추가 버튼*/
+   display:inline-block;
+   width:160px;
+   background-color:rgb(255,255,255,0.5);
+   color:#7895B5;
+   border-radius : 10px;
+   margin-left:5px;
+   text-align:center;
+}
 @media (max-width:1200px){
     #reviewNote-wrapper{ width: 1200px;}
 }
@@ -273,7 +283,7 @@ button:focus {
 <body>
 	<div id="pagename" style="display: none;">리뷰노트</div>
 	<%
-	
+	Member m = (Member)session.getAttribute("member");
 	String libraryOwner = request.getParameter("libraryOwner");
 
 	Member mem = (Member)request.getAttribute("member"); 
@@ -300,8 +310,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 					<div class="col-10">
 						<div class="row">
 
-							<div id="myLibrary-title" class="col-12"><%=mem.getNickname() %>
-								님의 서재
+							<div id="myLibrary-title" class="col-12"><%=mem.getNickname() %>님의 서재
 							</div>
 							<div class="col-12">
 								<ul id="myLibrary-lnb" class="row">
@@ -476,8 +485,16 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 					<div class="col-10">
 						<div class="row">
 
-							<div id="myLibrary-title" class="col-12" style="color: white;"><%=mem.getNickname() %>
-								님의 서재
+							<div id="myLibrary-title" class="col-12" style="color: white;"><%=mem.getNickname() %>님의 서재
+							<%if(m!=null && !(m.getMemberNo().equals(mem.getMemberNo()))){ 
+								boolean inMyLibCol = (boolean)request.getAttribute("inMyLibCol");
+								%>
+								<%if(inMyLibCol) {%>
+								<a id="library-add-btn" href="/libraryCollectionRemove2.rw?memberId=<%=mem.getMemberId()%>">내 컬렉션에서 빼기</a>
+								<%}else{ %>
+								<a id="library-add-btn" href="/libraryCollectionAdd.rw?memberId=<%=mem.getMemberId()%>">내 컬렉션에 추가</a>
+								<%} %>
+							<%} %>
 							</div>
 							<div class="col-12">
 								<ul id="myLibrary-lnb" class="row">
