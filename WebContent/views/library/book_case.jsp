@@ -545,6 +545,9 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
     			var $inputTag = $('input[name=bookcaseName'+bookShelfId+']');
         		var titleName = $inputTag.val();
         		var object = {'bookShelfId':bookShelfId,'titleName':titleName};
+        		if(titleName==''){
+        			alert('수정할 책장 이름을 입력하세요.');
+        		}else {
         		$.ajax({
         			url : '/bookCaseModifyTitle.rw',
         			data : object,
@@ -554,11 +557,14 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
             			$inputTag.parent().prev().text(data.updateTitle).css('display','inline');
             			$inputTag.next().children().css('display','inline');
             			$inputTag.next().next().children().css('display','none');
+            			history.go(0);
         			},
         			error : function(){
         				alert('책장 이름 수정에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.')
+        				history.go(0);
         			}
         		});
+        		}
     		};
 			
 			//// 자물쇠 버튼
