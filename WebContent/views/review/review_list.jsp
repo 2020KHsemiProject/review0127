@@ -137,20 +137,19 @@ hr {
         	// review-card-text 누르면 개별리뷰페이지로 이동
 			$('.review-card-text').mousedown(function(){
 				$(this).css('box-shadow','0px 0px 10px 5px #0080ff').css('position','relative').css('z-index','999');
-				text2 = $(this).parents('.review-card').attr('reviewId');
 			});// 클릭 뗄 때 이동
 			$('.review-card-text').mouseup(function(){
 				$(this).css('box-shadow','').css('position','').css('z-index','');
-				
-				console.log(text2);
-				//location.href="#";// 개별 도서 페이지
+				location.href="#";// 개별 도서 페이지
 			});// 마우스가 요소 외부에 있을 때 그림자 삭제
 			$('.review-card-text').mouseout(function(){
 				$(this).css('box-shadow','').css('position','').css('z-index','');
 			});
 			
+			//var cardBookId;
 			// review-card-book-img 누르면 개별도서페이지로 이동
 			$('.review-card-book-img').mousedown(function(){
+				//cardBookId = $(this).attr('bookId');
 				$(this).css('box-shadow','0px 0px 10px 5px #0080ff');
 			});// 클릭 뗄 때 이동
 			$('.review-card-book-img').mouseup(function(){
@@ -340,7 +339,7 @@ hr {
 				%>
 						<div class="review-card" reviewId="<%=rc.getReviewId()%>">
 							<div class="review-card-book-img">
-								<img src="<%=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." />
+								<img src="<%=rc.getBookImage()%>" bookId="<%=rc.getBookId() %>" title="누르면 해당 도서페이지로 이동합니다." />
 							</div>
 							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="review-card-book-title">
