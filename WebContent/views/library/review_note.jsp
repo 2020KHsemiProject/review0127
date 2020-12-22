@@ -410,7 +410,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 									</div>
 								</div>
 								<div class="col-3 rvheart reviewNoteIcon">
-									<div class="review-heart-and-count">
+									<div class="review-heart-and-count" onclick="heartOnOff('<%=rc.getReviewId()%>');">
 										<span class="review-heart"><a>♡</a></span> <span class="heart-count"><%=rc.getReviewLikeCount() %></span>
 									</div>
 								</div>
@@ -431,7 +431,29 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 				<% } // for문 %>
 				$('#review-rate<%=i%>').html(star);
 			<% } // if문%>--%>
-			
+			function heartOnOff(reviewId){
+				$thisTag = $(this);
+				$.ajax({
+					url : '/reviewLike.rw',
+					data : {'reviewId':reviewId},
+					type : 'post',
+					success : function(data){
+						if(data.yn=='Y'){
+							alert('좋아요를 눌렀습니다.');
+							$thisTag.children().first().text('♥');
+							$thisTag.children().last().text(data.count);
+						}else{
+							alert('좋아요를 해제했습니다.')
+							$thisTag.children().first().text('♡');
+							$thisTag.children().last().text(data.count);
+						}
+					},
+					error : function(){
+						alert('좋아요에 실패했습니다.')
+					}
+				});
+					
+			}
 		</script>
 
 
@@ -602,10 +624,8 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 									</div>
 								</div>
 								<div class="col-3 other_rvheart reviewNoteIcon">
-									<div class="other_review-heart-and-count">
-										<span class="other_review-heart"><a>
-												<% if(rc.getLikeYN()=='Y'){ %>♥<%}else { %>♡<% } %>
-										</a></span> <span class="other_heart-count"><%=rc.getReviewLikeCount() %></span>
+									<div class="other_review-heart-and-count" onclick="heartOnOff('<%=rc.getReviewId()%>')">
+										<span class="other_review-heart">♡</span> <span class="other_heart-count"><%=rc.getReviewLikeCount() %></span>
 									</div>
 								</div>
 							</div>
@@ -632,7 +652,32 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 							<%=pageNavi %>
 						</ul>
 						</nav>
-
+		<script>
+		function heartOnOff(reviewId){
+			$thisTag = $(this);
+			$.ajax({
+				url : '/reviewLike.rw',
+				data : {'reviewId':reviewId},
+				type : 'post',
+				success : function(data){
+					if(data.yn=='Y'){
+						alert('좋아요를 눌렀습니다.');
+						$thisTag.children().first().text('♥');
+						$thisTag.children().last().text(data.count);
+					}else{
+						alert('좋아요를 해제했습니다.')
+						alert('안하트');
+						$thisTag.children().first().text('♡');
+						$thisTag.children().last().text(data.count);
+					}
+				},
+				error : function(){
+					alert('좋아요에 실패했습니다.')
+				}
+			});
+				
+		}
+		</script>
 					</div>
 			<% }else { ///////////////////////// 리스트가 비어있다면%>
 					<div class="not-yet"><%=mem.getNickname() %>님의 리뷰가 아직 없습니다.

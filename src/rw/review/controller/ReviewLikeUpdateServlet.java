@@ -70,7 +70,7 @@ public class ReviewLikeUpdateServlet extends HttpServlet {
 		int likeCount = rService.selectOneReviewLike(reviewId); //Y만 가져오기
 		
 		JSONObject object = new JSONObject();
-		
+					System.out.println("count : "+likeCount+"/"+"yn : "+yn);
 		object.put("count", likeCount);
 		object.put("yn", Character.toString(yn));
 		
