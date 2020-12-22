@@ -62,7 +62,7 @@ public class BookDAO {
 		ResultSet rset = null;
 		ArrayList<BookReview> list = new ArrayList<BookReview>();
 		
-		String query = "SELECT * FROM REVIEW JOIN (SELECT MEMBER_NO, NICKNAME, PROFILE_IMG FROM MEMBER WHERE MEMBER_NO IN " + 
+		String query = "SELECT * FROM REVIEW JOIN (SELECT MEMBER_NO, MEMBER_ID, NICKNAME, PROFILE_IMG FROM MEMBER WHERE MEMBER_NO IN " + 
 				"(SELECT MEMBER_NO FROM REVIEW WHERE BOOK_ID = ?)) USING(MEMBER_NO) WHERE DEL_YN='N' AND BOOK_ID =?";
 		
 		try {
@@ -75,6 +75,7 @@ public class BookDAO {
 				BookReview br = new BookReview();
 				br.setBookId(rset.getString("book_Id"));
 				br.setMemberNo(rset.getString("member_no"));
+				br.setMemberId(rset.getString("member_id"));
 				br.setDelYn(rset.getString("del_yn").charAt(0));
 				br.setNickname(rset.getString("nickname"));
 				br.setProfileImg(rset.getString("profile_img"));
@@ -82,6 +83,7 @@ public class BookDAO {
 				br.setReviewDate(rset.getDate("review_date"));
 				br.setReviewId(rset.getString("review_id"));
 				br.setReviewRate(rset.getInt("review_rate"));
+				br.setReviewCount(rset.getInt("review_count"));
 				
 				list.add(br);
 			}
@@ -117,6 +119,77 @@ public class BookDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return avg;
+	}
+
+	public int insertBookLike(Connection conn, String bookId, String memberNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO BOOK_LIKE VALUES(BOOK_LIKE_SEQ.NEXTVAL, ?,?)";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberNo);
+			pstmt.setString(2, bookId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public boolean existsBookLike(Connection conn, String bookId, String memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		boolean result = false;
+		
+		String query = "SELECT 1 FROM BOOK_LIKE WHERE MEMBER_NO=? AND BOOK_ID=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberNo);
+			pstmt.setString(2, bookId);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public Book selectOneBook(Connection conn, String bookId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Book b = null;
+		
+		String query = "SELECT * FROM BOOK WHERE BOOK_ID=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bookId);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				b = new Book();
+				b.setBookId(bookId);
+				b.setBookTitle(rset.getString("book_title"));
+				b.setBookAuthor(rset.getString("book_author"));
+				b.setBookImage(rset.getString("book_image"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return b;
 	}
 
 }

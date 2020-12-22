@@ -16,7 +16,10 @@ li{
 #header {
 	width:100%;
     background-color: #2A303D;
-    height: auto;
+    height:70px;
+    position:absolute;
+    top:0;
+    z-index:999;
 }
 
 #gnb-wrap {
@@ -25,6 +28,8 @@ li{
     background-color: #2A303D;
     color: white;
     margin: 0 auto;
+    position:relative;
+    z-index: 999;
 }
 
 #logo {
@@ -49,13 +54,15 @@ li{
 #gnb {
     float: right;
     height: 70px;
-    line-height: 70px;
+    
     text-align: center;
+    margin-right:50px;
 }
 
 #gnb li{
     float: left;
     width:80px;
+    line-height: 70px;
 }
 #gnb li a{
     width: 100%;
@@ -71,6 +78,9 @@ li{
 #gnb li a:link{
     color: white;
 }
+#gnb img{
+	cursor:pointer;
+}
 #user-menu-btn {
 	cursor: pointer;
     width: 50px;
@@ -85,7 +95,7 @@ li{
     float:right;
     position: relative;
     top: 70px;
-    right: -250px;
+    right: -350px;
     text-align: center;
     box-shadow: 3px 3px 3px lightgray;
     border-radius: 10px;

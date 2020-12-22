@@ -33,7 +33,7 @@ public class ReviewCard {
 	private String bookImage;	// 도서 표지
 	// 4개
 	
-	private String likeId;		// 좋아요 ID
+	private int likeId;		// 좋아요 ID
 	private char likeYN;		// 좋아요 YN
 	// private String reviewId;	// 리뷰고유ID
 	// private String memberNo;	// 내 멤버고유번호
@@ -47,7 +47,7 @@ public class ReviewCard {
 	public ReviewCard(String reviewId, Date reviewDate, int reviewCount, int reviewRate, String reviewCont,
 			String bookId, String memberNo, char delYN, String memberId, String nickname, String memberPwd,
 			String email, char emailYN, int birthYear, char gender, Date enrollDate, char endYN, Date endDate,
-			String profileImg, String bookTitle, String bookAuthor, String bookImage, String likeId, char likeYN) {
+			String profileImg, String bookTitle, String bookAuthor, String bookImage, int likeId, char likeYN) {
 		super();
 		this.reviewId = reviewId;
 		this.reviewDate = reviewDate;
@@ -206,10 +206,10 @@ public class ReviewCard {
 	public void setBookImage(String bookImage) {
 		this.bookImage = bookImage;
 	}
-	public String getLikeId() {
+	public int getLikeId() {
 		return likeId;
 	}
-	public void setLikeId(String likeId) {
+	public void setLikeId(int likeId) {
 		this.likeId = likeId;
 	}
 	public char getLikeYN() {
