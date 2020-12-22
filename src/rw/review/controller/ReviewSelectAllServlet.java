@@ -51,7 +51,10 @@ public class ReviewSelectAllServlet extends HttpServlet {
 			if(rc.getProfileImg()==null) {
 				rc.setProfileImg("default_user_dark.png");
 			}
+			int likeCount = new ReviewService().countReviewLikePoint(rc.getReviewId());
+			rc.setReviewLikeCount(likeCount);
 		}
+		
 		
 		RequestDispatcher view = request.getRequestDispatcher("/views/review/review_list.jsp");
 		request.setAttribute("list", list);

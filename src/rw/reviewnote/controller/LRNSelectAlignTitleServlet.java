@@ -15,6 +15,7 @@ import rw.col.model.service.CollectionService;
 import rw.col.model.vo.ReviewCollection;
 import rw.member.model.service.MemberService;
 import rw.member.model.vo.Member;
+import rw.review.model.service.ReviewService;
 import rw.review.model.vo.ReviewCard;
 import rw.reviewnote.model.service.LibraryReviewNoteService;
 import rw.reviewnote.model.vo.ReviewNotePageData;
@@ -81,6 +82,8 @@ public class LRNSelectAlignTitleServlet extends HttpServlet {
 			if(rc.getProfileImg()==null) {
 				rc.setProfileImg("default_user_dark.png");
 			}
+			int likeCount = new ReviewService().countReviewLikePoint(rc.getReviewId());
+			rc.setReviewLikeCount(likeCount);
 		}
 		
 		
@@ -130,6 +133,8 @@ public class LRNSelectAlignTitleServlet extends HttpServlet {
 				if(rc.getProfileImg()==null) {
 					rc.setProfileImg("default_user_dark.png");
 				}
+				int likeCount = new ReviewService().countReviewLikePoint(rc.getReviewId());
+				rc.setReviewLikeCount(likeCount);
 			}
 			
 			RequestDispatcher view = request.getRequestDispatcher("/views/library/review_note.jsp?libraryOwner="+libraryOwner);

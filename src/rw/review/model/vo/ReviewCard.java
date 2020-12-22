@@ -40,14 +40,18 @@ public class ReviewCard {
 	// 4개
 	// 총 28개
 	
+	private int reviewLikeCount; // 리뷰 좋아요 수
+	
 	public ReviewCard() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 	public ReviewCard(String reviewId, Date reviewDate, int reviewCount, int reviewRate, String reviewCont,
 			String bookId, String memberNo, char delYN, String memberId, String nickname, String memberPwd,
 			String email, char emailYN, int birthYear, char gender, Date enrollDate, char endYN, Date endDate,
-			String profileImg, String bookTitle, String bookAuthor, String bookImage, int likeId, char likeYN) {
+			String profileImg, String bookTitle, String bookAuthor, String bookImage, int likeId, char likeYN,
+			int reviewLikeCount) {
 		super();
 		this.reviewId = reviewId;
 		this.reviewDate = reviewDate;
@@ -73,150 +77,207 @@ public class ReviewCard {
 		this.bookImage = bookImage;
 		this.likeId = likeId;
 		this.likeYN = likeYN;
+		this.reviewLikeCount = reviewLikeCount;
 	}
+
 	public String getReviewId() {
 		return reviewId;
 	}
+
 	public void setReviewId(String reviewId) {
 		this.reviewId = reviewId;
 	}
+
 	public Date getReviewDate() {
 		return reviewDate;
 	}
+
 	public void setReviewDate(Date reviewDate) {
 		this.reviewDate = reviewDate;
 	}
+
 	public int getReviewCount() {
 		return reviewCount;
 	}
+
 	public void setReviewCount(int reviewCount) {
 		this.reviewCount = reviewCount;
 	}
+
 	public int getReviewRate() {
 		return reviewRate;
 	}
+
 	public void setReviewRate(int reviewRate) {
 		this.reviewRate = reviewRate;
 	}
+
 	public String getReviewCont() {
 		return reviewCont;
 	}
+
 	public void setReviewCont(String reviewCont) {
 		this.reviewCont = reviewCont;
 	}
+
 	public String getBookId() {
 		return bookId;
 	}
+
 	public void setBookId(String bookId) {
 		this.bookId = bookId;
 	}
+
 	public String getMemberNo() {
 		return memberNo;
 	}
+
 	public void setMemberNo(String memberNo) {
 		this.memberNo = memberNo;
 	}
+
 	public char getDelYN() {
 		return delYN;
 	}
+
 	public void setDelYN(char delYN) {
 		this.delYN = delYN;
 	}
+
 	public String getMemberId() {
 		return memberId;
 	}
+
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
+
 	public String getNickname() {
 		return nickname;
 	}
+
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+
 	public String getMemberPwd() {
 		return memberPwd;
 	}
+
 	public void setMemberPwd(String memberPwd) {
 		this.memberPwd = memberPwd;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public char getEmailYN() {
 		return emailYN;
 	}
+
 	public void setEmailYN(char emailYN) {
 		this.emailYN = emailYN;
 	}
+
 	public int getBirthYear() {
 		return birthYear;
 	}
+
 	public void setBirthYear(int birthYear) {
 		this.birthYear = birthYear;
 	}
+
 	public char getGender() {
 		return gender;
 	}
+
 	public void setGender(char gender) {
 		this.gender = gender;
 	}
+
 	public Date getEnrollDate() {
 		return enrollDate;
 	}
+
 	public void setEnrollDate(Date enrollDate) {
 		this.enrollDate = enrollDate;
 	}
+
 	public char getEndYN() {
 		return endYN;
 	}
+
 	public void setEndYN(char endYN) {
 		this.endYN = endYN;
 	}
+
 	public Date getEndDate() {
 		return endDate;
 	}
+
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+
 	public String getProfileImg() {
 		return profileImg;
 	}
+
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
 	}
+
 	public String getBookTitle() {
 		return bookTitle;
 	}
+
 	public void setBookTitle(String bookTitle) {
 		this.bookTitle = bookTitle;
 	}
+
 	public String getBookAuthor() {
 		return bookAuthor;
 	}
+
 	public void setBookAuthor(String bookAuthor) {
 		this.bookAuthor = bookAuthor;
 	}
+
 	public String getBookImage() {
 		return bookImage;
 	}
+
 	public void setBookImage(String bookImage) {
 		this.bookImage = bookImage;
 	}
+
 	public int getLikeId() {
 		return likeId;
 	}
+
 	public void setLikeId(int likeId) {
 		this.likeId = likeId;
 	}
+
 	public char getLikeYN() {
 		return likeYN;
 	}
+
 	public void setLikeYN(char likeYN) {
 		this.likeYN = likeYN;
+	}
+
+	public int getReviewLikeCount() {
+		return reviewLikeCount;
+	}
+
+	public void setReviewLikeCount(int reviewLikeCount) {
+		this.reviewLikeCount = reviewLikeCount;
 	}
 	
 	
