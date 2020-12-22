@@ -599,8 +599,8 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 					}
 				}
             
+			// 책장 삭제
           	function delCase(bookShelfId){
-          		confirm(bookShelfId);
           		var result = window.confirm('해당 책장을 삭제하시겠습니까?');
        			if(result){
        				location.replace('/deletBookCase.rw?libraryOwner='+'<%=libraryOwner%>'+'&bookShelfId='+bookShelfId);
