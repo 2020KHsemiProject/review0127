@@ -64,7 +64,7 @@ ArrayList<Notice> nl = (ArrayList<Notice>) request.getAttribute("noticeList");
                                 <li class="fl w10 ">
                                     <img src="/image/icon/question.png" class="question_img" />
                                 </li>
-                                <li class="fl w90"><a href="#" class="faq_list"><%=f.getFaqTitle() %></a></li>
+                                <li class="fl w90 faq_list"><%=f.getFaqTitle() %></li>
                             </ul>
                             <div class="faq_li_contents" >
                             <ul>
@@ -87,14 +87,15 @@ ArrayList<Notice> nl = (ArrayList<Notice>) request.getAttribute("noticeList");
 					
 						console.log(index);
                         
-                        if($('.faq_li_contents:eq('+index+')').is(":visible")){
-                        	$('.faq_li_contents:eq('+index+')').focus();
+                        if($('.faq_li_contents:eq('+index+')').is(":visible")){   
+                        	
                             $('.faq_li_contents:eq('+index+')').slideUp(); //다른아이로
                         } else {
-                        	$('.faq_li_contents:eq('+index+')').focus();
+                        	
                         	$('.faq_li_contents:eq('+index+')').slideDown();
                         } 
 						});
+						$('.faq_li_contents:eq('+index+')').focus();
 					});			
 					</script>
 				<script>
