@@ -352,4 +352,26 @@ public class ReviewDAO {
 		return list;
 	}
 
+	public int countReviewLikePoint(Connection conn, String reviewId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int count = 0;
+		String query = "SELECT COUNT(*) AS COUNT FROM REVIEW_LIKE WHERE REVIEW_ID=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, reviewId);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				count = rset.getInt("COUNT");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return count;
+	}
+
 }

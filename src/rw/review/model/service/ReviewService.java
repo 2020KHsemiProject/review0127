@@ -114,6 +114,13 @@ public class ReviewService {
 		return list;
 	}
 
+	public int countReviewLikePoint(String reviewId) {
+		Connection conn = JDBCTemplate.getConnection();
+		int count = rDAO.countReviewLikePoint(conn,reviewId);
+		JDBCTemplate.close(conn);
+		return count;
+	}
+
 	
 }
 
