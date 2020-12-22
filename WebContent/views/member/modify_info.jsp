@@ -40,14 +40,16 @@
 							<center>
 								<div id="picture_box">
 									<div id="profile_img_area">
-									<form action="/profileUpload.rw" method="post" enctype="multipart/form-data">
+									<form action="/profileUpload.rw" method="post" enctype="multipart/form-data" id="profile_form">
 										<div id="image_box">
-											<!--사진을 업로드하면 이미지를 diplay:none 설정-->
 											<input type="hidden" >
-											<img src="/image/profile/default_user_dark.png"	id="profile_img"  />
+											<img src="/image/profile/default_user_dark.png"	id="profile_img" name="profileImg"/>
 										</div>
 										<label id="profile_change_btn">
 											<input type="file" onChange="uploadImg();" accept="image/*" id="input_file" />
+										</label>
+										<label id="profile_del_btn">
+											<img src="/image/profile/picture_change_del.png" id="img_del"/>
 										</label>
 									</form>	
 										<p id="profile_info">※ 프로필 사진은 100px X 100px 사이즈를 권장합니다.</p>
@@ -145,10 +147,9 @@
 									<td>
 										<form>
 											<div id="sub_option">
-												<span id="age_title">연령대</span> <input type="text"
-													name="age" placeholder="예)1996" size="5" id="age" />
-												<div class="btn-group" role="group"
-													aria-label="Button group with nested dropdown">
+												<span id="age_title">연령대</span> 
+												<input type="text" name="age" value="<%= m.getBirthYear() %>" size="5" id="age" />
+												<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
 													<span id="gender_title">성별</span>
 													<button type="button" class="btn btn-secondary" id="man">남</button>
 													<button type="button" class="btn btn-secondary" id="woman">여</button>

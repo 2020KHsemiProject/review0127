@@ -38,8 +38,6 @@ public class MemberLoginServlet extends HttpServlet {
 		String memberId = request.getParameter("memberId");
 		String memberPwd = request.getParameter("memberPwd");
 		
-		System.out.println("request : "+memberId+"/"+memberPwd);
-		
 		Member m = new MemberService().loginMember(memberId,memberPwd);
 		
 		response.setCharacterEncoding("UTF-8");
@@ -50,7 +48,7 @@ public class MemberLoginServlet extends HttpServlet {
 		if(m!=null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("member", m);
-			
+			System.out.println("["+m.getMemberId()+"] 님이 로그인하셨습니다.");
 			RequestDispatcher view = request.getRequestDispatcher("/index.jsp");
 			request.setAttribute("member", m);
 			view.forward(request, response);

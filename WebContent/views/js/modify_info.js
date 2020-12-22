@@ -3,12 +3,16 @@ function uploadImg() {
 	var reader = new FileReader();
 		reader.onload = function() {
 			document.getElementById("profile_img").src = reader.result;
+			document.getElementById("profile_form").submit();
         	};         
-       	if( fileInfo ) {
-            reader.readAsDataURL( fileInfo );
-        }
+    if( fileInfo ) {
+    	reader.readAsDataURL( fileInfo );
+    }
 }
 $(function() {
+	$('#img_del').click(function(){
+		$('#profile_img').attr('src','/image/profile/default_user_dark.png');
+	});
 	$('#modify_pw_btn').click(
 		function() {
 			var memberId = $('#member_id').val();
