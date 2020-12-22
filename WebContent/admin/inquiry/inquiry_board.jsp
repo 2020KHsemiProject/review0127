@@ -92,6 +92,7 @@ String pageNavi = il.getPageNavi();
 								<th id="all_select"><input type="checkbox" /></th>
 								<th>번호</th>
 								<th>아이디</th>
+								<th>문의유형</th>
 								<th>이메일</th>
 								<th>제목</th>
 								<th>작성일</th>
@@ -105,6 +106,7 @@ String pageNavi = il.getPageNavi();
 								<td class='select'><input type="checkbox" name="delete-select" value="<%=in.getInquiryNo() %>" /></td>
 								<td class='inquiry-no'><%=in.getInquiryNo() %></td>
 								<td class='member-id'><%=in.getMemberId() %></td>
+								<td class="inquiry-category"><%=in.getCategory() %></td>
 								<td class='reply-email'><%=in.getReplyEmail() %></td>
 								<td class='inquiry-title'><a data-toggle="modal" data-target="#myLargeModal<%=in.getInquiryNo() %>"><%=in.getInquiryTitle() %></a></td>
 								<td class='inquiry-date'><%=in.getInquiryDate() %></td>
@@ -188,6 +190,7 @@ String pageNavi = il.getPageNavi();
 							<tr class="contents">
 								<td class='select' style="height: 40px;"></td>
 								<td class='inquiry-no'></td>
+								<td class="inquiry-category"></td>
 								<td class='member-id'></td>
 								<td class='reply-email'></td>
 								<td class='inquiry-title'></td>

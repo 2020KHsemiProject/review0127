@@ -51,7 +51,7 @@ public class MemberSearchServlet extends HttpServlet {
 		int month=cal.get(Calendar.MONTH);
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 		
-		String today = (year+"-"+(month+1)+"-"+day);
+		String today = (year+"-"+(month+1)+"-"+(day+1));
 		
 		
 		
