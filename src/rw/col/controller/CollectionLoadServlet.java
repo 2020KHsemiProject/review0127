@@ -80,7 +80,7 @@ public class CollectionLoadServlet extends HttpServlet {
 		}
 		//로그인한 사람의 좋아요 여부 : 로그인한 사람 + 컬렉션 소유주
 		if(m!=null) {
-			HashMap<String, String> likeYNlist = colService.selelctReviewLikeInRC(m.getMemberNo(), owner.getMemberNo());
+			HashMap<String, String> likeYNlist = colService.selectReviewLikeInRC(m.getMemberNo(), owner.getMemberNo());
 			for(ReviewCard rc : rcList) {
 				String rwId = rc.getReviewId();
 				String likeKey = likeYNlist.get(rwId);

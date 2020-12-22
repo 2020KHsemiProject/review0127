@@ -1095,4 +1095,3 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 <% } %>
 <%@ include file="/views/common/footer.jsp" %>
 </body>
-</html>

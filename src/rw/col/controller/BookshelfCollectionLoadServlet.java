@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -42,6 +43,14 @@ public class BookshelfCollectionLoadServlet extends HttpServlet {
 		
 		Member owner = new MemberService().selectOneMemberId(memberId);
 		
+		HttpSession session = request.getSession();
+		Member m = (Member)session.getAttribute("member");
+		//로그인이 되어있고, 로그인한사람이 자기 서재에 있을때
+		String inMyLibCol = "";
+		if(m!=null && m.getMemberNo().equals(owner.getMemberNo())) {
+			inMyLibCol = "true";
+		}
+		
 		int bookshelfCurrentPage;
 		
 		if(request.getParameter("bookshelfCurrentPage")==null) {
@@ -74,6 +83,7 @@ public class BookshelfCollectionLoadServlet extends HttpServlet {
 		JSONObject object = new JSONObject();
 		object.put("pageNavi", cpdBB.getPageNavi());
 		object.put("dataList", array);
+		object.put("inMyLibCol", inMyLibCol);
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");

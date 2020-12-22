@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -40,6 +41,14 @@ public class LibraryCollectionLoadServlet extends HttpServlet {
 		
 		Member owner = new MemberService().selectOneMemberId(memberId);
 		
+		HttpSession session = request.getSession();
+		Member m = (Member)session.getAttribute("member");
+		//로그인이 되어있고, 로그인한사람이 자기 서재에 있을때
+		String inMyLibCol = "";
+		if(m!=null && m.getMemberNo().equals(owner.getMemberNo())) {
+			inMyLibCol = "true";
+		}
+		
 		int libraryCurrentPage;
 		
 		if(request.getParameter("libraryCurrentPage")==null) {
@@ -49,13 +58,13 @@ public class LibraryCollectionLoadServlet extends HttpServlet {
 		}
 		CollectionPageData<Member> cpdML = new CollectionService().selectLibraryCollection(libraryCurrentPage,owner.getMemberNo());
 		JSONArray array = new JSONArray();
-		for(Member m : cpdML.getList()) {
+		for(Member m2 : cpdML.getList()) {
 			JSONObject tmpObj =  new JSONObject();
 			
-			tmpObj.put("memberNo", m.getMemberNo());
-			tmpObj.put("memberId", m.getMemberId());
-			tmpObj.put("nickname", m.getNickname());
-			tmpObj.put("profileImg", m.getProfileImg());
+			tmpObj.put("memberNo", m2.getMemberNo());
+			tmpObj.put("memberId", m2.getMemberId());
+			tmpObj.put("nickname", m2.getNickname());
+			tmpObj.put("profileImg", m2.getProfileImg());
 			
 			array.add(tmpObj);
 		}
@@ -63,6 +72,7 @@ public class LibraryCollectionLoadServlet extends HttpServlet {
 		JSONObject object = new JSONObject();
 		object.put("pageNavi", cpdML.getPageNavi());
 		object.put("dataList", array);
+		object.put("inMyLibCol", inMyLibCol);
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");

@@ -201,19 +201,26 @@ margin:0 auto;
 
 #myLibrary-contents-header{
 	background-color:#7895B5;
+	color:white;
 }
 
 #deleteLibForm{
 	height:10px;
 }
 
+#myLibrary-lnb *{
+	color:white;
+}
 /* 컬렉션 id랑 세션 id랑 같으면 내서재. 다르면 남의 서재 */
 <% Member owner = (Member)request.getAttribute("owner"); //서재 주인%>
 <%if(m!=null && m.getMemberNo().equals(owner.getMemberNo())){ %>
 #myLibrary-contents-header{
 	background-color:#ffe58d;
+	color:black;
 }
-
+#myLibrary-lnb *{
+	color:black;
+}
 <%}%>
 </style>
 </head>
@@ -280,7 +287,6 @@ margin:0 auto;
 			</div>
 		</div>
 
-
 		<div id="myCollection-contents" class="row">
 			<div class="col-12">
 				<div id="myCollection-cardList" class="row">
@@ -289,12 +295,13 @@ margin:0 auto;
 						<% for(ReviewCard rc : rcList){ %>
 						<div class="other_review-card">
 							<div class="other_review-card-book-img">
+							<%if(m!=null && m.getMemberNo().equals(owner.getMemberNo())){ %>
 							<form action="/reviewCollectionRemove.rw" method="get" id="deleteRcForm">
 								<input type="hidden" name="reviewId" value="<%=rc.getReviewId()%>">
 								<span class="other_reviewScrap collectionIcon"> <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="#FF6C6C" xmlns="http://www.w3.org/2000/svg">
 								 <path fill-rule="evenodd"	d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z" />
 									</svg>
-								</span></form> <img src="<%=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." />
+								</span></form><%} %> <img src="<%=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." />
 							</div>
 							<div class="other_review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="other_review-card-book-title">
@@ -449,17 +456,6 @@ margin:0 auto;
 			$(this).css('font-weight', '');
 		});
 
-		// lnb bold 처리
-		var lnbText = $('#pagename').text();
-		console.log(lnbText);
-		if (lnbText == '리뷰노트') {
-			$('#myLibrary-lnb>li:nth-child(1)').css('font-weight', 'bold');
-		} else if (lnbText == '책장') {
-			$('#myLibrary-lnb>li:nth-child(2)').css('font-weight', 'bold');
-		} else if (lnbText == '컬렉션') {
-			$('#myLibrary-lnb>li:nth-child(3)').css('font-weight', 'bold');
-		}
-		
 	})
 	<%if(m!=null && m.getMemberNo().equals(owner.getMemberNo())){ %>
 	// 책갈피 삭제
@@ -483,7 +479,7 @@ margin:0 auto;
 	<%}%>
 	// 리뷰 좋아요 클릭 시
 	$(document).on('click', '.other_review-heart-and-count', function(){
-		<%if(m!=null && m.getMemberNo().equals(owner.getMemberNo())){ %>
+		<%if(m!=null){ %>
 		var $this = $(this);
 		// 현재 하트 상태 데이터 가져오기
 		var heart = $(this).children().eq(0).html();
@@ -548,13 +544,16 @@ margin:0 auto;
 				$('#other-review-card-wrap').empty();
 				var input = "";
 				for(var i=0;i<data.dataList.length;i++){
-					input += '<div class="other_review-card"><div class="other_review-card-book-img"><form action="/reviewCollectionRemove.rw" method="get" id="deleteRcForm"><input type="hidden" name="reviewId" value="'
-					+data.dataList[i].reviewId+'"><span class="other_reviewScrap collectionIcon"> <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="#FF6C6C" xmlns="http://www.w3.org/2000/svg">'
-					 + '<path fill-rule="evenodd"	d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z" /></svg></span></form> <img src="'
-					+data.dataList[i].bookImage+ '" title="누르면 해당 도서페이지로 이동합니다." /></div><div class="other_review-card-text" title="누르면 해당 리뷰페이지로 이동합니다."><div class="other_review-card-book-title">'
-					+ '<span class="other_review-card-book-title-text"	style="width: 290px;">' +data.dataList[i].bookTitle+'</span><span class="other_review-card-star"><i class="fas fa-star"></i></span>'
-					+ data.dataList[i].reviewRate + '</div>' + data.dataList[i].reviewCont + '</div><div class="row other_review-card-bottom"><div class="col-3">'
-						+'<div class="other_review-card-writer-profile"><img src="/image/profile/';
+					input += '<div class="other_review-card"><div class="other_review-card-book-img">';
+					if(data.inMyLibCol =="true"){
+						 input += '<form action="/reviewCollectionRemove.rw" method="get" id="deleteRcForm"><input type="hidden" name="reviewId" value="' +data.dataList[i].reviewId
+						+'"><span class="other_reviewScrap collectionIcon"> <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="#FF6C6C" xmlns="http://www.w3.org/2000/svg">'
+						 + '<path fill-rule="evenodd"	d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z" /></svg></span></form>';
+					}
+					 input += ' <img src="'	+data.dataList[i].bookImage+ '" title="누르면 해당 도서페이지로 이동합니다." /></div><div class="other_review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">'
+					 +'<div class="other_review-card-book-title"><span class="other_review-card-book-title-text" style="width: 290px;">' +data.dataList[i].bookTitle
+					 +'</span><span class="other_review-card-star"><i class="fas fa-star"></i></span>' + data.dataList[i].reviewRate + '</div>' + data.dataList[i].reviewCont +
+					 '</div><div class="row other_review-card-bottom"><div class="col-3"><div class="other_review-card-writer-profile"><img src="/image/profile/';
 					if(data.dataList[i].profileImage!=null){
 						input += data.dataList[i].profileImg+'" title="['+data.dataList[i].nickname+']님의 서재로 이동합니다."';
 					}else{ input += 'default_user_dark.png" title="['+data.dataList[i].nickname+']님의 서재로 이동합니다."';}
@@ -599,10 +598,10 @@ margin:0 auto;
 				var input = "";
 				for(var i=0;i<data.dataList.length;i++){
 					input +='<div class="others-library">';
-					<%if(m!=null && !(m.getMemberNo().equals(owner.getMemberNo()))){ %>
-					 input += '<form action="/libraryCollectionRemove.rw" method="get" id="deleteLibForm"><input type="hidden" name="memberId" value="'
-					+data.dataList[i].memberId+'"><div class="others-library-delete collectionIcon"><i class="fas fa-trash-alt"></i></div></form>';
-					<%} %>
+					if(data.inMyLibCol =="true"){
+						 input += '<form action="/libraryCollectionRemove.rw" method="get" id="deleteLibForm"><input type="hidden" name="memberId" value="'
+						+data.dataList[i].memberId+'"><div class="others-library-delete collectionIcon"><i class="fas fa-trash-alt"></i></div></form>';
+					}
 					input += '<div class="others-user-profile">';
 					if(data.dataList[i].profileImg!=null) {
 					  input += '<img src="/image/profile/'+data.dataList[i].profileImg+'" title="'+data.dataList[i].nickname+'"/>';
@@ -643,11 +642,11 @@ margin:0 auto;
 				for(var i=0;i<data.dataList.length;i++){ // 근데 출력이 이상함
 					input += '<div class="collectionBox"><div class="row collectionBox-title"><div class="col-11">'
 						+ data.dataList[i].nickname + '님의 ' + data.dataList[i].bookshelfName +'</div>';
-						<%if(m!=null && !(m.getMemberNo().equals(owner.getMemberNo()))){ %>
-						input += '<form action="/boolshelfCollectionRemove.rw" method="get" id="deleteBscForm">'
-						+'<input type="hidden" name="bookshelfId" value="'+data.dataList[i].bookshelfId+'"><div class="col-3 collectionBox-delete">'
-						+ '<i class="fas fa-trash-alt collectionIcon"></i></div></form>';
-						<%}%>
+						if(data.inMyLibCol =="true"){
+							input += '<form action="/boolshelfCollectionRemove.rw" method="get" id="deleteBscForm">'
+							+'<input type="hidden" name="bookshelfId" value="'+data.dataList[i].bookshelfId+'"><div class="col-3 collectionBox-delete">'
+							+ '<i class="fas fa-trash-alt collectionIcon"></i></div></form>';
+						}
 						'</div><hr><div class="collectionBox-wrap">';
 						for(var j=0;j<data.dataList[i].bookList.length;j++){ 
 						 	input += '<div class="collectionBox-book"><img src="/image/book/'+data.dataList[i].bookList[j].bookImage+'"></div>';
