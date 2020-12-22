@@ -22,7 +22,7 @@ table {
 
 tr{
     font-size: 1rem;
-    font-weight: 600;
+    font-weight:400;
     border: 1px solid lightgray;
     height: 8%;
 }
@@ -74,5 +74,6 @@ th {
     border: 1px solid lightgray;
     width: 15%;
     height: 8%;
-    font-weight: 600;
+    font-weight: 500;
+    font-size:0.85rem;
 }

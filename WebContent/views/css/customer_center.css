@@ -23,8 +23,9 @@
     border-bottom: 1.5px solid #D5D5D5;
     line-height: 3.5;
     font-weight: bolder;
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     position: absolute;
+    z-index:-1;
 }
 
 #content_main{
@@ -56,7 +57,12 @@
 #faq {
     width: 100%;
 }
-
+.inner_article {
+    font-size: 1.3rem;
+    font-weight: 600;
+    border-bottom: 5px solid #AAAAAA;
+    margin-top: 60px;
+}
 #one_to_one {
     width: 100%;
 }
@@ -66,17 +72,18 @@
     margin-right: 85%;
     margin-left: 3%;
     text-align: left;
+    font-size:1rem;
 }
 
 .inner_article {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: 600;
     border-bottom: 5px solid #AAAAAA;
     margin-top: 60px;
 }
 
 .question_img {
-    width: 40px; height: 40px;
+    width: 30px; height: 30px;
 }
 
 .faq_table {
@@ -178,23 +185,26 @@ ul li a:hover{
 .customer_ul {
     width: 100%; height: 50px;
     line-height: 50px;
-    font-size: 1.3rem;
+    font-size: 1rem;
     margin-top: 15px;    
 }
 
 .w10 {
     width: 10%;
     text-align: left;
+    font-size : 1rem;
 }
 
 .w80 {
     width: 80%;
     text-align: left;
-    font-weight: 500;  
+    font-weight: 500;
+    font-size : 0.8rem;  
 }
 
 .w12 {
     width: 10%;
+    font-size : 0.8rem;
 }
 
 .faq_ul {
@@ -218,6 +228,11 @@ ul li a:hover{
 }
 
 .question_list {
+    color:#707070;
+    font-size: 0.8rem;
+   text-align: top;
+}
+question_list {
     color:#707070;
     font-size: 1.15rem;
 }
@@ -257,13 +272,13 @@ ul li a:hover{
 }
 
 .w_title {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     font-weight: 600;
     margin-left: 50px;
 }
 
 .w75 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: #707070;
     margin-left: 5%;
@@ -271,7 +286,7 @@ ul li a:hover{
 
 .fr {
     text-align: right;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 400;
     color: #707070;
 }
@@ -283,7 +298,7 @@ ul li a:hover{
 #inner_notice_contents {
     width: 100%; height: auto;
     text-align: left;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 500;
     color: #707070;
 }
@@ -298,18 +313,21 @@ ul li a:hover{
     margin: 5% auto;
 }
 
-.pw_reset {
-    margin-top: 20%;
-}
-
-
 #customer_notice_contents {
-    width: 100%; height: auto;
+    width: 100%; height: 700px;
+    resize:none;
+    overflow : hidden;
     margin-bottom: 200px;
     text-align: left;
-    font-size: 1.3rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: #707070;
     padding: 5%;
     border-bottom: 5px solid #AAAAAA;
+}
+#listmore{
+	background : white;
+	border:1px solid white;
+	margin-bottom : 20px;
+	color: black;
 }
