@@ -31,6 +31,11 @@ button:focus {
 	cursor: pointer;
 }
 
+
+ a:link { color: black; text-decoration: none;}
+ a:visited { color: black; text-decoration: none;}
+ a:hover { color: black; text-decoration: none;}
+
 #reviewList-contents {
 	/* 가로중앙 */
 	margin: 0 auto;
@@ -146,16 +151,12 @@ hr {
 				$(this).css('box-shadow','').css('position','').css('z-index','');
 			});
 			
-			//var cardBookId;
 			// review-card-book-img 누르면 개별도서페이지로 이동
 			$('.review-card-book-img').mousedown(function(){
-				//cardBookId = $(this).attr('bookId');
 				$(this).css('box-shadow','0px 0px 10px 5px #0080ff');
 			});// 클릭 뗄 때 이동
 			$('.review-card-book-img').mouseup(function(){
-				//alert(cardBookId);
 				$(this).css('box-shadow','');
-				location.href="/bookInfo.rw";// 개별 도서 페이지
 			});// 마우스가 요소 외부에 있을 때 그림자 삭제
 			$('.review-card-book-img').mouseout(function(){
 				$(this).css('box-shadow','');
@@ -231,7 +232,7 @@ hr {
 			});
 			// 리뷰등록 링크
 			$('.writerBtn').click(function(){
-				location.href="/views/review/review_write.jsp";
+				location.href="/reviewWrite.rw";
 			});
 			
 			
@@ -314,7 +315,7 @@ hr {
 						<span class="reviewListIcon">최신순</span>
 					</div>
 					<div class="writerBtn reviewWriteBtn">
-						<span class="reviewListIcon">리뷰등록</span>
+						<span class="reviewListIcon"><a href="/views/review/review_write.jsp">리뷰등록</a></span>
 					</div>
 					<div class="barLine reviewWriteBtn"
 						style="border: 1px solid lightgray; height: 85%; margin-top: 3.5px;"></div>
@@ -340,8 +341,9 @@ hr {
 				%>
 						<div class="review-card" reviewId="<%=rc.getReviewId()%>">
 							<div class="review-card-book-img">
-								<img src="<%=rc.getBookImage()%>" bookId="<%=rc.getBookId() %>" title="누르면 해당 도서페이지로 이동합니다." />
+								<a href="/bookInfo.rw?bookId=<%=rc.getBookId()%>" class="bookLink"><img src="<%=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." /></a>
 							</div>
+							<a href="/reviewRead.rw?reviewId=<%=rc.getReviewId()%>">
 							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="review-card-book-title">
 									<span class="review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
@@ -349,6 +351,7 @@ hr {
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
+							</a>
 							<div class="row review-card-bttom">
 								<div class="col-3">
 									<div class="review-card-writer-profile">
@@ -384,8 +387,9 @@ hr {
                                       <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
                                     </svg>
                                 </span>
-								<img src="<%=rc.getBookImage()%>" />
+								<a href="/bookInfo.rw?bookId=<%=rc.getBookId()%>" class="bookLink"><img src="<%=rc.getBookImage()%>" /></a>
 							</div>
+							<a href="/reviewRead.rw?reviewId=<%=rc.getReviewId()%>">
 							<div class="other_review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="other_review-card-book-title">
 									<span class="other_review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
@@ -393,6 +397,7 @@ hr {
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
+							</a>
 							<div class="row other_review-card-bttom">
 								<div class="col-3">
 									<div class="other_review-card-writer-profile">
@@ -527,6 +532,7 @@ hr {
 							<div class="review-card-book-img" title="누르면 해당 도서페이지로 이동합니다.">
 								<img src="<%=rc.getBookImage()%>" />
 							</div>
+							<a href="/reviewRead.rw?reviewId=<%=rc.getReviewId()%>">
 							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="review-card-book-title">
 									<span class="review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
@@ -534,6 +540,7 @@ hr {
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
+							</a>
 							<div class="row review-card-bttom">
 								<div class="col-3">
 									<div class="review-card-writer-profile">
