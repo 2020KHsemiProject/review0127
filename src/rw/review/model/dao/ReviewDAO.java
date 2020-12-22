@@ -393,7 +393,7 @@ public class ReviewDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		int count = 0;
-		String query = "SELECT COUNT(*) AS COUNT FROM REVIEW_LIKE WHERE REVIEW_ID=?";
+		String query = "SELECT COUNT(*) AS COUNT FROM REVIEW_LIKE WHERE REVIEW_ID=? AND LIKE_YN='Y'";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, reviewId);
