@@ -231,7 +231,7 @@ hr {
 			});
 			// 리뷰등록 링크
 			$('.writerBtn').click(function(){
-				location.href="/reviewWrite.rw";
+				location.href="/views/review/review_write.jsp";
 			});
 			
 			
