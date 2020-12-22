@@ -125,6 +125,15 @@ button:focus {
 	text-align: center;
 	font-size: 3rem;
 }
+#library-add-btn{ /*서재 컬렉션 추가 버튼*/
+	display:inline-block;
+	width:160px;
+	background-color:rgb(255,255,255,0.5);
+	color:#7895B5;
+	border-radius : 10px;
+	margin-left:5px;
+	text-align:center;
+}
 @media (max-width:1200px){
     #reviewNote-wrapper{ width: 1200px;}
 }
@@ -280,8 +289,11 @@ button:focus {
 	if(mem.getProfileImg()==null){
 		mem.setProfileImg("default_user_dark.png");
 	}
+	
+	//내 서재에 있는지 확인
 	//////////////////////////////////// 여기에 내 서내 남의 서재 서로 다르게 보여야 함
-if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("member")).getMemberId().equals(libraryOwner)){
+	Member mm = (Member)session.getAttribute("member"); //헷갈리지 않게
+if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 		// 내 서재
 %>
 
@@ -300,8 +312,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 					<div class="col-10">
 						<div class="row">
 
-							<div id="myLibrary-title" class="col-12"><%=mem.getNickname() %>
-								님의 서재
+							<div id="myLibrary-title" class="col-12"><%=mem.getNickname() %>님의 서재
 							</div>
 							<div class="col-12">
 								<ul id="myLibrary-lnb" class="row">
