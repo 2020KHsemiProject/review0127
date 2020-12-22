@@ -309,4 +309,47 @@ public class ReviewDAO {
 			return result;
 	}
 
+	public ArrayList<ReviewCard> selectBestReview(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<ReviewCard> list = new ArrayList<ReviewCard>();
+		
+		String query = "SELECT * FROM REVIEW JOIN MEMBER USING(MEMBER_NO) JOIN BOOK USING(BOOK_ID) WHERE REVIEW_ID IN " + 
+				"(SELECT REVIEW_ID FROM (SELECT REVIEW_ID, COUNT(LIKE_YN) TOTAL FROM REVIEW_LIKE " + 
+				"JOIN REVIEW USING(REVIEW_ID) GROUP BY REVIEW_ID, DEL_YN, LIKE_YN  " + 
+				"HAVING DEL_YN = 'N' AND LIKE_YN = 'Y' ORDER BY 2 DESC) WHERE ROWNUM <=6)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				ReviewCard rc = new ReviewCard();
+				rc.setReviewId(rset.getString("REVIEW_ID"));
+				rc.setReviewDate(rset.getDate("REVIEW_DATE"));
+				rc.setReviewCount(rset.getInt("REVIEW_COUNT"));
+				rc.setReviewRate(rset.getInt("REVIEW_RATE"));
+				rc.setReviewCont(rset.getString("REVIEW_CONT"));
+				rc.setBookId(rset.getNString("BOOK_ID"));
+				rc.setMemberNo(rset.getString("MEMBER_NO"));
+
+				rc.setMemberId(rset.getString("MEMBER_ID"));
+				rc.setNickname(rset.getString("NICKNAME"));
+				rc.setProfileImg(rset.getString("PROFILE_IMG"));
+
+				rc.setBookTitle(rset.getString("BOOK_TITLE"));
+				rc.setBookAuthor(rset.getString("BOOK_AUTHOR"));
+				rc.setBookImage(rset.getString("BOOK_IMAGE"));
+				
+				list.add(rc);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+	}
+
 }

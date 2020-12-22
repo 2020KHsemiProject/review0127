@@ -107,6 +107,13 @@ public class ReviewService {
 		return result;
 	}
 
+	public ArrayList<ReviewCard> selectBestReview() {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<ReviewCard> list = rDAO.selectBestReview(conn);
+		JDBCTemplate.close(conn);
+		return list;
+	}
+
 	
 }
 

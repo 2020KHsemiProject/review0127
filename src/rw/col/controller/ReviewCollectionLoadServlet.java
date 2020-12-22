@@ -48,6 +48,12 @@ public class ReviewCollectionLoadServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Member m = (Member)session.getAttribute("member");
 		
+		//로그인이 되어있고, 로그인한사람이 자기 서재에 있을때
+		String inMyLibCol = "";
+		if(m!=null && m.getMemberNo().equals(owner.getMemberNo())) {
+			inMyLibCol = "true";
+		}
+		
 		int reviewCurrentPage;
 		
 		if(request.getParameter("reviewCurrentPage")==null) {
@@ -69,7 +75,7 @@ public class ReviewCollectionLoadServlet extends HttpServlet {
 		
 		//로그인한 사람의 좋아요 여부 : 로그인한 사람 + 컬렉션 소유주
 		if(m!=null) {
-			HashMap<String, String> likeYNlist = new CollectionService().selelctReviewLikeInRC(m.getMemberNo(), owner.getMemberNo());
+			HashMap<String, String> likeYNlist = new CollectionService().selectReviewLikeInRC(m.getMemberNo(), owner.getMemberNo());
 			for(ReviewCard rc : rcList) {
 				String rwId = rc.getReviewId();
 				String likeKey = likeYNlist.get(rwId);
@@ -114,6 +120,7 @@ public class ReviewCollectionLoadServlet extends HttpServlet {
 		object.put("pageNavi", cpdRC.getPageNavi());
 		object.put("dataList", array);
 		object.put("likeList", map);
+		object.put("inMyLibCol", inMyLibCol);
 
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");

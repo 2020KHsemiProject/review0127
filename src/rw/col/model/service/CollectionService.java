@@ -133,9 +133,9 @@ public class CollectionService {
 		return result;
 	}
 
-	public HashMap<String, String> selelctReviewLikeInRC(String memberNo, String ownerNo) {
+	public HashMap<String, String> selectReviewLikeInRC(String memberNo, String ownerNo) {
 		Connection conn = JDBCTemplate.getConnection();
-		HashMap<String, String> likeYNlist = cDAO.selelctReviewLikeInRC(conn,memberNo,ownerNo);
+		HashMap<String, String> likeYNlist = cDAO.selectReviewLikeInRC(conn,memberNo,ownerNo);
 		JDBCTemplate.close(conn);
 		return likeYNlist;
 	}

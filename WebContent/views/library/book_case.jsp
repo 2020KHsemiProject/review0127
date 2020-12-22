@@ -409,7 +409,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 									<li class="col-2"><a
 										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>">리뷰노트</a></li>
 									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>">책장</a></li>
-									<li class="col-2"><a href="/views/library/collection.jsp">컬렉션</a></li>
+									<li class="col-2"><a href="/myCollection.rw?libraryOwner=<%=mem.getMemberId()%>">컬렉션</a></li>
 								</ul>
 							</div>
 						</div>

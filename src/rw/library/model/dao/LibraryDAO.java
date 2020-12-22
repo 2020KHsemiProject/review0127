@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import rw.common.JDBCTemplate;
+import rw.library.model.vo.BookCase2;
 import rw.library.model.vo.Library;
 import rw.review.model.vo.Book;
 
@@ -384,6 +385,86 @@ public class LibraryDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return result;
+	}
+	public int countAllLibrary(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int count = 0;
+		
+		String query = "SELECT COUNT(*) TOTAL FROM LIBRARY WHERE PRIVATE_YN = 'N' AND DEL_YN ='N'";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+			rset.next();
+			count = rset.getInt("total");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return count;
+	}
+	public BookCase2 selectOneLibraryByRow(Connection conn, int rowNum) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		BookCase2 bc = null;
+		
+		String query = "SELECT * FROM (SELECT ROWNUM AS RN, L.BOOKSHELF_ID, L.BOOKSHELF_NAME, " + 
+				"L.MEMBER_NO, M.MEMBER_ID, M.NICKNAME FROM LIBRARY L JOIN MEMBER M ON L.MEMBER_NO = M.MEMBER_NO " + 
+				"WHERE PRIVATE_YN = 'N' AND DEL_YN ='N') WHERE RN = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, rowNum);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				bc = new BookCase2();
+				bc.setBookshelfId(rset.getString("bookshelf_id"));
+				bc.setBookshelfName(rset.getString("bookshelf_name"));
+				bc.setMemberId(rset.getString("member_id"));
+				bc.setMemberNo(rset.getString("member_no"));
+				bc.setNickname(rset.getString("nickname"));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return bc;
+	}
+	public ArrayList<Book> selectOnePSNLibrary(Connection conn, String bookshelfId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Book> list = new ArrayList<Book>();
+		
+		String query = "SELECT * FROM BOOK WHERE BOOK_ID IN (SELECT BOOK_ID FROM PERSONAL_LIBRARY WHERE BOOKSHELF_ID =?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bookshelfId);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Book b = new Book();
+				b.setBookId("book_id");
+				b.setBookTitle("book_title");
+				b.setBookImage("book_image");
+				
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
 	}
 
 }

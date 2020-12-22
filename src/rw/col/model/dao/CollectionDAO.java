@@ -471,7 +471,7 @@ public class CollectionDAO {
 		return result;
 	}
 
-	public HashMap<String, String> selelctReviewLikeInRC(Connection conn, String memberNo, String ownerNo) {
+	public HashMap<String, String> selectReviewLikeInRC(Connection conn, String memberNo, String ownerNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		HashMap<String, String> likeYNlist = new HashMap<String, String>();

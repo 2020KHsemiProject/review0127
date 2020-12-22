@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import rw.common.JDBCTemplate;
 import rw.library.model.dao.LibraryDAO;
 import rw.library.model.vo.BookCase;
+import rw.library.model.vo.BookCase2;
 import rw.library.model.vo.Library;
 import rw.library.model.vo.LibraryPageData;
 import rw.review.model.vo.Book;
-import rw.reviewnote.model.vo.ReviewNotePageData;
 
 public class LibraryService {
 	
@@ -170,6 +170,27 @@ public class LibraryService {
 		}
 		JDBCTemplate.close(conn);
 		return result;
+	}
+
+	public int countAllLibrary() {
+		Connection conn = JDBCTemplate.getConnection();
+		int count = lDAO.countAllLibrary(conn);
+		JDBCTemplate.close(conn);
+		return count;
+	}
+
+	public BookCase2 selectOneLibraryByRow(int rowNum) {
+		Connection conn = JDBCTemplate.getConnection();
+		BookCase2 bc = lDAO.selectOneLibraryByRow(conn,rowNum);
+		JDBCTemplate.close(conn);
+		return bc;
+	}
+
+	public ArrayList<Book> selectOnePSNLibrary(String bookshelfId) {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Book> list = lDAO.selectOnePSNLibrary(conn,bookshelfId);
+		JDBCTemplate.close(conn);
+		return list;
 	}
 
 }

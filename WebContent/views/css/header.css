@@ -54,7 +54,7 @@ li{
 #gnb {
     float: right;
     height: 70px;
-    line-height: 70px;
+    
     text-align: center;
     margin-right:50px;
 }
@@ -62,6 +62,7 @@ li{
 #gnb li{
     float: left;
     width:80px;
+    line-height: 70px;
 }
 #gnb li a{
     width: 100%;
@@ -93,7 +94,7 @@ li{
     float:right;
     position: relative;
     top: 70px;
-    right: -200px;
+    right: -350px;
     text-align: center;
     box-shadow: 3px 3px 3px lightgray;
     border-radius: 10px;
