@@ -56,7 +56,7 @@ public class MemberInsertServlet extends HttpServlet {
 			
 			
 			if(result > 0) {
-				RequestDispatcher view = request.getRequestDispatcher("/index.jsp");
+				RequestDispatcher view = request.getRequestDispatcher("/views/member/memberJoinResult.jsp");
 				request.setAttribute("member", m);
 				view.forward(request, response);
 			} else {

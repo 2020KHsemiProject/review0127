@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="/views/common/header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,6 @@
 <title>REVIEW:0127</title>
 <!--외부 CSS-->
 <link href="/views/css/header.css" rel="stylesheet" type="text/css" />
-<!-- <link href="./css/wrapper.css" rel="stylesheet" type="text/css" /> -->
 <link href="/views/css/modify.css" rel="stylesheet" type="text/css" />
 <!--웹폰트-->
 <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -15,95 +15,67 @@
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
 	rel="stylesheet">
 <!--jquery-->
-<script src="https://code.jquery.com/jquery-3.5.1.js"
-	integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-	crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-	integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
-	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="	crossorigin="anonymous"></script>
+	<script src="/views/js/modify_info.js"></script>
 <!--bootStrap-->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
-	crossorigin="anonymous">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-	crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <style>
-	* {
-		margin: 0;
-		padding: 0;
-	}
+* {	margin: 0;
+	padding: 0;}
 </style>
 </head>
 <body>
-	<script>
-		$(function(){
-			$('#email_change_btn').click(function(){
-				$('#email_state_success').css('display','none');
-				$('#email_state_lack').css('display','block');
-				$('.input-text_email').val("");
-				$('#email_change_btn').text('변경 완료');
-			});
-		});
-	</script>
 	<div id="wrapper">
-		<div id="header">
-			<%@ include file="/views/common/header.jsp"%>
-		</div>
-	<% session.getAttribute("member"); %>
-	<script>
-		$(function(){
-			var currentPwd = $('#current_pwd');
-			var newPwd = $('#new_pw');
-			var newPwd_re = $('#new_pw_re');
-			
-		});
-	</script>
-
 		<div id="content">
 			<div id="content_title">
 				<h1>회원 정보 수정</h1>
 			</div>
 
-			<div id="content_main">
-				<center>
+			<center>
+				<div id="content_main">
 					<div id="inner_content">
 						<div id="inner_content_first">
-							<div id="picture_box">
-								<div id="profile_img_area">
-									<div id="image_box">
-										<!--사진을 업로드하면 이미지를 diplay:none 설정-->
-										<img src="/image/profile/default_user_dark.png"
-											id="profile_img" />
-									</div>
-									<label id="profile_change_btn"><input type="file"
-										accept="image/" id="input_file" /></label>
-									<center>
+							<center>
+								<div id="picture_box">
+									<div id="profile_img_area">
+									<form action="/profileUpload.rw" method="post" enctype="multipart/form-data" id="profile_form">
+										<div id="image_box">
+											<input type="hidden" >
+											<img src="/image/profile/default_user_dark.png"	id="profile_img" name="profileImg"/>
+										</div>
+										<label id="profile_change_btn">
+											<input type="file" onChange="uploadImg();" accept="image/*" id="input_file" />
+										</label>
+										<label id="profile_del_btn">
+											<img src="/image/profile/picture_change_del.png" id="img_del"/>
+										</label>
+									</form>	
 										<p id="profile_info">※ 프로필 사진은 100px X 100px 사이즈를 권장합니다.</p>
-									</center>
-									<button type="button" class="btn btn-primary" id="withdraw_btn"
-										data-toggle="modal" data-target="#myModal">회원탈퇴</button>
+
+										<button type="button" class="btn btn-primary"
+											id="withdraw_btn" data-toggle="modal" data-target="#myModal">회원탈퇴</button>
+									</div>
 								</div>
-							</div>
+							</center>
 						</div>
 						<div id="inner_content_second">
 							<table class="modify_table">
 								<tr class="tr_first">
 									<th>아이디</th>
-									<td><span class="user_id">이따가</span></td>
+									<td><input type="text" id="member_id"
+										value="<%=m.getMemberId()%>" readonly /></td>
 								</tr>
 								<tr class="tr_second">
 									<th>닉네임</th>
 									<td>
 										<div class="input_group_nick">
 											<div class="input_box_nick">
-												<input type="text" class="input-text_nick" value="개똥이" />
+												<input type="text" class="input-text_nick" id="nick_change"
+													value="<%=m.getNickname()%>" />
 											</div>
-											<button type="button">중복확인</button>
-											<span class="exp_complete">사용 가능한 닉네임입니다.</span>
-											<!-- <span class="exp_lack">이미 존재하는 닉네임입니다.</span>-->
+											<button type="button" id="nick_check_re">중복확인</button>
 										</div>
 									</td>
 								</tr>
@@ -113,65 +85,71 @@
 										<div class="input_group_email">
 											<div class="input_box_email">
 												<input type="email" class="input-text_email"
-													value="abc1234@abc.com" />
+													value="<%=m.getEmail()%>" id="email_change"/>
 											</div>
 											<button type="button" id="email_change_btn">이메일 변경</button>
 										</div>
-										<div id="email_state_success">
-											<p id="email_success">
-												<img src="/image/icon/email_success.png" id="email_success_img"/>
-												인증된 이메일 주소입니다.
-											</p>
-
-										</div> 
-										<div id="email_state_lack">
-                                       		<p id="email_lack"><img src="/image/icon/email_lack.png" id="email_lack_img"/>인증되지 않은 이메일 주소입니다.</p>
-                                    	</div>
-                                    	<p class="email_confirm">이메일 주소를 인증하시면, 변경이 완료됩니다.</p>
-                                    	
+										<% if(m.getEmailYN() == 'Y') { %>
+											<div id="email_state_success">
+												<p id="email_success">
+													<img src="/image/icon/email_success.png" id="email_success_img" /> 인증된 이메일 주소입니다.
+												</p>
+											</div>
+										<% } else { %>
+											<div id="email_state_lack">
+												<p id="email_lack">
+													<img src="/image/icon/email_lack.png" id="email_lack_img" />인증되지 않은 이메일 주소입니다.
+												</p>
+											</div>
+										<% } %>
+										<p class="email_confirm">이메일을 인증하면, 변경이 완료됩니다.</p>
 									</td>
 								</tr>
 								<tr class="tr_fourth">
 									<th id="th_pw_re">비밀번호 재설정</th>
 									<td>
-										<form id="password_form" method="post" action="/modify.do">
+										<%--<form action="/memberPwdChange.rw" method="post" --%>
+										<form id="password_form">
 											<div class="password_change_guide">
 												<p class="guide_title">비밀번호 변경 시 유의사항</p>
 												<ul class="guide_list_wrapper">
 													<li class="guide_list">영문/숫자 조합으로 8자 이상, 16자 이하로
 														입력해주세요.</li>
-													<li class="guide_list">4자리 이상 연속된 문자는 사용할 수 없습니다.</li>
+													<li class="guide_list">4자리 이상 연속된 동일 문자는 사용할 수 없습니다.</li>
 													<li class="guide_list">ID가 포함된 비밀번호는 사용할 수 없습니다.</li>
 												</ul>
 											</div>
 											<div class="password_row">
-												<input type="password" class="modify_pwd" id="current_pwd" name="memberPwd" placeholder="현재 비밀번호" />
-												<span class="pw_warning_text"></span>
+												<input type="password" class="modify_pwd" id="current_pwd"
+													name="memberPwd" placeholder="현재 비밀번호" /> <span
+													class="pw_warning_text"></span>
 											</div>
 											<div class="password_row">
-												<input type="password" class="modify_pwd" id="new_pwd" name="memberPwd_new" placeholder="새 비밀번호" /> 
-													<span class="pw_warning_text"> 비밀번호 유의사항을 확인해주세요. </span>
+												<input type="password" class="modify_pwd" id="new_pwd"
+													name="memberPwd_new" placeholder="새 비밀번호" /> <span
+													class="pw_warning_text"></span>
 											</div>
 											<div class="password_row">
-												<input type="password" class="modify_pwd" id="new_pwd_re" name="memberPwd_new_re" placeholder="새 비밀번호 확인" /> 
-													<span class="pw_warning_text">비밀번호가 일치하지 않습니다.</span>	
+												<input type="password" class="modify_pwd" id="new_pwd_re"
+													name="memberPwd_new_re" placeholder="새 비밀번호 확인" /> <span
+													class="pw_warning_text"></span>
 											</div>
 											<div class="password_row">
-												<button type="submit" id="modify_pw_btn">비밀번호 변경</button>
+												<button type="button" id="modify_pw_btn">비밀번호 변경</button>
+												<%--<button type="submit" id="modify_pw_btn">비밀번호 변경</button>--%>
 											</div>
 										</form>
 									</td>
 								</tr>
 								<tr class="tr_fifth">
-									<th id="th_sub">추가 정보 입력 <br>(선택사항)
+									<th id="th_sub">추가 정보 입력
 									</th>
 									<td>
 										<form>
 											<div id="sub_option">
-												<span id="age_title">연령대</span> <input type="text"
-													name="age" placeholder="예)1996" size="5" id="age" />
-												<div class="btn-group" role="group"
-													aria-label="Button group with nested dropdown">
+												<span id="age_title">연령대</span> 
+												<input type="text" name="age" value="<%= m.getBirthYear() %>" size="5" id="age" />
+												<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
 													<span id="gender_title">성별</span>
 													<button type="button" class="btn btn-secondary" id="man">남</button>
 													<button type="button" class="btn btn-secondary" id="woman">여</button>
@@ -186,13 +164,7 @@
 							<button type="button">수정</button>
 						</div>
 					</div>
-				</center>
-			</div>
-
-		</div>
-
-		<div id="footer">
-			<%@ include file="/views/common/footer.jsp" %>
+				</div>
 		</div>
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -230,16 +202,19 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<form class="withdraw_form">
-							<input type="checkbox" name="withdrawAgree" id="withdraw_check" />
-							<span id="check_text">해당 내용을 모두 확인했으며, 회원 탈퇴에 동의합니다.</span><br>
-							<input type="submit" name="withdrawOK" value="회원탈퇴"
-								id="check_submit" />
+						<form action="/memberWithdraw.rw" method="post"
+							class="withdraw_form">
+							<input type="checkbox" name="withdrawAgree" id="withdraw_check"
+								required /> <span id="check_text">해당 내용을 모두 확인했으며, 회원
+								탈퇴에 동의합니다.</span><br> <input type="submit" name="withdrawOK"
+								value="회원탈퇴" id="check_submit" />
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
+		</center>
 	</div>
+	<%@ include file="/views/common/footer.jsp"%>
 </body>
 </html>
