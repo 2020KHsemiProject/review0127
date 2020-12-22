@@ -47,8 +47,8 @@ public class NoticeInsertServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		if(result>0) {
-			out.println("<script>alert('작성이 완료되었습니다..');</script>");
-			out.println("<script>location.replace('/admin/notice/notice_page.jsp')</script>");
+			out.println("<script>alert('작성이 완료되었습니다.');</script>");
+			out.println("<script>location.replace('/selectAllNotice.ad');</script>");
 		}else {
 			out.println("<script>alert('작성을 실패하였습니다. \\n지속적인 문제 발생시 개발자에게 문의해주세요.');</script>");
 			out.println("<script>history.back(-1);</script>");
