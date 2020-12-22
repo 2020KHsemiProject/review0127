@@ -156,7 +156,7 @@ li{
     padding: 30px;
 }
 .fa-star{
-	color:ffd700;
+	color:#ffd700;
 }
 
 @media (max-width:1200px){
@@ -211,7 +211,7 @@ li{
 }
 .reviewNote-userProfile {
    /* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 프로필 이미지 div 스타일 */
-    width: 60px; height: 60px;
+   width: 65px; height: 65px;
     border-radius: 100%;
     position: relative;
     left: 35%;
@@ -219,22 +219,22 @@ li{
 }
 .reviewNote-userProfile>img {
    /* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 프로필 이미지 div 속> 이미지 태그 크기 */
-    width: 100%; height: 100%;
+    width: 65px; height: 60px;
 }
-.reviewNote-book-card-user {
-   /* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div*/
-    font-size: 14px;
-    padding: 5% 0 0 2%;
-}
-.reviewNote-book-card-user div {
-   /* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div 속> 모든 div*/
-    padding-right: 0;
-}
-.reviewNote-book-card-user .row>div:last-child {
-   /* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div 속> 조회수*/
-    position: relative;
-    left: 6%;
-}
+
+
+.other_review-card-infor {
+  	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div*/
+      font-size: 1rem;
+      padding: 5% 0 0 2%;
+  }
+  .other_review-card-infor div {
+  	/* 카드 속> 작성자 정보 및 좋아요 버튼 div 속> 유저이름 및 작성일 및 조회수 div 속> 모든 div*/
+      padding-right: 0;
+  }
+  .other_review-card-count {
+  	padding-left: 0;
+  }
 
 /********** 좋아요 **********/
 .rvheart {
@@ -244,10 +244,10 @@ li{
 .review-heart-and-count {
    /* 좋아요 div 스타일 */
     border: 1px solid gray;
-    width: 120%; height: 63%;
+    width: 100%; height: 63%;
     border-radius: 40px 40px 40px 40px;
     position: relative;
-    right: 20%;
+    cursor:pointer;
 }
 .review-heart {
    /* 좋아요 div 속> 하트 */

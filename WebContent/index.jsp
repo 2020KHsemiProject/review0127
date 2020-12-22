@@ -62,7 +62,7 @@
             <div id="review-card-wrap">
             <% for(ReviewCard rc : rlist) { %>
 				<div class="reviewNote-book-card">
-                       <div class="reviewNote-book-img"><img src="/image/book/<%=rc.getBookImage() %>"/></div>
+                       <div class="reviewNote-book-img"><img src="<%=rc.getBookImage() %>"/></div>
                        <div class="reviewNote-book-text">
                          <div class="book-text-title">
                             <span class="book-text-title-name" style="width: 290px;"><%=rc.getBookTitle() %></span>
@@ -102,6 +102,128 @@
         </div>
     </div>
 	<%} %>
+	<script>
+    
+        $(function(){
+        	// review-card-text 누르면 개별리뷰페이지로 이동
+			$('.review-card-text').mousedown(function(){
+				$(this).css('box-shadow','0px 0px 10px 5px #0080ff').css('position','relative').css('z-index','999');
+			});// 클릭 뗄 때 이동
+			$('.review-card-text').mouseup(function(){
+				$(this).css('box-shadow','').css('position','').css('z-index','');
+				location.href="#";// 개별 도서 페이지
+			});// 마우스가 요소 외부에 있을 때 그림자 삭제
+			$('.review-card-text').mouseout(function(){
+				$(this).css('box-shadow','').css('position','').css('z-index','');
+			});
+			
+			// review-card-book-img 누르면 개별도서페이지로 이동
+			$('.review-card-book-img').mousedown(function(){
+				$(this).css('box-shadow','0px 0px 10px 5px #0080ff');
+			});// 클릭 뗄 때 이동
+			$('.review-card-book-img').mouseup(function(){
+				$(this).css('box-shadow','');
+			});// 마우스가 요소 외부에 있을 때 그림자 삭제
+			$('.review-card-book-img').mouseout(function(){
+				$(this).css('box-shadow','');
+			});
+			
+			
+			// other_
+			// review-card-text 누르면 개별리뷰페이지로 이동
+			$('.other_review-card-text').mousedown(function(){
+				$(this).css('box-shadow','0px 0px 10px 5px #0080ff').css('position','relative').css('z-index','999');
+			});// 클릭 뗄 때 이동
+			$('.other_review-card-text').mouseup(function(){
+				$(this).css('box-shadow','').css('position','').css('z-index','');
+				location.href="#";// 개별 도서 페이지
+			});// 마우스가 요소 외부에 있을 때 그림자 삭제
+			$('.other_review-card-text').mouseout(function(){
+				$(this).css('box-shadow','').css('position','').css('z-index','');
+			});
+			
+			// review-card-book-img 누르면 개별도서페이지로 이동
+			$('.other_review-card-book-img').mousedown(function(){
+				$(this).css('box-shadow','0px 0px 10px 5px #0080ff');
+			});// 클릭 뗄 때 이동
+			$('.other_review-card-book-img').mouseup(function(){
+				$(this).css('box-shadow','');
+				location.href="#";// 개별 도서 페이지
+			});// 마우스가 요소 외부에 있을 때 그림자 삭제
+			$('.other_review-card-book-img').mouseout(function(){
+				$(this).css('box-shadow','');
+			});
+        	
+            
+            // lnb hover 시 
+            $('#reviewNote-lnb>li>a').hover(function(){
+                $(this).css('font-weight','bold');
+            },function(){
+                $(this).css('font-weight','');
+            });
+            
+            var lnbText = $('#pagename').text();
+            console.log(lnbText);
+            if(lnbText=='리뷰노트'){
+            	$('#myLibrary-lnb>li:nth-child(1)').css('font-weight','bold');	
+            }else if(lnbText=='책장'){
+            	$('#myLibrary-lnb>li:nth-child(2)').css('font-weight','bold');
+            }else if(lnbText=='컬렉션'){
+            	$('#myLibrary-lnb>li:nth-child(3)').css('font-weight','bold');
+            }
+            
+         	// 책갈피
+            $('.other_reviewScrap').click(function(e){
+            	e.stopImmediatePropagation(); // 버블링 방지
+            	var color = $(this).css('color');
+            	var $thisTag = $(this);
+            	
+            	
+            	var reviewId = $thisTag.parents('.other_review-card').attr('name');
+            	
+                if(color=='rgb(255, 108, 108)') { // 빨간색일 때
+                	if(confirm('해당 리뷰를 삭제하시겠습니까?')){                		
+                	$.ajax({
+                		url : '/reviewCollectionDel.rw',
+                		data : {'reviewId':reviewId},
+                		type : 'post',
+                		success : function(data){
+                			if(data.result>0){
+                				alert("컬렉션에서 삭제가 완료되었습니다.");
+                				$thisTag.css('color','gray');
+                			}else{
+                				alert('컬렉션 삭제에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                			}
+                		},
+                		error : function(){
+                			alert('컬렉션 삭제에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                		}
+                	});
+                    }
+                }else { // 회색일 때 
+                    $.ajax({
+                    	url : '/reviewCollectionAdd.rw',
+                    	data : {'reviewId':reviewId},
+                    	type : 'post',
+                    	success : function(data){
+                    		if(data.result>0){
+                   				alert('컬렉션에 추가되었습니다.');
+                   				$thisTag.css('color','#FF6C6C');
+                   			}else{
+                   				alert('컬렉션 추가에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                   			}
+                    		},
+                   		error : function(){
+                   			alert('컬렉션 추가에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
+                    	}
+                   	});
+           		 } // 회색 또는 빨간색 if문
+            });
+            	
+            
+            	
+        })
+    </script>
 <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

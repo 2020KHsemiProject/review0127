@@ -451,9 +451,9 @@ public class LibraryDAO {
 			rset = pstmt.executeQuery();
 			while(rset.next()) {
 				Book b = new Book();
-				b.setBookId("book_id");
-				b.setBookTitle("book_title");
-				b.setBookImage("book_image");
+				b.setBookId(rset.getString("book_id"));
+				b.setBookTitle(rset.getString("book_title"));
+				b.setBookImage(rset.getString("book_image"));
 				
 				list.add(b);
 			}

@@ -208,7 +208,7 @@ margin:0 auto;
 	height:10px;
 }
 
-#myLibrary-lnb *{
+#myLibrary-lnb a{
 	color:white;
 }
 /* 컬렉션 id랑 세션 id랑 같으면 내서재. 다르면 남의 서재 */
@@ -218,7 +218,7 @@ margin:0 auto;
 	background-color:#ffe58d;
 	color:black;
 }
-#myLibrary-lnb *{
+#myLibrary-lnb a{
 	color:black;
 }
 <%}%>
