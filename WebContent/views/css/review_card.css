@@ -11,12 +11,18 @@
             float: left;
             box-shadow: 2px 2px 5px #D5D5D5;
         }
+        
         .review-card-book-img {
         	/* 카드 속> 이미지 div */
             width: 100%; height: 55%;
             overflow: hidden;
         }
-        .review-card-book-img>img {
+        .bookLink {
+        	/* a 태그 */
+        	display: blok;
+        	width: 100%;
+        }
+        .review-card-book-img img {
         	/* 카드 속> 이미지 div 속> 이미지 태그 크기 == .writer-profile-img */
             width: 100%; 
         }
