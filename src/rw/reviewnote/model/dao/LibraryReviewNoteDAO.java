@@ -127,7 +127,7 @@ public class LibraryReviewNoteDAO {
 				
 		for(int i=startNavi; i<=endNavi; i++) {
 			if(i==currentPage) {
-				sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+i+"'><B>"+i+"</B></a></li>");
+				sb.append("<li class='page-item active'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+i+"'><B>"+i+"</B></a></li>");
 			}else {
 				sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+i+"'>"+i+"</a></li>");
 			}
@@ -235,12 +235,12 @@ public class LibraryReviewNoteDAO {
 						
 				for(int i=startNavi; i<=endNavi; i++) {
 					if(i==currentPage) {
-						sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+i+"'><B>"+i+"</B></a></li>");
+						sb.append("<li class='page-item active'><a class='page-link' style='color:white;' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+i+"'><B>"+i+"</B></a></li>");
 					}else {
 						sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+i+"'>"+i+"</a></li>");
 					}
 				}
-				
+									
 				//만약 마지막 pageNavi가 아니라면 '>' 모양을 추가해라 (마지막 pageNavi이면 추가하지 말아라)
 				if(endNavi != pageTotalCount) {
 					sb.append("<li class='page-item'><a class='page-link' href='/myReviewNote.rw?libraryOwner="+memberId+"&currentPage="+(startNavi+1)+"'>></a></li>");

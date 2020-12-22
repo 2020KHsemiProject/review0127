@@ -252,7 +252,7 @@ public class LibraryDAO {
 						
 		for(int i=startNavi; i<=endNavi; i++) {
 			if(i==currentPage) {
-				sb.append("<li class='page-item'><a class='page-link' href='/myBookCase.rw?libraryOwner="+libraryOwner+"&currentPage="+i+"'><B>"+i+"</B></a></li>");
+				sb.append("<li class='page-item active'><a class='page-link' href='/myBookCase.rw?libraryOwner="+libraryOwner+"&currentPage="+i+"'><B style='color:white;'>"+i+"</B></a></li>");
 			}else {
 				sb.append("<li class='page-item'><a class='page-link' href='/myBookCase.rw?libraryOwner="+libraryOwner+"&currentPage="+i+"'>"+i+"</a></li>");
 			}

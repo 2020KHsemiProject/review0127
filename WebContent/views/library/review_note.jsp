@@ -118,9 +118,7 @@ button:focus {
 	height: 40px;
 	text-align: center;
 	font-size: 1rem;
-	color: black;
 }
-
 .not-yet {
 	margin: 0 auto;
 	text-align: center;

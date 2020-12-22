@@ -149,7 +149,6 @@
             width: 40px; height: 40px;
             text-align: center;
             font-size: 1rem;
-            color: black;
         }
         
         .book-nullPlace{
