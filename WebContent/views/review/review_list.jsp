@@ -36,6 +36,7 @@ button:focus {
 	margin: 0 auto;
 	width: 1200px;
 	margin-top: 70px;
+	min-height: 550px;
 }
 
 #reviewList-top {
@@ -121,7 +122,6 @@ hr {
 .not-yet {
 	margin: 0 auto;
 	text-align: center;
-	height: 450px;
 	font-size: 3rem;
 }
 
@@ -133,7 +133,7 @@ hr {
 <script>
     
         $(function(){
-        	
+        	var text2;
         	// review-card-text 누르면 개별리뷰페이지로 이동
 			$('.review-card-text').mousedown(function(){
 				$(this).css('box-shadow','0px 0px 10px 5px #0080ff').css('position','relative').css('z-index','999');
@@ -146,13 +146,16 @@ hr {
 				$(this).css('box-shadow','').css('position','').css('z-index','');
 			});
 			
+			//var cardBookId;
 			// review-card-book-img 누르면 개별도서페이지로 이동
 			$('.review-card-book-img').mousedown(function(){
+				//cardBookId = $(this).attr('bookId');
 				$(this).css('box-shadow','0px 0px 10px 5px #0080ff');
 			});// 클릭 뗄 때 이동
 			$('.review-card-book-img').mouseup(function(){
+				//alert(cardBookId);
 				$(this).css('box-shadow','');
-				location.href="#";// 개별 도서 페이지
+				location.href="/bookInfo.rw";// 개별 도서 페이지
 			});// 마우스가 요소 외부에 있을 때 그림자 삭제
 			$('.review-card-book-img').mouseout(function(){
 				$(this).css('box-shadow','');
@@ -244,7 +247,7 @@ hr {
                 if(color=='rgb(255, 108, 108)') { // 빨간색일 때
                 	if(confirm('해당 리뷰를 삭제하시겠습니까?')){                		
                 	$.ajax({
-                		url : '/reviewCollectionDel.rw',
+                		url : '/reviewCollectionDel3.rw',
                 		data : {'reviewId':reviewId},
                 		type : 'post',
                 		success : function(data){
@@ -291,12 +294,9 @@ hr {
 </head>
 <body>
 
-	<% ArrayList<ReviewCard> list = (ArrayList<ReviewCard>)request.getAttribute("list"); %>
+	<% ArrayList<ReviewCard> list = (ArrayList<ReviewCard>)request.getAttribute("list");
 	
-	
-	
-	
-	<% if((Member)session.getAttribute("member")!=null) { %>
+	if((Member)session.getAttribute("member")!=null) { %>
 	
 	<div id="reviewList-wrapper">
 		
@@ -338,9 +338,9 @@ hr {
 				
 					if(((Member)session.getAttribute("member")).getMemberNo().equals(rc.getMemberNo())) { 
 				%>
-						<div class="review-card">
+						<div class="review-card" reviewId="<%=rc.getReviewId()%>">
 							<div class="review-card-book-img">
-								<img src="<%=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." />
+								<img src="<%=rc.getBookImage()%>" bookId="<%=rc.getBookId() %>" title="누르면 해당 도서페이지로 이동합니다." />
 							</div>
 							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="review-card-book-title">
@@ -352,7 +352,7 @@ hr {
 							<div class="row review-card-bttom">
 								<div class="col-3">
 									<div class="review-card-writer-profile">
-										<img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+										<img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="내 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -361,8 +361,7 @@ hr {
 										<div class="col-12">
 											<div class="row">
 												<div class="col-7"><%=rc.getReviewDate() %></div>
-												<div class="col-5 review-card-count">
-													조회	<%=rc.getReviewCount() %></div>
+												<div class="col-5 review-card-count">조회 <%=rc.getReviewCount() %></div>
 											</div>
 										</div>
 									</div>
@@ -398,7 +397,7 @@ hr {
 								<div class="col-3">
 									<div class="other_review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getMemberId() %>]님의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -467,8 +466,7 @@ hr {
 								<button id="moreBtn" class="reviewListIcon">더 보기</button>
 							</div>
 							<input type="hidden" name="end"
-								value="<%=(int)request.getAttribute("end")%>" /> <input
-								type="hidden" name="moreLocal" value="moreLocal<%= morecount %>" />
+								value="<%=(int)request.getAttribute("end")%>" /> <input type="hidden" name="moreLocal" value="moreLocal<%= morecount %>" />
 						</form>
 					</div>
 					<% if(list.size()<(int)request.getAttribute("end")) { // 더이상 더보기할 리뷰가 없으면 %>
@@ -477,8 +475,7 @@ hr {
             	</script>
 					<% } %>
 					<% } else {// if문(list가 null이 아니라면) %>
-					<div class="not-yet">
-						아직 리뷰가 없습니다.<br>
+					<div class="not-yet">아직 리뷰가 없습니다.<br>
 						<div>당신이 우리 REVIEW:0127의 첫번째 리뷰 작성자가 되어 주시겠습니까?</div>
 						<a href="/reviewWrite.rw">리뷰 쓰기</a>
 					</div>
@@ -541,7 +538,7 @@ hr {
 								<div class="col-3">
 									<div class="review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+											class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getMemberId() %>]님의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">

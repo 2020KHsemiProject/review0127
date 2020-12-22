@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="rw.member.model.vo.Member"%>
@@ -58,6 +59,7 @@ button:focus {
 	/* 가로중앙 */
 	margin: 0 auto;
 	width: 1200px;
+	min-height: 550px;
 }
 
 .reviewNote-contents-top {
@@ -117,13 +119,10 @@ button:focus {
 	height: 40px;
 	text-align: center;
 	font-size: 1rem;
-	color: black;
 }
-
 .not-yet {
 	margin: 0 auto;
 	text-align: center;
-	height: 450px;
 	font-size: 3rem;
 }
 @media (max-width:1200px){
@@ -224,7 +223,7 @@ button:focus {
             	e.stopImmediatePropagation(); // 버블링 방지
             	var color = $(this).css('color');
             	var $thisTag = $(this);
-            	console.log(color);
+            	
             	
             	var reviewId = $thisTag.parents('.other_review-card').attr('name');
             	
@@ -241,10 +240,9 @@ button:focus {
                 			}else{
                 				alert('컬렉션 삭제에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
                 			}
-                			
                 		},
                 		error : function(){
-                			
+                			alert('컬렉션 삭제에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
                 		}
                 	});
                     }
@@ -386,7 +384,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 							<div class="row review-card-bttom">
 								<div class="col-3">
 									<div class="review-card-writer-profile">
-										<img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+										<img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img" writer="<%=rc.getMemberId() %>"/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -440,7 +438,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 
 					</div>
 					<% }else { %>
-					<div class="not-yet">
+					<div class="reviewNote-contents">
 						아직 리뷰를 안 쓰셨군요?<br>
 						<div>오, 여기다 추천 책 같은게 나오면 좋겠지만 못 하겠지 ㅎ</div>
 						<a href="/reviewPage.rw">리뷰 쓰러 가기</a>
@@ -485,6 +483,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 									<li class="col-2"><a
 										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">리뷰노트</a></li>
 									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">책장</a></li>
+									<li class="col-2"><a href="/myCollection.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">컬렉션</a></li>
 								</ul>
 							</div>
 						</div>
@@ -566,7 +565,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 								<div class="col-3">
 									<div class="other_review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getMemberId() %>]님의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -618,7 +617,6 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 			<% }else { ///////////////////////// 리스트가 비어있다면%>
 					<div class="not-yet"><%=mem.getNickname() %>님의 리뷰가 아직 없습니다.
 					</div>
-
 			<% } %>
 				</div>
 				<!-- row -->
@@ -656,6 +654,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 									<li class="col-2"><a
 										href="/myReviewNote.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">리뷰노트</a></li>
 									<li class="col-2"><a href="/myBookCase.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">책장</a></li>
+									<li class="col-2"><a href="/myCollection.rw?libraryOwner=<%=mem.getMemberId()%>" style="color: white;">컬렉션</a></li>
 								</ul>
 							</div>
 						</div>
@@ -732,7 +731,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 								<div class="col-3">
 									<div class="review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="누르면 해당 회원의 서재로 이동합니다."/>
+											class="writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getMemberId() %>]님의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -774,7 +773,6 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 			<% }else { ///////////////////////// 리스트가 비어있다면%>
 					<div class="not-yet"><%=mem.getNickname() %>님의 리뷰가 아직 없습니다.
 					</div>
-
 			<% } %>
 				</div>
 				<!-- row -->

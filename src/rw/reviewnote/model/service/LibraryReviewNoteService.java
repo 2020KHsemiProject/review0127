@@ -32,13 +32,13 @@ public class LibraryReviewNoteService {
 		JDBCTemplate.close(conn);
 		return rnpd;
 	}
-	public ReviewNotePageData selectAllReviewDataAlignTitle(String libraryOwner, String memberNo, int currentPage) {
+	public ReviewNotePageData selectAllReviewDataAlignTitle(String memberNo, String memberId, int currentPage) {
 		Connection conn = JDBCTemplate.getConnection();
 		int recordCountPerPage = 6; // 한 페이지당 몇개의 게시물이 보이게 될 것인지
 		ArrayList<ReviewCard> list = rnDAO.selectAllReviewDataAlignTitle(conn,memberNo,currentPage,recordCountPerPage);
 		
 		int naviCountPerPage = 5; // page Navi값이 몇개씩 보여줄 것인지
-		String pageNavi = rnDAO.getPageNaviAlignTitle(conn,libraryOwner,memberNo,currentPage,recordCountPerPage,naviCountPerPage);
+		String pageNavi = rnDAO.getPageNaviAlignTitle(conn,memberNo,memberId,currentPage,recordCountPerPage,naviCountPerPage);
 		ReviewNotePageData rnpd = new ReviewNotePageData();
 		rnpd.setList(list);
 		rnpd.setPageNavi(pageNavi);

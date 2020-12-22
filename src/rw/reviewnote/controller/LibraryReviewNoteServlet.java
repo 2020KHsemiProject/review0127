@@ -89,7 +89,7 @@ public class LibraryReviewNoteServlet extends HttpServlet {
 		RequestDispatcher view = request.getRequestDispatcher("/views/library/review_note.jsp?libraryOwner="+libraryOwner);
 		request.setAttribute("count", count);
 		request.setAttribute("list", list);
-		request.setAttribute("pageNavi", pageNavi); //System.out.println(pageNavi);
+		request.setAttribute("pageNavi", pageNavi); 
 		request.setAttribute("member", m);
 		request.setAttribute("rColList", rColList);
 		view.forward(request, response);

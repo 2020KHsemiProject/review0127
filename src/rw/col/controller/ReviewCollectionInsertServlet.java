@@ -18,7 +18,7 @@ import rw.member.model.vo.Member;
 /**
  * Servlet implementation class ReviewCollectionInsertServlet
  */
-@WebServlet("/reviewCollectionAdd.rw")
+@WebServlet("/reviewCollectionAdd.rw") // 남의 서재 - 리뷰노트에서 추가
 public class ReviewCollectionInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

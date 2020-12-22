@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import rw.col.model.service.CollectionService;
+import rw.col.model.vo.BookshelfCollection;
 import rw.library.model.service.LibraryService;
 import rw.library.model.vo.LibraryPageData;
 import rw.member.model.service.MemberService;
@@ -68,7 +70,6 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 				
 				ArrayList<Book> listLB = lService.selectLikeBook(m.getMemberNo()); // 좋아요 한 책 리스트
 				
-				
 				RequestDispatcher view = request.getRequestDispatcher("/views/library/book_case.jsp?libraryOwner="+libraryOwner);
 				request.setAttribute("member", m);
 				request.setAttribute("count", count);
@@ -92,11 +93,14 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 				LibraryPageData list = lService.selectOtherAllBookCase(m.getMemberNo(),libraryOwner,currentPage);
 				// 최종적으로 list 안에 담긴 데이터 = (책장 + 해당 책장에 담긴 책들) 객체를 담은 BookCase 객체// 배열
 				
+				ArrayList<BookshelfCollection> bcColList = new CollectionService().selectColBookshelf(member.getMemberNo());
+				// 내가 스크랩한 책장
 				
 				RequestDispatcher view = request.getRequestDispatcher("/views/library/book_case.jsp?libraryOwner="+libraryOwner);
 				request.setAttribute("member", m);
 				request.setAttribute("count", count);
 				request.setAttribute("list", list);
+				request.setAttribute("bcColList", bcColList);
 				view.forward(request, response);
 			}
 			

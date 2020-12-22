@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import rw.col.model.dao.CollectionDAO;
+import rw.col.model.vo.BookshelfCollection;
 import rw.col.model.vo.CollectionPageData;
 import rw.col.model.vo.OtherBookcase;
 import rw.col.model.vo.ReviewCollection;
@@ -141,6 +142,7 @@ public class CollectionService {
 	}
 
 	public int insertReview(String memberNo, String reviewId) {
+		// 남의 서재- 리뷰노트 에서 리뷰 추가 
 		Connection conn = JDBCTemplate.getConnection();
 		int result = cDAO.insertReview(conn,memberNo,reviewId);
 		if(result>0) {
@@ -152,6 +154,7 @@ public class CollectionService {
 		return result;
 	}
 	public int deleteReview(String memberNo, String reviewId) {
+		// 남의 서재- 리뷰노트 에서 리뷰 제거
 		Connection conn = JDBCTemplate.getConnection(); 
 		int result = cDAO.deleteReview(conn,memberNo,reviewId);
 		if(result>0) {
@@ -164,9 +167,45 @@ public class CollectionService {
 	}
 	
 	public ArrayList<ReviewCollection> selectColReview(String memberNo) {
+		// 내가 스크랩한 리뷰카드
 		Connection conn = JDBCTemplate.getConnection();
 		ArrayList<ReviewCollection> rColList = cDAO.selectColReview(conn,memberNo);
 		JDBCTemplate.close(conn);
 		return rColList;
+	}
+
+	public int insertBookCase(String memberNo, String bookCaseId) {
+		// 남의 서재- 책장 에서 책장 추가 
+		Connection conn = JDBCTemplate.getConnection();
+		int result = cDAO.insertBookCase(conn,memberNo,bookCaseId);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int deleteBookCase(String memberNo, String bookCaseId) {
+		// 남의 서재- 책장 에서 책장 추가 
+		Connection conn = JDBCTemplate.getConnection();
+		int result = cDAO.deleteBookCase(conn,memberNo,bookCaseId);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public ArrayList<BookshelfCollection> selectColBookshelf(String memberNo) {
+		// 내가 스크랩한 책장
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<BookshelfCollection> bcColList = cDAO.selectColBookshelf(conn,memberNo);
+		JDBCTemplate.close(conn);
+		return bcColList;
+	
 	}
 }
