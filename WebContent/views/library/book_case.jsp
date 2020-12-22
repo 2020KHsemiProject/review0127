@@ -43,6 +43,7 @@
         	/* 가로중앙 */
             margin: 0 auto;
             width: 1200px;
+            min-height: 550px;
         }
         .bookcase-case{
         	padding-bottom: 10%;
@@ -248,7 +249,11 @@
         	color: gray;
         }
         
-        
+        .not-yet {
+		margin: 0 auto;
+		text-align: center;
+		font-size: 3rem;
+}
         
     @media (max-width:1200px){
     	#myBookcase-wrapper{ width: 1200px;}
@@ -720,8 +725,10 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
             
             
             
-	<% } else { %>   
+	<% } else { %>  
+	<div class="reviewNote-contents"> 
             <div class="not-yet"><%=mem.getNickname() %>님의 책장이 아직 없습니다.</div>
+    </div>
 	<% } %>
         </div>
 
@@ -929,9 +936,11 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
             
             
 	<% } else { %>   
+	<div class="reviewNote-contents">
             <div class="not-yet">
             	<%=mem.getNickname() %>님의 책장이 아직 없습니다.
 			</div>
+	</div>
 	<% } %>
         </div>
 
@@ -1070,11 +1079,13 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
             
             
 	<% } else { %>   
+			
             <div class="not-yet">
             	<%=mem.getNickname() %>님의 책장이 아직 없습니다.
 			</div>
+			</div>
 	<% } %>
-        </div>
+        
 
         
 

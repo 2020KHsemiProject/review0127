@@ -59,6 +59,7 @@ button:focus {
 	/* 가로중앙 */
 	margin: 0 auto;
 	width: 1200px;
+	min-height: 550px;
 }
 
 .reviewNote-contents-top {
@@ -122,7 +123,6 @@ button:focus {
 .not-yet {
 	margin: 0 auto;
 	text-align: center;
-	height: 450px;
 	font-size: 3rem;
 }
 @media (max-width:1200px){
@@ -438,7 +438,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 
 					</div>
 					<% }else { %>
-					<div class="not-yet">
+					<div class="reviewNote-contents">
 						아직 리뷰를 안 쓰셨군요?<br>
 						<div>오, 여기다 추천 책 같은게 나오면 좋겠지만 못 하겠지 ㅎ</div>
 						<a href="/reviewPage.rw">리뷰 쓰러 가기</a>
@@ -617,7 +617,6 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 			<% }else { ///////////////////////// 리스트가 비어있다면%>
 					<div class="not-yet"><%=mem.getNickname() %>님의 리뷰가 아직 없습니다.
 					</div>
-
 			<% } %>
 				</div>
 				<!-- row -->
@@ -774,7 +773,6 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 			<% }else { ///////////////////////// 리스트가 비어있다면%>
 					<div class="not-yet"><%=mem.getNickname() %>님의 리뷰가 아직 없습니다.
 					</div>
-
 			<% } %>
 				</div>
 				<!-- row -->

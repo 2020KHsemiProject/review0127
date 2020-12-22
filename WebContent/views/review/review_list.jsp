@@ -36,6 +36,7 @@ button:focus {
 	margin: 0 auto;
 	width: 1200px;
 	margin-top: 70px;
+	min-height: 550px;
 }
 
 #reviewList-top {
@@ -121,7 +122,6 @@ hr {
 .not-yet {
 	margin: 0 auto;
 	text-align: center;
-	height: 450px;
 	font-size: 3rem;
 }
 
@@ -133,14 +133,17 @@ hr {
 <script>
     
         $(function(){
-        	
+        	var text2;
         	// review-card-text 누르면 개별리뷰페이지로 이동
 			$('.review-card-text').mousedown(function(){
 				$(this).css('box-shadow','0px 0px 10px 5px #0080ff').css('position','relative').css('z-index','999');
+				text2 = $(this).parents('.review-card').attr('reviewId');
 			});// 클릭 뗄 때 이동
 			$('.review-card-text').mouseup(function(){
 				$(this).css('box-shadow','').css('position','').css('z-index','');
-				location.href="#";// 개별 도서 페이지
+				
+				console.log(text2);
+				//location.href="#";// 개별 도서 페이지
 			});// 마우스가 요소 외부에 있을 때 그림자 삭제
 			$('.review-card-text').mouseout(function(){
 				$(this).css('box-shadow','').css('position','').css('z-index','');
@@ -291,12 +294,9 @@ hr {
 </head>
 <body>
 
-	<% ArrayList<ReviewCard> list = (ArrayList<ReviewCard>)request.getAttribute("list"); %>
+	<% ArrayList<ReviewCard> list = (ArrayList<ReviewCard>)request.getAttribute("list");
 	
-	
-	
-	
-	<% if((Member)session.getAttribute("member")!=null) { %>
+	if((Member)session.getAttribute("member")!=null) { %>
 	
 	<div id="reviewList-wrapper">
 		
@@ -338,7 +338,7 @@ hr {
 				
 					if(((Member)session.getAttribute("member")).getMemberNo().equals(rc.getMemberNo())) { 
 				%>
-						<div class="review-card">
+						<div class="review-card" reviewId="<%=rc.getReviewId()%>">
 							<div class="review-card-book-img">
 								<img src="<%=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." />
 							</div>
@@ -361,8 +361,7 @@ hr {
 										<div class="col-12">
 											<div class="row">
 												<div class="col-7"><%=rc.getReviewDate() %></div>
-												<div class="col-5 review-card-count">
-													조회	<%=rc.getReviewCount() %></div>
+												<div class="col-5 review-card-count">조회 <%=rc.getReviewCount() %></div>
 											</div>
 										</div>
 									</div>
