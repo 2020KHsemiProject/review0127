@@ -618,4 +618,5 @@ hr {
 
 <%@ include file="/views/common/footer.jsp"%>
 </body>
+>>>>>>> refs/remotes/origin/master
 </html>

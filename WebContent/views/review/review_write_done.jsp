@@ -11,7 +11,7 @@
 	<%if(result) {%>
 		<script>
 			alert('리뷰 작성 완료');
-			location.replace('/views/review/review_list.jsp');
+			location.replace('/reviewPage.rw');
 		</script>
 	<%}else{ %>
 		<script>

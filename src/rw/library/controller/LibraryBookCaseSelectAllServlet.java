@@ -47,7 +47,7 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 		
 		String libraryOwner = request.getParameter("libraryOwner");
 		if(member!=null) { // 로그인 했다면
-			
+
 			if(member.getMemberId().equals(libraryOwner)) { //// 내 책장
 				m = new MemberService().selectOneMemberId(member.getMemberId());  // 내 서재
 				
@@ -82,6 +82,10 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 				
 				count = lService.countOtherAllBookCase(m.getMemberNo()); // 책장 개수
 				
+				//남의 서재가 내 컬렉션에 있는지 확인
+				boolean result = false;
+				result = new CollectionService().existsMyLibCol(member.getMemberNo(),libraryOwner);
+				
 				// 페이징 처리
 				int currentPage; // 현재 페이지값을 가지고 있는 변수
 				if(request.getParameter("currentPage")==null) {
@@ -101,6 +105,7 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 				request.setAttribute("count", count);
 				request.setAttribute("list", list);
 				request.setAttribute("bcColList", bcColList);
+				request.setAttribute("inMyLibCol", result); //내 서재 컬렉션 확인
 				view.forward(request, response);
 			}
 			

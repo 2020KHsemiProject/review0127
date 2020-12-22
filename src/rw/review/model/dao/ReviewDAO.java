@@ -89,8 +89,8 @@ public class ReviewDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ReviewCard rc = null;
-		String query = "SELECT * FROM REVIEW JOIN BOOK USING(BOOK_ID) JOIN MEMBER USING(MEMBER_NO) "
-				+ "LEFT JOIN REVIEW_LIKE USING(REVIEW_ID) WHERE REVIEW_ID = ?";
+		String query = "SELECT * FROM REVIEW JOIN BOOK USING(BOOK_ID) JOIN MEMBER " + 
+				"USING(MEMBER_NO) WHERE REVIEW_ID = ? AND DEL_YN = 'N'";
 
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -124,12 +124,6 @@ public class ReviewDAO {
 				rc.setBookAuthor(rset.getString("BOOK_AUTHOR"));
 				rc.setBookImage(rset.getString("BOOK_IMAGE"));
 
-				rc.setLikeId(rset.getInt("LIKE_ID"));
-				if (rset.getString("LIKE_YN") == null) {
-					rc.setLikeYN('N');
-				} else {
-					rc.setLikeYN(rset.getString("LIKE_YN").charAt(0));
-				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -352,6 +346,49 @@ public class ReviewDAO {
 		return list;
 	}
 
+	public int addViewCount(Connection conn, String reviewId, int reviewCount) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE REVIEW SET REVIEW_COUNT = ? WHERE REVIEW_ID = ?"; 
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, reviewCount);
+			pstmt.setString(2, reviewId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public char selectMyReviewLike(Connection conn, String memberNo, String reviewId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		char likeYN = 'N';
+		
+		String query = "SELECT LIKE_YN FROM REVIEW_LIKE WHERE REVIEW_ID =? AND MEMBER_NO = ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, reviewId);
+			pstmt.setString(2, memberNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				likeYN = rset.getString(1).charAt(0);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return likeYN;
+	}
+	
 	public int countReviewLikePoint(Connection conn, String reviewId) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
