@@ -286,7 +286,7 @@
         	$(document).mouseup(function (e){
         		var LayerPopup = $(".modifyCaseNameForm");
         		if(LayerPopup.has(e.target).length === 0){
-        			$('.modifyCaseNameForm').find('input[name=bookcaseName]').attr('type','hidden').val('');
+        			$('.modifyCaseNameForm').find('input').attr('type','hidden').val('');
         			$('.modifyCaseNameForm').find('button.sendModifyTitleBtn').css('display','none');
         			$('.modifyCaseNameForm').find('button.modifyTitleBtn').css('display','inline');
         			$('.bookcase-name').css('display','inline');
