@@ -82,6 +82,7 @@ li{
 	cursor:pointer;
 }
 #user-menu-btn {
+	cursor: pointer;
     width: 50px;
 }
 

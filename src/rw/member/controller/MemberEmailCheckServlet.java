@@ -1,27 +1,27 @@
 package rw.member.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import rw.member.model.vo.Member;
+import rw.member.model.service.MemberService;
 
 /**
- * Servlet implementation class MemberLogoutServlet
+ * Servlet implementation class MemberNickCheckServlet
  */
-@WebServlet("/memberLogout.rw")
-public class MemberLogoutServlet extends HttpServlet {
+@WebServlet("/emailCheck.rw")
+public class MemberEmailCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberLogoutServlet() {
+    public MemberEmailCheckServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,11 +30,21 @@ public class MemberLogoutServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		Member m = (Member)session.getAttribute("member");
-		System.out.println("["+m.getMemberId()+"]님이 로그아웃하셨습니다.");
-		session.invalidate();
-		response.sendRedirect("/index.jsp");
+		request.setCharacterEncoding("UTF-8");
+		
+		String email = request.getParameter("email");
+		
+		boolean result = new MemberService().nickNameCheck(email);
+		
+		response.setCharacterEncoding("UTF-8");
+		
+		PrintWriter out = response.getWriter();
+		
+		if(result==true) {
+			out.print("not-usalbe");	
+		} else {
+			out.print("usable");	
+		}
 	}
 
 	/**
