@@ -3,7 +3,6 @@ package rw.admin.inquiry.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-
 import rw.admin.inquiry.model.dao.InquiryDAO;
 import rw.common.JDBCTemplate;
 import rw.inquiry.model.vo.Inquiry;
@@ -11,7 +10,7 @@ import rw.inquiry.model.vo.InquiryList;
 
 public class InquiryService {
 	InquiryDAO iDAO = new InquiryDAO();
-	
+
 	public InquiryList selectAll(int currentPage) {
 		Connection conn = JDBCTemplate.getConnection();
 		int recordCountPerPage = 10;
@@ -35,81 +34,75 @@ public class InquiryService {
 		JDBCTemplate.close(conn);
 		return inquiry;
 	}
-	
-	
-public int deleteInquiry(int inquiryNo) {
-		
+
+	public int deleteInquiry(int inquiryNo) {
 
 		Connection conn = JDBCTemplate.getConnection();
-		
-		int result = iDAO.deleteInquiry(conn,inquiryNo);
-		
-		if(result>0) {
-			
+
+		int result = iDAO.deleteInquiry(conn, inquiryNo);
+
+		if (result > 0) {
+
 			JDBCTemplate.commit(conn);
-			
-			
-		}else {
-			
+
+		} else {
+
 			JDBCTemplate.rollback(conn);
-			
+
 		}
-		
+
 		JDBCTemplate.close(conn);
-		
+
 		return result;
 	}
-	
-	
+
 	public int restoreInquiry(int inquiryNo) {
-		
 
 		Connection conn = JDBCTemplate.getConnection();
-		
-		int result = iDAO.restoreInquiry(conn,inquiryNo);
-		
-		
-		if(result>0) {
-			
+
+		int result = iDAO.restoreInquiry(conn, inquiryNo);
+
+		if (result > 0) {
+
 			JDBCTemplate.commit(conn);
-			
-			
-		}else {
-			
+
+		} else {
+
 			JDBCTemplate.rollback(conn);
-			
+
 		}
-		
+
 		JDBCTemplate.close(conn);
-		
+
 		return result;
 	}
-
 
 	public int deleteInquiryList(String inquiryNoArr) {
-		
 
-		
 		Connection conn = JDBCTemplate.getConnection();
-		
-		int result = iDAO.deleteInquiryList(conn,inquiryNoArr);
-		
-		if(result>0) {
-			
+
+		int result = iDAO.deleteInquiryList(conn, inquiryNoArr);
+
+		if (result > 0) {
 			JDBCTemplate.commit(conn);
-			
-			
-		}else {
-			
+		} else {
 			JDBCTemplate.rollback(conn);
-			
 		}
-		
 		JDBCTemplate.close(conn);
-		
 		return result;
-		
-		
 	}
 
+	public int update(String email) {
+		Connection conn = JDBCTemplate.getConnection();
+		int update = iDAO.update(conn, email);
+		
+		if (update > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return update;
+		
+	}
 }
