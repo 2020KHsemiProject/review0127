@@ -153,6 +153,7 @@ hr {
 				$(this).css('box-shadow','0px 0px 10px 5px #0080ff');
 			});// 클릭 뗄 때 이동
 			$('.review-card-book-img').mouseup(function(){
+				//alert(cardBookId);
 				$(this).css('box-shadow','');
 				location.href="/bookInfo.rw";// 개별 도서 페이지
 			});// 마우스가 요소 외부에 있을 때 그림자 삭제
