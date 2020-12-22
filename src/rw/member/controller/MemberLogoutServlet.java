@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import rw.member.model.vo.Member;
+
 /**
  * Servlet implementation class MemberLogoutServlet
  */
@@ -29,6 +31,8 @@ public class MemberLogoutServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		Member m = (Member)session.getAttribute("member");
+		System.out.println("["+m.getMemberId()+"]님이 로그아웃하셨습니다.");
 		session.invalidate();
 		response.sendRedirect("/index.jsp");
 	}

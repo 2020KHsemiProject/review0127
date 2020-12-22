@@ -16,15 +16,30 @@
             background-color:  #2A303D;
             height: 100px;
             text-align: center;
-            line-height: 100px;
         }
         #footer-wrap {
  		 	width: 1200px;
-    		height: auto;
+    		height: 100%;
+    		padding-top:20px;
     		margin: 0 auto;
 		}
         #footer-wrap span{
             color: white;
+            line-height:30px;
+            text-align:center;
+        }
+        #goToAdmin{
+        	border-radius : 20px;
+        	background-color: rgb(255,255,255,0.5);
+        	display:inline-block;
+        	width:70px;
+        	position:relative;
+        	top:-30px;
+        	left: 500px;
+        	color:#2A303D;
+        }
+        #goToAdmin:link{
+        	text-decoration : none;
         }
         @media (max-width:1200px){
  		   #footer{ width: 1200px;}
@@ -34,7 +49,9 @@
 <body>
 	<div id="footer">
 	<div id="footer-wrap">
-        <span>Copyright © 2020 REVIEW:0127 All rights reserved.</span>
+        <span>Copyright © 2020 REVIEW:0127 All rights reserved.</span><br>
+        <span>관리자 문의 : rvw0127@gmail.com</span><br>
+        <a id="goToAdmin" href="">관리자</a>
     </div>
     </div>
 </body>

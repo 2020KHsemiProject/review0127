@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import rw.col.model.service.CollectionService;
+import rw.col.model.vo.ReviewCollection;
 import rw.member.model.service.MemberService;
 import rw.member.model.vo.Member;
 import rw.review.model.vo.ReviewCard;
@@ -20,7 +22,7 @@ import rw.reviewnote.model.vo.ReviewNotePageData;
 /**
  * Servlet implementation class MyLibraryReviewNoteServlet
  */
-@WebServlet("/myRivewNote.rw")
+@WebServlet("/myReviewNote.rw")
 public class LibraryReviewNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -38,29 +40,27 @@ public class LibraryReviewNoteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LibraryReviewNoteService rnService = new LibraryReviewNoteService();
 		HttpSession session = request.getSession();
-		String memberId = ((Member)session.getAttribute("member")).getMemberId();
-		String memberNo = ((Member)session.getAttribute("member")).getMemberNo();
+		Member member = (Member)session.getAttribute("member");
+		
+		if(member!=null) { // 로그인 했다면 
+		String memberId = member.getMemberId(); // session 
 		// System.out.println("[내 서재] 내 멤버고유번호 : "+memberNo);
 		
 		// 서재 주인
 		String libraryOwner = request.getParameter("libraryOwner");
 		
 		Member m = new Member();
+		
 		if(memberId.equals(libraryOwner)) {
-			m = rnService.selecAlltMyLibraryHeader(memberNo);  // 내 서재
-			if(m.getProfileImg()==null) { // 이미지 이름
-				m.setProfileImg("default_user_dark.png");
-			}
+			m = new MemberService().selectOneMemberId(memberId);  // 내 서재
 			if(m!=null) { // 세션에 넣어줌
-				session.setAttribute("member", m);
+				session.setAttribute("member", m); 
 			}
 		}else {
 			m = new MemberService().selectOneMemberId(libraryOwner); // 남의 서재
-			if(m.getProfileImg()!=null) { // 이미지 이름
-				m.setProfileImg("default_user_dark.png");
-			}
 		}
 		
+		if(m!=null) { // m 객체가 null이 아닐 때
 		// 내 서재 리뷰 개수
 		int count = rnService.countAllReview(m.getMemberNo());
 		
@@ -82,12 +82,67 @@ public class LibraryReviewNoteServlet extends HttpServlet {
 			}
 		}
 		
+		
+		// 내 리뷰 컬렉션 데이터 가져오기
+		ArrayList<ReviewCollection> rColList = new CollectionService().selectColReview(member.getMemberNo());
+		
 		RequestDispatcher view = request.getRequestDispatcher("/views/library/review_note.jsp?libraryOwner="+libraryOwner);
 		request.setAttribute("count", count);
 		request.setAttribute("list", list);
-		request.setAttribute("pageNavi", pageNavi); //System.out.println(pageNavi);
+		request.setAttribute("pageNavi", pageNavi); 
 		request.setAttribute("member", m);
+		request.setAttribute("rColList", rColList);
 		view.forward(request, response);
+		
+		}else { // m 객체가 null일 때 즉
+			RequestDispatcher view = request.getRequestDispatcher("/views/library/member_load_fail.jsp");
+			view.forward(request, response);
+		}
+		
+		}else { // 로그인 안 했다면
+			
+			
+			
+			// 서재 주인
+			String libraryOwner = request.getParameter("libraryOwner");
+			
+			Member m = new MemberService().selectOneMemberId(libraryOwner); // 남의 서재
+			
+			
+			if(m!=null) { // m 객체가 null이 아닐 때
+			// 내 서재 리뷰 개수
+			int count = rnService.countAllReview(m.getMemberNo());
+			
+			// 페이징 처리
+			int currentPage; // 현재 페이지값을 가지고 있는 변수
+			if(request.getParameter("currentPage")==null) {
+				currentPage = 1;
+			}else {
+				currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			}
+			
+			// 리뷰 (리뷰테이블 + 도서 API / 멤버테이블 / 좋아요테이블)
+			ReviewNotePageData rnpd = rnService.selectAllReviewData(m.getMemberNo(),m.getMemberId(),currentPage);
+			ArrayList<ReviewCard> list = rnpd.getList();
+			String pageNavi = rnpd.getPageNavi(); // System.out.println(pageNavi);
+			for(ReviewCard rc : list) {
+				if(rc.getProfileImg()==null) {
+					rc.setProfileImg("default_user_dark.png");
+				}
+			}
+			
+			RequestDispatcher view = request.getRequestDispatcher("/views/library/review_note.jsp?libraryOwner="+libraryOwner);
+			request.setAttribute("count", count);
+			request.setAttribute("list", list);
+			request.setAttribute("pageNavi", pageNavi); //System.out.println(pageNavi);
+			request.setAttribute("member", m);
+			view.forward(request, response);
+			
+			}else { // m 객체가 null일 때 즉, 탈퇴하거나 없는 회원
+				RequestDispatcher view = request.getRequestDispatcher("/views/member/released_login.jsp");
+				view.forward(request, response);
+			}
+		}
 		
 	}
 
