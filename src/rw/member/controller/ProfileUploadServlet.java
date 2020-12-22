@@ -41,7 +41,7 @@ public class ProfileUploadServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String uploadPath = "/resources/profile"; // 파일 업로드 부분 - 대표 이미지
+		String uploadPath = "/image/profile"; // 파일 업로드 부분 - 대표 이미지
 		ServletContext context = request.getServletContext(); // 현재 실행 중인 프로젝트 접근 정보
 		String realUploadPath = context.getRealPath(uploadPath); // 가상 경로 넣어주면 그것이 실제 경로로 변경
 		
@@ -56,23 +56,14 @@ public class ProfileUploadServlet extends HttpServlet {
 		Member m = (Member)session.getAttribute("member");
 		String fileUser = m.getMemberId();
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"); //포맷 만들기
-		long currentTime = Calendar.getInstance().getTimeInMillis(); //시간값 가져오기
-		Timestamp uploadTime = Timestamp.valueOf(formatter.format(currentTime));
-		
-		System.out.println(uploadTime.toString());
-		
 		File file = new File(realUploadPath+"\\"+originalFileName);
-		file.renameTo(new File(realUploadPath+"\\"+currentTime+"_rw"));
-		String changedFileName = currentTime+"_rw";
+		file.renameTo(new File(realUploadPath+"\\"));
 		
-		File reNameFile = new File(realUploadPath+"\\"+changedFileName);
+		File reNameFile = new File(realUploadPath+"\\"+originalFileName);
 		String filePath = reNameFile.getPath();
-		long fileSize = reNameFile.length();
-		// 여기까지가 DB에 들어갈 값 세팅...
-
+		
         FileData fd = new FileData();
-        fd.setChangedFileName(changedFileName);
+        fd.setChangedFileName(originalFileName);
         fd.setFileUser(fileUser);
         
         int result = new FileService().uploadFile(fd);

@@ -107,14 +107,14 @@ $(function() {
 										<form action="/profileUpload.rw" method="post"
 											enctype="multipart/form-data" id="profile_form">
 											<div id="image_box">
-												<input type="hidden"> <img
-													src="/image/profile/default_user_dark.png" id="profile_img"
-													name="profileImg" />
+												<input type="hidden"> 
+												<img src="/image/profile/default_user_dark.png" id="profile_img" />
 											</div>
-											<label id="profile_change_btn"> <input type="file"
-												onChange="uploadImg();" accept="image/*" id="input_file" />
-											</label> <label id="profile_del_btn"> <img
-												src="/image/profile/picture_change_del.png" id="img_del" />
+											<label id="profile_change_btn"> 
+												<input type="file" onChange="uploadImg();" accept="image/*" id="input_file" name="profileImg"/>
+											</label> 
+											<label id="profile_del_btn"> 
+												<img src="/image/profile/picture_change_del.png" id="img_del" />
 											</label>
 										</form>
 										<p id="profile_info">※ 프로필 사진은 100px X 100px 사이즈를 권장합니다.</p>
