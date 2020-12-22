@@ -52,8 +52,6 @@ public class ReviewDAO {
 			}
 			
 			
-			System.out.println(list.size());
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
