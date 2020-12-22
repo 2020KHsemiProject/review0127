@@ -30,6 +30,7 @@
         #myBookcase-wrapper {
             width: 100%;
             padding: 0;
+            min-height: 550px;
         }
         button:focus {
 			outline: none;

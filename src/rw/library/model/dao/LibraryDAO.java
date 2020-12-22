@@ -74,7 +74,7 @@ public class LibraryDAO {
 		ArrayList<Library> listLib = new ArrayList<Library>(); 
 		int start = currentPage * recordCountPerPage - (recordCountPerPage-1);
 		int end = currentPage * recordCountPerPage;
-		String query = "SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY L.BOOKSHELF_ID DESC) AS ROW_NUM,L.* FROM LIBRARY L LEFT JOIN MEMBER M ON (M.MEMBER_NO=L.MEMBER_NO) WHERE L.MEMBER_NO=? AND L.DEL_YN='N') WHERE ROW_NUM BETWEEN ? AND ?";
+		String query = "SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY TO_NUMBER(SUBSTR(L.BOOKSHELF_ID,2)) DESC) AS ROW_NUM,L.* FROM LIBRARY L LEFT JOIN MEMBER M ON (M.MEMBER_NO=L.MEMBER_NO) WHERE L.MEMBER_NO=? AND L.DEL_YN='N') WHERE ROW_NUM BETWEEN ? AND ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, memberNo);
