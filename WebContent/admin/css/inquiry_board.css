@@ -2,26 +2,30 @@
   width: 5%;
 }
 .inquiry-no {
-  width: 8%;
+  width: 5%;
+}
+
+.inquiry-category{
+width:10%;
+	
+	
 }
 
 .member-id {
-  width: 15%;
+  width: 10%;
 }
 
 .reply-email {
   width: 15%;
 }
 
-.inquiry-title {
-  width: 22%;
-}
+
 .inquiry-date {
-  width: 13%;
+  width: 10%;
 }
 
 .update {
-  width: 12%;
+  width: 10%;
 }
 .delete {
   width: 10%;
