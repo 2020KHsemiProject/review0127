@@ -286,7 +286,7 @@
         	$(document).mouseup(function (e){
         		var LayerPopup = $(".modifyCaseNameForm");
         		if(LayerPopup.has(e.target).length === 0){
-        			$('.modifyCaseNameForm').find('input[name=bookcaseName]').attr('type','hidden').val('');
+        			$('.modifyCaseNameForm').find('input').attr('type','hidden').val('');
         			$('.modifyCaseNameForm').find('button.sendModifyTitleBtn').css('display','none');
         			$('.modifyCaseNameForm').find('button.modifyTitleBtn').css('display','inline');
         			$('.bookcase-name').css('display','inline');
@@ -545,6 +545,9 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
     			var $inputTag = $('input[name=bookcaseName'+bookShelfId+']');
         		var titleName = $inputTag.val();
         		var object = {'bookShelfId':bookShelfId,'titleName':titleName};
+        		if(titleName==''){
+        			alert('수정할 책장 이름을 입력하세요.');
+        		}else {
         		$.ajax({
         			url : '/bookCaseModifyTitle.rw',
         			data : object,
@@ -554,11 +557,14 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
             			$inputTag.parent().prev().text(data.updateTitle).css('display','inline');
             			$inputTag.next().children().css('display','inline');
             			$inputTag.next().next().children().css('display','none');
+            			history.go(0);
         			},
         			error : function(){
         				alert('책장 이름 수정에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.')
+        				history.go(0);
         			}
         		});
+        		}
     		};
 			
 			//// 자물쇠 버튼
@@ -593,8 +599,8 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 					}
 				}
             
+			// 책장 삭제
           	function delCase(bookShelfId){
-          		confirm(bookShelfId);
           		var result = window.confirm('해당 책장을 삭제하시겠습니까?');
        			if(result){
        				location.replace('/deletBookCase.rw?libraryOwner='+'<%=libraryOwner%>'+'&bookShelfId='+bookShelfId);
