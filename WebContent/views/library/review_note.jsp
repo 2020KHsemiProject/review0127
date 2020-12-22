@@ -374,10 +374,10 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 				<% for(ReviewCard rc : list){ %>
 						<div class="review-card">
 							<div class="review-card-book-img">
-								<a href="/bookInfo.rw?bookId=<%=rc.getBookId()%>" class="bookLink"><img src="<%=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." /></a>
+								<a href="/bookInfo.rw?bookId=<%=rc.getBookId()%>" class="bookLink"><img src="<%=rc.getBookImage()%>" title="해당 도서페이지로 이동합니다." /></a>
 							</div>
 							<a href="/reviewRead.rw?reviewId=<%=rc.getReviewId()%>">
-							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
+							<div class="review-card-text" title="해당 리뷰페이지로 이동합니다.">
 								<div class="review-card-book-title">
 									<span class="review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
 									<span class="review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
@@ -405,7 +405,7 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 								</div>
 								<div class="col-3 rvheart reviewNoteIcon">
 									<div class="review-heart-and-count">
-										<span class="review-heart"><a>♡</a></span> <span class="heart-count"><%=rc.getReviewRate() %></span>
+										<span class="review-heart"><a>♡</a></span> <span class="heart-count"><%=rc.getReviewLikeCount() %></span>
 									</div>
 								</div>
 							</div>
@@ -550,7 +550,7 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 
 						<% for(ReviewCard rc : list){ %>
 						<div class="other_review-card" name="<%=rc.getReviewId()%>">
-							<div class="other_review-card-book-img" title="누르면 해당 도서페이지로 이동합니다.">
+							<div class="other_review-card-book-img" title="해당 도서페이지로 이동합니다.">
 								<span class="other_reviewScrap reviewScrap<%=rc.getReviewId() %> collectionIcon">
                                     <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                       <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z"/>
@@ -559,7 +559,7 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 								<a href="/bookInfo.rw?bookId=<%=rc.getBookId()%>" class="bookLink"><img src="<%=rc.getBookImage()%>" /></a>
 							</div>
 							<a href="/reviewRead.rw?reviewId=<%=rc.getReviewId()%>">
-							<div class="other_review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
+							<div class="other_review-card-text" title="해당 리뷰페이지로 이동합니다.">
 								<div class="other_review-card-book-title">
 									<span class="other_review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
 									<span class="other_review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
@@ -571,7 +571,7 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 								<div class="col-3">
 									<div class="other_review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getMemberId() %>]님의 서재로 이동합니다."/>
+											class="other_writer-profile-img" writer="<%=rc.getMemberId() %>"/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -591,7 +591,7 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 									<div class="other_review-heart-and-count">
 										<span class="other_review-heart"><a>
 												<% if(rc.getLikeYN()=='Y'){ %>♥<%}else { %>♡<% } %>
-										</a></span> <span class="other_heart-count"><%=rc.getReviewRate() %></span>
+										</a></span> <span class="other_heart-count"><%=rc.getReviewLikeCount() %></span>
 									</div>
 								</div>
 							</div>
@@ -757,7 +757,7 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 								</div>
 								<div class="col-3 rvheart reviewNoteIcon">
 									<div class="review-heart-and-count">
-										<span class="review-heart"><a>♡</a></span> <span class="heart-count"><%=rc.getReviewRate() %></span>
+										<span class="review-heart"><a>♡</a></span> <span class="heart-count"><%=rc.getReviewLikeCount() %></span>
 									</div>
 								</div>
 							</div>

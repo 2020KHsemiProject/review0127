@@ -1,30 +1,28 @@
-package rw.admin.notice.controller;
+package rw.admin.inquiry.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import rw.admin.notice.model.service.NoticeService;
-import rw.member.model.vo.Member;
+import rw.admin.inquiry.model.service.InquiryService;
+import rw.common.MailAuthentication;
 
 /**
- * Servlet implementation class InsertNotice
+ * Servlet implementation class InquiryInsertServlet
  */
-@WebServlet("/insertNotice.ad")
-public class NoticeInsertServlet extends HttpServlet {
+@WebServlet("/insertInquiry.ad")
+public class InquiryInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeInsertServlet() {
+    public InquiryInsertServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,26 +31,27 @@ public class NoticeInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1.인코딩
 		request.setCharacterEncoding("UTF-8");
+
+		String email = request.getParameter("ReplyEmail");
+		String title = request.getParameter("answerTitle");
+		String content = request.getParameter("answerContent");
 		
-		//2. 자바코드로 저장
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
+		int result = new MailAuthentication().sendMailInquriy(email, title, content);
 		
-		//3. 비지니스 로직 처리
-		int result = new NoticeService().insertNotice(title, content);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		
-		if(result>0) {
-			out.println("<script>alert('작성이 완료되었습니다.');</script>");
-			out.println("<script>location.replace('/selectAllNotice.ad');</script>");
+		if(result == 1) { //성공
+			int update = new InquiryService().update(email);
+			out.println("<script>alert('메일 전송이 완료되었습니다.');</script>");
+			out.println("<script>location.replace('/selectAllInquiry.ad');</script>");
 		}else {
-			out.println("<script>alert('작성을 실패하였습니다. \\n지속적인 문제 발생시 개발자에게 문의해주세요.');</script>");
+			out.println("<script>alert(메일 전송이 실패되었습니다.);</script>");
 			out.println("<script>history.back(-1);</script>");
 		}
+		
 	}
 
 	/**

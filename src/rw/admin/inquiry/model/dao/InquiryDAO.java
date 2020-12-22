@@ -29,7 +29,7 @@ public class InquiryDAO {
 			pstmt.setInt(1, start);
 			pstmt.setInt(2, end);
 			rset = pstmt.executeQuery();
-			
+
 			while (rset.next()) {
 
 				Inquiry i = new Inquiry();
@@ -80,25 +80,25 @@ public class InquiryDAO {
 
 		if (startNavi != 1) {
 
-			sb.append("<li class='page-item'><a class='page-link' href='/selectAllInquiry.ad?currentPage="
-					+ (startNavi - 1) + "' aria-label='Previous'>"
-					+ "<span aria-hidden='true'>&laquo;</span></a></li>");
+			sb.append(
+					"<li class='page-item'><a class='page-link' href='/inquirySelect.ad?currentPage=" + (startNavi - 1)
+							+ "' aria-label='Previous'>" + "<span aria-hidden='true'>&laquo;</span></a></li>");
 		}
 
 		for (int i = startNavi; i <= endNavi; i++) {
 			if (i == currentPage) {
-				sb.append("<li class='page-item'><a class='page-link' href='/selectAllInquiry.ad?currentPage=" + i
+				sb.append("<li class='page-item'><a class='page-link' href='/inquirySelect.ad?currentPage=" + i
 						+ "'><b>" + i + "</b></a></li>");
 			} else {
-				sb.append("<li class='page-item'><a class='page-link' href='/selectAllInquiry.ad?currentPage=" + i + "'>"
+				sb.append("<li class='page-item'><a class='page-link' href='/inquirySelect.ad?currentPage=" + i + "'>"
 						+ i + "</a></li>");
 			}
 		}
 
 		// 만약 마지막 pageNavi가 아니라면 ' > ' 모양을 추가해라 (마지막 pageNavi이면 추가하지 말아라)
 		if (endNavi != pageTotalCount) {
-			sb.append("<li class='page-item'><a class='page-link' href='/selectAllInquiry.ad?currentPage="
-					+ (endNavi + 1) + "' aria-label='Next'>" + "<span aria-hidden='true'>&raquo;</span>" + "</a></li>");
+			sb.append("<li class='page-item'><a class='page-link' href='/inquirySelect.ad?currentPage=" + (endNavi + 1)
+					+ "' aria-label='Next'>" + "<span aria-hidden='true'>&raquo;</span>" + "</a></li>");
 		}
 		return sb.toString();
 	}
@@ -115,7 +115,7 @@ public class InquiryDAO {
 			rset = pstmt.executeQuery();
 
 			if (rset.next()) {
-			totalCount = rset.getInt("totalcount");
+				totalCount = rset.getInt("totalcount");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -132,15 +132,15 @@ public class InquiryDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		Inquiry inquiry = null;
-		
+
 		String query = "SELECT * FROM inquiry WHERE inquiry_No=? AND DEL_YN='N'";
-		
+
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, inquiryNo);
 			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
+
+			if (rset.next()) {
 				inquiry = new Inquiry();
 				inquiry.setInquiryNo(rset.getInt("inquiry_No"));
 				inquiry.setMemberId(rset.getString("member_Id"));
@@ -156,98 +156,104 @@ public class InquiryDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
 		return inquiry;
-		
+
 	}
-	
-	
-public int deleteInquiry(Connection conn, int inquiryNo) {
-		
-		
+
+	public int deleteInquiry(Connection conn, int inquiryNo) {
+
 		PreparedStatement pstmt = null;
-		int result =0;
-		
+		int result = 0;
+
 		String query = "update inquiry set del_yn='Y' where inquiry_no = ?";
-		
+
 		try {
-			pstmt =conn.prepareStatement(query);
+			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, inquiryNo);
-			
+
 			result = pstmt.executeUpdate();
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			
+		} finally {
+
 			JDBCTemplate.close(pstmt);
-			
+
 		}
-		
 
 		return result;
 	}
 
-	
-	
-	
 	public int restoreInquiry(Connection conn, int inquiryNo) {
-		
-		
+
 		PreparedStatement pstmt = null;
-		int result =0;
-		
+		int result = 0;
+
 		String query = "update inquiry set del_yn='N' where inquiry_no = ?";
-		
+
 		try {
-			pstmt =conn.prepareStatement(query);
+			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, inquiryNo);
-			
+
 			result = pstmt.executeUpdate();
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			
+		} finally {
+
 			JDBCTemplate.close(pstmt);
-			
+
 		}
-		
 
 		return result;
 	}
 
 	public int deleteInquiryList(Connection conn, String inquiryNoArr) {
-		
-		
+
 		PreparedStatement pstmt = null;
-		int result =0;
+		int result = 0;
+
+		String query = "update inquiry set del_yn='Y' where " + inquiryNoArr;
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			JDBCTemplate.close(pstmt);
+
+		}
+		return result;
+	}
+
+	public int update(Connection conn, String email) {
+		PreparedStatement pstmt = null;
+		int update = 0;
 		
-		String query = "update inquiry set del_yn='Y' where "+inquiryNoArr;
+		String query = "UPDATE INQUIRY SET REPLY_YN='Y' WHERE REPLY_EMAIL=?";
 		
 		try {
-			pstmt =conn.prepareStatement(query);
-			result = pstmt.executeUpdate();
-			
-			
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, email);
+			update = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
-			
 			JDBCTemplate.close(pstmt);
-			
 		}
 		
-
-		return result;
+		return update;
 	}
 
 }

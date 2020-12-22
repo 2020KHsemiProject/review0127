@@ -133,6 +133,13 @@ public class ReviewService {
 		JDBCTemplate.close(conn);
 		return likeYN;
 	}
+	
+	public int countReviewLikePoint(String reviewId) {
+		Connection conn = JDBCTemplate.getConnection();
+		int count = rDAO.countReviewLikePoint(conn,reviewId);
+		JDBCTemplate.close(conn);
+		return count;
+	}
 
 	
 }
