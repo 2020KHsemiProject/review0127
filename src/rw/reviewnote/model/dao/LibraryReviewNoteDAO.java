@@ -42,7 +42,7 @@ public class LibraryReviewNoteDAO {
 		int start = currentPage * recordCountPerPage - (recordCountPerPage-1);
 		int end = currentPage * recordCountPerPage;
 		// 조인으로 로우넘 탑앤 쿼리 날릴 땐 먼저 메인 테이블에서 탑엔 처리한 후 조인
-		String query = "SELECT * FROM (SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY REVIEW_ID DESC) AS ROW_NUM, REVIEW.* FROM REVIEW WHERE MEMBER_NO=? AND DEL_YN='N') WHERE ROW_NUM  BETWEEN ? AND ?) R LEFT JOIN MEMBER M ON (M.MEMBER_NO=R.MEMBER_NO) LEFT JOIN BOOK B ON (B.BOOK_ID=R.BOOK_ID)";
+		String query = "SELECT * FROM (SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY TO_NUMBER(SUBSTR(REVIEW_ID,2)) DESC) AS ROW_NUM, REVIEW.* FROM REVIEW WHERE MEMBER_NO=? AND DEL_YN='N') WHERE ROW_NUM BETWEEN ? AND ?) R LEFT JOIN MEMBER M ON (M.MEMBER_NO=R.MEMBER_NO) LEFT JOIN REVIEW_LIKE L ON (L.REVIEW_ID=R.REVIEW_ID) LEFT JOIN BOOK B ON (B.BOOK_ID=R.BOOK_ID)";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, memberNo);
