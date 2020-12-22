@@ -82,10 +82,6 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 				
 				count = lService.countOtherAllBookCase(m.getMemberNo()); // 책장 개수
 				
-				//남의 서재가 내 컬렉션에 있는지 확인
-				boolean result = false;
-				result = new CollectionService().existsMyLibCol(member.getMemberNo(),libraryOwner);
-				
 				// 페이징 처리
 				int currentPage; // 현재 페이지값을 가지고 있는 변수
 				if(request.getParameter("currentPage")==null) {
