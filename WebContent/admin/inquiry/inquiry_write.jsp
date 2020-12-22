@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="rw.inquiry.model.vo.Inquiry" %>
-<%@page import="rw.member.model.vo.Member" %>
+<%@ page import="rw.member.model.vo.Member" %> 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,8 +9,6 @@
 <title>REVIEW:0127</title>
 <link href="/admin/common/common_wrapper.css" rel="stylesheet" type="text/css">
 <link href="/admin/css/inquriy_write.css" rel="stylesheet" type="text/css">
-
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
@@ -20,8 +18,16 @@
 <script src="/admin/js/inquiry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<%
+Member admin = (Member)session.getAttribute("member");
 
-	<div class="page-wrapper">
+if(admin==null){
+	
+	response.sendRedirect("/admin/common/error/error.jsp");
+	
+}
+%>
+<div class="page-wrapper">
 		<div class="admin-header">
 			<%@include file="/admin/common/elements/admin_header.jsp" %>
 		</div>
@@ -31,7 +37,7 @@
 			</div>
 			<div class="page-container">
 				<div class="page-header">
-					<span class="lnb"> <a href="/admin/main_page.jsp"><svg
+					<span class="lnb"> <a href="/main.ad"><svg
 								width="1em" height="1em" viewBox="0 0 16 16"
 								class="bi bi-house-door-fill" fill="currentColor"
 								xmlns="http://www.w3.org/2000/svg"> <path
@@ -47,7 +53,7 @@
 					<!-- table -->
 					<%Inquiry inquiry = (Inquiry)request.getAttribute("inquiry"); %>
 
-					<form method="post" action="/selectInquiry.ad">
+					<form method="post" action="/insertInquiry.ad">
 						<table>
 							<tr>
 								<th colspan="100%" id="title">문의 내역 / 답변</th>
@@ -58,6 +64,7 @@
 							</tr>
 							<tr>
 								<th style="background-color: #FAFAFC">이메일</th>
+								<input type="hidden" value="<%=inquiry.getReplyEmail() %>" name="ReplyEmail">
 								<td><%=inquiry.getReplyEmail() %></td>
 							</tr>
 							<tr>
