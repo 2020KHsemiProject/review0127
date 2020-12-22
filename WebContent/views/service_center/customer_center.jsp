@@ -73,7 +73,7 @@ ArrayList<Notice> nl = (ArrayList<Notice>) request.getAttribute("noticeList");
                         </div>
                     </div>
             <% more++; } %>
-            <form action="/custmoer_center.rw" method="post">
+            <form action="/customer_center.rw" method="post">
             <input type="hidden" name="more" value="<%=more %>"/>
 				<button id="listmore">더보기</button>
 				</form>

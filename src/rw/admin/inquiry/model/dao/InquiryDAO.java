@@ -252,6 +252,7 @@ public class InquiryDAO {
 		}finally {
 			JDBCTemplate.close(pstmt);
 		}
+		
 		return update;
 	}
 

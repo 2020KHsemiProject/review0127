@@ -102,6 +102,7 @@ public class InquiryService {
 			JDBCTemplate.rollback(conn);
 		}
 		JDBCTemplate.close(conn);
+		
 		return update;
 		
 	}

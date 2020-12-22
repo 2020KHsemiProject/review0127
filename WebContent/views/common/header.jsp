@@ -51,7 +51,7 @@
         <li><a href="/views/member/login.jsp">로그인</a></li>
         <li><a href="/views/member/memberJoin.jsp">회원가입</a></li>
     	<%} %>
-        <li><a href="/custmoer_center.rw">고객센터</a></li>
+        <li><a href="/customer_center.rw">고객센터</a></li>
     </ul>
 
     </div>
