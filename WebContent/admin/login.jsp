@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ page import="rw.member.model.vo.Member" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -23,16 +22,6 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
 		crossorigin="anonymous"></script>
-		
-	<%
-
-		
-	Member admin = (Member)session.getAttribute("member");
-	
-	if(admin==null){
-
-	
-	%>
 	<div class="container-fluid">
 		<form class="form-signin" action="/loginMember.ad" method="post">
 			<center>
@@ -47,11 +36,6 @@
 				autofocus> <label for="inputPassword" class="sr-only">비밀번호</label>
 			<input type="password" id="inputPassword" name="adminPwd" class="form-control"
 				placeholder="비밀번호" required>
-			<div class="checkbox">
-				<label id="autocheck"> <input type="checkbox"
-					value="remember-me"> &nbsp; 자동로그인
-				</label>
-			</div>
 			<button class="btn btn-lg btn-block" type="submit" value="로그인">로그인</button>
 		</form>
 		<div>
@@ -64,15 +48,5 @@
 			</p>
 		</div>
 	</div>
-	<%}else{%>
-	
-	<script>
-	
-	location.replace("/main.ad");
-	
-	</script>
-	
-	
-	<%} %>
 </body>
 </html>
