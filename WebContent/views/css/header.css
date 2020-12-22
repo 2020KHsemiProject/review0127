@@ -80,6 +80,7 @@ li{
 }
 #gnb img{
 	cursor:pointer;
+	border-radius : 50px;
 }
 #user-menu-btn {
 	cursor: pointer;

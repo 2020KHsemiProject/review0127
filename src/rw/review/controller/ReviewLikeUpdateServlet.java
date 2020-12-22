@@ -74,7 +74,6 @@ public class ReviewLikeUpdateServlet extends HttpServlet {
 		object.put("count", likeCount);
 		object.put("yn", Character.toString(yn));
 		
-		System.out.println(object);
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
