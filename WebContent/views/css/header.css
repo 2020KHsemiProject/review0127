@@ -54,7 +54,6 @@ li{
 #gnb {
     float: right;
     height: 70px;
-    
     text-align: center;
     margin-right:50px;
 }
@@ -82,6 +81,37 @@ li{
 	cursor:pointer;
 	border-radius : 50px;
 }
+/*검색 UI*/
+#searchForm {
+    width : 300px;
+    height:70px;
+    float:right;
+    text-align: center;
+    padding-top:20px;
+}
+
+#searchBox {
+    background-color: #2A303D;
+    color:white;
+    outline-offset: none;
+    border: none;
+    border-bottom:1px solid lightgray;
+    outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */ 
+    -webkit-appearance: none; /* 브라우저별 기본 스타일링 제거 */ 
+    -moz-appearance: none; appearance: none;
+}
+
+#searchBtn {
+    background-color: none;
+    cursor: pointer;
+    margin-left: 5px;
+}
+.fa-search {
+    color:white;
+    font-size: 1.5rem;
+}
+
+/*드롭다운 메뉴 UI*/
 #user-menu-btn {
 	cursor: pointer;
     width: 50px;
@@ -96,7 +126,7 @@ li{
     float:right;
     position: relative;
     top: 70px;
-    right: -350px;
+    left:650px;
     text-align: center;
     box-shadow: 3px 3px 3px lightgray;
     border-radius: 10px;
