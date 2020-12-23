@@ -45,9 +45,9 @@
             <%} %>
             <li><img id="user-menu-btn" src="/image/profile/<%=profileImg %>" alt=""></li>
         </ul>
-		 <form action="/views/common/tmp.jsp" id="searchForm">
-            <input type="text" name="searchBox" id="searchBox" value="">
-            <span id="searchBtn"><i class="fas fa-search"></i></span>
+		 <form action="/views/common/tmp.jsp" id="head-searchForm">
+            <input type="text" name="searchBox" id="head-searchBox" value="">
+            <span id="head-searchBtn"><i class="fas fa-search"></i></span>
         </form>
         <ul id="menu-bar">
     	<%if(m!=null) { %>
@@ -74,10 +74,10 @@
             $('#lib-enter').click(function(){
             		alert('로그인을 해야 합니다.');
             });
-            $('#searchBtn').click(function(){
-                var keyword = $('#searchBox').val();
+            $('#head-searchBtn').click(function(){
+                var keyword = $('#head-searchBox').val();
                 if(keyword!=''){
-                    $('#searchForm').submit();
+                    $('#head-searchForm').submit();
                 }else{
                     alert('검색어를 입력해주세요');
                     return false;

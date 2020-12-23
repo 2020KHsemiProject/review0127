@@ -63,6 +63,16 @@ public class MainLoadServlet extends HttpServlet {
 			reviewLikeList.put(rc.getReviewId(), likeCount);//리뷰 id를 키로 해서 좋아요 값 매칭.
 		}
 		
+		HttpSession session = request.getSession();
+		Member m = (Member)session.getAttribute("member");
+		//로그인한 사람의 좋아요 여부 : 로그인한 사람 + 컬렉션 소유주
+		if(m!=null) {
+			for(ReviewCard rc : rlist) {
+			char likeYN = rService.selectMyReviewLike(m.getMemberNo(),rc.getReviewId());
+			rc.setLikeYN(likeYN);
+			}
+		}
+		
 		//index 페이지 호출
 		
 		RequestDispatcher view = request.getRequestDispatcher("/index.jsp");
