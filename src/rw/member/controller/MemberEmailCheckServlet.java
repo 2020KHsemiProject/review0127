@@ -34,7 +34,7 @@ public class MemberEmailCheckServlet extends HttpServlet {
 		
 		String email = request.getParameter("email");
 		
-		boolean result = new MemberService().nickNameCheck(email);
+		boolean result = new MemberService().emailCheck(email);
 		
 		response.setCharacterEncoding("UTF-8");
 		

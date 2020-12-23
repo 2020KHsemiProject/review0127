@@ -34,7 +34,7 @@ public class MemberLogoutServlet extends HttpServlet {
 		Member m = (Member)session.getAttribute("member");
 		System.out.println("["+m.getMemberId()+"]님이 로그아웃하셨습니다.");
 		session.invalidate();
-		response.sendRedirect("/index.jsp");
+		response.sendRedirect("/main");
 	}
 
 	/**

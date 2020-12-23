@@ -15,16 +15,16 @@ import rw.member.model.service.MemberService;
 import rw.member.model.vo.Member;
 
 /**
- * Servlet implementation class MemberUpdatePwdServlet
+ * Servlet implementation class MemberUpdateServlet
  */
-@WebServlet("/memberPwdChange.rw")
-public class MemberUpdatePwdServlet extends HttpServlet {
+@WebServlet("/modifyInfo.rw")
+public class MemberUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberUpdatePwdServlet() {
+    public MemberUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,28 +33,41 @@ public class MemberUpdatePwdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		
 		String memberPwd = request.getParameter("memberPwd");
-		String currentPwd = request.getParameter("currentPwd");
 		
 		HttpSession session = request.getSession();
 		Member m = (Member)session.getAttribute("member");
-		String memberId = m.getMemberId();
 		
-		int result = new MemberService().updateMemberPwd(memberId,memberPwd,currentPwd);
-		
-		m = new MemberService().loginMember(memberId, memberPwd);
-		if(m!=null) {
-			session.setAttribute("member", m); // session 갱신
-		}
-		
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = response.getWriter();
-		
-		if(result > 0) {
-			out.print("complete");
+		if(memberPwd.equals(m.getMemberPwd())) {
+			String memberId = request.getParameter("memberId");
+			String nickName = request.getParameter("nickName");
+			int birthYear = Integer.parseInt(request.getParameter("birthYear"));
+			char gender = request.getParameter("gender").charAt(0);
+			
+			System.out.println(memberId+"/"+nickName+"/"+birthYear+"/"+gender);
+			
+			m.setMemberId(memberId);
+			m.setNickname(nickName);
+			m.setBirthYear(birthYear);
+			m.setGender(gender);
+			
+			int result = new MemberService().updateMember(m);
+			
+			RequestDispatcher view = request.getRequestDispatcher("/views/member/memberUpdateResult.jsp");
+			if(result > 0) {
+				request.setAttribute("result", true);
+			} else {
+				request.setAttribute("result", false);
+			}
+			view.forward(request, response);
 		} else {
-			out.print("fail");
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8;");
+			PrintWriter out = response.getWriter();
+			
+			out.print("<script>location.replace('/main');</script>");
 		}
 	}
 

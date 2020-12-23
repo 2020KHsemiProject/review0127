@@ -25,7 +25,7 @@
 				type:"get",
 				success : function(){
 					console.log("이메일 인증 요청 발송 완료");
-					location.replace("/index.jsp");
+					location.replace("/main");
 				},
 				error : function(){
 					console.log("이메일 인증 요청 발송 실패");

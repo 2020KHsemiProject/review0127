@@ -1,3 +1,4 @@
+// 미리보기
 function uploadImg() {
 	var fileInfo = document.getElementById("input_file").files[0];
 	var reader = new FileReader();
@@ -10,7 +11,9 @@ function uploadImg() {
     }
 }
 $(function() {
-	$('#img_del').click(function(){
+	$('#img_del').click(function(e){
+		e.preventDefault();
+		$('#profile_del_form').submit();
 		$('#profile_img').attr('src','/image/profile/default_user_dark.png');
 	});
 	
@@ -72,7 +75,7 @@ $(function() {
 					success:function(data){
 						if(data=="success"){
 							alert("이메일 변경이 완료되었습니다. 이메일을 다시 인증해주세요.");
-							location.replace('/views/member/modify_info.jsp');
+							location.replace('/pageLoad.rw');
 						} else {
 							alert("이메일 변경이 정상적으로 처리되지 않았습니다.(지속적인 문제 발생 시 관리자에게 문의해주세요.)")
 						}
@@ -83,5 +86,8 @@ $(function() {
 				});
 			}
 		}
+	});
+	$('modify_submit').click(function(){
+		
 	});
 });
