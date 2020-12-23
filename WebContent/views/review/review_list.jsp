@@ -547,7 +547,7 @@ hr {
 								<div class="col-3">
 									<div class="review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="reviewListIcon writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getMemberId() %>]님의 서재로 이동합니다."/>
+											class="reviewListIcon writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getNickname() %>]님의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
