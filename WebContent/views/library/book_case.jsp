@@ -382,8 +382,7 @@
 		mem.setProfileImg("default_user_dark.png");
 	}
 	///////////////////////////////////////////////////////////// 내 책장
-Member mm = (Member)session.getAttribute("member"); //헷갈리지 않게
-if(mm!=null && mm.getMemberId().equals(libraryOwner)){
+if(mem!=null && mem.getMemberId().equals(libraryOwner)){
 %>
         
     

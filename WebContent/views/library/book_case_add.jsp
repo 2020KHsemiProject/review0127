@@ -120,49 +120,7 @@
             position: relative;
             bottom: 17%;
         }
-            
-        
-        /* 페이지 번호 */
-        #bookcase-page {
-            height: 150px;
-            padding-top: 25px;
-        }
-        #bookcase-page li {
-            height: 70px;
-        }
-        #bookcase-page a {
-            width: 40px; height: 40px;
-            text-align: center;
-            font-size: 1rem;
-            color: black;
-        }
-        
-        
-    
-        #addBook {
-        	/* 책 추가할 빈 공간 div */
-            display: none;
-        }
-        #inAddBook {
-        	/* 추가한 책의 안쪽 html */
-            display: none;
-        }
-        #bookCase-nullPlace {
-        	/* 추가할 책장 빈공간 div */
-            display: none;
-        }
-        
-        .book-nullPlace{
-        	/* 추가할 책 빈공간 */
-            background-color: #ffe58d;
-            text-align: center;
-            padding-top: 11%;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 1px 3px gray;
-            display:none;
-        }
-        
+                
         /* Icon */
         .addBook-checkIcon {
         	/* 추가완료 버튼 */
@@ -396,7 +354,7 @@
 			var bookCaseTitle = $('input[name=bookCaseTitle]').val();
 			if(bookCaseTitle==''){
 				alert('책장 제목을 입력해주세요');
-			}else if(arr!=null) {
+			}else if(arr==null) {
 				alert('책을 1개이상 선택해주세요.');
 			} else{
 				var object = {'addBookList':arr,'bookCaseTitle':bookCaseTitle};
