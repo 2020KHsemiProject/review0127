@@ -51,7 +51,7 @@
 	<div id="footer-wrap">
         <span>Copyright © 2020 REVIEW:0127 All rights reserved.</span><br>
         <span>관리자 문의 : rvw0127@gmail.com</span><br>
-        <a id="goToAdmin" href="/admin/login.jsp">관리자</a>
+        <a id="goToAdmin" href="/main.ad">관리자</a>
     </div>
     </div>
 </body>
