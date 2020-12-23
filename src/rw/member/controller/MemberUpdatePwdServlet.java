@@ -34,12 +34,18 @@ public class MemberUpdatePwdServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String memberPwd = request.getParameter("memberPwd");
+		String currentPwd = request.getParameter("currentPwd");
 		
 		HttpSession session = request.getSession();
 		Member m = (Member)session.getAttribute("member");
 		String memberId = m.getMemberId();
 		
-		int result = new MemberService().updateMemberPwd(memberId,memberPwd);
+		int result = new MemberService().updateMemberPwd(memberId,memberPwd,currentPwd);
+		
+		m = new MemberService().loginMember(memberId, memberPwd);
+		if(m!=null) {
+			session.setAttribute("member", m); // session 갱신
+		}
 		
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");

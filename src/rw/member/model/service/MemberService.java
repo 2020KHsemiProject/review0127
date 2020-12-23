@@ -69,9 +69,9 @@ public class MemberService {
 		return result;
 	}
 
-	public int updateMemberPwd(String memberId, String memberPwd) {
+	public int updateMemberPwd(String memberId, String memberPwd, String currentPwd) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = mDAO.updateMemberPwd(conn,memberId,memberPwd);
+		int result = mDAO.updateMemberPwd(conn,memberId,memberPwd,currentPwd);
 		
 		if(result > 0) {
 			JDBCTemplate.commit(conn);

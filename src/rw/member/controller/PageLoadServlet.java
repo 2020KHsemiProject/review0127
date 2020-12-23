@@ -2,6 +2,7 @@ package rw.member.controller;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,16 +33,19 @@ public class PageLoadServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
 		Member m = (Member)session.getAttribute("member");
 		String memberId = m.getMemberId();
 		String memberPwd = m.getMemberPwd();
 		
 		// 갱신하기 위한 비즈니스 로직
 		m = new MemberService().loginMember(memberId, memberPwd);
-		session.setAttribute("member", m); // session 갱신
+		if(m!=null) {
+			session.setAttribute("member", m); // session 갱신
+		}
+
+		RequestDispatcher view = request.getRequestDispatcher("/views/member/modify_info.jsp");
+		view.forward(request, response);
 		
-		response.sendRedirect("/views/member/modify_info.jsp");
 	}
 
 	/**

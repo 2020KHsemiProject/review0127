@@ -72,11 +72,11 @@ $(function() {
 			$.ajax({
 				url : "/memberPwdChange.rw",
 				type : "post",
-				data : {"memberPwd" : memberPwd},
+				data : {"memberPwd" : memberPwd,"currentPwd":currentPwd},
 				success : function(data) {
 					if (data == "complete") {
 						alert("비밀번호 변경이 완료되었습니다.");
-						location.replace('/views/member/modify_info.jsp');
+						history.go(0);
 					} else {
 						alert("비밀번호 변경이 정상적으로 처리되지 못했습니다. 지속적인 문제 발생 시 관리자에게 문의해주세요.");
 					}

@@ -208,15 +208,16 @@ public class MemberDAO {
 	}
 
 
-	public int updateMemberPwd(Connection conn, String memberId, String memberPwd) {
+	public int updateMemberPwd(Connection conn, String memberId, String memberPwd, String currentPwd) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "update member set member_pwd=? where member_id=?";
+		String query = "update member set member_pwd=? where member_id=? and member_pwd=?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, memberPwd);
 			pstmt.setString(2, memberId);
+			pstmt.setString(3, currentPwd);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
