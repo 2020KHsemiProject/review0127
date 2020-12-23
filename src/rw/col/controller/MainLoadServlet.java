@@ -23,7 +23,7 @@ import rw.review.model.vo.ReviewCard;
 /**
  * Servlet implementation class MainLoadServlet
  */
-@WebServlet("/main.rw")
+@WebServlet("/main")
 public class MainLoadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

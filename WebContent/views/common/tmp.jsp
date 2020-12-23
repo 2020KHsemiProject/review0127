@@ -32,7 +32,7 @@
 <body>
 	<div id="contents">
 		<h1>본 페이지는 현재 개발 중입니다.</h1>
-		<a href="/index.jsp">메인페이지로 돌아가기</a>
+		<a href="/main">메인페이지로 돌아가기</a>
 	</div>
 <%@ include file="/views/common/footer.jsp" %>
 </body>
