@@ -9,6 +9,7 @@ import rw.review.model.dao.ReviewDAO;
 import rw.review.model.vo.BookReview;
 import rw.review.model.vo.Review;
 import rw.review.model.vo.ReviewCard;
+import rw.review.model.vo.ReviewLike;
 
 public class ReviewService {
 	ReviewDAO rDAO = new ReviewDAO();
@@ -139,6 +140,13 @@ public class ReviewService {
 		int count = rDAO.countReviewLikePoint(conn,reviewId);
 		JDBCTemplate.close(conn);
 		return count;
+	}
+
+	public ArrayList<ReviewLike> myReviewLikeList(String memberNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<ReviewLike> rLikeList = rDAO.myReviewLikeList(conn,memberNo);
+		JDBCTemplate.close(conn);
+		return rLikeList;
 	}
 
 	

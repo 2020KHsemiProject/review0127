@@ -16,6 +16,7 @@ import rw.col.model.vo.ReviewCollection;
 import rw.member.model.vo.Member;
 import rw.review.model.service.ReviewService;
 import rw.review.model.vo.ReviewCard;
+import rw.review.model.vo.ReviewLike;
 
 /**
  * Servlet implementation class ReviewSelectAllServlet
@@ -60,9 +61,14 @@ public class ReviewSelectAllServlet extends HttpServlet {
 		request.setAttribute("list", list);
 		request.setAttribute("end", end);
 		if(member!=null) {
-			// 내 컬렉션 데이터 가져오기
+			// 내 리뷰 컬렉션 리스트 가져오기
 			ArrayList<ReviewCollection> rColList = new CollectionService().selectColReview(member.getMemberNo());
 			request.setAttribute("rColList", rColList);
+			
+			//내가 좋아요 한 리뷰 리스트
+			ArrayList<ReviewLike> rLikeList = new ReviewService().myReviewLikeList(member.getMemberNo());
+			request.setAttribute("rLikeList", rLikeList); // 내가 좋아요한 리뷰
+			
 		}
 		view.forward(request, response);
 	}
