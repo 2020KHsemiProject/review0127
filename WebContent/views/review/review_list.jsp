@@ -508,7 +508,7 @@ hr {
 						<span class="reviewListIcon">최신순</span>
 					</div>
 					<div class="writerBtn reviewWriteBtn">
-						<span class="reviewListIcon">리뷰등록</span>
+						<span class="reviewListIcon"><a href="/views/review/review_write.jsp">리뷰등록</a></span>
 					</div>
 					<div class="barLine reviewWriteBtn"
 						style="border: 1px solid lightgray; height: 85%; margin-top: 3.5px;"></div>
