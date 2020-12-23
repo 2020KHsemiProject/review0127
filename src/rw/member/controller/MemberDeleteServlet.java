@@ -46,12 +46,11 @@ public class MemberDeleteServlet extends HttpServlet {
 		
 		if(result > 0) {
 			out.println("<script>alert('탈퇴가 완료되었습니다.')</script>");
-			session.invalidate(); 
-			out.println("<script>location.replace('/index.jsp');</script>");
+			session.invalidate();
 		} else {
 			out.println("<script>alert('탈퇴 처리에 오류가 발생했습니다. (지속적인 문제 발생 시 관리자에게 문의하세요.)')</script>");
-			out.println("<script>location.replace('/index.jsp');</script>");
 		}
+		out.println("<script>location.replace('/main');</script>");
 	}
 
 	/**

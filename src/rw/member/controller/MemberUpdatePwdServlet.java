@@ -50,17 +50,6 @@ public class MemberUpdatePwdServlet extends HttpServlet {
 		} else {
 			out.print("fail");
 		}
-		/*if(result > 0) {
-			response.sendRedirect("/modifyPageLoad.rw");
-		} else {
-			response.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=UTF-8");
-			
-			PrintWriter out = response.getWriter();
-			
-			out.println("<script>alert('회원정보 변경 실패 (지속적인 문제 발생 시 관리자에게 문의)');");
-			out.println("<script>location.replace('/modifyPageLoad.rw');</script>");
-		}*/
 	}
 
 	/**

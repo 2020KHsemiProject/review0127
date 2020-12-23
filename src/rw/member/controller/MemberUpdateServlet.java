@@ -68,7 +68,7 @@ public class MemberUpdateServlet extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			
 			out.print("<script>alert('비밀번호가 일치하지 않습니다.');</script>");
-			out.print("<script>location.replace('/views/member/modify_info.jsp');<script>");
+			out.print("<script>location.replace('/pageLoad.rw');<script>");
 		}
 	}
 

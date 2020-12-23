@@ -271,7 +271,7 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		int upload = 0;
 		
-		String query = "update member set email=? email_YN='N' where member_id=?";
+		String query = "update member set email=?, email_YN='N' where member_id=?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, email);

@@ -35,11 +35,14 @@ public class ProfileDeleteServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Member m = (Member)session.getAttribute("member");
 		String memberId = m.getMemberId();
-		String fileName = request.getParameter("fileName");
+		
 		int result = new FileService().deleteFileData(memberId);
 		
 		if(result > 0) {
-			File file = new File(fileName);
+			File file = new File("/image/profile/"+m.getProfileImg());//지우는게 여기 서블릿이죠? 넵!
+			//이렇게 하면 해당 파일을 이야기 하게 됩니다.
+			//파일을 지울때에는 /경로/파일명
+			//이렇게 필요해요 이제 지워보죠
 			file.delete();
 		}
 		response.sendRedirect("/pageLoad.rw");

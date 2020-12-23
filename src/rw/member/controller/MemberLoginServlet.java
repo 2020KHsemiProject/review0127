@@ -49,12 +49,12 @@ public class MemberLoginServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("member", m);
 			System.out.println("["+m.getMemberId()+"] 님이 로그인하셨습니다.");
-			RequestDispatcher view = request.getRequestDispatcher("/index.jsp");
+			RequestDispatcher view = request.getRequestDispatcher("/main");
 			request.setAttribute("member", m);
 			view.forward(request, response);
 		}else {
 			out.println("<script>alert('로그인에 실패하였습니다.');</script>");
-			out.println("<script>location.replace('/admin/login.jsp');</script>");
+			out.println("<script>location.replace('/views/member/login.jsp');</script>");
 		}
 	}
 

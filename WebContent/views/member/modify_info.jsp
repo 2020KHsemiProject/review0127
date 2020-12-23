@@ -109,7 +109,7 @@ $(function() {
 											enctype="multipart/form-data" id="profile_form">
 											<div id="image_box">
 												<input type="hidden"> 
-												<% if(m!=null) { %>
+												<% if(m.getProfileImg()!=null) { %>
 													<img src="/image/profile/<%= m.getProfileImg() %>" id="profile_img" />
 												<% } else { %>
 													<img src="/image/profile/default_user_dark.png" id="profile_img" />
