@@ -214,7 +214,7 @@ hr {
 			
 			// 책갈피
             $('.other_reviewScrap').click(function(e){
-            	e.stopImmediatePropagation(); // 버블링 방지
+            	
             	var color = $(this).css('color');
             	var $thisTag = $(this);
             	var reviewId = $thisTag.parents('.other_review-card').attr('name');
@@ -235,7 +235,7 @@ hr {
                 			
                 		},
                 		error : function(){
-                			
+                			alert('컬렉션 삭제에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
                 		}
                 	});
                     }
@@ -257,6 +257,7 @@ hr {
                     	}
                    	});
            		 } // 회색 또는 빨간색 if문
+           		e.stopImmediatePropagation(); // 버블링 방지
             });
 			
 			
@@ -337,7 +338,7 @@ hr {
 							<div class="row review-card-bttom">
 								<div class="col-3">
 									<div class="review-card-writer-profile">
-										<img src="/image/profile/<%=rc.getProfileImg()%>" class="reviewListIcon writer-profile-img" writer="<%=rc.getMemberId() %>" title="내 서재로 이동합니다."/>
+										<img src="/image/profile/<%=rc.getProfileImg()%>" class="reviewListIcon writer-profile-img" writer="<%=rc.getNickname() %>" title="내 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -382,7 +383,7 @@ hr {
 								<div class="col-3">
 									<div class="other_review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="reviewListIcon other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getMemberId() %>]님의 서재로 이동합니다."/>
+											class="reviewListIcon other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getNickname() %>]님의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
