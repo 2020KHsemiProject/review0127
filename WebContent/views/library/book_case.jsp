@@ -253,6 +253,16 @@
 		margin: 0 auto;
 		text-align: center;
 		font-size: 3rem;
+
+}
+#library-add-btn{ /*서재 컬렉션 추가 버튼*/
+	display:inline-block;
+	width:160px;
+	background-color:rgb(255,255,255,0.5);
+	color:#7895B5;
+	border-radius : 10px;
+	margin-left:5px;
+	text-align:center;
 }
         
     @media (max-width:1200px){
@@ -276,7 +286,7 @@
         	$(document).mouseup(function (e){
         		var LayerPopup = $(".modifyCaseNameForm");
         		if(LayerPopup.has(e.target).length === 0){
-        			$('.modifyCaseNameForm').find('input[name=bookcaseName]').attr('type','hidden').val('');
+        			$('.modifyCaseNameForm').find('input').attr('type','hidden').val('');
         			$('.modifyCaseNameForm').find('button.sendModifyTitleBtn').css('display','none');
         			$('.modifyCaseNameForm').find('button.modifyTitleBtn').css('display','inline');
         			$('.bookcase-name').css('display','inline');
@@ -364,6 +374,7 @@
 <div id="pagename" style="display:none;">책장</div>
         
 <% 
+	Member m = (Member)session.getAttribute("member");
 	String libraryOwner = request.getParameter("libraryOwner");
 	Member mem = (Member)request.getAttribute("member"); 
 	int count = (int)request.getAttribute("count");
@@ -371,7 +382,8 @@
 		mem.setProfileImg("default_user_dark.png");
 	}
 	///////////////////////////////////////////////////////////// 내 책장
-if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("member")).getMemberId().equals(libraryOwner)){
+Member mm = (Member)session.getAttribute("member"); //헷갈리지 않게
+if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 %>
         
     
@@ -390,8 +402,7 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 					<div class="col-10">
 						<div class="row">
 
-							<div id="myLibrary-title" class="col-12"><%=mem.getNickname() %>
-								님의 서재
+							<div id="myLibrary-title" class="col-12"><%=mem.getNickname() %>님의 서재
 							</div>
 							<div class="col-12">
 								<ul id="myLibrary-lnb" class="row">
@@ -534,6 +545,9 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
     			var $inputTag = $('input[name=bookcaseName'+bookShelfId+']');
         		var titleName = $inputTag.val();
         		var object = {'bookShelfId':bookShelfId,'titleName':titleName};
+        		if(titleName==''){
+        			alert('수정할 책장 이름을 입력하세요.');
+        		}else {
         		$.ajax({
         			url : '/bookCaseModifyTitle.rw',
         			data : object,
@@ -543,11 +557,14 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
             			$inputTag.parent().prev().text(data.updateTitle).css('display','inline');
             			$inputTag.next().children().css('display','inline');
             			$inputTag.next().next().children().css('display','none');
+            			history.go(0);
         			},
         			error : function(){
         				alert('책장 이름 수정에 실패했습니다.\n지속적인 오류시 관리에 문의해주세요.')
+        				history.go(0);
         			}
         		});
+        		}
     		};
 			
 			//// 자물쇠 버튼
@@ -582,8 +599,8 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 					}
 				}
             
+			// 책장 삭제
           	function delCase(bookShelfId){
-          		confirm(bookShelfId);
           		var result = window.confirm('해당 책장을 삭제하시겠습니까?');
        			if(result){
        				location.replace('/deletBookCase.rw?libraryOwner='+'<%=libraryOwner%>'+'&bookShelfId='+bookShelfId);
@@ -765,7 +782,17 @@ if((Member)session.getAttribute("member")!=null&&((Member)session.getAttribute("
 					<div class="col-10">
 						<div class="row">
 
-							<div id="myLibrary-title" class="col-12" style="color: white;"><%=mem.getNickname() %>님의 서재</div>
+							<div id="myLibrary-title" class="col-12" style="color: white;"><%=mem.getNickname() %>님의 서재
+							<%if(m!=null && !(m.getMemberNo().equals(mem.getMemberNo()))){ 
+								boolean inMyLibCol = (boolean)request.getAttribute("inMyLibCol");
+								%>
+								<%if(inMyLibCol) {%>
+								<a id="library-add-btn" href="/libraryCollectionRemove2.rw?memberId=<%=mem.getMemberId()%>">내 컬렉션에서 빼기</a>
+								<%}else{ %>
+								<a id="library-add-btn" href="/libraryCollectionAdd.rw?memberId=<%=mem.getMemberId()%>">내 컬렉션에 추가</a>
+								<%} %>
+							<%} %>
+							</div>
 							<div class="col-12">
 								<ul id="myLibrary-lnb" class="row">
 									<li class="col-2"><a

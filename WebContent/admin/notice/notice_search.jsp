@@ -137,7 +137,8 @@
                                 <td class='select'><input type="checkbox"
 									name="delete-select" value="<%=n.getNoticeNo() %>" /></td>
                                 <td class='notice-no'><%=n.getNoticeNo() %></td>
-                                <td class='notice-title'><%=n.getNoticeTitle() %></td>
+                                <td class='notice-title'><span class="modal-tag" data-toggle="modal"
+									data-target="#myLargeModal<%=n.getNoticeNo() %>"><%=n.getNoticeTitle() %></span></td>
                                 <td class='notice-date'><%=n.getNoticeDate() %></td>
                                 <td class='update'><button class="update-btn"
 										data-toggle="modal"

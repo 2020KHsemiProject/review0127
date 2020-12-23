@@ -26,6 +26,7 @@
 	<% 	
 		ReviewCard rc = (ReviewCard)request.getAttribute("reviewCard"); 
 		int likeCount = (int)request.getAttribute("likeCount");
+		char likeYN = (char)request.getAttribute("likeYN");
 		String userProfileImg;
 		
 		if (rc.getProfileImg() != null) {
@@ -50,10 +51,12 @@
             <span>작성일 : <%=rc.getReviewDate() %></span>
             <span>조회수 : <%=rc.getReviewCount() %></span>
             <span>평점 : <i class="fas fa-star"></i><%=rc.getReviewRate() %></span>
-            <span id="review-heart-and-count"><span class="review-heart"><i class="fas fa-heart review-heart"></i></span> <span class="heart-count"><%=rc.getReviewRate() %></span></span>
+            <span id="review-heart-and-count">
+            <span class="review-heart"><% if(likeYN=='Y'){%>♥<%}else {%>♡<% }%></span>
+            <span class="heart-count" review="<%=rc.getReviewId() %>"><%=likeCount %></span></span>
         </div>
         <div id="review-text" class="r-wrap"><%=rc.getReviewCont() %></div>
-        <%if(m!=null) {%>
+        <%if(m!=null && m.getMemberNo().equals(rc.getMemberNo())) {%>
         <hr>
         <div id="review-footer" class="r-wrap">
             <form id="modifyForm" action="/reviewModify.rw" method="get">
@@ -87,6 +90,39 @@
     				$('#deleteForm').submit();
     			}
     		});
+			// 리뷰 좋아요 클릭 시
+			$(document).on('click', '#review-heart-and-count', function(){
+				<%if(m!=null){ %>
+				var $this = $(this);
+				// 현재 하트 상태 데이터 가져오기
+				var heart = $(this).children().eq(0).html();
+				// 현재 좋아요 수 데이터 가져오기
+				var count = $(this).children().eq(1).html();
+				var reviewId = $(this).children().eq(1).attr('review');
+				$.ajax({
+					url : '/reviewLike.rw',
+					data : {"reviewId" : reviewId,},
+					type : 'get',
+					success : function(data){
+						$this.children().eq(1).html(data.count);
+						if(data.yn=="Y"){
+							$this.children().eq(0).html("♥");
+							alert('좋아요를 눌렀습니다.');
+						}else if(data.yn=="N"){
+							$this.children().eq(0).html("♡");
+							alert('좋아요를 해제했습니다.');
+						}
+						
+					},
+					error : function(){
+						alert('좋아요를 실패했습니다.');
+					}
+				});
+				<%} else {%>
+					alert('로그인시 이용할 수 있습니다.');
+				<%}%>
+			});
+    		
     	});
     </script>
 </body>

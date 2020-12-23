@@ -9,6 +9,7 @@ import rw.review.model.dao.ReviewDAO;
 import rw.review.model.vo.BookReview;
 import rw.review.model.vo.Review;
 import rw.review.model.vo.ReviewCard;
+import rw.review.model.vo.ReviewLike;
 
 public class ReviewService {
 	ReviewDAO rDAO = new ReviewDAO();
@@ -114,11 +115,38 @@ public class ReviewService {
 		return list;
 	}
 
+	public int addViewCount(String reviewId, int reviewCount) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = rDAO.addViewCount(conn, reviewId, reviewCount);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public char selectMyReviewLike(String memberNo, String reviewId) {
+		//해당 멤버의 좋아요 여부 (YN)
+		Connection conn = JDBCTemplate.getConnection();
+		char likeYN = rDAO.selectMyReviewLike(conn,memberNo, reviewId);
+		JDBCTemplate.close(conn);
+		return likeYN;
+	}
+	
 	public int countReviewLikePoint(String reviewId) {
 		Connection conn = JDBCTemplate.getConnection();
 		int count = rDAO.countReviewLikePoint(conn,reviewId);
 		JDBCTemplate.close(conn);
 		return count;
+	}
+
+	public ArrayList<ReviewLike> myReviewLikeList(String memberNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<ReviewLike> rLikeList = rDAO.myReviewLikeList(conn,memberNo);
+		JDBCTemplate.close(conn);
+		return rLikeList;
 	}
 
 	
