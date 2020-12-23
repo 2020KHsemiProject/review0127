@@ -16,7 +16,7 @@
 	<% } else { %>
 		alert("프로필 업로드에 실패하였습니다.(지속적인 문제 발생 시 관리자에게 문의해주세요.)");
 	<% } %>
-		location.replace("/views/member/modify_info.jsp");
+		location.replace("/pageLoad.rw");
 	</script>
 </body>
 </html>

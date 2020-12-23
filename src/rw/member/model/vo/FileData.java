@@ -1,23 +1,23 @@
 package rw.member.model.vo;
 
 public class FileData {
-	private String changedFileName;
+	private String fileName;
 	private String fileUser;
 	
 	public FileData() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public FileData(String changedFileName, String fileUser) {
+	public FileData(String fileName, String fileUser) {
 		super();
-		this.changedFileName = changedFileName;
+		this.fileName = fileName;
 		this.fileUser = fileUser;
 	}
-	public String getChangedFileName() {
-		return changedFileName;
+	public String getFileName() {
+		return fileName;
 	}
-	public void setChangedFileName(String changedFileName) {
-		this.changedFileName = changedFileName;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	public String getFileUser() {
 		return fileUser;

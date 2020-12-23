@@ -50,6 +50,7 @@ public class ProfileUploadServlet extends HttpServlet {
 		
 		MultipartRequest multi = new MultipartRequest(request,realUploadPath,uploadFileSizeLimit,
 				encType,new DefaultFileRenamePolicy());
+		
 		String originalFileName = multi.getFilesystemName("profileImg");
 		
 		HttpSession session = request.getSession();
@@ -57,13 +58,9 @@ public class ProfileUploadServlet extends HttpServlet {
 		String fileUser = m.getMemberId();
 		
 		File file = new File(realUploadPath+"\\"+originalFileName);
-		file.renameTo(new File(realUploadPath+"\\"));
-		
-		File reNameFile = new File(realUploadPath+"\\"+originalFileName);
-		String filePath = reNameFile.getPath();
 		
         FileData fd = new FileData();
-        fd.setChangedFileName(originalFileName);
+        fd.setFileName(originalFileName);
         fd.setFileUser(fileUser);
         
         int result = new FileService().uploadFile(fd);
@@ -72,7 +69,7 @@ public class ProfileUploadServlet extends HttpServlet {
         if(result > 0) {
         	request.setAttribute("result", true);
         } else {
-        	reNameFile.delete(); // 비즈니스 로직 실패 시 파일도 삭제
+        	file.delete(); // 비즈니스 로직 실패 시 파일도 삭제
         	request.setAttribute("result", false);
         }
         view.forward(request, response);

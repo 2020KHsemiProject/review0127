@@ -16,7 +16,7 @@ public class FileDAO {
 		String query = "update member set profile_img=? where member_id=?";
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, fd.getChangedFileName());
+			pstmt.setString(1, fd.getFileName());
 			pstmt.setString(2, fd.getFileUser());
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -27,4 +27,23 @@ public class FileDAO {
 		}
 		return result;
 	}
+
+	public int deleteFileData(Connection conn, String memberId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "update member set profile_img=null where member_id=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		} 
+		return result;		
+	}
+
 }

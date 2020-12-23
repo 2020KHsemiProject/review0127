@@ -20,4 +20,16 @@ public class FileService {
 		} JDBCTemplate.close(conn);
 		return result;
 	}
+	public int deleteFileData(String memberId) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = fDAO.deleteFileData(conn,memberId);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		} JDBCTemplate.close(conn);
+		return result;		
+	}
+	
 }

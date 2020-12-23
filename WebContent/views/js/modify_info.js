@@ -1,3 +1,4 @@
+// 미리보기
 function uploadImg() {
 	var fileInfo = document.getElementById("input_file").files[0];
 	var reader = new FileReader();
@@ -10,7 +11,9 @@ function uploadImg() {
     }
 }
 $(function() {
-	$('#img_del').click(function(){
+	$('#img_del').click(function(e){
+		e.preventDefault();
+		$('#profile_del_form').submit();
 		$('#profile_img').attr('src','/image/profile/default_user_dark.png');
 	});
 	
@@ -83,5 +86,8 @@ $(function() {
 				});
 			}
 		}
+	});
+	$('modify_submit').click(function(){
+		
 	});
 });

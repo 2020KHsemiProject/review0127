@@ -91,6 +91,7 @@ $(function() {
 </script>
 </head>
 <body>
+
 	<div id="wrapper">
 		<div id="content">
 			<div id="content_title">
@@ -108,11 +109,17 @@ $(function() {
 											enctype="multipart/form-data" id="profile_form">
 											<div id="image_box">
 												<input type="hidden"> 
-												<img src="/image/profile/default_user_dark.png" id="profile_img" />
+												<% if(m!=null) { %>
+													<img src="/image/profile/<%= m.getProfileImg() %>" id="profile_img" />
+												<% } else { %>
+													<img src="/image/profile/default_user_dark.png" id="profile_img" />
+												<% } %>
 											</div>
 											<label id="profile_change_btn"> 
 												<input type="file" onChange="uploadImg();" accept="image/*" id="input_file" name="profileImg"/>
-											</label> 
+											</label>
+										</form>
+										<form action="/profileDel.rw" method="post" id="profile_del_form">
 											<label id="profile_del_btn"> 
 												<img src="/image/profile/picture_change_del.png" id="img_del" />
 											</label>
@@ -125,6 +132,7 @@ $(function() {
 								</div>
 							</center>
 						</div>
+						<form action="/modifyInfo.rw" method="post">
 						<div id="inner_content_second">
 							<table class="modify_table">
 								<tr class="tr_first">
@@ -173,7 +181,6 @@ $(function() {
 									<th id="th_pw_re">비밀번호 재설정</th>
 									<td>
 										<%--<form action="/memberPwdChange.rw" method="post" --%>
-										<form id="password_form">
 											<div class="password_change_guide">
 												<p class="guide_title">비밀번호 변경 시 유의사항</p>
 												<ul class="guide_list_wrapper">
@@ -202,34 +209,36 @@ $(function() {
 												<button type="button" id="modify_pwd_btn">비밀번호 변경</button>
 												<%--<button type="submit" id="modify_pw_btn">비밀번호 변경</button>--%>
 											</div>
-										</form>
 									</td>
 								</tr>
 								<tr class="tr_fifth">
 									<th id="th_sub">추가 정보 입력</th>
 									<td>
-										<form>
-											<div id="sub_option">
-												<span id="age_title">연령대</span> <input type="text"
-													name="age" value="<%=m.getBirthYear()%>" size="5" id="age" />
-												<div class="btn-group" role="group"
-													aria-label="Button group with nested dropdown">
-													<span id="gender_title">성별</span>
-													<button type="button" class="btn btn-secondary" id="man">남</button>
-													<button type="button" class="btn btn-secondary" id="woman">여</button>
-												</div>
+										<div id="sub_option">
+											<span id="age_title">연령대</span> <input type="text"
+												name="age" value="<%=m.getBirthYear()%>" size="5" id="age" />
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+												<span id="gender_title">성별</span>
+												<label class="btn btn-warning radio_size" id="label_M">
+													<input type="radio" name="gender" id="radio_M" value="M">남
+												</label>
+												<label class="btn btn-warning radio_size" id="label_F">
+													<input type="radio" name="gender" id="radio_F" value="F">여
+												</label>
 											</div>
-										</form>
+										</div>
 									</td>
 								</tr>
 							</table>
 						</div>
 						<div id="inner_content_third">
-							<button type="button">수정</button>
+							<input type="submit" id="modify_submit" value="수정"/>
 						</div>
+					</form>
 					</div>
 				</div>
 		</div>
+		
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">

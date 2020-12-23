@@ -117,4 +117,16 @@ public class MemberService {
 		} JDBCTemplate.close(conn);
 		return upload;
 	}
+
+	public int updateMember(Member m) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = mDAO.updateMember(conn, m);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		} JDBCTemplate.close(conn);
+		return result;
+	}
 }
