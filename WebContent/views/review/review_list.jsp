@@ -327,7 +327,7 @@ hr {
 								<a href="/bookInfo.rw?bookId=<%=rc.getBookId()%>" class="bookLink"><img src="<%=rc.getBookImage()%>" title="해당 도서페이지로 이동합니다." /></a>
 							</div>
 							<a href="/reviewRead.rw?reviewId=<%=rc.getReviewId()%>">
-							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
+							<div class="review-card-text" title="해당 리뷰페이지로 이동합니다.">
 								<div class="review-card-book-title">
 									<span class="review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
 									<span class="review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
