@@ -100,8 +100,8 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 				
 				CollectionService colService = new CollectionService();
 				
-				ArrayList<BookshelfCollection> bcColList = colService.selectColBookshelf(member.getMemberNo());
 				// 내가 스크랩한 책장
+				ArrayList<BookshelfCollection> bcColList = colService.selectColBookshelf(member.getMemberNo());
 				
 				// 내 서재 컬렉션 데이터 가져오기 / 남의 서재가 내 컬렉션에 있는지 확인
 				boolean result =  colService.existsMyLibCol(member.getMemberNo(),m.getMemberId()); // 세션 No / Owner Id
