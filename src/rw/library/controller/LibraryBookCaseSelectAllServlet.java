@@ -1,17 +1,14 @@
 package rw.library.controller;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import javax.servlet.http.HttpSession;
 
 import rw.col.model.service.CollectionService;
@@ -100,8 +97,8 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 				
 				CollectionService colService = new CollectionService();
 				
-				ArrayList<BookshelfCollection> bcColList = colService.selectColBookshelf(member.getMemberNo());
 				// 내가 스크랩한 책장
+				ArrayList<BookshelfCollection> bcColList = colService.selectColBookshelf(member.getMemberNo());
 				
 				// 내 서재 컬렉션 데이터 가져오기 / 남의 서재가 내 컬렉션에 있는지 확인
 				boolean result =  colService.existsMyLibCol(member.getMemberNo(),m.getMemberId()); // 세션 No / Owner Id
@@ -151,4 +148,3 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 	}
 
 }
-

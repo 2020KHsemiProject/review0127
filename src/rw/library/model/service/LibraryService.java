@@ -193,4 +193,11 @@ public class LibraryService {
 		return list;
 	}
 
+	public ArrayList<String> selectBookListInOneBookCase(String bookCaseId) {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<String> bookIdLlit = lDAO.selectBookListInOneBookCase(conn, bookCaseId);
+		JDBCTemplate.close(conn);
+		return bookIdLlit;
+	}
+
 }
