@@ -14,7 +14,7 @@ import rw.review.model.service.ReviewService;
 /**
  * Servlet implementation class ReviewDeleteServlet
  */
-@WebServlet("/reveiwDelete.rw")
+@WebServlet("/reviewDelete.rw")
 public class ReviewDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
