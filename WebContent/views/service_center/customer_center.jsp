@@ -145,9 +145,8 @@ ArrayList<Notice> nl = (ArrayList<Notice>) request.getAttribute("noticeList");
                             <textarea id="one_to_one_textarea" name="inquiryContent"></textarea>
                         </div>
                         <div id="one_to_one_submit">
-                            <input type="checkbox" name="emailSendCheck" id="email_send_check"/>
-                            <input type="email" name="emailSendEmail" id="email_send_email" value="<%=m.getEmail()%>"/>
-                            <button type="hidden"><img src="/image/icon/sendBtn.png" id="email_send_btn"></button>                         
+                            <input type="email" name="emailSendEmail" id="email_send_email" value="<%=m.getEmail()%>" readonly/>
+                            <button type="hidden" id="send_button"><img src="/image/icon/sendBtn.png" id="email_send_btn"></button>                         
                         </div>
                     </div>
                 </div>
