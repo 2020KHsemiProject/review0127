@@ -46,7 +46,7 @@ public class NoticeSelectOneServlet extends HttpServlet {
 		// 3.결과처리
 		if (notice != null) {
 			// 정상적으로 게시물을 읽어왔다면
-			RequestDispatcher view = request.getRequestDispatcher("/views/member/customer_notice.jsp");
+			RequestDispatcher view = request.getRequestDispatcher("/views/service_center/customer_notice.jsp");
 			request.setAttribute("Notice", notice);
 			view.forward(request, response);
 

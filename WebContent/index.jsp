@@ -63,6 +63,7 @@
             <% for(ReviewCard rc : rlist) { %>
 				<div class="reviewNote-book-card">
                        <div class="reviewNote-book-img">
+                       
                        <a href="/bookInfo.rw?bookId=<%=rc.getBookId()%>" class="bookLink"><img src="<%=rc.getBookImage()%>" title="해당 도서페이지로 이동합니다." /></a>
                        </div>
                        <a href="/reviewRead.rw?reviewId=<%=rc.getReviewId()%>" >
@@ -270,4 +271,3 @@
 <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>
-
