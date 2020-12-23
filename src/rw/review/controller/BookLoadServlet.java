@@ -46,7 +46,7 @@ public class BookLoadServlet extends HttpServlet {
 		RequestDispatcher view = request.getRequestDispatcher("/views/review/book_detail.jsp?bookId="+bookId);
 		request.setAttribute("bookId", bookId);
 		request.setAttribute("reviewList", list);
-		request.setAttribute("avg", average);
+		request.setAttribute("avg", Math.round(average*100)/100.0);
 		view.forward(request, response);
 	}
 

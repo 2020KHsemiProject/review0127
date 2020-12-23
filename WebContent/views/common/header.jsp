@@ -14,6 +14,9 @@
     <!--jquery-->
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+    <!-- fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/solid.css" integrity="sha384-yo370P8tRI3EbMVcDU+ziwsS/s62yNv3tgdMqDSsRSILohhnOrDNl142Df8wuHA+" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/fontawesome.css" integrity="sha384-ijEtygNrZDKunAWYDdV3wAZWvTHSrGhdUfImfngIba35nhQ03lSNgfTJAKaGFjk2" crossorigin="anonymous">
 </head>
 <body>
 	<% Member m = (Member)session.getAttribute("member"); 
@@ -31,7 +34,7 @@
 	%>
 	<div id="header">
     <div id="gnb-wrap">
-        <div id="logo"><a href="/index.jsp"><img src="/image/logo.png" alt=""></a></div>
+        <div id="logo"><a href="/main"><img src="/image/logo.png" alt=""></a></div>
         <ul id="gnb">
             <li><a href="/reviewPage.rw">리뷰</a></li>
             <li><a href="/views/common/tmp.jsp">추천</a></li>
@@ -42,7 +45,10 @@
             <%} %>
             <li><img id="user-menu-btn" src="/image/profile/<%=profileImg %>" alt=""></li>
         </ul>
-
+		 <form action="/views/common/tmp.jsp" id="searchForm">
+            <input type="text" name="searchBox" id="searchBox" value="">
+            <span id="searchBtn"><i class="fas fa-search"></i></span>
+        </form>
         <ul id="menu-bar">
     	<%if(m!=null) { %>
     	<li><a href="/memberLogout.rw">로그아웃</a></li>
@@ -52,7 +58,7 @@
         <li><a href="/views/member/memberJoin.jsp">회원가입</a></li>
     	<%} %>
         <li><a href="/customer_center.rw">고객센터</a></li>
-    </ul>
+    	</ul>
 
     </div>
     </div>
@@ -67,6 +73,15 @@
             });
             $('#lib-enter').click(function(){
             		alert('로그인을 해야 합니다.');
+            });
+            $('#searchBtn').click(function(){
+                var keyword = $('#searchBox').val();
+                if(keyword!=''){
+                    $('#searchForm').submit();
+                }else{
+                    alert('검색어를 입력해주세요');
+                    return false;
+                }
             });
         });
     </script>

@@ -61,9 +61,9 @@
 				</select>
 			</div>
 			<textarea id="reivew-con" name="reviewCont"
-				placeholder="리뷰를 작성해 주세요(2000자 이내)"></textarea>
+				placeholder="리뷰를 작성해 주세요(1500자 이내)"></textarea>
 			<p id="txt-len-wrap">
-				<span id="textLength"></span>/2000자
+				<span id="textLength"></span>/1500자
 			</p>
 			<input type="reset" value="등록 취소" id="reset-btn"> <input
 				type="submit" value="등록하기" id="submit-btn">
@@ -123,9 +123,9 @@
 		//글자수 제한
 			$('#reivew-con').keyup(function() {
 				var inputStr = $('#reivew-con').val().length;
-				if (inputStr >= 2000) {
-					$('#reivew-con').val($('#reivew-con').val().substring(0, 2000));
-					$('#textLength').text(2000);
+				if (inputStr >= 1500) {
+					$('#reivew-con').val($('#reivew-con').val().substring(0, 1500));
+					$('#textLength').text(1500);
 				} else {
 					$('#textLength').text(inputStr);
 				}
@@ -160,8 +160,8 @@
 	<%@ include file="/views/common/footer.jsp"%>
 	<%} else {%>
 	<script>
-		alert('잘못된 접근입니다.');
-		location.href = "/index.jsp";
+		alert('로그인 시 이용할 수 있습니다.');
+		location.href = "/reviewPage.rw";
 	</script>
 	<%}%>
 </body>

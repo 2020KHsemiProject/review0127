@@ -62,21 +62,24 @@
             <div id="review-card-wrap">
             <% for(ReviewCard rc : rlist) { %>
 				<div class="reviewNote-book-card">
-                       <div class="reviewNote-book-img"><img src="<%=rc.getBookImage() %>"/></div>
+                       <div class="reviewNote-book-img">
+                       <a href="/bookInfo.rw?bookId=<%=rc.getBookId()%>" class="bookLink"><img src="<%=rc.getBookImage()%>" title="해당 도서페이지로 이동합니다." /></a>
+                       </div>
+                       <a href="/reviewRead.rw?reviewId=<%=rc.getReviewId()%>">
                        <div class="reviewNote-book-text">
                          <div class="book-text-title">
                             <span class="book-text-title-name" style="width: 290px;"><%=rc.getBookTitle() %></span>
                             <span class="other_review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate()%>
                           </div>
                           <%=rc.getReviewCont() %>
-                       </div>
+                       </div></a>
                        <div class="row reviewNote-card-text-bottom">
                           <div class="col-3">
-                           <div class="reviewNote-userProfile">
+                           <div class="reviewNote-userProfile" goto="/myReviewNote.rw?libraryOwner=<%=rc.getMemberId()%>" nick="<%=rc.getNickname()%>">
                            	<%if(rc.getProfileImg()!=null) {%>
-                               <img src="/image/profile/<%=rc.getProfileImg() %>"/>
+                               <img src="/image/profile/<%=rc.getProfileImg()%>" class="writer-profile-img"/>
                                <%}else{ %>
-                               <img src="/image/profile/default_user_dark.png"/>
+                               <img src="/image/profile/default_user_dark.png" class="writer-profile-img" />
                                <%} %>
                            </div>
                            </div>
@@ -220,8 +223,14 @@
            		 } // 회색 또는 빨간색 if문
             });
             	
-            
-            	
+          //남의 서재 이동
+        	$(document).on('click', '.reviewNote-userProfile', function(){
+        		var goPage = $(this).attr('goto');
+        		var nickname = $(this).attr('nick');
+        		if (confirm(nickname + '님의 서재로 이동하시겠습니까?')) {
+        			location.href = goPage;
+        		}
+        	}); 
         })
     </script>
 <%@ include file="/views/common/footer.jsp" %>

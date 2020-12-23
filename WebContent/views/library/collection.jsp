@@ -48,6 +48,7 @@ body {
 
 #myCollection-wrapper {
 	width: 100%;
+	height:auto;
 	padding: 0;
 }
 
@@ -100,6 +101,7 @@ body {
 	/* 다른사람의 프로필 이미지 div> 이미지 태그 */
 	width: 130px;
 	height: 130px;
+	cursor:pointer;
 }
 
 .others-library-delete {
@@ -128,7 +130,8 @@ body {
 /* 책장 */
 #myCollection-collectionlist {
 	width: 1200px;
-	height:950px;
+	height:auto;
+	min-height:500px;
 	text-align:center;
 }
 /* 위 아래 버튼 (버튼 없애기를 함) */
@@ -249,7 +252,8 @@ margin:0 auto;
 		//내 서재에 있는지 확인
 		boolean inMyLibCol = (boolean)request.getAttribute("inMyLibCol");
 	%>
-	<div id="myCollection-wrapper" class="container-fluid">
+	
+	<div id="myCollection-wrapper">
 		<div id="myLibrary-contents-header" class="row">
 			<!-- contents-header -->
 			<div class="col-12">
@@ -265,7 +269,7 @@ margin:0 auto;
 					</div>
 					<div class="col-10">
 						<div class="row">
-							<div id="myLibrary-title" class="col-12"><%=owner.getNickname() %> 님의 서재 
+							<div id="myLibrary-title" class="col-12"><%=owner.getNickname() %>님의 서재 
 							<%if(m!=null && !(m.getMemberNo().equals(owner.getMemberNo()))){ %>
 								<%if(inMyLibCol) {%>
 								<a id="library-add-btn" href="/libraryCollectionRemove2.rw?memberId=<%=owner.getMemberId()%>">내 컬렉션에서 빼기</a>
@@ -301,8 +305,10 @@ margin:0 auto;
 								<span class="other_reviewScrap collectionIcon"> <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="#FF6C6C" xmlns="http://www.w3.org/2000/svg">
 								 <path fill-rule="evenodd"	d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z" />
 									</svg>
-								</span></form><%} %> <img src="<%=rc.getBookImage()%>" title="누르면 해당 도서페이지로 이동합니다." />
+								</span></form><%} %>
+								<a href="/bookInfo.rw?bookId=<%=rc.getBookId()%>" class="bookLink"><img src="<%=rc.getBookImage()%>" title="해당 도서페이지로 이동합니다." /></a>
 							</div>
+							<a href="/reviewRead.rw?reviewId=<%=rc.getReviewId()%>">
 							<div class="other_review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
 								<div class="other_review-card-book-title">
 									<span class="other_review-card-book-title-text"	style="width: 290px;"><%=rc.getBookTitle()%></span>
@@ -310,13 +316,14 @@ margin:0 auto;
 								</div>
 								<%=rc.getReviewCont() %>
 							</div>
+							</a>
 							<div class="row other_review-card-bottom">
 								<div class="col-3">
 									<div class="other_review-card-writer-profile">
 									<%if(rc.getProfileImg() != null) {%>
-										<img src="/image/profile/<%=rc.getProfileImg()%>" class="other_writer-profile-img" writer="<%=rc.getMemberId()%>" title="[<%=rc.getNickname()%>]님의 서재로 이동합니다." />
+										<img src="/image/profile/<%=rc.getProfileImg()%>" class="other_writer-profile-img" goto="/myReviewNote.rw?libraryOwner=<%=rc.getMemberId()%>" nick="<%=rc.getNickname()%>" title="[<%=rc.getNickname()%>]님의 서재로 이동합니다." />
 										<%}else{ %>
-										<img src="/image/profile/default_user_dark.png" class="other_writer-profile-img" writer="<%=rc.getMemberId()%>" title="[<%=rc.getNickname()%>]님의 서재로 이동합니다." />
+										<img src="/image/profile/default_user_dark.png" class="other_writer-profile-img" goto="/myReviewNote.rw?libraryOwner=<%=rc.getMemberId()%>" nick="<%=rc.getNickname()%>" title="[<%=rc.getNickname()%>]님의 서재로 이동합니다." />
 										<%} %>
 									</div>
 								</div>
@@ -364,7 +371,7 @@ margin:0 auto;
 							</div>
 							</form>
 							<%} %>
-							<div class="others-user-profile">
+							<div class="others-user-profile" goto="/myReviewNote.rw?libraryOwner=<%=m2.getMemberId()%>" nick="<%=m2.getNickname()%>">
 								<%if(m2.getProfileImg()!=null) {%>
 								<img src="/image/profile/<%=m2.getProfileImg() %>" title="<%=m2.getNickname()%>"/>
 								<% }else{ %>
@@ -387,29 +394,29 @@ margin:0 auto;
 				<div class="row">
 					<div id="myCollection-collection-count"	class="col-12 myCollection-contents-title">책장(<%=bsTotalCount %>)</div>
 					<div id="myCollection-collectionlist" class="col-12">
-					<%for(OtherBookcase ob : obList) {%>
-						<div class="collectionBox">
-							<div class="row collectionBox-title">
-								<div class="col-11"><%=ob.getM().getNickname() %>님의 <%=ob.getLib().getBookShelfName() %></div>
-								<%if(m!=null && m.getMemberNo().equals(owner.getMemberNo())){ %>
-								<form action="/boolshelfCollectionRemove.rw" method="get" id="deleteBscForm">
-								<input type="hidden" name="bookshelfId" value="<%=ob.getLib().getBookShelfId()%>">
-								<div class="col-3 collectionBox-delete">
-									<i class="fas fa-trash-alt collectionIcon"></i>
+						<%for(OtherBookcase ob : obList) {%>
+							<div class="collectionBox">
+								<div class="row collectionBox-title">
+									<div class="col-11"><%=ob.getM().getNickname() %>님의 <%=ob.getLib().getBookShelfName() %></div>
+									<%if(m!=null && m.getMemberNo().equals(owner.getMemberNo())){ %>
+									<form action="/boolshelfCollectionRemove.rw" method="get" id="deleteBscForm">
+									<input type="hidden" name="bookshelfId" value="<%=ob.getLib().getBookShelfId()%>">
+									<div class="col-3 collectionBox-delete">
+										<i class="fas fa-trash-alt collectionIcon"></i>
+									</div>
+									</form>
+									<%} %>
 								</div>
-								</form>
-								<%} %>
-							</div>
-							<hr>
-							<div class="collectionBox-wrap">
-								<%for(Book b : ob.getBookList()){ %>
-								<div class="collectionBox-book">
-									<img src="/image/book/<%=b.getBookImage()%>">
+								<hr>
+								<div class="collectionBox-wrap">
+									<%for(Book b : ob.getBookList()){ %>
+									<div class="collectionBox-book">
+										<img src="<%=b.getBookImage()%>">
+									</div>
+									<%} %>
 								</div>
-								<%} %>
 							</div>
-						</div>
-						<%} %>
+							<%} %>
 
 					</div>
 					<nav aria-label="Page navigation example">
@@ -513,9 +520,19 @@ margin:0 auto;
 	
 	//남의 서재 이동
 	$(document).on('click', '.other_writer-profile-img', function(){
-		var $writer = $(this).attr('writer');
-		if (confirm($writer	+ '님의 서재로 이동하시겠습니까?')) {
-			location.href = '/myReviewNote.rw?libraryOwner='+ $writer;
+		var goPage = $(this).attr('goto');
+		var nickname = $(this).attr('nick');
+		if (confirm(nickname + '님의 서재로 이동하시겠습니까?')) {
+			location.href = goPage;
+		}
+	});
+	
+	//서재 컬렉션
+	$(document).on('click', '.others-user-profile', function(){
+		var goPage = $(this).attr('goto');
+		var nickname = $(this).attr('nick');
+		if (confirm(nickname + '님의 서재로 이동하시겠습니까?')) {
+			location.href = goPage;
 		}
 	});
 	
@@ -550,14 +567,15 @@ margin:0 auto;
 						+'"><span class="other_reviewScrap collectionIcon"> <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="#FF6C6C" xmlns="http://www.w3.org/2000/svg">'
 						 + '<path fill-rule="evenodd"	d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z" /></svg></span></form>';
 					}
-					 input += ' <img src="'	+data.dataList[i].bookImage+ '" title="누르면 해당 도서페이지로 이동합니다." /></div><div class="other_review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">'
+					 input += ' <a href="/bookInfo.rw?bookId='+ data.dataList[i].bookId+ '" class="bookLink"><img src="' + data.dataList[i].bookImage+'" title="해당 도서페이지로 이동합니다." /></a></div><a href="/reviewRead.rw?reviewId='+data.dataList[i].reviewId
+							 +'"><div class="other_review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">'
 					 +'<div class="other_review-card-book-title"><span class="other_review-card-book-title-text" style="width: 290px;">' +data.dataList[i].bookTitle
 					 +'</span><span class="other_review-card-star"><i class="fas fa-star"></i></span>' + data.dataList[i].reviewRate + '</div>' + data.dataList[i].reviewCont +
-					 '</div><div class="row other_review-card-bottom"><div class="col-3"><div class="other_review-card-writer-profile"><img src="/image/profile/';
+					 '</div></a><div class="row other_review-card-bottom"><div class="col-3"><div class="other_review-card-writer-profile"><img src="/image/profile/';
 					if(data.dataList[i].profileImage!=null){
 						input += data.dataList[i].profileImg+'" title="['+data.dataList[i].nickname+']님의 서재로 이동합니다."';
 					}else{ input += 'default_user_dark.png" title="['+data.dataList[i].nickname+']님의 서재로 이동합니다."';}
-					input += 'class="other_writer-profile-img" writer="'+ data.dataList[i].memberId + '"/></div></div><div class="col-6">'
+					input += 'class="other_writer-profile-img" goto="/myReviewNote.rw?libraryOwner='+data.dataList[i].memberId+'" nick="'+data.dataList[i].nickname+'"/></div></div><div class="col-6">'
 					+ '<div class="row other_review-card-infor"><div class="col-12">' + data.dataList[i].nickname +	'</div><div class="col-12"><div class="row"><div class="col-7">' + data.dataList[i].reviewDate 
 					+ '</div><div class="col-5 other_review-card-count"> 조회 '+ data.dataList[i].reviewCount +
 					'</div></div></div></div></div><div class="col-3 other_rvheart other_reviewNoteIcon"><div class="other_review-heart-and-count"><span class="other_review-heart">';
@@ -602,7 +620,7 @@ margin:0 auto;
 						 input += '<form action="/libraryCollectionRemove.rw" method="get" id="deleteLibForm"><input type="hidden" name="memberId" value="'
 						+data.dataList[i].memberId+'"><div class="others-library-delete collectionIcon"><i class="fas fa-trash-alt"></i></div></form>';
 					}
-					input += '<div class="others-user-profile">';
+					input += '<div class="others-user-profile" goto="/myReviewNote.rw?libraryOwner='+data.dataList[i].memberId+'" nick="'+data.dataList[i].nickname+'">';
 					if(data.dataList[i].profileImg!=null) {
 					  input += '<img src="/image/profile/'+data.dataList[i].profileImg+'" title="'+data.dataList[i].nickname+'"/>';
 					}else{ input += '<img src="/image/profile/default_user_dark.png" />';}
@@ -662,6 +680,6 @@ margin:0 auto;
 			});
 	});
 </script>
-	<%@ include file="/views/common/footer.jsp" %>
+<%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>
