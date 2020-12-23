@@ -208,15 +208,16 @@ public class MemberDAO {
 	}
 
 
-	public int updateMemberPwd(Connection conn, String memberId, String memberPwd) {
+	public int updateMemberPwd(Connection conn, String memberId, String memberPwd, String currentPwd) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "update member set member_pwd=? where member_id=?";
+		String query = "update member set member_pwd=? where member_id=? and member_pwd=?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, memberPwd);
 			pstmt.setString(2, memberId);
+			pstmt.setString(3, currentPwd);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -271,7 +272,7 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		int upload = 0;
 		
-		String query = "update member set email=? email_YN='N' where member_id=?";
+		String query = "update member set email=?, email_YN='N' where member_id=?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, email);
@@ -284,5 +285,30 @@ public class MemberDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return upload;		
+	}
+
+
+	public int updateMember(Connection conn, Member m) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "update member set "
+				+ "nickname=?, "
+				+ "birth_year=?, "
+				+ "gender=?  where member_id=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, m.getNickname());
+			pstmt.setInt(2, m.getBirthYear());
+			pstmt.setString(3, Character.toString(m.getGender()));
+			pstmt.setString(4, m.getMemberId());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}	                       
+		return result;
 	}
 }

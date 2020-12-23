@@ -52,7 +52,7 @@
         <ul id="menu-bar">
     	<%if(m!=null) { %>
     	<li><a href="/memberLogout.rw">로그아웃</a></li>
-        <li><a href="/views/member/modify_info.jsp">회원정보수정</a></li>
+        <li><a href="/pageLoad.rw">회원정보수정</a></li>
     	<%}else {%>
         <li><a href="/views/member/login.jsp">로그인</a></li>
         <li><a href="/views/member/memberJoin.jsp">회원가입</a></li>

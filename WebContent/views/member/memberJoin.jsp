@@ -35,7 +35,7 @@
         <div id="join_header">
             <div id="join_logo">
                 <center>
-                	<a href="/index.jsp"><img src="/image/login/logo_dark.png" id="join_logo_img" /></a>
+                	<a href="/main"><img src="/image/login/logo_dark.png" id="join_logo_img" /></a>
                 </center>
             </div>
         </div>

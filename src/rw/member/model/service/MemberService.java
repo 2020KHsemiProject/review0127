@@ -69,9 +69,9 @@ public class MemberService {
 		return result;
 	}
 
-	public int updateMemberPwd(String memberId, String memberPwd) {
+	public int updateMemberPwd(String memberId, String memberPwd, String currentPwd) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = mDAO.updateMemberPwd(conn,memberId,memberPwd);
+		int result = mDAO.updateMemberPwd(conn,memberId,memberPwd,currentPwd);
 		
 		if(result > 0) {
 			JDBCTemplate.commit(conn);
@@ -116,5 +116,17 @@ public class MemberService {
 			JDBCTemplate.rollback(conn);
 		} JDBCTemplate.close(conn);
 		return upload;
+	}
+
+	public int updateMember(Member m) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = mDAO.updateMember(conn, m);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		} JDBCTemplate.close(conn);
+		return result;
 	}
 }

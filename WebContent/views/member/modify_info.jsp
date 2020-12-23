@@ -72,11 +72,11 @@ $(function() {
 			$.ajax({
 				url : "/memberPwdChange.rw",
 				type : "post",
-				data : {"memberPwd" : memberPwd},
+				data : {"memberPwd" : memberPwd,"currentPwd":currentPwd},
 				success : function(data) {
 					if (data == "complete") {
 						alert("비밀번호 변경이 완료되었습니다.");
-						location.replace('/views/member/modify_info.jsp');
+						history.go(0);
 					} else {
 						alert("비밀번호 변경이 정상적으로 처리되지 못했습니다. 지속적인 문제 발생 시 관리자에게 문의해주세요.");
 					}
@@ -91,6 +91,7 @@ $(function() {
 </script>
 </head>
 <body>
+
 	<div id="wrapper">
 		<div id="content">
 			<div id="content_title">
@@ -107,14 +108,20 @@ $(function() {
 										<form action="/profileUpload.rw" method="post"
 											enctype="multipart/form-data" id="profile_form">
 											<div id="image_box">
-												<input type="hidden"> <img
-													src="/image/profile/default_user_dark.png" id="profile_img"
-													name="profileImg" />
+												<input type="hidden"> 
+												<% if(m.getProfileImg()!=null) { %>
+													<img src="/image/profile/<%= m.getProfileImg() %>" id="profile_img" />
+												<% } else { %>
+													<img src="/image/profile/default_user_dark.png" id="profile_img" />
+												<% } %>
 											</div>
-											<label id="profile_change_btn"> <input type="file"
-												onChange="uploadImg();" accept="image/*" id="input_file" />
-											</label> <label id="profile_del_btn"> <img
-												src="/image/profile/picture_change_del.png" id="img_del" />
+											<label id="profile_change_btn"> 
+												<input type="file" onChange="uploadImg();" accept="image/*" id="input_file" name="profileImg"/>
+											</label>
+										</form>
+										<form action="/profileDel.rw" method="post" id="profile_del_form">
+											<label id="profile_del_btn"> 
+												<img src="/image/profile/picture_change_del.png" id="img_del" />
 											</label>
 										</form>
 										<p id="profile_info">※ 프로필 사진은 100px X 100px 사이즈를 권장합니다.</p>
@@ -125,12 +132,13 @@ $(function() {
 								</div>
 							</center>
 						</div>
+						<form action="/modifyInfo.rw" method="post">
 						<div id="inner_content_second">
 							<table class="modify_table">
 								<tr class="tr_first">
 									<th>아이디</th>
 									<td><input type="text" id="member_id"
-										value="<%=m.getMemberId()%>" readonly /></td>
+										value="<%=m.getMemberId()%>" name="memberId" readonly /></td>
 								</tr>
 								<tr class="tr_second">
 									<th>닉네임</th>
@@ -138,7 +146,7 @@ $(function() {
 										<div class="input_group_nick">
 											<div class="input_box_nick">
 												<input type="text" class="input-text_nick" id="nick_change"
-													value="<%=m.getNickname()%>" />
+													value="<%=m.getNickname()%>" name="nickName" />
 											</div>
 											<button type="button" id="nick_check_re">중복확인</button>
 										</div>
@@ -173,7 +181,6 @@ $(function() {
 									<th id="th_pw_re">비밀번호 재설정</th>
 									<td>
 										<%--<form action="/memberPwdChange.rw" method="post" --%>
-										<form id="password_form">
 											<div class="password_change_guide">
 												<p class="guide_title">비밀번호 변경 시 유의사항</p>
 												<ul class="guide_list_wrapper">
@@ -202,34 +209,36 @@ $(function() {
 												<button type="button" id="modify_pwd_btn">비밀번호 변경</button>
 												<%--<button type="submit" id="modify_pw_btn">비밀번호 변경</button>--%>
 											</div>
-										</form>
 									</td>
 								</tr>
 								<tr class="tr_fifth">
 									<th id="th_sub">추가 정보 입력</th>
 									<td>
-										<form>
-											<div id="sub_option">
-												<span id="age_title">연령대</span> <input type="text"
-													name="age" value="<%=m.getBirthYear()%>" size="5" id="age" />
-												<div class="btn-group" role="group"
-													aria-label="Button group with nested dropdown">
-													<span id="gender_title">성별</span>
-													<button type="button" class="btn btn-secondary" id="man">남</button>
-													<button type="button" class="btn btn-secondary" id="woman">여</button>
-												</div>
+										<div id="sub_option">
+											<span id="age_title">연령대</span> <input type="text"
+												name="birthYear" value="<%=m.getBirthYear()%>" size="5" id="age" />
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+												<span id="gender_title">성별</span>
+												<label class="btn btn-warning radio_size" id="label_M">
+													<input type="radio" name="gender" id="radio_M" value="M">남
+												</label>
+												<label class="btn btn-warning radio_size" id="label_F">
+													<input type="radio" name="gender" id="radio_F" value="F">여
+												</label>
 											</div>
-										</form>
+										</div>
 									</td>
 								</tr>
 							</table>
 						</div>
 						<div id="inner_content_third">
-							<button type="button">수정</button>
+							<input type="submit" id="modify_submit" value="수정"/>
 						</div>
+					</form>
 					</div>
 				</div>
 		</div>
+		
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
