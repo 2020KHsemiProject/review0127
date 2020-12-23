@@ -321,7 +321,7 @@ hr {
 				
 					if(((Member)session.getAttribute("member")).getMemberNo().equals(rc.getMemberNo())) { 
 				%>
-						<div class="review-card" reviewId="<%=rc.getReviewId()%>">
+						<div class="review-card" id="card<%=morecount+1%>">
 							<div class="review-card-book-img reviewListIcon">
 								<a href="/bookInfo.rw?bookId=<%=rc.getBookId()%>" class="bookLink"><img src="<%=rc.getBookImage()%>" title="해당 도서페이지로 이동합니다." /></a>
 							</div>
@@ -360,7 +360,7 @@ hr {
 						</div>
 						
 						<% } else { %>
-						<div class="other_review-card" name="<%=rc.getReviewId()%>">
+						<div class="other_review-card" name="<%=rc.getReviewId()%>" id="card<%=morecount+1%>">
 							<div class="other_review-card-book-img reviewListIcon">
 								<span class="other_reviewScrap reviewScrap<%=rc.getReviewId() %> collectionIcon">
                                     <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
