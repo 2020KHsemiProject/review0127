@@ -122,7 +122,7 @@ button:focus {
 .not-yet {
 	margin: 0 auto;
 	text-align: center;
-	font-size: 3rem;
+	font-size: 2rem;
 }
 
 #library-add-btn{ /*서재 컬렉션 추가 버튼*/
@@ -462,9 +462,10 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 					</div>
 					<% }else { %>
 					<div class="reviewNote-contents">
+					<div class="not-yet">
 						아직 리뷰를 안 쓰셨군요?<br>
-						<div>오, 여기다 추천 책 같은게 나오면 좋겠지만 못 하겠지 ㅎ</div>
 						<a href="/reviewPage.rw">리뷰 쓰러 가기</a>
+					</div>
 					</div>
 					<% } %>
 				</div>
@@ -673,7 +674,10 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 		</script>
 					</div>
 			<% }else { ///////////////////////// 리스트가 비어있다면%>
-					<div class="not-yet"><%=mem.getNickname() %>님의 리뷰가 아직 없습니다.
+					<div class="reviewNote-contents">
+					<div class="not-yet">
+					<%=mem.getNickname() %>님의 리뷰가 아직 없습니다.
+					</div>
 					</div>
 			<% } %>
 				</div>
@@ -831,7 +835,10 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
 
 					</div>
 			<% }else { ///////////////////////// 리스트가 비어있다면%>
-					<div class="not-yet"><%=mem.getNickname() %>님의 리뷰가 아직 없습니다.
+					<div class="reviewNote-contents">
+					<div class="not-yet">
+					<%=mem.getNickname() %>님의 리뷰가 아직 없습니다.
+					</div>
 					</div>
 			<% } %>
 				</div>
