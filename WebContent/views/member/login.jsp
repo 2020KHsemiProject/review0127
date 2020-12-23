@@ -42,11 +42,11 @@
 				autofocus> <label for="inputPassword" class="sr-only">비밀번호</label>
 			<input type="password" id="inputPassword" name="memberPwd" class="form-control"
 				placeholder="비밀번호" required>
-			<div class="checkbox">
+			<%--<div class="checkbox">
 				<label id="autocheck"> 
 				<input type="checkbox" value="remember-me"> &nbsp; 자동로그인
 				</label> &nbsp;&nbsp;
-			</div>
+			</div> --%>
 			<button class="btn btn-lg btn-block" type="submit" value="로그인">로그인</button>
 			<div id="member_link">
 				<a href="#" id="id_pwd_missing">아이디 ㆍ 비밀번호 찾기</a>

@@ -85,6 +85,7 @@ p>img {
 
 #inputPassword{
     height: 35px;
+    margin-bottom: 20px;
 }
 
 button[type="submit"] {
@@ -100,6 +101,9 @@ button[type="submit"] {
     line-height: 3px;
 }
 
+button[type="submit"]:hover {
+	color: white;
+}
 #member_link{
 	margin-top: 5px;
 	font-size: 0.8rem;
