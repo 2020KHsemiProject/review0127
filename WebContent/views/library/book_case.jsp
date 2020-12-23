@@ -252,7 +252,7 @@
         .not-yet {
 		margin: 0 auto;
 		text-align: center;
-		font-size: 2rem;
+		font-size: 1.3rem;
 
 }
 #library-add-btn{ /*서재 컬렉션 추가 버튼*/
