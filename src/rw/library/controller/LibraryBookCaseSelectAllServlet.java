@@ -45,6 +45,7 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 		int count = 0; // 책장 개수
 		Member m = new Member();
 		
+		
 		String libraryOwner = request.getParameter("libraryOwner");
 		if(member!=null) { // 로그인 했다면
 
