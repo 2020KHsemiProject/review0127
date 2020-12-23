@@ -25,7 +25,7 @@
 	<div class="container-fluid">
 		<form class="form-signin" action="/loginMember.ad" method="post">
 			<center>
-				<img src="/image/admin/logo1.png" id="logo" />
+				<a href="/main"><img src="/image/admin/logo1.png" id="logo" /></a>
 			</center>
 			<center>
 				<img src="/image/admin/login.png" id="admin" />
