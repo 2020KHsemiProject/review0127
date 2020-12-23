@@ -261,43 +261,6 @@
         
         $(function(){
             
-        	// bookcaseName 수정 아이콘 클릭
-        	$('.modifyCaseNameForm').find('button.modifyTitleBtn').click(function(){
-        		var existName = $(this).parents('.modifyCaseNameForm').prev().text();
-        		$(this).css('display','none');
-        		$(this).parent().next().find('button').css('display','inline');
-	        	$(this).parent().prev().attr('type','text').focus().attr('placeholder',existName);
-	        	$(this).parents('.bookcase-case').find('.bookcase-name').css('display','none');
-        	});
-        	// input 취소 하고 싶을 때 .modifyCaseNameForm 이외의 부분 클릭시 취소 됨
-        	$(document).mouseup(function (e){
-        		var LayerPopup = $(".modifyCaseNameForm");
-        		if(LayerPopup.has(e.target).length === 0){
-        			$('.modifyCaseNameForm').find('input[name=bookcaseName]').attr('type','hidden').val('');
-        			$('.modifyCaseNameForm').find('button.sendModifyTitleBtn').css('display','none');
-        			$('.modifyCaseNameForm').find('button.modifyTitleBtn').css('display','inline');
-        			$('.bookcase-name').css('display','inline');
-        		}
-        	});
-            // 책장 수정 아이콘
-            $('.bi-gear').click(function(){
-                $(this).css('display','none');
-                $(this).parent().prev().css('display','inline');
-                $(this).parents('.bookcase-case').find('.book-nullPlace').css('display','inline');
-                $(this).parents('.bookcase-case').find('.minusButton').css('z-index','10').css('visibility','visible');
-            });
-            // 책장 수정 완료 아이콘
-            $('.addBook-checkIcon').click(function(){
-                $(this).css('display','none');
-                $(this).next().children().css('display','inline');
-                $(this).parents('.bookcase-case').find('.bookcase-booklist').children('.book-nullPlace').remove();
-                $(this).parents('.bookcase-case').find('.minusButton').css('z-index','1').css('visibility','hidden');
-                history.go(0);
-            });
-            
-            
-            
-            
             // lnb hover 시 
             $('#mylibrary-lnb>li>a').hover(function(){
                 $(this).css('font-weight','bold');
@@ -305,31 +268,7 @@
                 $(this).css('font-weight','');
             });
             
-         // 책 삭제
-            $('.bi-dash-circle').click(function(){
-            	var $thisTag = $(this);
-            	var bookShelfId = $thisTag.parents('.bookcase-case').attr('name');
-    			var delBookId = $thisTag.prev().val();
-    			var object = {'bookShelfId':bookShelfId,'bookId':delBookId};
-                var result = window.confirm('정말 삭제하시겠습니까?');
-                if(result){
-                    $.ajax({
-                    	url : '/delBookInCase.rw',
-                    	data : object,
-                    	type : 'post',
-                    	success : function(result){
-                    		if(result){
-                    			$thisTag.parents('.bookcase-book').remove();	
-                    		}else{
-                    			alert('해당 책 삭제에 실패했습니다. 다시 시도해주세요. \n만약, 지속적인 오류 발생시 관리자에 문의하세요.');
-                    		}
-                    	}
-                    });
-                }
-            });
-            
-            
-            
+         
          	// lnb hover 시 
             $('#mylibrary-lnb>li>a').hover(function(){
                 $(this).css('font-weight','bold');
@@ -465,11 +404,16 @@
 					traditional : true,
 					data : object,
 					type : 'post',
-					success : function(){
+					success : function(data){
+						if(data.result){
+							alert('책장이 추가 되었습니다.');
+						}else{
+							alert('책장 추가에 실패하였습니다.\n지속적인 오류시 관리자에 문의하세요.');
+						}
 						location.replace('/myBookCase.rw?libraryOwner='+'<%=libraryOwner%>');
 					},
 					error : function(){
-						
+						alert('책장 추가에 실패하였습니다.\n지속적인 오류시 관리자에 문의하세요.');
 					}
 				});
 			}
