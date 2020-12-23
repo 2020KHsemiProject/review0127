@@ -138,7 +138,7 @@ $(function() {
 								<tr class="tr_first">
 									<th>아이디</th>
 									<td><input type="text" id="member_id"
-										value="<%=m.getMemberId()%>" readonly /></td>
+										value="<%=m.getMemberId()%>" name="memberId" readonly /></td>
 								</tr>
 								<tr class="tr_second">
 									<th>닉네임</th>
@@ -146,7 +146,7 @@ $(function() {
 										<div class="input_group_nick">
 											<div class="input_box_nick">
 												<input type="text" class="input-text_nick" id="nick_change"
-													value="<%=m.getNickname()%>" />
+													value="<%=m.getNickname()%>" name="nickName" />
 											</div>
 											<button type="button" id="nick_check_re">중복확인</button>
 										</div>
@@ -216,7 +216,7 @@ $(function() {
 									<td>
 										<div id="sub_option">
 											<span id="age_title">연령대</span> <input type="text"
-												name="age" value="<%=m.getBirthYear()%>" size="5" id="age" />
+												name="birthYear" value="<%=m.getBirthYear()%>" size="5" id="age" />
 											<div class="btn-group btn-group-toggle" data-toggle="buttons">
 												<span id="gender_title">성별</span>
 												<label class="btn btn-warning radio_size" id="label_M">

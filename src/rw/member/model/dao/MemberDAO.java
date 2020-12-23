@@ -293,7 +293,7 @@ public class MemberDAO {
 		
 		String query = "update member set "
 				+ "nickname=?, "
-				+ "birth_year=?,"
+				+ "birth_year=?, "
 				+ "gender=?  where member_id=?";
 		try {
 			pstmt = conn.prepareStatement(query);
