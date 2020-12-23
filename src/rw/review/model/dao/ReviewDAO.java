@@ -11,6 +11,8 @@ import rw.common.JDBCTemplate;
 import rw.review.model.vo.BookReview;
 import rw.review.model.vo.Review;
 import rw.review.model.vo.ReviewCard;
+import rw.review.model.vo.ReviewLike;
+import rw.review.model.vo.ReviewList;
 
 public class ReviewDAO {
 
@@ -409,6 +411,33 @@ public class ReviewDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return count;
+	}
+
+	public ArrayList<ReviewLike> myReviewLikeList(Connection conn, String memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<ReviewLike> rLikeList = new ArrayList<ReviewLike>();
+		String query = "SELECT * FROM REVIEW_LIKE WHERE MEMBER_NO=? AND LIKE_YN='Y'";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				ReviewLike rLike = new ReviewLike();
+				rLike.setLikeId(rset.getInt("LIKE_ID"));
+				rLike.setLikeYN(rset.getString("LIKE_YN").charAt(0));
+				rLike.setReviewId(rset.getString("REVIEW_ID"));
+				rLike.setMemberNo(rset.getString("MEMBER_NO"));
+				rLikeList.add(rLike);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return rLikeList;
 	}
 
 }

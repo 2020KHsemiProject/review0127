@@ -17,6 +17,7 @@ import rw.member.model.service.MemberService;
 import rw.member.model.vo.Member;
 import rw.review.model.service.ReviewService;
 import rw.review.model.vo.ReviewCard;
+import rw.review.model.vo.ReviewLike;
 import rw.reviewnote.model.service.LibraryReviewNoteService;
 import rw.reviewnote.model.vo.ReviewNotePageData;
 
@@ -95,6 +96,8 @@ public class LRNSelectAlignTitleServlet extends HttpServlet {
 		// 내 서재 컬렉션 데이터 가져오기 / 남의 서재가 내 컬렉션에 있는지 확인
 		boolean result =  colService.existsMyLibCol(member.getMemberNo(),m.getMemberId()); // 세션 No / Owner Id
 		
+		// 내가 좋아요 한 리뷰 리스트
+		ArrayList<ReviewLike> rLikeList = new ReviewService().myReviewLikeList(member.getMemberNo());
 				
 		RequestDispatcher view = request.getRequestDispatcher("/views/library/review_note.jsp?libraryOwner="+libraryOwner);
 		request.setAttribute("count", count);
@@ -103,6 +106,7 @@ public class LRNSelectAlignTitleServlet extends HttpServlet {
 		request.setAttribute("member", m);
 		request.setAttribute("rColList", rColList); // 리뷰 컬렉션
 		request.setAttribute("inMyLibCol", result); // 서재 컬렉션
+		request.setAttribute("rLikeList", rLikeList); // 내가 좋아요한 리뷰
 		view.forward(request, response);
 		
 		}else { // m 객체가 null일 때 즉
