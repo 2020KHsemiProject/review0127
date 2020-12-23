@@ -433,4 +433,26 @@ public class LibraryDAO {
 		return list;
 	}
 
+	public ArrayList<String> selectBookListInOneBookCase(Connection conn, String bookShelfId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<String> bookIdList = new ArrayList<String>();
+		String query = "SELECT L.BOOKSHELF_ID,L.MEMBER_NO,B.BOOK_ID FROM LIBRARY L LEFT JOIN PERSONAL_LIBRARY PL ON(PL.BOOKSHELF_ID=L.BOOKSHELF_ID) LEFT JOIN BOOK B ON (B.BOOK_ID=PL.BOOK_ID) WHERE L.BOOKSHELF_ID=? AND L.DEL_YN='N'";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bookShelfId);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				bookIdList.add(rset.getString("BOOK_ID"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return bookIdList;
+	}
+
 }

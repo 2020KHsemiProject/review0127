@@ -81,16 +81,16 @@ public class InquiryDAO {
 		if (startNavi != 1) {
 
 			sb.append(
-					"<li class='page-item'><a class='page-link' href='/inquirySelect.ad?currentPage=" + (startNavi - 1)
+					"<li class='page-item'><a class='page-link' href='/selectAllInquiry.ad?currentPage=" + (startNavi - 1)
 							+ "' aria-label='Previous'>" + "<span aria-hidden='true'>&laquo;</span></a></li>");
 		}
 
 		for (int i = startNavi; i <= endNavi; i++) {
 			if (i == currentPage) {
-				sb.append("<li class='page-item'><a class='page-link' href='/inquirySelect.ad?currentPage=" + i
+				sb.append("<li class='page-item'><a class='page-link' href='/selectAllInquiry.ad?currentPage=" + i
 						+ "'><b>" + i + "</b></a></li>");
 			} else {
-				sb.append("<li class='page-item'><a class='page-link' href='/inquirySelect.ad?currentPage=" + i + "'>"
+				sb.append("<li class='page-item'><a class='page-link' href='/selectAllInquiry.ad?currentPage=" + i + "'>"
 						+ i + "</a></li>");
 			}
 		}

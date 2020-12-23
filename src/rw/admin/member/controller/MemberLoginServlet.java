@@ -57,7 +57,7 @@ public class MemberLoginServlet extends HttpServlet {
 
 		} else {
 			out.println("<script>alert('로그인 실패 \\nID 또는 PW를 확인해주세요');</script>");
-			out.println("<script>location.replace('/index.jsp');</script>");
+			out.println("<script>location.replace('/admin/login.jsp');</script>");
 		}
 
 	}

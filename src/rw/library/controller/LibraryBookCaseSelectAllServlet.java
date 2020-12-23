@@ -38,12 +38,14 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		LibraryService lService = new LibraryService();
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("member"); // 내 정보
 		
 		int count = 0; // 책장 개수
 		Member m = new Member();
+		
 		
 		String libraryOwner = request.getParameter("libraryOwner");
 		if(member!=null) { // 로그인 했다면
@@ -95,8 +97,8 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 				
 				CollectionService colService = new CollectionService();
 				
-				ArrayList<BookshelfCollection> bcColList = colService.selectColBookshelf(member.getMemberNo());
 				// 내가 스크랩한 책장
+				ArrayList<BookshelfCollection> bcColList = colService.selectColBookshelf(member.getMemberNo());
 				
 				// 내 서재 컬렉션 데이터 가져오기 / 남의 서재가 내 컬렉션에 있는지 확인
 				boolean result =  colService.existsMyLibCol(member.getMemberNo(),m.getMemberId()); // 세션 No / Owner Id
@@ -134,6 +136,7 @@ public class LibraryBookCaseSelectAllServlet extends HttpServlet {
 			request.setAttribute("list", list);
 			view.forward(request, response);
 		}
+
 	}
 
 	/**

@@ -1,9 +1,8 @@
 package rw.library.controller;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,8 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+
 import rw.library.model.service.LibraryService;
-import rw.member.model.service.MemberService;
 import rw.member.model.vo.Member;
 
 /**
@@ -42,12 +42,23 @@ public class LBCInsertBookCaseServlet extends HttpServlet {
 		Member member = (Member)session.getAttribute("member");
 		
 		if(member!=null) {
-			//int result = lService.insertBookCase(libraryOwner);
+			
 			String[] addBookList = request.getParameterValues("addBookList");
 			String bookCaseTitle = request.getParameter("bookCaseTitle");
 			
 			int result = lService.insertBookCase(member.getMemberNo(),addBookList,bookCaseTitle);
 			
+			
+			JSONObject object = new JSONObject();
+			if(result>0) {
+				object.put("result", true);
+			}else {
+				object.put("result", false);
+			}
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			PrintWriter out = response.getWriter();
+			out.print(object);
 		}else {
 			// 비로그인자
 			//RequestDispatcher view = request.getRequestDispatcher("/views/member/released_login.jsp");

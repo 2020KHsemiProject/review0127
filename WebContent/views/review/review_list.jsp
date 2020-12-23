@@ -214,7 +214,7 @@ hr {
 			
 			// 책갈피
             $('.other_reviewScrap').click(function(e){
-            	e.stopImmediatePropagation(); // 버블링 방지
+            	
             	var color = $(this).css('color');
             	var $thisTag = $(this);
             	var reviewId = $thisTag.parents('.other_review-card').attr('name');
@@ -235,7 +235,7 @@ hr {
                 			
                 		},
                 		error : function(){
-                			
+                			alert('컬렉션 삭제에 실패했습니다. \n지속적인 오류시 관리자에 문의하세요.');
                 		}
                 	});
                     }
@@ -257,6 +257,7 @@ hr {
                     	}
                    	});
            		 } // 회색 또는 빨간색 if문
+           		e.stopImmediatePropagation(); // 버블링 방지
             });
 			
 			
@@ -321,12 +322,12 @@ hr {
 				
 					if(((Member)session.getAttribute("member")).getMemberNo().equals(rc.getMemberNo())) { 
 				%>
-						<div class="review-card" reviewId="<%=rc.getReviewId()%>">
+						<div class="review-card" id="card<%=morecount+1%>">
 							<div class="review-card-book-img reviewListIcon">
 								<a href="/bookInfo.rw?bookId=<%=rc.getBookId()%>" class="bookLink"><img src="<%=rc.getBookImage()%>" title="해당 도서페이지로 이동합니다." /></a>
 							</div>
 							<a href="/reviewRead.rw?reviewId=<%=rc.getReviewId()%>">
-							<div class="review-card-text" title="누르면 해당 리뷰페이지로 이동합니다.">
+							<div class="review-card-text" title="해당 리뷰페이지로 이동합니다.">
 								<div class="review-card-book-title">
 									<span class="review-card-book-title-text" style="width: 290px;"><%=rc.getBookTitle() %></span>
 									<span class="review-card-star"><i class="fas fa-star"></i></span><%=rc.getReviewRate() %>
@@ -337,7 +338,7 @@ hr {
 							<div class="row review-card-bttom">
 								<div class="col-3">
 									<div class="review-card-writer-profile">
-										<img src="/image/profile/<%=rc.getProfileImg()%>" class="reviewListIcon writer-profile-img" writer="<%=rc.getMemberId() %>" title="내 서재로 이동합니다."/>
+										<img src="/image/profile/<%=rc.getProfileImg()%>" class="reviewListIcon writer-profile-img" writer="<%=rc.getNickname() %>" title="내 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -360,7 +361,7 @@ hr {
 						</div>
 						
 						<% } else { %>
-						<div class="other_review-card" name="<%=rc.getReviewId()%>">
+						<div class="other_review-card" name="<%=rc.getReviewId()%>" id="card<%=morecount+1%>">
 							<div class="other_review-card-book-img reviewListIcon">
 								<span class="other_reviewScrap reviewScrap<%=rc.getReviewId() %> collectionIcon">
                                     <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -382,7 +383,7 @@ hr {
 								<div class="col-3">
 									<div class="other_review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="reviewListIcon other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getMemberId() %>]님의 서재로 이동합니다."/>
+											class="reviewListIcon other_writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getNickname() %>]님의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
@@ -508,7 +509,7 @@ hr {
 						<span class="reviewListIcon">최신순</span>
 					</div>
 					<div class="writerBtn reviewWriteBtn">
-						<span class="reviewListIcon">리뷰등록</span>
+						<span class="reviewListIcon"><a href="/views/review/review_write.jsp">리뷰등록</a></span>
 					</div>
 					<div class="barLine reviewWriteBtn"
 						style="border: 1px solid lightgray; height: 85%; margin-top: 3.5px;"></div>
@@ -546,7 +547,7 @@ hr {
 								<div class="col-3">
 									<div class="review-card-writer-profile">
 										<img src="/image/profile/<%=rc.getProfileImg()%>"
-											class="reviewListIcon writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getMemberId() %>]님의 서재로 이동합니다."/>
+											class="reviewListIcon writer-profile-img" writer="<%=rc.getMemberId() %>" title="[<%=rc.getNickname() %>]님의 서재로 이동합니다."/>
 									</div>
 								</div>
 								<div class="col-6">
