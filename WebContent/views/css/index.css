@@ -159,6 +159,10 @@ li{
 .fa-star{
 	color:#ffd700;
 }
+#deleteRcForm{
+	float:left;
+}
+
 
 @media (max-width:1200px){
     .wrapper{ width: 1200px;}

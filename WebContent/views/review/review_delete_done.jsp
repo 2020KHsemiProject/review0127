@@ -10,7 +10,7 @@
 	<% boolean result = (boolean)request.getAttribute("result");%>
 	<%if(result){ %>
 		<script>alert('리뷰를 삭제했습니다.');
-			location.replace("/views/review/reviewList.jsp");		
+			location.replace("/reviewPage.rw");		
 		</script>
 	<%}else{ %>
 		<script>alert('리뷰 삭제를 실패했습니다.<br>(지속적인 문의 발생시 관리자에게 문의주세요)');
