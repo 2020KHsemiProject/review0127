@@ -396,7 +396,7 @@
 			var bookCaseTitle = $('input[name=bookCaseTitle]').val();
 			if(bookCaseTitle==''){
 				alert('책장 제목을 입력해주세요');
-			}else if(arr!=null) {
+			}else if(arr==null) {
 				alert('책을 1개이상 선택해주세요.');
 			} else{
 				var object = {'addBookList':arr,'bookCaseTitle':bookCaseTitle};

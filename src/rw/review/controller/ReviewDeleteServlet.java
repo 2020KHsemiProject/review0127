@@ -14,7 +14,7 @@ import rw.review.model.service.ReviewService;
 /**
  * Servlet implementation class ReviewDeleteServlet
  */
-@WebServlet("/reveiwDelete.rw")
+@WebServlet("/reviewDelete.rw")
 public class ReviewDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -35,7 +35,7 @@ public class ReviewDeleteServlet extends HttpServlet {
 		
 		int result = new ReviewService().deleteReview(reviewId,memberNo);
 		
-		RequestDispatcher view = request.getRequestDispatcher("/views/reivew/review_delete_done.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("/reviewPage.rw");
 		if(result>0) {
 			request.setAttribute("result", true);
 		}else {
