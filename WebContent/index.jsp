@@ -63,9 +63,16 @@
             <% for(ReviewCard rc : rlist) { %>
 				<div class="reviewNote-book-card">
                        <div class="reviewNote-book-img">
+                       <%if(m!=null){ %>
+							<form action="/reviewCollectionRemove.rw" method="get" id="deleteRcForm">
+								<input type="hidden" name="reviewId" value="<%=rc.getReviewId()%>">
+								<span class="other_reviewScrap collectionIcon"> <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-bookmark-fill" fill="#FF6C6C" xmlns="http://www.w3.org/2000/svg">
+								 <path fill-rule="evenodd"	d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z" />
+									</svg>
+								</span></form><%} %>
                        <a href="/bookInfo.rw?bookId=<%=rc.getBookId()%>" class="bookLink"><img src="<%=rc.getBookImage()%>" title="해당 도서페이지로 이동합니다." /></a>
                        </div>
-                       <a href="/reviewRead.rw?reviewId=<%=rc.getReviewId()%>">
+                       <a href="/reviewRead.rw?reviewId=<%=rc.getReviewId()%>" >
                        <div class="reviewNote-book-text">
                          <div class="book-text-title">
                             <span class="book-text-title-name" style="width: 290px;"><%=rc.getBookTitle() %></span>
@@ -94,7 +101,8 @@
 									</div>
 								</div>
 								</div>
-                           <div class="col-3 rvheart reviewNoteIcon"><div class="review-heart-and-count"><span class="review-heart">♡</span> <span class="heart-count"><%=likeList.get(rc.getReviewId()) %></span></div></div>
+                           <div class="col-3 rvheart reviewNoteIcon"><div class="review-heart-and-count"><span class="review-heart"><% if(rc.getLikeYN()=='Y'){%>♥<%}else {%>♡<% }%></span> 
+                           <span class="heart-count"><%=likeList.get(rc.getReviewId()) %></span></div></div>
                        </div>
                    </div>
                     <%} %>
@@ -230,7 +238,40 @@
         		if (confirm(nickname + '님의 서재로 이동하시겠습니까?')) {
         			location.href = goPage;
         		}
-        	}); 
+        	});
+          
+        	// 리뷰 좋아요 클릭 시
+        	$(document).on('click', '.review-heart-and-count', function(){
+        		<%if(m!=null){ %>
+        		var $this = $(this);
+        		// 현재 하트 상태 데이터 가져오기
+        		var heart = $(this).children().eq(0).html();
+        		// 현재 좋아요 수 데이터 가져오기
+        		var count = $(this).children().eq(1).html();
+        		var reviewId = $(this).children().eq(1).attr('review');
+        		$.ajax({
+        			url : '/reviewLike.rw',
+        			data : {"reviewId" : reviewId,},
+        			type : 'get',
+        			success : function(data){
+        				$this.children().eq(1).html(data.count);
+        				if(data.yn=="Y"){
+        					$this.children().eq(0).html("♥");
+        					alert('좋아요를 눌렀습니다.');
+        				}else if(data.yn=="N"){
+        					$this.children().eq(0).html("♡");
+        					alert('좋아요를 해제했습니다.');
+        				}
+        				
+        			},
+        			error : function(){
+        				alert('좋아요를 실패했습니다.');
+        			}
+        		});
+        		<%} else {%>
+        			alert('로그인시 이용할 수 있습니다.');
+        		<%}%>
+        	});
         })
     </script>
 <%@ include file="/views/common/footer.jsp" %>

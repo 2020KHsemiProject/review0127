@@ -30,12 +30,21 @@
                 <div id="star-wrap">
                     <p>리뷰어 평점 : <i class="fas fa-star"></i>&nbsp;<%=avg %></p>
                 </div>
+                <%if(m!=null){ %>
                 <div id="shelf-btn-wrap">
                     <a id="shelf-add-btn" href="/bookLike.rw?bookId=<%=bookId%>">내 서재에 담기</a>
                 </div>
                 <div id="review-new-wrap">
                     <a href="/views/review/review_write.jsp?bookId=<%=bookId%>"><img src="/image/icon/pencil.png" alt="" width="50">리뷰 작성하기</a>
                 </div>
+                <%}else { %>
+                <div id="shelf-btn-wrap">
+                    <a id="shelf-add-btn" href="">내 서재에 담기</a>
+                </div>
+                <div id="review-new-wrap">
+                    <a href=""><img src="/image/icon/pencil.png" alt="" width="50">리뷰 작성하기</a>
+                </div>
+                <%} %>
             </div>
         </div>
         <div class="v-wrap" id="intro-wrap">
@@ -94,8 +103,18 @@
                         $("#sub-info>span:last-child").append(msg.documents[0].publisher );
                          $("#intro-wrap>p:last-child").append(msg.documents[0].contents +"...<a href='#'>더보기</a><br>");
                         $("#image-wrap").append("<img src=' " + msg.documents[0].thumbnail +"'/>'");
-
+	                        
                         });
+            <% if(m==null){%>
+             $('#shelf-btn-wrap>a').click(function(){
+            	 alert('로그인 시 이용 가능합니다.');
+            	 return false;
+             });
+             $('#review-new-wrap>a').click(function(){
+            	 alert('로그인 시 이용 가능합니다.');
+            	 return false;
+             });
+            <%} %>
         });
     </script>
     <%@ include file="/views/common/footer.jsp" %>
