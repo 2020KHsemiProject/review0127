@@ -137,11 +137,10 @@ hr {
         	
         	// review-card-text 누르면 개별리뷰페이지로 이동
 			$('.review-card-text').mousedown(function(){
-				$(this).css('box-shadow','0px 0px 10px 5px #0080ff').css('position','relative').css('z-index','999');
+				$(this).css('box-shadow','0px 0px 5px 5px gray').css('position','relative').css('z-index','999');
 			});// 클릭 뗄 때 이동
 			$('.review-card-text').mouseup(function(){
 				$(this).css('box-shadow','').css('position','').css('z-index','');
-				location.href="#";// 개별 도서 페이지
 			});// 마우스가 요소 외부에 있을 때 그림자 삭제
 			$('.review-card-text').mouseout(function(){
 				$(this).css('box-shadow','').css('position','').css('z-index','');
@@ -149,7 +148,7 @@ hr {
 			
 			// review-card-book-img 누르면 개별도서페이지로 이동
 			$('.review-card-book-img').mousedown(function(){
-				$(this).css('box-shadow','0px 0px 10px 5px #0080ff');
+				$(this).css('box-shadow','0px 0px 5px 5px gray');
 			});// 클릭 뗄 때 이동
 			$('.review-card-book-img').mouseup(function(){
 				$(this).css('box-shadow','');
@@ -161,11 +160,10 @@ hr {
 			// other_
 			// review-card-text 누르면 개별리뷰페이지로 이동
 			$('.other_review-card-text').mousedown(function(){
-				$(this).css('box-shadow','0px 0px 10px 5px #0080ff').css('position','relative').css('z-index','999');
+				$(this).css('box-shadow','0px 0px 5px 5px gray').css('position','relative').css('z-index','999');
 			});// 클릭 뗄 때 이동
 			$('.other_review-card-text').mouseup(function(){
 				$(this).css('box-shadow','').css('position','').css('z-index','');
-				location.href="#";// 개별 도서 페이지
 			});// 마우스가 요소 외부에 있을 때 그림자 삭제
 			$('.other_review-card-text').mouseout(function(){
 				$(this).css('box-shadow','').css('position','').css('z-index','');
@@ -173,7 +171,7 @@ hr {
 			
 			// review-card-book-img 누르면 개별도서페이지로 이동
 			$('.other_review-card-book-img').mousedown(function(){
-				$(this).css('box-shadow','0px 0px 10px 5px #0080ff');
+				$(this).css('box-shadow','0px 0px 5px 5px gray');
 			});// 클릭 뗄 때 이동
 			$('.other_review-card-book-img').mouseup(function(){
 				$(this).css('box-shadow','');
@@ -182,10 +180,6 @@ hr {
 			$('.other_review-card-book-img').mouseout(function(){
 				$(this).css('box-shadow','');
 			});
-        	
-        	//var offset = $('#moreBtn').offset();
-            //$('html, body').animate({scrollTop : offset.top}, 400);
-        	
         	
         	// #toTheTop 스크롤 시 나타났다 사라짐
         	$( window ).scroll( function() {
@@ -564,7 +558,7 @@ hr {
 									</div>
 								</div>
 								<div class="col-3 rvheart reviewNoteIcon">
-									<div class="review-heart-and-count">
+									<div class="review-heart-and-count" onclick="heartNonMem()">
 										<span class="review-heart"><a>♡</a></span> <span class="heart-count"><%=rc.getReviewLikeCount() %></span>
 									</div>
 								</div>
@@ -575,11 +569,12 @@ hr {
 
 			
 						<span id="moreLocal<% morecount++; %>" style="visibility: hidden;"></span>
-						<script>
+			<script>
+			function heartNonMem(){
+				alert('로그인 후 이용 가능합니다.');
+			}
 			$(function(){
 				
-			
-			
 			//// 카드 프로필 이미지 클릭 시 해당 멤버의 서재로 이동
 			$('.writer-profile-img').click(function(e){
 				var $writer = $(this).attr('writer');

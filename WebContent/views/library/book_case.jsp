@@ -252,7 +252,7 @@
         .not-yet {
 		margin: 0 auto;
 		text-align: center;
-		font-size: 3rem;
+		font-size: 1.3rem;
 
 }
 #library-add-btn{ /*서재 컬렉션 추가 버튼*/
@@ -1122,14 +1122,16 @@ if(mm!=null && mm.getMemberId().equals(libraryOwner)){
                     </ul>
                 </nav>
             </div>
-            
+         </div>   
             
 	<% } else { %>   
 			
+      	<div class="reviewNote-contents">
             <div class="not-yet">
             	<%=mem.getNickname() %>님의 책장이 아직 없습니다.
 			</div>
-			</div>
+		</div>
+			
 	<% } %>
         
 
