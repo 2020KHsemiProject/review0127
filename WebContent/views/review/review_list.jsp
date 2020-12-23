@@ -564,7 +564,7 @@ hr {
 									</div>
 								</div>
 								<div class="col-3 rvheart reviewNoteIcon">
-									<div class="review-heart-and-count">
+									<div class="review-heart-and-count" onclick="heartNonMem()">
 										<span class="review-heart"><a>♡</a></span> <span class="heart-count"><%=rc.getReviewLikeCount() %></span>
 									</div>
 								</div>
@@ -575,11 +575,12 @@ hr {
 
 			
 						<span id="moreLocal<% morecount++; %>" style="visibility: hidden;"></span>
-						<script>
+			<script>
+			function heartNonMem(){
+				alert('로그인 후 이용 가능합니다.');
+			}
 			$(function(){
 				
-			
-			
 			//// 카드 프로필 이미지 클릭 시 해당 멤버의 서재로 이동
 			$('.writer-profile-img').click(function(e){
 				var $writer = $(this).attr('writer');
